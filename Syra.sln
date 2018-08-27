@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2037
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Syra.Admin", "Syra\Syra.Admin.csproj", "{008EC312-8BF1-4A5F-AEA1-26AB2A62BD67}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Syra.Tests", "Syra.Tests\Syra.Tests.csproj", "{AAD573CD-B193-4D59-A1FC-5D5E054D12C2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{008EC312-8BF1-4A5F-AEA1-26AB2A62BD67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{008EC312-8BF1-4A5F-AEA1-26AB2A62BD67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{008EC312-8BF1-4A5F-AEA1-26AB2A62BD67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{008EC312-8BF1-4A5F-AEA1-26AB2A62BD67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAD573CD-B193-4D59-A1FC-5D5E054D12C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAD573CD-B193-4D59-A1FC-5D5E054D12C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAD573CD-B193-4D59-A1FC-5D5E054D12C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAD573CD-B193-4D59-A1FC-5D5E054D12C2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {69BDDC03-12DC-4832-9232-99264C49FA39}
+	EndGlobalSection
+EndGlobal

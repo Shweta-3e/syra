@@ -5,6 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
+
+    @*<link rel='stylesheet' id='contact-form-7-css' href='https://syra.ai/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=5.0.1' type='text/css' media='all' />
+    <link rel='stylesheet' id='tablepress-columnfilterwidgets-css-css' href='https://syra.ai/wp-content/plugins/tablepress-datatables-column-filter-widgets/css/ColumnFilterWidgets.min.css?ver=1.2' type='text/css' media='all' />
+    <link rel='stylesheet' id='avada-stylesheet-css' href='https://syra.ai/wp-content/themes/Avada/assets/css/style.min.css?ver=5.4.2' type='text/css' media='all' />*@
+    <!--[if lte IE 9]>
+    <link rel='stylesheet' id='avada-IE-fontawesome-css'  href='https://syra.ai/wp-content/themes/Avada/includes/lib/assets/fonts/fontawesome/font-awesome.css?ver=5.4.2' type='text/css' media='all' />
+    <![endif]-->
+    <!--[if IE]>
+    <link rel='stylesheet' id='avada-IE-css'  href='https://syra.ai/wp-content/themes/Avada/assets/css/ie.css?ver=5.4.2' type='text/css' media='all' />
+    <![endif]-->
+    @*<link rel='stylesheet' id='tablepress-default-css' href='https://syra.ai/wp-content/plugins/tablepress/css/default.min.css?ver=1.9' type='text/css' media='all' />
+    <link rel='stylesheet' id='simcal-qtip-css' href='https://syra.ai/wp-content/plugins/google-calendar-events/assets/css/vendor/jquery.qtip.min.css?ver=3.1.19' type='text/css' media='all' />
+    <link rel='stylesheet' id='simcal-default-calendar-grid-css' href='https://syra.ai/wp-content/plugins/google-calendar-events/assets/css/default-calendar-grid.min.css?ver=3.1.19' type='text/css' media='all' />
+    <link rel='stylesheet' id='simcal-default-calendar-list-css' href='https://syra.ai/wp-content/plugins/google-calendar-events/assets/css/default-calendar-list.min.css?ver=3.1.19' type='text/css' media='all' />
+
+    <link rel='stylesheet' id='fusion-dynamic-css-css' href='https://syra.ai/wp-content/uploads/fusion-styles/fusion-1293.css?timestamp=1535109274&#038;ver=4.9.8' type='text/css' media='all' />*@
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
@@ -39,6 +55,25 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+
+    @*<script type='text/javascript' src='https://syra.ai/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=5.0.1'></script>*@
+    <!--[if IE 9]>
+    <script type='text/javascript' src='https://syra.ai/wp-content/themes/Avada/includes/lib/assets/min/js/general/fusion-ie9.js?ver=1'></script>
+    <![endif]-->
+    @*<script type='text/javascript' src='https://syra.ai/wp-includes/js/comment-reply.min.js?ver=4.9.8'></script>
+    <script type='text/javascript' src='https://syra.ai/wp-content/plugins/google-calendar-events/assets/js/vendor/jquery.qtip.min.js?ver=3.1.19'></script>
+    <script type='text/javascript' src='https://syra.ai/wp-content/plugins/google-calendar-events/assets/js/vendor/moment.min.js?ver=3.1.19'></script>
+    <script type='text/javascript' src='https://syra.ai/wp-content/plugins/google-calendar-events/assets/js/vendor/moment-timezone-with-data.min.js?ver=3.1.19'></script>
+    <script type='text/javascript'>*@
+/* <![CDATA[ */
+var simcal_default_calendar = {"ajax_url":"\/wp-admin\/admin-ajax.php","nonce":"d1c7418359","locale":"en_US","text_dir":"ltr","months":{"full":["January","February","March","April","May","June","July","August","September","October","November","December"],"short":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]},"days":{"full":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"short":["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]},"meridiem":{"AM":"AM","am":"am","PM":"PM","pm":"pm"}};
+/* ]]> */
+    @*</script>
+    <script type='text/javascript' src='https://syra.ai/wp-content/plugins/google-calendar-events/assets/js/default-calendar.min.js?ver=3.1.19'></script>
+    <script type='text/javascript' src='https://syra.ai/wp-content/uploads/fusion-scripts/d975e8eef86fa13dac350752bb833cac.js?timestamp=1534922826'></script>
+    <script type='text/javascript' src='https://syra.ai/wp-content/plugins/google-calendar-events/assets/js/vendor/imagesloaded.pkgd.min.js?ver=3.1.19'></script>
+    <script type='text/javascript' src='https://syra.ai/wp-includes/js/wp-embed.min.js?ver=4.9.8'></script>*@
+
     @RenderSection("scripts", required: false)
 </body>
 </html>

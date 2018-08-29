@@ -52,6 +52,9 @@ namespace Syra.Admin.Controllers
             
             if (ModelState.IsValid)
             {
+                customer.BotSecret = "";
+                customer.BotURI = "";
+                customer.UserId = "";
                 customer.RegisterDate = DateTime.Now;
                 db.Customer.Add(customer);
                 db.SaveChanges();
@@ -85,6 +88,9 @@ namespace Syra.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                customer.UserId = "";
+                customer.BotURI = "";
+                customer.BotSecret = "";
                 customer.RegisterDate = DateTime.Now;
                 db.Entry(customer).State = EntityState.Modified;
                 db.SaveChanges();

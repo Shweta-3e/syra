@@ -18,7 +18,7 @@
         @Html.HiddenFor(model => model.Id)
 
         <div class="form-group">
-            @Html.LabelFor(model => model.CustomerId, "CustomerId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.CustomerId, "Customer Id", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("CustomerId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.CustomerId, "", new { @class = "text-danger" })
@@ -34,7 +34,7 @@
         </div>*@
 
         <div class="form-group">
-            @Html.LabelFor(model => model.ResourceGroupName, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.ResourceGroupName, "ResourceGroup Name", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.ResourceGroupName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.ResourceGroupName, "", new { @class = "text-danger" })
@@ -42,7 +42,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.BlobStorageName, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.BlobStorageName, "BlobStorage Name", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.BlobStorageName, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.BlobStorageName, "", new { @class = "text-danger" })
@@ -50,7 +50,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.WebSiteUrl, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.WebSiteUrl, "WebSite Url", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.WebSiteUrl, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.WebSiteUrl, "", new { @class = "text-danger" })
@@ -66,7 +66,7 @@
         </div>*@
 
         <div class="form-group">
-            @Html.LabelFor(model => model.LuisId, "LuisId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.LuisId, "Luis Id", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownList("LuisId", null, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.LuisId, "", new { @class = "text-danger" })
@@ -74,7 +74,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.IsDeleted, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.IsDeleted, "Is Deleted", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
                     @Html.EditorFor(model => model.IsDeleted)
@@ -84,7 +84,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.IsPlanActive, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.IsPlanActive, "Is Plan-Active", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 <div class="checkbox">
                     @Html.EditorFor(model => model.IsPlanActive)
@@ -94,7 +94,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.DeploymentScript, htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.DeploymentScript, "Deployment Script", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.DeploymentScript, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.DeploymentScript, "", new { @class = "text-danger" })

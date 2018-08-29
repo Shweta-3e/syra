@@ -40,8 +40,8 @@ namespace Syra.Admin.Controllers
         // GET: BotDeployments/Create
         public ActionResult Create()
         {
-            ViewBag.CustomerId = new SelectList(db.Customer, "Id", "Name");
-            ViewBag.LuisId = new SelectList(db.LuisDomains, "Id", "Name");
+            ViewBag.CustomerId = new SelectList(db.Customer, "Id", "Id");
+            ViewBag.LuisId = new SelectList(db.LuisDomains, "Id", "Id");
             return View();
         }
 
@@ -54,6 +54,7 @@ namespace Syra.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+                
                 botDeployment.DeploymentDate = DateTime.Now;
                 botDeployment.DeleteDate = DateTime.Now;
                 db.BotDeployments.Add(botDeployment);
@@ -61,8 +62,8 @@ namespace Syra.Admin.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CustomerId = new SelectList(db.Customer, "Id", "Name", botDeployment.CustomerId);
-            ViewBag.LuisId = new SelectList(db.LuisDomains, "Id", "Name", botDeployment.LuisId);
+            ViewBag.CustomerId = new SelectList(db.Customer, "Id", "Id", botDeployment.CustomerId);
+            ViewBag.LuisId = new SelectList(db.LuisDomains, "Id", "Id", botDeployment.LuisId);
             return View(botDeployment);
         }
 
@@ -78,8 +79,8 @@ namespace Syra.Admin.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CustomerId = new SelectList(db.Customer, "Id", "Name", botDeployment.CustomerId);
-            ViewBag.LuisId = new SelectList(db.LuisDomains, "Id", "Name", botDeployment.LuisId);
+            ViewBag.CustomerId = new SelectList(db.Customer, "Id", "Id", botDeployment.CustomerId);
+            ViewBag.LuisId = new SelectList(db.LuisDomains, "Id", "Id", botDeployment.LuisId);
             return View(botDeployment);
         }
 
@@ -98,8 +99,8 @@ namespace Syra.Admin.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CustomerId = new SelectList(db.Customer, "Id", "Name", botDeployment.CustomerId);
-            ViewBag.LuisId = new SelectList(db.LuisDomains, "Id", "Name", botDeployment.LuisId);
+            ViewBag.CustomerId = new SelectList(db.Customer, "Id", "Id", botDeployment.CustomerId);
+            ViewBag.LuisId = new SelectList(db.LuisDomains, "Id", "Id", botDeployment.LuisId);
             return View(botDeployment);
         }
 

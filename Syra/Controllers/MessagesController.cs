@@ -40,7 +40,7 @@ namespace Syra.Admin.Controllers
         // GET: Messages/Create
         public ActionResult Create()
         {
-            ViewBag.CustomerId = new SelectList(db.Customer, "Id", "Name");
+            ViewBag.CustomerId = new SelectList(db.Customer, "Id", "Id");
             return View();
         }
 
@@ -58,7 +58,7 @@ namespace Syra.Admin.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CustomerId = new SelectList(db.Customer, "Id", "Name", message.CustomerId);
+            ViewBag.CustomerId = new SelectList(db.Customer, "Id", "Id", message.CustomerId);
             return View(message);
         }
 
@@ -74,7 +74,7 @@ namespace Syra.Admin.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CustomerId = new SelectList(db.Customer, "Id", "Name", message.CustomerId);
+            ViewBag.CustomerId = new SelectList(db.Customer, "Id", "Id", message.CustomerId);
             return View(message);
         }
 
@@ -91,7 +91,7 @@ namespace Syra.Admin.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CustomerId = new SelectList(db.Customer, "Id", "Name", message.CustomerId);
+            ViewBag.CustomerId = new SelectList(db.Customer, "Id", "Id", message.CustomerId);
             return View(message);
         }
 

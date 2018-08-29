@@ -40,8 +40,8 @@ namespace Syra.Admin.Controllers
         // GET: CustomerPlans/Create
         public ActionResult Create()
         {
-            ViewBag.CustomerId = new SelectList(db.Customer, "Id", "Name");
-            ViewBag.PlanId = new SelectList(db.Plans, "Id", "Name");
+            ViewBag.CustomerId = new SelectList(db.Customer, "Id", "Id");
+            ViewBag.PlanId = new SelectList(db.Plans, "Id", "Id");
             return View();
         }
 
@@ -61,8 +61,8 @@ namespace Syra.Admin.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CustomerId = new SelectList(db.Customer, "Id", "Name", customerPlan.CustomerId);
-            ViewBag.PlanId = new SelectList(db.Plans, "Id", "Name", customerPlan.PlanId);
+            ViewBag.CustomerId = new SelectList(db.Customer, "Id", "Id", customerPlan.CustomerId);
+            ViewBag.PlanId = new SelectList(db.Plans, "Id", "Id", customerPlan.PlanId);
             return View(customerPlan);
         }
 
@@ -78,8 +78,8 @@ namespace Syra.Admin.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.CustomerId = new SelectList(db.Customer, "Id", "Name", customerPlan.CustomerId);
-            ViewBag.PlanId = new SelectList(db.Plans, "Id", "Name", customerPlan.PlanId);
+            ViewBag.CustomerId = new SelectList(db.Customer, "Id", "Id", customerPlan.CustomerId);
+            ViewBag.PlanId = new SelectList(db.Plans, "Id", "Id", customerPlan.PlanId);
             return View(customerPlan);
         }
 
@@ -98,8 +98,8 @@ namespace Syra.Admin.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.CustomerId = new SelectList(db.Customer, "Id", "Name", customerPlan.CustomerId);
-            ViewBag.PlanId = new SelectList(db.Plans, "Id", "Name", customerPlan.PlanId);
+            ViewBag.CustomerId = new SelectList(db.Customer, "Id", "Id", customerPlan.CustomerId);
+            ViewBag.PlanId = new SelectList(db.Plans, "Id", "Id", customerPlan.PlanId);
             return View(customerPlan);
         }
 

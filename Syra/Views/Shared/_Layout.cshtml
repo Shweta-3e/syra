@@ -1,78 +1,634 @@
 ﻿<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
+<html class="ua-windows_nt ua-windows_nt-10 ua-windows_nt-10-0 ua-chrome ua-chrome-68 ua-chrome-68-0 ua-chrome-68-0-3440 ua-chrome-68-0-3440-106 ua-desktop ua-desktop-windows ua-webkit ua-webkit-537 ua-webkit-537-36 js applicationcache geolocation history postmessage websockets localstorage sessionstorage websqldatabase webworkers hashchange audio canvas canvastext video webgl cssgradients multiplebgs opacity rgba inlinesvg hsla supports svgclippaths smil no-touchevents fontface generatedcontent textshadow cssanimations backgroundsize borderimage borderradius boxshadow flexbox cssreflections csstransforms csstransforms3d csstransitions">
 
-    @*<link rel='stylesheet' id='contact-form-7-css' href='https://syra.ai/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=5.0.1' type='text/css' media='all' />
-    <link rel='stylesheet' id='tablepress-columnfilterwidgets-css-css' href='https://syra.ai/wp-content/plugins/tablepress-datatables-column-filter-widgets/css/ColumnFilterWidgets.min.css?ver=1.2' type='text/css' media='all' />
-    <link rel='stylesheet' id='avada-stylesheet-css' href='https://syra.ai/wp-content/themes/Avada/assets/css/style.min.css?ver=5.4.2' type='text/css' media='all' />*@
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>@ViewBag.Title - Syra</title>
+
+    <!-- This site is optimized with the Yoast SEO plugin v7.6.1 - https://yoast.com/wordpress/plugins/seo/ -->
+    <meta name="description" content="Contact Us - 5201 Great America Parkway, Suite 320, Santa Clara, CA USA 95054 Phone: 408-462-5257 Email: answers@thirdeyedata.io Skype: thirdeyecss">
+    <link rel="canonical" href="https://syra.ai/contact-us/">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Contact Us - Syra">
+    <meta property="og:description" content="Contact Us - 5201 Great America Parkway, Suite 320, Santa Clara, CA USA 95054 Phone: 408-462-5257 Email: answers@thirdeyedata.io Skype: thirdeyecss">
+    <meta property="og:url" content="https://syra.ai/contact-us/">
+    <meta property="og:site_name" content="Syra">
+    <meta property="article:publisher" content="https://www.facebook.com/syra.bots/">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:description" content="Contact Us - 5201 Great America Parkway, Suite 320, Santa Clara, CA USA 95054 Phone: 408-462-5257 Email: answers@thirdeyedata.io Skype: thirdeyecss">
+    <meta name="twitter:title" content="Contact Us - Syra">
+  
+    <!-- / Yoast SEO plugin. -->
+
+    <link rel="dns-prefetch" href="//s.w.org">
+    <link rel="alternate" type="application/rss+xml" title="Syra » Feed" href="https://syra.ai/feed/">
+    <link rel="alternate" type="application/rss+xml" title="Syra » Comments Feed" href="https://syra.ai/comments/feed/">
+    <link rel="shortcut icon" href="https://syra.ai/wp-content/uploads/2018/02/syra-favicon.png" type="image/x-icon">
+
+
+    <meta property="og:title" content="Contact Us">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://syra.ai/contact-us/">
+    <meta property="og:site_name" content="Syra">
+    <meta property="og:description" content="ThirdEye Data
+
+USA Office
+
+5201 Great America Parkway, Suite 320,
+Santa Clara, CA USA 95054
+Phone:&nbsp;408-462-5257
+Email:&nbsp;answers@thirdeyedata.io
+Skype:&nbsp;thirdeyecss
+
+India Offices
+
+8th Floor, Victoria Park, Plot 37/2,
+Block GN, Sector-V, Saltlake City,
+Kolkata, West Bengal, 700091, India
+
+Phone: +91 33 4055 8126
+
+Flat No B-001, Rantnaprabha CHS Ltd,
+Plot No E/32 Sector-3, Belpada, Kharghar,
+Navi Mumbai, Maharashtra, 410210, India">
+
+    <meta property="og:image" content="https://syra.ai/wp-content/uploads/2018/02/syra-logo.jpg">
+    <!-- This site uses the Google Analytics by MonsterInsights plugin v7.0.4 - Using Analytics tracking - https://www.monsterinsights.com/ -->
+    <script type="text/javascript" data-cfasync="false">
+        var mi_track_user = true;
+        var disableStr = 'ga-disable-UA-59058464-11';
+
+        /* Function to detect opted out users */
+        function __gaTrackerIsOptedOut() {
+            return document.cookie.indexOf(disableStr + '=true') > -1;
+        }
+
+        /* Disable tracking if the opt-out cookie exists. */
+        if (__gaTrackerIsOptedOut()) {
+            window[disableStr] = true;
+        }
+
+        /* Opt-out function */
+        function __gaTrackerOptout() {
+            document.cookie = disableStr + '=true; expires=Thu, 31 Dec 2099 23:59:59 UTC; path=/';
+            window[disableStr] = true;
+        }
+
+        if (mi_track_user) {
+            (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', '__gaTracker');
+
+            __gaTracker('create', 'UA-59058464-11', 'auto');
+            __gaTracker('set', 'forceSSL', true);
+            __gaTracker('require', 'displayfeatures');
+            __gaTracker('require', 'linkid', 'linkid.js');
+            __gaTracker('send', 'pageview');
+        } else {
+            console.log("");
+            (function () {
+                /* https://developers.google.com/analytics/devguides/collection/analyticsjs/ */
+                var noopfn = function () {
+                    return null;
+                };
+                var noopnullfn = function () {
+                    return null;
+                };
+                var Tracker = function () {
+                    return null;
+                };
+                var p = Tracker.prototype;
+                p.get = noopfn;
+                p.set = noopfn;
+                p.send = noopfn;
+                var __gaTracker = function () {
+                    var len = arguments.length;
+                    if (len === 0) {
+                        return;
+                    }
+                    var f = arguments[len - 1];
+                    if (typeof f !== 'object' || f === null || typeof f.hitCallback !== 'function') {
+                        console.log('Not running function __gaTracker(' + arguments[0] + " ....) because you\'re not being tracked. ");
+                        return;
+                    }
+                    try {
+                        f.hitCallback();
+                    } catch (ex){
+
+                    }
+                };
+                __gaTracker.create = function () {
+                    return new Tracker();
+                };
+                __gaTracker.getByName = noopnullfn;
+                __gaTracker.getAll = function () {
+                    return [];
+                };
+                __gaTracker.remove = noopfn;
+                window['__gaTracker'] = __gaTracker;
+            })();
+        }
+    </script>
+    <!-- / Google Analytics by MonsterInsights -->
+    <script type="text/javascript">
+        window._wpemojiSettings = { "baseUrl": "https:\/\/s.w.org\/images\/core\/emoji\/11\/72x72\/", "ext": ".png", "svgUrl": "https:\/\/s.w.org\/images\/core\/emoji\/11\/svg\/", "svgExt": ".svg", "source": { "concatemoji": "https:\/\/syra.ai\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.9.8" } };
+        !function (a, b, c) { function d(a, b) { var c = String.fromCharCode; l.clearRect(0, 0, k.width, k.height), l.fillText(c.apply(this, a), 0, 0); var d = k.toDataURL(); l.clearRect(0, 0, k.width, k.height), l.fillText(c.apply(this, b), 0, 0); var e = k.toDataURL(); return d === e } function e(a) { var b; if (!l || !l.fillText) return !1; switch (l.textBaseline = "top", l.font = "600 32px Arial", a) { case "flag": return !(b = d([55356, 56826, 55356, 56819], [55356, 56826, 8203, 55356, 56819])) && (b = d([55356, 57332, 56128, 56423, 56128, 56418, 56128, 56421, 56128, 56430, 56128, 56423, 56128, 56447], [55356, 57332, 8203, 56128, 56423, 8203, 56128, 56418, 8203, 56128, 56421, 8203, 56128, 56430, 8203, 56128, 56423, 8203, 56128, 56447]), !b); case "emoji": return b = d([55358, 56760, 9792, 65039], [55358, 56760, 8203, 9792, 65039]), !b }return !1 } function f(a) { var c = b.createElement("script"); c.src = a, c.defer = c.type = "text/javascript", b.getElementsByTagName("head")[0].appendChild(c) } var g, h, i, j, k = b.createElement("canvas"), l = k.getContext && k.getContext("2d"); for (j = Array("flag", "emoji"), c.supports = { everything: !0, everythingExceptFlag: !0 }, i = 0; i < j.length; i++)c.supports[j[i]] = e(j[i]), c.supports.everything = c.supports.everything && c.supports[j[i]], "flag" !== j[i] && (c.supports.everythingExceptFlag = c.supports.everythingExceptFlag && c.supports[j[i]]); c.supports.everythingExceptFlag = c.supports.everythingExceptFlag && !c.supports.flag, c.DOMReady = !1, c.readyCallback = function () { c.DOMReady = !0 }, c.supports.everything || (h = function () { c.readyCallback() }, b.addEventListener ? (b.addEventListener("DOMContentLoaded", h, !1), a.addEventListener("load", h, !1)) : (a.attachEvent("onload", h), b.attachEvent("onreadystatechange", function () { "complete" === b.readyState && c.readyCallback() })), g = c.source || {}, g.concatemoji ? f(g.concatemoji) : g.wpemoji && g.twemoji && (f(g.twemoji), f(g.wpemoji))) }(window, document, window._wpemojiSettings);
+    </script>
+    <script src="https://syra.ai/wp-includes/js/wp-emoji-release.min.js?ver=4.9.8" type="text/javascript" defer=""></script>
+    <style type="text/css">
+        img.wp-smiley,
+        img.emoji {
+            display: inline !important;
+            border: none !important;
+            box-shadow: none !important;
+            height: 1em !important;
+            width: 1em !important;
+            margin: 0 .07em !important;
+            vertical-align: -0.1em !important;
+            background: none !important;
+            padding: 0 !important;
+        }
+    </style>
+    <link rel="stylesheet" id="contact-form-7-css" href="https://syra.ai/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=5.0.1" type="text/css" media="all">
+    <link rel="stylesheet" id="tablepress-columnfilterwidgets-css-css" href="https://syra.ai/wp-content/plugins/tablepress-datatables-column-filter-widgets/css/ColumnFilterWidgets.min.css?ver=1.2" type="text/css" media="all">
+    <link rel="stylesheet" id="avada-stylesheet-css" href="https://syra.ai/wp-content/themes/Avada/assets/css/style.min.css?ver=5.4.2" type="text/css" media="all">
     <!--[if lte IE 9]>
     <link rel='stylesheet' id='avada-IE-fontawesome-css'  href='https://syra.ai/wp-content/themes/Avada/includes/lib/assets/fonts/fontawesome/font-awesome.css?ver=5.4.2' type='text/css' media='all' />
     <![endif]-->
     <!--[if IE]>
     <link rel='stylesheet' id='avada-IE-css'  href='https://syra.ai/wp-content/themes/Avada/assets/css/ie.css?ver=5.4.2' type='text/css' media='all' />
     <![endif]-->
-    @*<link rel='stylesheet' id='tablepress-default-css' href='https://syra.ai/wp-content/plugins/tablepress/css/default.min.css?ver=1.9' type='text/css' media='all' />
-    <link rel='stylesheet' id='simcal-qtip-css' href='https://syra.ai/wp-content/plugins/google-calendar-events/assets/css/vendor/jquery.qtip.min.css?ver=3.1.19' type='text/css' media='all' />
-    <link rel='stylesheet' id='simcal-default-calendar-grid-css' href='https://syra.ai/wp-content/plugins/google-calendar-events/assets/css/default-calendar-grid.min.css?ver=3.1.19' type='text/css' media='all' />
-    <link rel='stylesheet' id='simcal-default-calendar-list-css' href='https://syra.ai/wp-content/plugins/google-calendar-events/assets/css/default-calendar-list.min.css?ver=3.1.19' type='text/css' media='all' />
+    <link rel="stylesheet" id="tablepress-default-css" href="https://syra.ai/wp-content/plugins/tablepress/css/default.min.css?ver=1.9" type="text/css" media="all">
+    <link rel="stylesheet" id="simcal-qtip-css" href="https://syra.ai/wp-content/plugins/google-calendar-events/assets/css/vendor/jquery.qtip.min.css?ver=3.1.19" type="text/css" media="all">
+    <link rel="stylesheet" id="simcal-default-calendar-grid-css" href="https://syra.ai/wp-content/plugins/google-calendar-events/assets/css/default-calendar-grid.min.css?ver=3.1.19" type="text/css" media="all">
+    <link rel="stylesheet" id="simcal-default-calendar-list-css" href="https://syra.ai/wp-content/plugins/google-calendar-events/assets/css/default-calendar-list.min.css?ver=3.1.19" type="text/css" media="all">
+    <link rel="stylesheet" id="fusion-dynamic-css-css" href="https://syra.ai/wp-content/uploads/fusion-styles/fusion-1211.css?timestamp=1534922864&amp;ver=4.9.8" type="text/css" media="all">
+    <script type="text/javascript">
+        /* <![CDATA[ */
+        var monsterinsights_frontend = { "js_events_tracking": "true", "is_debug_mode": "false", "download_extensions": "doc,exe,js,pdf,ppt,tgz,zip,xls", "inbound_paths": "", "home_url": "https:\/\/syra.ai", "track_download_as": "event", "internal_label": "int", "hash_tracking": "false" };
+        /* ]]> */
+    </script>
+    <script type="text/javascript" src="https://syra.ai/wp-content/plugins/google-analytics-for-wordpress/assets/js/frontend.min.js?ver=7.0.4"></script>
+    <script type="text/javascript" src="https://syra.ai/wp-includes/js/jquery/jquery.js?ver=1.12.4"></script>
+    <script type="text/javascript" src="https://syra.ai/wp-includes/js/jquery/jquery-migrate.min.js?ver=1.4.1"></script>
+    <link rel="https://api.w.org/" href="https://syra.ai/wp-json/">
+    <link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://syra.ai/xmlrpc.php?rsd">
+    <link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://syra.ai/wp-includes/wlwmanifest.xml">
+    <link rel="shortlink" href="https://syra.ai/?p=1211">
+    <link rel="alternate" type="application/json+oembed" href="https://syra.ai/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fsyra.ai%2Fcontact-us%2F">
+    <link rel="alternate" type="text/xml+oembed" href="https://syra.ai/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fsyra.ai%2Fcontact-us%2F&amp;format=xml">
+    <link rel="icon" href="https://syra.ai/wp-content/uploads/2018/02/syra-logo-66x66.jpg" sizes="32x32">
+    <link rel="icon" href="https://syra.ai/wp-content/uploads/2018/02/syra-logo-e1522054091102.jpg" sizes="192x192">
+    <link rel="apple-touch-icon-precomposed" href="https://syra.ai/wp-content/uploads/2018/02/syra-logo-e1522054091102.jpg">
+    <meta name="msapplication-TileImage" content="https://syra.ai/wp-content/uploads/2018/02/syra-logo-e1522054091102.jpg">
 
-    <link rel='stylesheet' id='fusion-dynamic-css-css' href='https://syra.ai/wp-content/uploads/fusion-styles/fusion-1293.css?timestamp=1535109274&#038;ver=4.9.8' type='text/css' media='all' />*@
-    @Scripts.Render("~/bundles/modernizr")
 
+    <script type="text/javascript">
+        var doc = document.documentElement;
+        doc.setAttribute('data-useragent', navigator.userAgent);
+    </script>
+
+    <style id="fit-vids-style">
+        .fluid-width-video-wrapper {
+            width: 100%;
+            position: relative;
+            padding: 0;
+        }
+
+            .fluid-width-video-wrapper iframe, .fluid-width-video-wrapper object, .fluid-width-video-wrapper embed {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+    </style>
+    <script async="" src="https://my.hellobar.com/modules-v25.js"></script>
 </head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                </ul>
-                @Html.Partial("_LoginPartial")
+
+@*<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Syra</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <script type="text/javascript" async="" src="https://www.google-analytics.com/plugins/ua/linkid.js"></script>
+</head>*@
+
+<body class="page-template page-template-100-width page-template-100-width-php page page-id-1211 fusion-image-hovers fusion-body ltr fusion-sticky-header no-tablet-sticky-header no-mobile-sticky-header no-mobile-slidingbar no-mobile-totop mobile-logo-pos-left layout-wide-mode fusion-top-header menu-text-align-center mobile-menu-design-modern fusion-show-pagination-text fusion-header-layout-v1 avada-responsive avada-footer-fx-bg-parallax do-animate">
+    <header class="fusion-header-wrapper">
+        <div class="fusion-header-v1 fusion-logo-left fusion-sticky-menu- fusion-sticky-logo- fusion-mobile-logo-  fusion-mobile-menu-design-modern">
+            <div class="fusion-header-sticky-height" style="height: 126px; overflow: visible; display: none;"></div>
+            <div class="fusion-header" style="height: 126px; overflow: visible; top: 0px;">
+                <div class="fusion-row">
+                    <div class="fusion-logo" data-margin-top="0px" data-margin-bottom="0px" data-margin-left="0px" data-margin-right="0px">
+                        <a class="fusion-logo-link" href="https://syra.ai/">
+
+                            <!-- standard logo -->
+                            <img src="https://syra.ai/wp-content/uploads/2018/02/syra-logo.jpg" srcset="https://syra.ai/wp-content/uploads/2018/02/syra-logo.jpg 1x" width="" height="" alt="Syra Logo" retina_logo_url="" class="fusion-standard-logo">
+
+
+                        </a>
+                    </div>		<nav class="fusion-main-menu" aria-label="Main Menu">
+                        <ul role="menubar" id="menu-main-navigation-new" class="fusion-menu">
+                            <li role="menuitem" id="menu-item-1399" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1399"><a href="https://syra.ai" class="fusion-bar-highlight"><span class="menu-text">Home</span></a></li>
+                            <li role="menuitem" id="menu-item-1303" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1303"><a href="https://syra.ai/#use-cases" class="fusion-bar-highlight"><span class="menu-text">Use Cases</span></a></li>
+                            <li role="menuitem" id="menu-item-1304" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1304"><a href="https://syra.ai/#industries" class="fusion-bar-highlight"><span class="menu-text">Industries</span></a></li>
+                            <li role="menuitem" id="menu-item-1305" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1305"><a href="https://syra.ai/#channels" class="fusion-bar-highlight"><span class="menu-text">Channels</span></a></li>
+                            <li role="menuitem" id="menu-item-1306" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1306"><a href="https://syra.ai/pricing/" class="fusion-bar-highlight"><span class="menu-text">Pricing</span></a></li>
+                            <li role="menuitem" id="menu-item-1307" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a href="https://syra.ai/faq/" class="fusion-bar-highlight"><span class="menu-text">FAQ</span></a></li>
+                            <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="https://syra.ai/live-chatbots/" class="fusion-bar-highlight"><span class="menu-text">LIVE Chatbots</span></a></li>
+                            <li role="menuitem" id="menu-item-1209" class="menu-item menu-item-type-yawp_wim menu-item-object-yawp_wim menu-item-1209 fusion-last-menu-item">
+                                <div class="yawp_wim_wrap">
+                                    <div class="widget-area">
+                                        <div id="menu-widget-2" class="yawp_wim_widget menu">
+                                            <style type="text/css">
+                                                #menu-widget-2 {
+                                                    text-align: left;
+                                                }
+
+                                                    #menu-widget-2 > .fusion-widget-menu li {
+                                                        display: inline-block;
+                                                    }
+
+                                                    #menu-widget-2 ul li a {
+                                                        display: inline-block;
+                                                        padding: 0;
+                                                        border: 0;
+                                                        color: #333333;
+                                                        font-size: 12px;
+                                                    }
+
+                                                        #menu-widget-2 ul li a:after {
+                                                            content: '';
+                                                            color: #333333;
+                                                            padding-right: 10px;
+                                                            padding-left: 10px;
+                                                            font-size: 12px;
+                                                        }
+
+                                                        #menu-widget-2 ul li a:hover, #menu-widget-2 ul .menu-item.current-menu-item a {
+                                                            color: #668e45;
+                                                        }
+
+                                                    #menu-widget-2 ul li:last-child a:after {
+                                                        display: none
+                                                    }
+
+                                                    #menu-widget-2 ul li .fusion-widget-cart-number {
+                                                        margin: 0 7px;
+                                                        background-color: #668e45;
+                                                        color: #333333;
+                                                    }
+
+                                                    #menu-widget-2 ul li.fusion-active-cart-icon .fusion-widget-cart-icon:after {
+                                                        color: #668e45;
+                                                    }
+                                            </style><nav class="fusion-widget-menu"><ul id="menu-top-navigation" class="menu"><li id="menu-item-1361" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1361"><a href="https://syra.ai/chatbot-technologies/">Technologies</a></li><li id="menu-item-1163" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1163"><a target="_blank" href="https://syra.ai/blogs/">Blogs</a></li><li id="menu-item-1362" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1362"><a href="https://syra.ai/resources/">Resources</a></li><li id="menu-item-1216" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1216"><a href="/search">Search</a></li><li id="menu-item-1524" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-1211 current_page_item menu-item-1524"><a href="https://syra.ai/contact-us/">Get Your FREE Chatbot!</a></li></ul></nav>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </nav>		<div class="fusion-mobile-menu-icons">
+                        <a href="#" class="fusion-icon fusion-icon-bars" aria-label="Toggle mobile menu"></a>
+
+
+
+                    </div>
+
+
+                    <nav class="fusion-mobile-nav-holder fusion-mobile-menu-text-align-left" style="display: none;">
+                        <ul role="menubar" id="mobile-menu-main-navigation-new" class="fusion-menu">
+                            <li role="menuitem" id="mobile-menu-item-1399" class="fusion-mobile-nav-item" style=""><a href="https://syra.ai" class="fusion-bar-highlight"><span class="menu-text">Home</span></a></li>
+                            <li role="menuitem" id="mobile-menu-item-1303" class="fusion-mobile-nav-item" style=""><a href="https://syra.ai/#use-cases" class="fusion-bar-highlight"><span class="menu-text">Use Cases</span></a></li>
+                            <li role="menuitem" id="mobile-menu-item-1304" class="fusion-mobile-nav-item" style=""><a href="https://syra.ai/#industries" class="fusion-bar-highlight"><span class="menu-text">Industries</span></a></li>
+                            <li role="menuitem" id="mobile-menu-item-1305" class="fusion-mobile-nav-item" style=""><a href="https://syra.ai/#channels" class="fusion-bar-highlight"><span class="menu-text">Channels</span></a></li>
+                            <li role="menuitem" id="mobile-menu-item-1306" class="fusion-mobile-nav-item" style=""><a href="https://syra.ai/pricing/" class="fusion-bar-highlight"><span class="menu-text">Pricing</span></a></li>
+                            <li role="menuitem" id="mobile-menu-item-1307" class="fusion-mobile-nav-item" style=""><a href="https://syra.ai/faq/" class="fusion-bar-highlight"><span class="menu-text">FAQ</span></a></li>
+                            <li role="menuitem" id="mobile-menu-item-1525" class="fusion-mobile-nav-item" style=""><a href="https://syra.ai/live-chatbots/" class="fusion-bar-highlight"><span class="menu-text">LIVE Chatbots</span></a></li>
+                            <li role="menuitem" id="mobile-menu-item-1209" class="fusion-mobile-nav-item" style="">
+                                <div class="yawp_wim_wrap">
+                                    <div class="widget-area">
+                                        <div id="menu-widget-2" class="yawp_wim_widget menu">
+                                            <style type="text/css">
+                                                #menu-widget-2 {
+                                                    text-align: left;
+                                                }
+
+                                                    #menu-widget-2 > .fusion-widget-menu li {
+                                                        display: inline-block;
+                                                    }
+
+                                                    #menu-widget-2 ul li a {
+                                                        display: inline-block;
+                                                        padding: 0;
+                                                        border: 0;
+                                                        color: #333333;
+                                                        font-size: 12px;
+                                                    }
+
+                                                        #menu-widget-2 ul li a:after {
+                                                            content: '';
+                                                            color: #333333;
+                                                            padding-right: 10px;
+                                                            padding-left: 10px;
+                                                            font-size: 12px;
+                                                        }
+
+                                                        #menu-widget-2 ul li a:hover, #menu-widget-2 ul .menu-item.current-menu-item a {
+                                                            color: #668e45;
+                                                        }
+
+                                                    #menu-widget-2 ul li:last-child a:after {
+                                                        display: none
+                                                    }
+
+                                                    #menu-widget-2 ul li .fusion-widget-cart-number {
+                                                        margin: 0 7px;
+                                                        background-color: #668e45;
+                                                        color: #333333;
+                                                    }
+
+                                                    #menu-widget-2 ul li.fusion-active-cart-icon .fusion-widget-cart-icon:after {
+                                                        color: #668e45;
+                                                    }
+                                            </style><nav class="fusion-widget-menu"><ul id="menu-top-navigation" class="menu"><li id="mobile-menu-item-1361" class="fusion-mobile-nav-item" style=""><a href="https://syra.ai/chatbot-technologies/">Technologies</a></li><li id="mobile-menu-item-1163" class="fusion-mobile-nav-item" style=""><a target="_blank" href="https://syra.ai/blogs/">Blogs</a></li><li id="mobile-menu-item-1362" class="fusion-mobile-nav-item" style=""><a href="https://syra.ai/resources/">Resources</a></li><li id="mobile-menu-item-1216" class="fusion-mobile-nav-item" style=""><a href="/search">Search</a></li><li id="mobile-menu-item-1524" class="fusion-mobile-nav-item fusion-mobile-current-nav-item" style=""><a href="https://syra.ai/contact-us/">Get Your FREE Chatbot!</a></li></ul></nav>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </nav>
+
+                </div>
             </div>
         </div>
-    </div>
-    <div class="container body-content">
+        <div class="fusion-clearfix"></div>
+    </header>
+
+    @*<div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+
+                <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                    </div>
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                            <li>@Html.ActionLink("About", "About", "Home")</li>
+                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                        </ul>
+                        @Html.Partial("_LoginPartial")
+                    </div>
+            </div>
+        </div>*@
+    <div class="body-content">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
+
+        <div class="fusion-footer">
+
+            <footer role="contentinfo" class="fusion-footer-widget-area fusion-widget-area">
+                <div class="fusion-row">
+                    <div class="fusion-columns fusion-columns-4 fusion-widget-area">
+
+                        <div class="fusion-column col-lg-3 col-md-3 col-sm-3">
+                            <section id="nav_menu-2" class="fusion-footer-widget-column widget widget_nav_menu">
+                                <div class="menu-main-navigation-new-container">
+                                    <ul id="menu-main-navigation-new-1" class="menu">
+                                        <li class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-1399"><a href="https://syra.ai">Home</a></li>
+                                        <li class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-1303"><a href="https://syra.ai/#use-cases">Use Cases</a></li>
+                                        <li class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-1304"><a href="https://syra.ai/#industries">Industries</a></li>
+                                        <li class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-1305"><a href="https://syra.ai/#channels">Channels</a></li>
+                                        <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1306"><a href="https://syra.ai/pricing/">Pricing</a></li>
+                                        <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a href="https://syra.ai/faq/">FAQ</a></li>
+                                        <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="https://syra.ai/live-chatbots/">LIVE Chatbots</a></li>
+                                        <li class="menu-item menu-item-type-yawp_wim menu-item-object-yawp_wim menu-item-1209">
+                                            <div class="yawp_wim_wrap">
+                                                <div class="widget-area">
+                                                    <div id="menu-widget-2" class="yawp_wim_widget menu">
+                                                    <style type="text/css">
+                                                        #menu-widget-2 {
+                                                            text-align: left;
+                                                        }
+
+                                                            #menu-widget-2 > .fusion-widget-menu li {
+                                                                display: inline-block;
+                                                            }
+
+                                                            #menu-widget-2 ul li a {
+                                                                display: inline-block;
+                                                                padding: 0;
+                                                                border: 0;
+                                                                color: #333333;
+                                                                font-size: 12px;
+                                                            }
+
+                                                                #menu-widget-2 ul li a:after {
+                                                                    content: '';
+                                                                    color: #333333;
+                                                                    padding-right: 10px;
+                                                                    padding-left: 10px;
+                                                                    font-size: 12px;
+                                                                }
+
+                                                                #menu-widget-2 ul li a:hover, #menu-widget-2 ul .menu-item.current-menu-item a {
+                                                                    color: #668e45;
+                                                                }
+
+                                                            #menu-widget-2 ul li:last-child a:after {
+                                                                display: none
+                                                            }
+
+                                                            #menu-widget-2 ul li .fusion-widget-cart-number {
+                                                                margin: 0 7px;
+                                                                background-color: #668e45;
+                                                                color: #333333;
+                                                            }
+
+                                                            #menu-widget-2 ul li.fusion-active-cart-icon .fusion-widget-cart-icon:after {
+                                                                color: #668e45;
+                                                            }
+                                                    </style><nav class="fusion-widget-menu"><ul id="menu-top-navigation-1" class="menu"><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1361"><a href="https://syra.ai/chatbot-technologies/">Technologies</a></li><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1163"><a target="_blank" href="https://syra.ai/blogs/">Blogs</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1362"><a href="https://syra.ai/resources/">Resources</a></li><li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1216"><a href="/search">Search</a></li><li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1524"><a href="https://syra.ai/contact-us/">Get Your FREE Chatbot!</a></li></ul></nav></div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div><div style="clear:both;"></div>
+                            </section><section id="nav_menu-14" class="fusion-footer-widget-column widget widget_nav_menu">
+                                <div class="menu-top-navigation-container">
+                                    <ul id="menu-top-navigation-2" class="menu">
+                                        <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1361"><a href="https://syra.ai/chatbot-technologies/">Technologies</a></li>
+                                        <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1163"><a target="_blank" href="https://syra.ai/blogs/">Blogs</a></li>
+                                        <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1362"><a href="https://syra.ai/resources/">Resources</a></li>
+                                        <li class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1216"><a href="/search">Search</a></li>
+                                        <li class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1524"><a href="https://syra.ai/contact-us/">Get Your FREE Chatbot!</a></li>
+                                    </ul>
+                                </div><div style="clear:both;"></div>
+                            </section>
+                        </div>
+                        <div class="fusion-column col-lg-3 col-md-3 col-sm-3">
+                            <section id="nav_menu-5" class="fusion-footer-widget-column widget widget_nav_menu">
+                                <div class="menu-thirdeyes-services-container">
+                                    <ul id="menu-thirdeyes-services" class="menu">
+                                        <li id="menu-item-1400" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1400"><a href="https://thirdeyedata.io/data-sciences/">Data Science</a></li>
+                                        <li id="menu-item-1403" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1403"><a href="https://thirdeyedata.io/data-analytics/">Data Analytics</a></li>
+                                        <li id="menu-item-1401" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1401"><a href="https://thirdeyedata.io/data-engineering/">Data Engineering</a></li>
+                                        <li id="menu-item-1402" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1402"><a href="https://thirdeyedata.io/managed-cloud-services/">Managed Cloud</a></li>
+                                    </ul>
+                                </div><div style="clear:both;"></div>
+                            </section><section id="nav_menu-6" class="fusion-footer-widget-column widget widget_nav_menu">
+                                <div class="menu-thirdeyes-products-container">
+                                    <ul id="menu-thirdeyes-products" class="menu">
+                                        <li id="menu-item-1404" class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-1404"><a href="https://syra.ai/">Syra – Custom Chatbots</a></li>
+                                        <li id="menu-item-1405" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1405"><a href="https://safera.us/">Safera – Crime Analytics &amp; Predictions</a></li>
+                                        <li id="menu-item-1406" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1406"><a href="https://eyera.io/">Eyera – Out-of-the-box IoT Solutions</a></li>
+                                    </ul>
+                                </div><div style="clear:both;"></div>
+                            </section>
+                        </div>
+                        <div class="fusion-column col-lg-3 col-md-3 col-sm-3">
+                            <section id="tweets-widget-2" class="fusion-footer-widget-column widget tweets" style="padding: 20px;">
+                                <h4 class="widget-title" data-fontsize="12" data-lineheight="18">Recent Tweets</h4>			<div class="twitter-box">
+                                    <div class="twitter-holder">
+                                        <div class="b">
+                                            <div class="tweets-container" id="tweets_tweets-widget-2">
+                                                <ul class="jtwt">
+                                                    <li class="jtwt_tweet">
+                                                        <p class="jtwt_tweet_text">
+                                                            ThirdEye Data Ranked as Top 3 Big Data Analytics Company
+                                                            <a href="https://twitter.com/hashtag/BigData?src=hash" target="_blank" rel="noopener noreferrer">#BigData</a> <a href="https://twitter.com/hashtag/ArtificialIntelligence?src=hash" target="_blank" rel="noopener noreferrer">#ArtificialIntelligence</a> <a href="https://twitter.com/hashtag/MachineLearning?src=hash" target="_blank" rel="noopener noreferrer">#MachineLearning</a>… <a href="https://twitter.com/i/web/status/1031652854833078272" target="_blank" rel="noopener noreferrer">twitter.com/i/web/status/1…</a>
+                                                        </p>
+                                                        <a href="http://twitter.com/Syra_bots/statuses/1031652854833078272" class="jtwt_date">1 week ago</a>
+                                                    </li>
+                                                    <li class="jtwt_tweet">
+                                                        <p class="jtwt_tweet_text">
+                                                            Webinar on 29th August 2018 <a href="https://twitter.com/12" target="_blank" rel="noopener noreferrer">@@12</a>:30 pm PDT
+                                                            "How Can I Get Higher Conversions Using Chatbots"
+                                                            REGISTER TODAY!… <a href="https://twitter.com/i/web/status/1031590486899871745" target="_blank" rel="noopener noreferrer">twitter.com/i/web/status/1…</a>
+                                                        </p>
+                                                        <a href="http://twitter.com/Syra_bots/statuses/1031590486899871745" class="jtwt_date">1 week ago</a>
+                                                    </li>
+                                                    <li class="jtwt_tweet">
+                                                        <p class="jtwt_tweet_text">
+                                                            Check Out How Multilingual Chatbots Will Change The Voice of Business..
+                                                            <a href="https://twitter.com/hashtag/Chatbots?src=hash" target="_blank" rel="noopener noreferrer">#Chatbots</a>  <a href="https://twitter.com/hashtag/MultilingualChatbots?src=hash" target="_blank" rel="noopener noreferrer">#MultilingualChatbots</a> <a href="https://twitter.com/hashtag/Chatbot?src=hash" target="_blank" rel="noopener noreferrer">#Chatbot</a>… <a href="https://twitter.com/i/web/status/1030140903263010832" target="_blank" rel="noopener noreferrer">twitter.com/i/web/status/1…</a>
+                                                        </p>
+                                                        <a href="http://twitter.com/Syra_bots/statuses/1030140903263010832" class="jtwt_date">2 weeks ago</a>
+                                                    </li>
+                                                    <li class="jtwt_tweet">
+                                                        <p class="jtwt_tweet_text">
+                                                            Your Chatbot Not Serving Customers As Expected? Time to Tame It!
+                                                            Join webinar to know to tame Chatbots to serve cus… <a href="https://twitter.com/i/web/status/1005497123956092928" target="_blank" rel="noopener noreferrer">twitter.com/i/web/status/1…</a>
+                                                        </p>
+                                                        <a href="http://twitter.com/Syra_bots/statuses/1005497123956092928" class="jtwt_date">3 months ago</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <span class="arrow"></span>
+                                </div>
+                                <div style="clear:both;"></div>
+                            </section><section id="tag_cloud-2" class="fusion-footer-widget-column widget widget_tag_cloud">
+                                <h4 class="widget-title" data-fontsize="12" data-lineheight="18">Tags</h4><div class="tagcloud">
+                                    <a href="https://syra.ai/tag/chatbots/" class="tag-cloud-link tag-link-53 tag-link-position-1" aria-label="Chatbots (3 items)">Chatbots</a>
+                                    <a href="https://syra.ai/tag/chatbots-for-business/" class="tag-cloud-link tag-link-54 tag-link-position-2" aria-label="Chatbots for Business (1 item)">Chatbots for Business</a>
+                                    <a href="https://syra.ai/tag/multilingual-chatbots/" class="tag-cloud-link tag-link-52 tag-link-position-3" aria-label="Multilingual Chatbots (1 item)">Multilingual Chatbots</a>
+                                </div>
+                                <div style="clear:both;"></div>
+                            </section>
+                        </div>
+                        <div class="fusion-column fusion-column-last col-lg-3 col-md-3 col-sm-3">
+                            <section id="ad_125_125-widget-3" class="fusion-footer-widget-column widget fusion-ad-125-125 ad_125_125">
+                                <div class="fusion-image-row">
+                                </div>
+                                <div style="clear:both;"></div>
+                            </section>
+                        </div>
+
+                        <div class="fusion-clearfix"></div>
+                    </div> <!-- fusion-columns -->
+                </div> <!-- fusion-row -->
+            </footer> <!-- fusion-footer-widget-area -->
+
+
+            <footer id="footer" class="fusion-footer-copyright-area">
+                <div class="fusion-row">
+                    <div class="fusion-copyright-content">
+
+                        <div class="fusion-copyright-notice">
+                            <div>
+                                <div class="copy-logo"><a href="https://thirdeyedata.io/"><img src="https://thirdeyedata.io/wp-content/uploads/2018/06/footer-logo.png"></a></div><div class="copy-text"><a href="https://thirdeyedata.io/"> Bot Development Services by ThirdEye Data. </a><br>©
+                                <script>document.write(new Date().getFullYear());</script>2018 All Rights Reserved</div>
+                            </div>
+                        </div>
+                        <div class="fusion-social-links-footer">
+                            <div class="fusion-social-networks boxed-icons"><div class="fusion-social-networks-wrapper"><a class="fusion-social-network-icon fusion-tooltip fusion-twitter fusion-icon-twitter" style="color:#8d3052;background-color:#ffffff;border-color:#ffffff;border-radius:50%;" href="https://twitter.com/Syra_bots" target="_blank" rel="noopener noreferrer" data-placement="top" data-title="Twitter" data-toggle="tooltip" title="" data-original-title="Twitter"><span class="screen-reader-text">Twitter</span></a><a class="fusion-social-network-icon fusion-tooltip fusion-facebook fusion-icon-facebook" style="color:#8d3052;background-color:#ffffff;border-color:#ffffff;border-radius:50%;" href="https://www.facebook.com/syra.bots/" target="_blank" data-placement="top" data-title="Facebook" data-toggle="tooltip" title="" data-original-title="Facebook"><span class="screen-reader-text">Facebook</span></a><a class="fusion-social-network-icon fusion-tooltip fusion-linkedin fusion-icon-linkedin" style="color:#8d3052;background-color:#ffffff;border-color:#ffffff;border-radius:50%;" href="https://www.linkedin.com/company/syra-bots/" target="_blank" rel="noopener noreferrer" data-placement="top" data-title="Linkedin" data-toggle="tooltip" title="" data-original-title="Linkedin"><span class="screen-reader-text">Linkedin</span></a><a class="fusion-social-network-icon fusion-tooltip fusion-youtube fusion-icon-youtube" style="color:#8d3052;background-color:#ffffff;border-color:#ffffff;border-radius:50%;" href="https://www.youtube.com/user/ThirdEyeCSS" target="_blank" rel="noopener noreferrer" data-placement="top" data-title="YouTube" data-toggle="tooltip" title="" data-original-title="YouTube"><span class="screen-reader-text">YouTube</span></a><a class="fusion-social-network-icon fusion-tooltip fusion-vimeo fusion-icon-vimeo" style="color:#8d3052;background-color:#ffffff;border-color:#ffffff;border-radius:50%;" href="https://vimeo.com/channels/thirdeyedata" target="_blank" rel="noopener noreferrer" data-placement="top" data-title="Vimeo" data-toggle="tooltip" title="" data-original-title="Vimeo"><span class="screen-reader-text">Vimeo</span></a><a class="fusion-social-network-icon fusion-tooltip fusion-rss fusion-icon-rss fusion-last-social-icon" style="color:#8d3052;background-color:#ffffff;border-color:#ffffff;border-radius:50%;" href="http://answers.thirdeyedata.io/rss.xml" target="_blank" rel="noopener noreferrer" data-placement="top" data-title="Rss" data-toggle="tooltip" title="" data-original-title="Rss"><span class="screen-reader-text">Rss</span></a></div></div>
+                        </div>
+
+                    </div> <!-- fusion-fusion-copyright-content -->
+                </div> <!-- fusion-row -->
+            </footer> <!-- #footer -->
+        </div>
+
     </div>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
 
-    @*<script type='text/javascript' src='https://syra.ai/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=5.0.1'></script>*@
+
+
+
+   
+    <!-- / WP SEO Structured Data Plugin. -->
+
+    <script src="https://my.hellobar.com/78181eebe3e5741dbd62663ed6c8c6f0bbda84a4.js" type="text/javascript" async="async"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function () {
+            var ajaxurl = 'https://syra.ai/wp-admin/admin-ajax.php';
+            if (0 < jQuery('.fusion-login-nonce').length) {
+                jQuery.get(ajaxurl, { 'action': 'fusion_login_nonce' }, function (response) {
+                    jQuery('.fusion-login-nonce').html(response);
+                });
+            }
+        });
+    </script>
+    <script type='text/javascript'>
+        /* <![CDATA[ */
+        var wpcf7 = { "apiSettings": { "root": "https:\/\/syra.ai\/wp-json\/contact-form-7\/v1", "namespace": "contact-form-7\/v1" }, "recaptcha": { "messages": { "empty": "Please verify that you are not a robot." } }, "cached": "1" };
+        /* ]]> */
+    </script>
+    <script type='text/javascript' src='https://syra.ai/wp-content/plugins/contact-form-7/includes/js/scripts.js?ver=5.0.1'></script>
     <!--[if IE 9]>
     <script type='text/javascript' src='https://syra.ai/wp-content/themes/Avada/includes/lib/assets/min/js/general/fusion-ie9.js?ver=1'></script>
     <![endif]-->
-    @*<script type='text/javascript' src='https://syra.ai/wp-includes/js/comment-reply.min.js?ver=4.9.8'></script>
+    <script type='text/javascript' src='https://syra.ai/wp-includes/js/comment-reply.min.js?ver=4.9.8'></script>
     <script type='text/javascript' src='https://syra.ai/wp-content/plugins/google-calendar-events/assets/js/vendor/jquery.qtip.min.js?ver=3.1.19'></script>
     <script type='text/javascript' src='https://syra.ai/wp-content/plugins/google-calendar-events/assets/js/vendor/moment.min.js?ver=3.1.19'></script>
     <script type='text/javascript' src='https://syra.ai/wp-content/plugins/google-calendar-events/assets/js/vendor/moment-timezone-with-data.min.js?ver=3.1.19'></script>
-    <script type='text/javascript'>*@
-/* <![CDATA[ */
-var simcal_default_calendar = {"ajax_url":"\/wp-admin\/admin-ajax.php","nonce":"d1c7418359","locale":"en_US","text_dir":"ltr","months":{"full":["January","February","March","April","May","June","July","August","September","October","November","December"],"short":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]},"days":{"full":["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],"short":["Sun","Mon","Tue","Wed","Thu","Fri","Sat"]},"meridiem":{"AM":"AM","am":"am","PM":"PM","pm":"pm"}};
+    <script type='text/javascript'>
+        /* <![CDATA[ */
+        var simcal_default_calendar = { "ajax_url": "\/wp-admin\/admin-ajax.php", "nonce": "25fed87d05", "locale": "en_US", "text_dir": "ltr", "months": { "full": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], "short": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"] }, "days": { "full": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "short": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] }, "meridiem": { "AM": "AM", "am": "am", "PM": "PM", "pm": "pm" } };
 /* ]]> */
-    @*</script>
+    </script>
     <script type='text/javascript' src='https://syra.ai/wp-content/plugins/google-calendar-events/assets/js/default-calendar.min.js?ver=3.1.19'></script>
-    <script type='text/javascript' src='https://syra.ai/wp-content/uploads/fusion-scripts/d975e8eef86fa13dac350752bb833cac.js?timestamp=1534922826'></script>
+    <script type='text/javascript' src='https://syra.ai/wp-content/uploads/fusion-scripts/7f22f8799ce2f8e466558854bf713bc1.js?timestamp=1534922864'></script>
     <script type='text/javascript' src='https://syra.ai/wp-content/plugins/google-calendar-events/assets/js/vendor/imagesloaded.pkgd.min.js?ver=3.1.19'></script>
-    <script type='text/javascript' src='https://syra.ai/wp-includes/js/wp-embed.min.js?ver=4.9.8'></script>*@
+    <script type='text/javascript' src='https://syra.ai/wp-includes/js/wp-embed.min.js?ver=4.9.8'></script>
+
 
     @RenderSection("scripts", required: false)
 </body>

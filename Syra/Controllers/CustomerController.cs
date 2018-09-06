@@ -104,9 +104,6 @@ namespace Syra.Admin.Controllers
                         bot.DeploymentDate = DateTime.Now;
                         bot.DeleteDate = DateTime.Now;
                         bot.LuisId = botdeployment.LuisId;
-
-
-
                         customer.BotDeployments.Add(bot);
                         db.SaveChanges();
                         return RedirectToAction("MyBots");

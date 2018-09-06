@@ -1,0 +1,106 @@
+﻿@model Syra.Admin.Entities.BotDeployment
+    @using Syra.Admin.Entities
+@{
+    ViewBag.Title = "Create new Bot";
+    var questions = new List<BotQuestionAnswers>();
+}
+
+<h2>Create New Bot</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>New Bot Details</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <h3>Company details</h3>
+    <div class="form-group">
+        @Html.LabelFor(model => model.CompanyName, "Company Name", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBox("CompanyName", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.CompanyName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Website, "Website", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBox("Website", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Website, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.FacebookPage, "Facebook Page", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBox("FacebookPage", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.FacebookPage, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.ContactPage, "Contact Page", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBox("ContactPage", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ContactPage, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.ContactNo, "Phone No", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBox("ContactNo", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ContactNo, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <h3>Chatbot details</h3>
+    <div class="form-group">
+        @Html.LabelFor(model => model.Name, "Chatbot Name", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBox("Name", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.LuisId, "Knowledge Domain", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("LuisId", new SelectList(ViewBag.LuisDomains, "Id", "Name"))
+            @Html.ValidationMessageFor(model => model.LuisId, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.WelcomeMessage, "Introductory Message", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBox("WelcomeMessage", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.WelcomeMessage, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(model => model.BackGroundColor, "Background Color", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBox("BackGroundColor", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.BackGroundColor, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <h3>Goal Definition</h3>
+    <div class="form-group">
+        @Html.LabelFor(model => model.ChatBotGoal, "Define the goal of Chatbot", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.TextBox("ChatBotGoal", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.ChatBotGoal, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+</div>
+}
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

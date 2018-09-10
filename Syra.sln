@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Syra.Admin", "Syra\Syra.Adm
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Syra.Tests", "Syra.Tests\Syra.Tests.csproj", "{AAD573CD-B193-4D59-A1FC-5D5E054D12C2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Syra.Deployment", "Syra.Deployment\Syra.Deployment.csproj", "{C2BF69FC-236C-4D74-A63D-8BBC50BEB4FF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{AAD573CD-B193-4D59-A1FC-5D5E054D12C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AAD573CD-B193-4D59-A1FC-5D5E054D12C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AAD573CD-B193-4D59-A1FC-5D5E054D12C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C2BF69FC-236C-4D74-A63D-8BBC50BEB4FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C2BF69FC-236C-4D74-A63D-8BBC50BEB4FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C2BF69FC-236C-4D74-A63D-8BBC50BEB4FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C2BF69FC-236C-4D74-A63D-8BBC50BEB4FF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

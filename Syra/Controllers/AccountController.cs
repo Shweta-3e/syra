@@ -12,15 +12,17 @@ using Microsoft.Owin.Security;
 using Syra.Admin.DbContexts;
 using Syra.Admin.Entities;
 using Syra.Admin.Models;
+using Syra.Admin.Helper;
 
 namespace Syra.Admin.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private SyraDbContext db = new SyraDbContext();
+        private Response response = new Response();
         public AccountController()
         {
         }
@@ -147,6 +149,19 @@ namespace Syra.Admin.Controllers
             return View();
         }
 
+        [HttpGet]
+        public string GetPlans()
+        {
+            var plans = db.Plans.ToList();
+            response.Data = from a in plans
+                            select new
+                            {
+                                a.Id,
+                                a.Name
+                            };
+            return response.GetResponse();
+        }
+
 
         // GET: /Account/Register
         [AllowAnonymous]
@@ -158,19 +173,79 @@ namespace Syra.Admin.Controllers
 
         //
         // POST: /Account/Register
+        //[HttpPost]
+        //[AllowAnonymous]
+        ////[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> Register(RegisterViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+        //        var customer = new Customer();
+        //        var existingUser = UserManager.FindByEmail(model.Email);
+        //        if(existingUser==null)
+        //        {
+        //            var result = await UserManager.CreateAsync(user, model.Password);
+        //            if (result.Succeeded)
+        //            {
+        //                var customerPlan = new CustomerPlan();
+        //                customerPlan.PlanId = model.PlanId;
+        //                customerPlan.IsActive = true;
+        //                customerPlan.CustomerId = customer.Id;
+        //                customer.UserId = user.Id;
+        //                customer.JobTitle = model.JobTitle;
+        //                customerPlan.ActivationDate = DateTime.Now;
+        //                customerPlan.ExpiryDate = DateTime.Now;
+        //                customer.Email = model.Email;
+        //                customer.RegisterDate = DateTime.Now;
+        //                customer.BusinessRequirement = model.BusinessRequirement;
+        //                var check_duplicate = db.Customer.Where(x => x.Email == customer.Email).FirstOrDefault();
+        //                if (check_duplicate == null)
+        //                {
+        //                    customer.CustomerPlans.Add(customerPlan);
+        //                    db.Customer.Add(customer);
+        //                    db.SaveChanges();
+        //                }
+        //                await UserManager.AddToRoleAsync(user.Id, "Customer");
+
+        //                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+        //                // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+        //                // Send an email with this link
+        //                //string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+        //                //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+        //                //await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
+
+        //                //return RedirectToAction("AccountConfirmation", "Account");
+        //            }
+        //            AddErrors(result);
+        //        }
+        //        else
+        //        {
+        //            ModelState.AddModelError("", "Email already exists.");
+        //        }
+        //    }
+
+        //    // If we got this far, something failed, redisplay form
+        //    return View(model);
+        //}
+
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        //[ValidateAntiForgeryToken]
+        public string Register(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
+            if (model != null)
             {
+                var userStore = new UserStore<ApplicationUser>(db);
+                var manager = new UserManager<ApplicationUser>(userStore);
+
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var customer = new Customer();
                 var existingUser = UserManager.FindByEmail(model.Email);
-                if(existingUser==null)
+                if (existingUser == null)
                 {
-                    var result = await UserManager.CreateAsync(user, model.Password);
+                    var result = manager.Create(user, model.Password);
                     if (result.Succeeded)
                     {
                         var customerPlan = new CustomerPlan();
@@ -184,36 +259,43 @@ namespace Syra.Admin.Controllers
                         customer.Email = model.Email;
                         customer.RegisterDate = DateTime.Now;
                         customer.BusinessRequirement = model.BusinessRequirement;
-                        var check_duplicate = db.Customer.Where(x => x.Email == customer.Email).FirstOrDefault();
-                        if (check_duplicate == null)
+                        //var check_duplicate = db.Customer.Where(x => x.Email == customer.Email).FirstOrDefault();
+                        if (existingUser == null)
                         {
                             customer.CustomerPlans.Add(customerPlan);
                             db.Customer.Add(customer);
                             db.SaveChanges();
                         }
-                        await UserManager.AddToRoleAsync(user.Id, "Customer");
+                        manager.AddToRoleAsync(user.Id, "Customer");
 
-                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                         // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                         // Send an email with this link
-                        string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                        var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                        await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
+                        //string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        //await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
 
-                        return RedirectToAction("AccountConfirmation", "Account");
+                        //return RedirectToAction("AccountConfirmation", "Account");
+
+                        response.isSaved = true;
+                        response.Message = "Your register successfully";
                     }
-                    AddErrors(result);
+                    else
+                    {
+                        response.isSaved = false;
+                        response.Message = "Customer does not exist";
+                    }
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Email already exists.");
+                    response.isSaved = false;
+                    response.Message = "Email already exists.";
                 }
-                
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return response.GetResponse();
         }
 
 

@@ -34,6 +34,17 @@ namespace Syra.Admin.Migrations
                 plan.ForEach(x => context.Plans.Add(x));
                 context.SaveChanges();
             }
+
+            if (!context.LuisDomains.Any())
+            {
+                var luisdomain = new List<LuisDomain>
+            {
+                new LuisDomain { Name = "Smarteraspnet", Details = "Host Website", Category ="Deploy Website", LuisAppId = "APP123", LuisAppKey = "Test123"},
+            };
+                luisdomain.ForEach(x => context.LuisDomains.Add(x));
+                context.SaveChanges();
+            }
+
             var rolemanager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
             string[] roleNames = { "Customer", "Admin" };
             IdentityResult roleResult;

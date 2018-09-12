@@ -1,0 +1,32 @@
+﻿<div class="container">
+    <h2>My Bots</h2>
+   
+    <p><a ui-sref="newchatbot" style="height: 33px;border: 0px;font-size:15px;background-color: transparent;">Create New</a> </p>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th style="text-align:center">Name</th>
+                <th style="text-align:center">Luis Domain Name</th>
+                <th style="text-align:center">DeploymentDate</th>
+                <th style="text-align:center">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="chatbot in MyChatBots">
+                <td style="text-align:center">{{chatbot.Name}}</td>
+                <td style="text-align:center">{{chatbot.LuisDomainName}}</td>
+                <td style="text-align:center">{{chatbot.DeploymentDate | date:'dd/MM/yy'}}</td>
+                <td style="text-align:center">
+                    <a href="/#/chatbot/{{chatbot.Id}}" class="btn">
+                        Edit
+                    </a>
+                    <a class="btn" ng-click="Delete(chatbot.Id)">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

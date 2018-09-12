@@ -49,10 +49,8 @@ namespace Syra.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,Email,UserId,RegisterDate,ContactNo,Address1,Address2,Address3,City,Country,ZipCode,CompanyName,FacebookPage,Website,ContactPage,WelcomeMessage,Color,BotSecret,BotURI,WebSiteURI,DomainName")] Customer customer)
         {
-            
             if (ModelState.IsValid)
             {
-            
                 customer.UserId = "";
                 var datetime = DateTime.Now;
                 customer.RegisterDate = datetime.Date;

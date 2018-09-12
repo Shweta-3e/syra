@@ -1,0 +1,83 @@
+﻿<div class="row">
+    <h2 style="font-size:26px">
+        Register User.
+    </h2>
+</div>
+<hr />
+<form class="form-horizontal" style="padding-top:40px">
+    <div class="row">
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="txtEmail">Email</label>
+            <div class="col-sm-6">
+                <input type="email" class="form-control" id="txtEmail" ng-model="Register.Email">
+            </div>
+        </div>
+    </div>
+    
+    <div class="row" style="padding-top:10px">
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="txtPassword">Password</label>
+            <div class="col-sm-6">
+                <input type="password" class="form-control" id="txtPassword" ng-model="Register.Password">
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="padding-top:10px">
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="txtConfirmPassword">Confirm Password</label>
+            <div class="col-sm-6">
+                <input type="password" class="form-control" id="txtConfirmPassword" ng-model="Register.ConfirmPassword">
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="padding-top:10px">
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="txtJobTitle">Job Title</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" id="txtJobTitle" ng-model="Register.JobTitle">
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="padding-top:10px">
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="txtCompany">Company</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" id="txtCompany" ng-model="Register.Company">
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="padding-top:10px">
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="txtCompany">Pricing Plan</label>
+            <div class="col-sm-6">
+               <select class="custom-select" 
+                       id="ddlPlan" ng-model="Register.PlanId">
+                <option>Choose...</option>
+                <option ng-repeat="plan in Plans" value="{{plan.Id}}">{{plan.Name}}</option>
+              </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="padding-top:10px">
+        <div class="form-group">
+            <label class="control-label col-sm-2" for="txtBusinessRequirement">Business Requirements</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" ng-model="Register.BusinessRequirement" id="txtBusinessRequirement">
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="padding-top:10px">
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" class="btn btn-default" value="Register"  ng-click="Registration()"
+                       style="border-radius:5px;height:39px;width:150px;font-weight:bold" />
+            </div>
+        </div>
+    </div>
+</form>

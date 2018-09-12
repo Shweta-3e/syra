@@ -28,6 +28,7 @@ namespace Syra.Admin.DbContexts
         public DbSet<LuisDomain> LuisDomains { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Plan> Plans { get; set; }
+        public DbSet<BotQuestionAnswers> BotQuestionAnswers { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

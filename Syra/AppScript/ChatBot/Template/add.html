@@ -1,123 +1,4 @@
-﻿<!--<div class="Container">
-    <h2>Create New Bot</h2>
-
-   <hr />
-
-    <form class="Horizontal">
-        <h3>Company details</h3>
-        <div class="row">
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="txtCompanyName">Company Name</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="txtCompanyName" ng-model="BotDeployment.CompanyName">
-                </div>
-            </div>
-        </div>
-
-        <div class="row" style="padding-top:10px">
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="txtWebsite">Website</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="txtWebsite" ng-model="BotDeployment.Website">
-                </div>
-            </div>
-        </div>
-
-        <div class="row" style="padding-top:10px">
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="txtFacebookPage">Facebook Page</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="txtFacebookPage" ng-model="BotDeployment.FacebookPage">
-                </div>
-            </div>
-        </div>
-
-        <div class="row" style="padding-top:10px">
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="txtContactPage">Contact Page</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="txtContactPage" ng-model="BotDeployment.ContactPage">
-                </div>
-            </div>
-        </div>
-
-        <div class="row" style="padding-top:10px">
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="txtContactNo">Phone No</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="txtContactNo" ng-model="BotDeployment.ContactNo">
-                </div>
-            </div>
-        </div>
-
-        <h3>Chatbot details</h3>
-        <div class="row" style="padding-top:10px">
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="txtName">Chatbot Name</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="txtName" ng-model="BotDeployment.Name">
-                </div>
-            </div>
-        </div>
-
-        <div class="row" style="padding-top:10px">
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="txtPassword">Knowledge Domain</label>
-                <div class="col-sm-10">
-                    <select class="custom-select"
-                            id="ddlLuis" ng-model="BotDeployment.LuisId">
-                        <option>Choose...</option>
-                        <option ng-repeat="domain in LuisDomains" 
-                                value="{{domain.Id}}" ng-selected="domain.Id== BotDeployment.LuisId">{{domain.Name}}</option>
-                    </select>
-                </div>
-            </div>
-        </div>
-
-        <div class="row" style="padding-top:10px">
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="txtWelcomeMessage">Introductory Message</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="txtWelcomeMessage" ng-model="BotDeployment.WelcomeMessage">
-                </div>
-            </div>
-        </div>
-
-        <div class="row" style="padding-top:10px">
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="txtBackGroundColor">Background Color</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="txtBackGroundColor" ng-model="BotDeployment.BackGroundColor">
-                </div>
-            </div>
-        </div>
-
-        <h3>Goal Definition</h3>
-
-        <div class="row" style="padding-top:10px">
-            <div class="form-group">
-                <label class="control-label col-sm-2" for="txtChatBotGoal">Define the goal of Chatbot</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" id="txtChatBotGoal" ng-model="BotDeployment.ChatBotGoal">
-                </div>
-            </div>
-        </div>
-
-        <div class="row" style="padding-top:10px">
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="button" class="btn btn-default" value="Save" ng-click="CreateChatBot()"
-                           style="border-radius:5px;height:39px;width:150px;font-weight:bold" />
-
-                    <input type="button" class="btn btn-default" value="Cancel"
-                           style="border-radius:5px;height:39px;width:150px;font-weight:bold" 
-                           ng-click="Cancel()"/>
-                </div>
-            </div>
-        </div>
-    </form>
-</div>-->
-<div class="Container">
+﻿<div class="Container">
     <ul class="nav nav-tabs">
         <li class="active" ng-class="{'active': isActiveTab(1)}">
         <a role="tab" data-toggle="tab"  ng-click="tab=1">Company Details</a></li>
@@ -157,7 +38,7 @@
 
             <div class="row" style="padding-top:10px">
                 <div class="form-group">
-                    <label class="control-label col-sm-2" for="txtContactPage" style="font-weight:normal">Contact Page</label>
+                    <label class="control-label col-sm-2 mandatory required" for="txtContactPage" style="font-weight:normal">Contact Page</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="txtContactPage" ng-model="BotDeployment.ContactPage" required>
                     </div>
@@ -166,9 +47,19 @@
 
             <div class="row" style="padding-top:10px">
                 <div class="form-group">
-                    <label class="control-label col-sm-2" for="txtContactNo" style="font-weight:normal">Phone No</label>
+                    <label class="control-label col-sm-2 mandatory required" for="txtContactNo" style="font-weight:normal">Phone No</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="txtContactNo" ng-model="BotDeployment.ContactNo" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="padding-top:10px">
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="button" class="btn btn-default" value="Cancel"
+                               style="border-radius:5px;height:39px;width:150px;font-weight:bold;background-color: gainsboro;"
+                               ng-click="Cancel()" />
                     </div>
                 </div>
             </div>
@@ -194,7 +85,7 @@
 
             <div class="row" style="padding-top:10px">
                 <div class="form-group">
-                    <label class="control-label col-sm-2" for="txtPassword" style="font-weight:normal">Knowledge Domain</label>
+                    <label class="control-label col-sm-2 mandatory required" for="txtPassword" style="font-weight:normal">Knowledge Domain</label>
                     <div class="col-sm-10">
                         <select class="custom-select"
                                 id="ddlLuis" ng-model="BotDeployment.LuisId">
@@ -210,7 +101,7 @@
 
             <div class="row" style="padding-top:10px">
                 <div class="form-group">
-                    <label class="control-label col-sm-2" for="txtWelcomeMessage" style="font-weight:normal">Introductory Message</label>
+                    <label class="control-label col-sm-2 mandatory required" for="txtWelcomeMessage" style="font-weight:normal">Introductory Message</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="txtWelcomeMessage" ng-model="BotDeployment.WelcomeMessage">
                     </div>
@@ -219,9 +110,19 @@
 
             <div class="row" style="padding-top:10px">
                 <div class="form-group">
-                    <label class="control-label col-sm-2" for="txtBackGroundColor" style="font-weight:normal">Background Color</label>
+                    <label class="control-label col-sm-2 mandatory required" for="txtBackGroundColor" style="font-weight:normal">Background Color</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="txtBackGroundColor" ng-model="BotDeployment.BackGroundColor">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="padding-top:10px">
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="button" class="btn btn-default" value="Cancel"
+                               style="border-radius:5px;height:39px;width:150px;font-weight:bold;background-color: gainsboro;"
+                               ng-click="Cancel()" />
                     </div>
                 </div>
             </div>
@@ -280,6 +181,16 @@
                 </tbody>
             </table>
 
+            <div class="row" style="padding-top:10px">
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="button" class="btn btn-default" value="Cancel"
+                               style="border-radius:5px;height:39px;width:150px;font-weight:bold;background-color: gainsboro;"
+                               ng-click="Cancel()" />
+                    </div>
+                </div>
+            </div>
+
             <nav>
                 <ul class="pager">
                     <li class="previous">
@@ -295,7 +206,7 @@
         <div ng-show="isActiveTab(4)" ng-class="tab==4?'tab-pane fade in active':'tab-pane fade in'">
             <div class="row" style="padding-top:10px">
                 <div class="form-group">
-                    <label class="control-label col-sm-2" for="txtChatBotGoal" style="font-weight:normal">Define the goal of Chatbot</label>
+                    <label class="control-label col-sm-2 mandatory required" for="txtChatBotGoal" style="font-weight:normal">Define the goal of Chatbot</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" id="txtChatBotGoal" ng-model="BotDeployment.ChatBotGoal">
                     </div>

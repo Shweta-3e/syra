@@ -1,32 +1,127 @@
-﻿<div class="container">
-    <h2>My Bots</h2>
-   
-    <p><a ui-sref="newchatbot" style="height: 33px;border: 0px;font-size:15px;background-color: transparent;">Create New</a> </p>
+﻿<div class="container" ng-hide="BotDetail">
+    <h3>
+        My Bots <span class="badge">{{Customer.BotDeployments.length}}/{{CustomerPlan.AllowedBotLimit}}</span>
+        <span class="pull-right" ng-hide="Customer.BotDeployments.length == CustomerPlan.AllowedBotLimit">
+            <a ui-sref="newchatbot" style="height: 33px;border: 0px;font-size:15px;background-color: transparent;">
+                Create New
+            </a>
+        </span>
+        <span class="pull-right" ng-show="Customer.BotDeployments.length == CustomerPlan.AllowedBotLimit">
+            <a style="height: 33px;border: 0px;font-size:15px;background-color: transparent;">
+                Upgrade
+            </a>
+        </span>
+    </h3>
 
-    <table class="table">
+    <table class="table" >
         <thead>
             <tr>
-                <th style="text-align:center">Name</th>
-                <th style="text-align:center">Luis Domain Name</th>
-                <th style="text-align:center">DeploymentDate</th>
-                <th style="text-align:center">Actions</th>
+                <th class="text-align-center">Sr.no</th>
+                <th class="text-align-center">Name</th>
+                <th class="text-align-center">Luis Domain Name</th>
+                <th class="text-align-center">Deployment Date</th>
+                <th class="text-align-center">Status</th>
+                <th class="text-align-center">Actions</th>
             </tr>
         </thead>
         <tbody>
             <tr ng-repeat="chatbot in MyChatBots">
-                <td style="text-align:center">{{chatbot.Name}}</td>
-                <td style="text-align:center">{{chatbot.LuisDomainName}}</td>
-                <td style="text-align:center">{{chatbot.DeploymentDate | date:'dd/MM/yy'}}</td>
-                <td style="text-align:center">
-                    <a href="/#/chatbot/{{chatbot.Id}}" class="btn">
+                <td class="text-align-center"><span>{{(pageSize *pageNumber)+($index+1)}}</span></td>
+                <td class="text-align-center">{{chatbot.Name}}</td>
+                <td class="text-align-center">{{chatbot.LuisDomainName}}</td>
+                <td class="text-align-center">{{chatbot.DeploymentDate | date:'dd/MM/yy'}}</td>
+                <td class="text-align-center">
+                <span ng-show="chatbot.Status == 0">In Progress</span>
+                    <span ng-show="chatbot.Status == 1">Success</span>
+                    <span ng-show="chatbot.Status == 2">Failed</span>
+                </td>
+                <td class="text-align-center">
+                    <a href="/#/chatbot/{{chatbot.Id}}" class="btn btn-default">
                         Edit
                     </a>
-                    <a class="btn" ng-click="Delete(chatbot.Id)">
+                    <a class="btn btn-primary" ng-click="ViewBotDetails(chatbot)">
+                        View Details
+                    </a>
+                    <a class="btn btn-danger" ng-click="Delete(chatbot.Id)">
                         Delete
                     </a>
                 </td>
             </tr>
         </tbody>
     </table>
+    <nav>
+        <ul class="pager">
+            <li class="previous">
+                <a href="" ng-show="HasPrevious" ng-click="PreviousRecords()"><span aria-hidden="true">&larr;</span> Previous</a>
+            </li>
+            <li class="next">
+                <a href="" ng-show="HasNext" ng-click="NextRecords()">Next<span aria-hidden="true">&rarr;</span></a>
+            </li>
+        </ul>
+    </nav>
 
+    
+</div>
+
+<div ng-show="BotDetail">
+    <h2>Bot Deployment Details</h2>
+
+    <div class="row">
+        <div class="form-group">
+            <label class="control-label col-sm-2" style="font-weight:normal">Deployment Date</label>
+            <div class="col-sm-10">
+                {{BotDeployment.DeploymentDate | date:'dd/MM/yyyy'}}
+                <!--<input type="text" class="form-control" id="txtCompanyName" ng-model="BotDeployment.CompanyName">-->
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="padding-top:10px">
+        <div class="form-group">
+            <label class="control-label col-sm-2" style="font-weight:normal" for="txtCompanyName">Bot Secret</label>
+            <div class="col-sm-10">
+                {{BotDeployment.BotSecret}}
+                <!--<input type="text" class="form-control" id="txtCompanyName" ng-model="BotDeployment.CompanyName" required>-->
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="padding-top:10px">
+        <div class="form-group">
+            <label class="control-label col-sm-2" style="font-weight:normal" for="txtCompanyName">Bot URI</label>
+            <div class="col-sm-10">
+                {{BotDeployment.BotURI}}
+                <!--<input type="text" class="form-control" id="txtCompanyName" ng-model="BotDeployment.CompanyName" required>-->
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="padding-top:10px">
+        <div class="form-group">
+            <label class="control-label col-sm-2" style="font-weight:normal" for="txtCompanyName">WebSite URI</label>
+            <div class="col-sm-10">
+                {{BotDeployment.WebSiteURI}}
+                <!--<input type="text" class="form-control" id="txtCompanyName" ng-model="BotDeployment.CompanyName" required>-->
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="padding-top:10px">
+        <div class="form-group">
+            <label class="control-label col-sm-2" style="font-weight:normal" for="txtCompanyName">Domain Name</label>
+            <div class="col-sm-10">
+                {{BotDeployment.DomainName}}
+            </div>
+        </div>
+    </div>
+
+    <div class="row" style="padding-top:10px">
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" class="btn btn-default" value="Cancel"
+                       style="border-radius:5px;height:39px;width:150px;font-weight:bold;background-color: gainsboro;"
+                       ng-click="Cancel()" />
+            </div>
+        </div>
+    </div>
 </div>

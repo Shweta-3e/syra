@@ -2,24 +2,71 @@
     function ($scope, $http, syraservice, $state) {
 
         $scope.MyChatBots = [];
+        $scope.pageSize = 10;
+        $scope.pageNumber = 0;
+        $scope.BotDeployment = {};
+        $scope.BotDetail = false;
+        $scope.CustomerPlan = {};
+
+        $scope.GetCurrentUser = function () {
+            $http.post('/Customer/GetCurrentUser'
+               ).success(function (data) {
+                   $scope.Customer = data.Data;
+
+                   $http.post('/Customer/GetCustomerActivePlan',
+                       {
+                           customerId: $scope.Customer.Id
+                       }).success(function (data) {
+                           console.log(data.Data);
+                           $scope.CustomerPlan = data.Data;
+                       });
+               });
+        }
+        $scope.GetCurrentUser();
 
         $scope.GetChatBots = function () {
-            $http.get('/Customer/GetMyBots').success(function (data) {
-                console.log(data);
-                if (data.isSaved) {
-                    $scope.MyChatBots = data.Data;
-                } else {
-                    window.location.href = ("Account/Login");
-                }
-            });
+            $http.post('/Customer/GetMyBots',
+                {
+                    pagesize: $scope.pageSize,
+                    pageno: $scope.pageNumber
+                }).success(function (data) {
+                    if (data.isSaved) {
+                        $scope.MyChatBots = data.Entities;
+                        $scope.HasNext = data.HasNext;
+                        $scope.HasPrevious = data.HasPrevious;
+                        $scope.TotalPages = data.TotalPages;
+                    } else {
+                        window.location.href = ("Account/Login");
+                    }
+                });
         };
         $scope.GetChatBots();
 
+        $scope.NextRecords = function () {
+            if ($scope.pageNumber < $scope.TotalPages) {
+                $scope.pageNumber = $scope.pageNumber + 1;
+            }
+            $scope.GetChatBots();
+        };
+
+        $scope.PreviousRecords = function () {
+            $scope.pageNumber = $scope.pageNumber - 1;
+            if ($scope.pageNumber <= 0) {
+                $scope.pageNumber = 0;
+            }
+            $scope.GetChatBots();
+        };
+
+        $scope.ViewBotDetails = function (chatbot) {
+            $scope.BotDetail = true;
+            $scope.BotDeployment = chatbot;
+        };
 
         $scope.Delete = function (id) {
             if (confirm('Are you sure ? You want to delete chatbot')) {
                 $http.post("/Customer/Delete/", { id: id }).success(function (data) {
                     if (data.isSaved) {
+                        console.log("Called")
                         syraservice.RecordStatusMessage("success", data.Message);
                         $scope.GetChatBots();
                     }
@@ -29,11 +76,16 @@
                 });
             }
         };
-       
+
+        $scope.Cancel = function () {
+            $scope.BotDetail = false;
+            $state.go("chatbot");
+        };
+
     }
 ]);
 
-SyraApp.controller("ChatBotAddController", ["$scope", "$http", "syraservice", "$state","$stateParams",
+SyraApp.controller("ChatBotAddController", ["$scope", "$http", "syraservice", "$state", "$stateParams",
     function ($scope, $http, syraservice, $state, $stateParams) {
 
         $scope.BotDeployment = {};

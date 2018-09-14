@@ -61,4 +61,22 @@ SyraApp.config(["$stateProvider", "$urlRouterProvider", function ($stateProvider
     $stateProvider.state(chatbot.view);
     $stateProvider.state(chatbot.add);
     $stateProvider.state(chatbot.edit);
+
+    var profile = {
+        url: '/Profile',
+        title: 'Profile',
+        name: 'profile',
+        controller: 'CustomerProfileController',
+        templateUrl: "/Appscript/CustomerProfile/Template/profile.html?VER=" + SOFT_VER,
+    };
+    $stateProvider.state(profile);
+
+    var subscription = {
+        url: '/Subscription',
+        title: 'subscription',
+        name: 'subscription',
+        controller: 'CustomerProfileController',
+        templateUrl: "/Appscript/CustomerProfile/Template/subscription.html?VER=" + SOFT_VER,
+    };
+    $stateProvider.state(subscription);
 }])

@@ -167,7 +167,6 @@ namespace Syra.Admin.Controllers
         [AllowAnonymous]
         public ActionResult RegisterAdmin()
         {
-           
             return View();
         }
 
@@ -301,33 +300,58 @@ namespace Syra.Admin.Controllers
 
         //
         // POST: /Account/Register
+        //[HttpPost]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> RegisterAdmin(RegisterViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        var user = new ApplicationUser {UserName = model.Email, Email = model.Email};
+        //        var result = await UserManager.CreateAsync(user, model.Password);
+        //        if (result.Succeeded)
+        //        {
+        //            string CurrentUserId = user.Id;
+
+        //           await UserManager.AddToRoleAsync(user.Id, "Admin");
+
+        //            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+        //            return RedirectToAction("Index", "Home");
+        //        }
+        //        AddErrors(result);
+        //    }
+
+        //    // If we got this far, something failed, redisplay form
+        //    return View(model);
+        //}
         [HttpPost]
         [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> RegisterAdmin(RegisterViewModel model)
+        public string RegisterAdmin(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
+            if(model!=null)
             {
-                var user = new ApplicationUser {UserName = model.Email, Email = model.Email};
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                var userStore = new UserStore<ApplicationUser>(db);
+                var manager = new UserManager<ApplicationUser>(userStore);
+
+                var user = new ApplicationUser {UserName = model.Email, Email = model.Email };
+                var result = manager.Create(user, model.Password);
+                if(result.Succeeded)
                 {
-                    string CurrentUserId = user.Id;
+                    manager.AddToRoles(user.Id, "Admin");
 
-                   await UserManager.AddToRoleAsync(user.Id, "Admin");
-
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
-                    return RedirectToAction("Index", "Home");
+                    response.isSaved = true;
+                    response.Message = "You are register successfully";
                 }
-                AddErrors(result);
             }
 
-            // If we got this far, something failed, redisplay form
-            return View(model);
+            else
+            {
+                response.isSaved = false;
+                response.Message = "Registration is not successful";
+            }
+            return response.GetResponse();
         }
-
-
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]

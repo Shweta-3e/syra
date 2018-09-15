@@ -1,11 +1,12 @@
 ﻿"use strict";
 
-var SOFT_VER = "0.01";
+var SOFT_VER = "0.0002";
 
 var SyraApp = angular.module("syra", ["ui.router"]);
 
 SyraApp.config(["$stateProvider", "$urlRouterProvider", function ($stateProvider, $urlRouterProvider) {
 
+    
     $urlRouterProvider.otherwise("/Home");
 
     var home = {
@@ -25,8 +26,30 @@ SyraApp.config(["$stateProvider", "$urlRouterProvider", function ($stateProvider
     };
     $stateProvider.state(register);
 
+    var registeradmin = {
+        url: '/Account/RegisterAdmin',
+        title: 'Register Admin',
+        name: 'Register Admin',
+        controller: 'RegistrationController',
+        templateUrl: "/Appscript/Register/Template/registeradmin.html?VER=" + SOFT_VER,
+    };
+    $stateProvider.state(registeradmin);
+
+    var adminplan = {
+        view: {
+            url: '/adminplan',
+            title: 'adminplan',
+            name: 'newplan',
+            id: 'plan',
+            controller: 'PlanViewController',
+            templateUrl: "/Appscript/AdminPlan/Template/index.html?VER=" + SOFT_VER,
+        }
+        
+    };
+    $stateProvider.state(adminplan.view);
+
     var acc_confirmation = {
-        url: '/Account/Confirmation',
+        url: '/Account/Confirmation', 
         title: 'Account Confirmation',
         name: 'Confirmation',
         templateUrl: "/Appscript/AccountConfirmation/Template/accountconfirmation.html?VER=" + SOFT_VER,
@@ -62,3 +85,4 @@ SyraApp.config(["$stateProvider", "$urlRouterProvider", function ($stateProvider
     $stateProvider.state(chatbot.add);
     $stateProvider.state(chatbot.edit);
 }])
+

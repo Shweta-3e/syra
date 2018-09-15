@@ -182,7 +182,7 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Spatial, Version=5.8.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Spatial.5.8.2\lib\net40\System.Spatial.dll</HintPath>
-    <Reference Include="System.Runtime.Serialization" />
+    </Reference>
     <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
       <Private>True</Private>
@@ -337,6 +337,10 @@
     </Compile>
     <Compile Include="Helper\AutoMapperConfig.cs" />
     <Compile Include="Helper\Response.cs" />
+    <Compile Include="Migrations\201809120559351_Database Changed.cs" />
+    <Compile Include="Migrations\201809120559351_Database Changed.Designer.cs">
+      <DependentUpon>201809120559351_Database Changed.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -349,12 +353,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AppScript\AccountConfirmation\Template\accountconfirmation.html" />
+    <Content Include="AppScript\AdminPlan\AdminPlanController.js" />
+    <Content Include="AppScript\AdminPlan\Template\add.html" />
+    <Content Include="AppScript\AdminPlan\Template\index.html" />
     <Content Include="AppScript\ChatBot\ChatBotController.js" />
     <Content Include="AppScript\ChatBot\Template\add.html" />
     <Content Include="AppScript\ChatBot\Template\index.html" />
     <Content Include="AppScript\Home\Template\home.html" />
     <Content Include="AppScript\Register\RegisterController.js" />
     <Content Include="AppScript\Register\Template\register.html" />
+    <Content Include="AppScript\Register\Template\registeradmin.html" />
     <Content Include="AppScript\syraroute.js" />
     <Content Include="AppScript\SyraService.js" />
     <Content Include="Content\bootstrap.css" />
@@ -518,6 +526,11 @@
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201809120559351_Database Changed.resx">
+      <DependentUpon>201809120559351_Database Changed.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -6,14 +6,20 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
+using Microsoft.AspNet.Identity.Owin;
 using Syra.Admin.DbContexts;
 using Syra.Admin.Entities;
+using Syra.Admin.Helper;
 
 namespace Syra.Admin.Controllers
 {
     public class PlansController : Controller
     {
+        private ApplicationSignInManager _signInManager;
+        private ApplicationUserManager _userManager;
         private SyraDbContext db = new SyraDbContext();
+        private Response response = new Response();
 
         // GET: Plans
         public ActionResult Index()
@@ -41,7 +47,73 @@ namespace Syra.Admin.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public string CreateNewPlan(Plan plan)
+        {
+            var planobj = new Plan();
+            var plancheck = db.Plans.Where(x=>x.Name==planobj.Name).FirstOrDefault();
+            if(plancheck==null)
+            {
+                planobj.Name = plan.Name;
+                planobj.Types = plan.Types;
+                planobj.MonthlyCharge = plan.MonthlyCharge;
+                planobj.SetupFees = plan.SetupFees;
+                planobj.Contract = plan.Contract;
+                planobj.SiteSpecification = plan.SiteSpecification;
+                planobj.KnowledgeDomain = plan.KnowledgeDomain;
+                planobj.AllowedBotLimit = plan.AllowedBotLimit;
+                planobj.InitialTraining = plan.InitialTraining;
+                planobj.AdvanceTraining = plan.AdvanceTraining;
+                planobj.TextQuery = plan.TextQuery;
+                planobj.PagesScrapping = plan.PagesScrapping;
+                planobj.Entities = plan.Entities;
+                planobj.Intent = plan.Intent;
+                planobj.LogRetainingDay = plan.LogRetainingDay;
+                planobj.Analyticsplan = plan.Analyticsplan;
+                planobj.SupportAvailability = plan.SupportAvailability;
+                planobj.EmbedWidget = plan.EmbedWidget;
+                planobj.FBWidget = plan.FBWidget;
+                planobj.SlackWidget = plan.SlackWidget;
+                planobj.SlackWidget = plan.SlackWidget;
+                planobj.SkypeWidget = plan.SkypeWidget;
+                planobj.TelegramWidget = plan.TelegramWidget;
+                planobj.KikWidget = plan.KikWidget;
 
+                db.Plans.Add(planobj);
+                db.SaveChanges();
+                response.isSaved = true;
+                return response.GetResponse();
+            }
+            else
+            {
+                response.isSaved = false;
+                //return response.GetResponse();
+            }
+            return response.GetResponse();
+        }
+
+        [HttpGet]
+        public string GetPlans()
+        {
+            var useremail = HttpContext.User.Identity.Name;
+
+            _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+
+            var aspnetuser = _userManager.FindByEmailAsync(useremail).Result;
+            if(aspnetuser!=null)
+            {
+                var plan = db.Plans.ToList();
+                response.isSaved = true;
+                response.Data = plan;
+                return response.GetResponse();
+            }
+            else
+            {
+                response.isSaved = false;
+            }
+            return response.GetResponse();
+        }
         // POST: Plans/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.

@@ -19,5 +19,13 @@
                 $state.go("Confirmation");
             }
         });
-    };
+        };
+        $scope.AdminRegistration = function () {
+            $http.post('/Account/RegisterAdmin', { model: $scope.Register }).success(function (data) {
+                if (data.isSaved) {
+                    $state.go("Confirmation");
+                    window.location.href = ("Account/Login");
+                }
+            });
+        };
 }])

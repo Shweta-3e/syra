@@ -10,200 +10,267 @@
         <div ng-show="isActiveTab(1)" ng-class="tab==1?'tab-pane fade in active':'tab-pane fade in'">
             <div class="row">
                 <div class="form-group">
-                    <label class="control-label col-sm-2 mandatory required" style="font-weight:normal" for="txtPlanName">Plan Name</label>
+                    <label class="control-label col-sm-2 mandatory required" style="font-weight:normal" for="txtPlanName"><b>Plan Name</b></label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="txtPlanName" ng-model="CreatePlan.CompanyName" required>
+                        <input type="text" class="form-control" id="txtPlanName" ng-model="CreatePlan.Name" required>
                     </div>
                 </div>
             </div>
 
             <div class="row" style="padding-top:10px">
                 <div class="form-group">
-                    <label class="control-label col-sm-2 mandatory required" for="txtWebsite" style="font-weight:normal">Website</label>
+                    <label class="control-label col-sm-2 mandatory required" for="txtTypes" style="font-weight:normal"><b>Types</b></label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="txtWebsite" ng-model="CreatePlan.Website" required>
+                        <input type="text" class="form-control" id="txtTypes" ng-model="CreatePlan.Types" required>
                     </div>
                 </div>
             </div>
 
             <div class="row" style="padding-top:10px">
                 <div class="form-group">
-                    <label class="control-label col-sm-2 mandatory required" for="txtFacebookPage" style="font-weight:normal">Facebook Page</label>
+                    <label class="control-label col-sm-2 mandatory required" for="txtMonthlyCharge" style="font-weight:normal"><b>Monthly Charge</b></label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="txtFacebookPage" ng-model="CreatePlan.FacebookPage" required>
+                        <input type="text" class="form-control" id="txtMonthlyCharge" ng-model="CreatePlan.MonthlyCharge" required>
                     </div>
                 </div>
             </div>
 
             <div class="row" style="padding-top:10px">
                 <div class="form-group">
-                    <label class="control-label col-sm-2" for="txtContactPage" style="font-weight:normal">Contact Page</label>
+                    <label class="control-label col-sm-2" for="txtSetupFees" style="font-weight:normal"><b>Setup Fees</b></label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="txtContactPage" ng-model="CreatePlan.ContactPage" required>
+                        <input type="text" class="form-control" id="txtSetupFees" ng-model="CreatePlan.SetupFees" required>
                     </div>
                 </div>
             </div>
 
-            <div class="row" style="padding-top:10px">
-                <div class="form-group">
-                    <label class="control-label col-sm-2" for="txtContactNo" style="font-weight:normal">Phone No</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="txtContactNo" ng-model="CreatePlan.ContactNo" required>
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtContract" style="font-weight:normal"><b>Contract</b></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="txtContract" ng-model="CreatePlan.Contract" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtSiteSpecification" style="font-weight:normal"><b>Site Specification</b></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="txtSiteSpecification" ng-model="CreatePlan.SiteSpecification" required>
+                        </div>
+                    </div>
+                </div>
+
+                <nav>
+                    <ul class="pager">
+                        <li class="next">
+                            <a href="" ng-click="NextTab(tab)">Next<span aria-hidden="true">&rarr;</span></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+            <div ng-show="isActiveTab(2)" ng-class="tab==2?'tab-pane fade in active':'tab-pane fade in'">
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2 mandatory required" for="txtKnowledgeDomain" style="font-weight:normal"><b>Knowledge Domain</b></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="txtKnowledgeDomain" ng-model="CreatePlan.KnowledgeDomain" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtAllowedBotLimit" style="font-weight:normal"><b>Allowed Bot Limit</b></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="txtAllowedBotLimit" ng-model="CreatePlan.AllowedBotLimit">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtInitialTraining" style="font-weight:normal"><b>Initial Training</b></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="txtInitialTraining" ng-model="CreatePlan.InitialTraining">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtAdvanceTraining" style="font-weight:normal"><b>Advance Training</b></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="txtAdvanceTraining" ng-model="CreatePlan.AdvanceTraining">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtTextQuery" style="font-weight:normal"><b>TextQuery</b></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="txtTextQuery" ng-model="CreatePlan.TextQuery">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtPagesScrapping" style="font-weight:normal"><b>Pages Scrapping</b></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="txtPagesScrapping" ng-model="CreatePlan.PagesScrapping">
+                        </div>
+                    </div>
+                </div>
+
+                <nav>
+                    <ul class="pager">
+                        <li class="previous">
+                            <a href="" ng-click="PreviousTab(tab)"><span aria-hidden="true">&larr;</span> Previous</a>
+                        </li>
+                        <li class="next">
+                            <a href="" ng-click="NextTab(tab)">Next<span aria-hidden="true">&rarr;</span></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+            <div ng-show="isActiveTab(3)" ng-class="tab==?'tab-pane fade in active':'tab-pane fade in'">
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2 mandatory required" for="txtEntities" style="font-weight:normal"><b>Entities</b></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="txtEntities" ng-model="CreatePlan.Entities" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtIntent" style="font-weight:normal"><b>Intent</b></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="txtIntent" ng-model="CreatePlan.Intent">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtLogRetainingDay" style="font-weight:normal"><b>Log Retaining Day</b></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="txtLogRetainingDay" ng-model="CreatePlan.LogRetainingDay">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtAnalyticsplan" style="font-weight:normal"><b>Analytics Retaining Day</b></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="txtAnalyticsplan" ng-model="CreatePlan.Analyticsplan">
+                        </div>
+                    </div>
+                </div>
+
+                <nav>
+                    <ul class="pager">
+                        <li class="previous">
+                            <a href="" ng-click="PreviousTab(tab)"><span aria-hidden="true">&larr;</span> Previous</a>
+                        </li>
+                        <li class="next">
+                            <a href="" ng-click="NextTab(tab)">Next<span aria-hidden="true">&rarr;</span></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+
+            <div ng-show="isActiveTab(4)" ng-class="tab==4?'tab-pane fade in active':'tab-pane fade in'">
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtEmbedWidget" style="font-weight:normal"><b>Websites for Embed Widget</b></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="txtEmbedWidget" ng-model="CreatePlan.EmbedWidget">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtFBWidget" style="font-weight:normal"><b>Facebook Pages for Embed Widget</b></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="txtFBWidget" ng-model="CreatePlan.FBWidget">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtSlackWidget" style="font-weight:normal"><b>Slack Pages for Embed Widget</b></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="txtSlackWidget" ng-model="CreatePlan.SlackWidget">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtSkypeWidget" style="font-weight:normal"><b>Skype for Embed Widget</b></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="txtSkypeWidget" ng-model="CreatePlan.SkypeWidget">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtTelegramWidget" style="font-weight:normal"><b>Telegram Pages for Embed Widget</b></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="txtTelegramWidget" ng-model="CreatePlan.TelegramWidget">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtKikWidget" style="font-weight:normal"><b>Kik Pages for Embed Widget</b></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="txtKikWidget" ng-model="CreatePlan.KikWidget">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtSupportAvailability" style="font-weight:normal"><b>Support Availability for Chatbot</b></label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="txtSupportAvailability" ng-model="CreatePlan.SupportAvailability">
+                        </div>
+                    </div>
+                </div>
+
+                <nav>
+                    <ul class="pager">
+                        <li class="previous">
+                            <a href="" ng-click="PreviousTab(tab)"><span aria-hidden="true">&larr;</span> Previous</a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="button" class="btn btn-default" value="Save" ng-click="PlanCreate()"
+                                   style="border-radius:5px;height:39px;width:150px;font-weight:bold;background-color: gainsboro;" />
+
+                            <input type="button" class="btn btn-default" value="Cancel"
+                                   style="border-radius:5px;height:39px;width:150px;font-weight:bold;background-color: gainsboro;"
+                                   ng-click="Cancel()" />
+                        </div>
                     </div>
                 </div>
             </div>
-
-            <nav>
-                <ul class="pager">
-                    <li class="next">
-                        <a href="" ng-click="NextTab(tab)">Next<span aria-hidden="true">&rarr;</span></a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-
-        <div ng-show="isActiveTab(2)" ng-class="tab==2?'tab-pane fade in active':'tab-pane fade in'">
-            <div class="row" style="padding-top:10px">
-                <div class="form-group">
-                    <label class="control-label col-sm-2 mandatory required" for="txtName" style="font-weight:normal">Chatbot Name</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="txtName" ng-model="CreatePlan.Name" required>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row" style="padding-top:10px">
-                <div class="form-group">
-                    <label class="control-label col-sm-2" for="txtPassword" style="font-weight:normal">Knowledge Domain</label>
-                    <div class="col-sm-10">
-                        <select class="custom-select"
-                                id="ddlLuis" ng-model="BotDeployment.LuisId">
-                            <option>Choose...</option>
-                            <option ng-repeat="domain in LuisDomains"
-                                    value="{{domain.Id}}" ng-selected="domain.Id== BotDeployment.LuisId">
-                                {{domain.Name}}
-                            </option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row" style="padding-top:10px">
-                <div class="form-group">
-                    <label class="control-label col-sm-2" for="txtWelcomeMessage" style="font-weight:normal">Introductory Message</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="txtWelcomeMessage" ng-model="BotDeployment.WelcomeMessage">
-                    </div>
-                </div>
-            </div>
-
-            <div class="row" style="padding-top:10px">
-                <div class="form-group">
-                    <label class="control-label col-sm-2" for="txtBackGroundColor" style="font-weight:normal">Background Color</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="txtBackGroundColor" ng-model="BotDeployment.BackGroundColor">
-                    </div>
-                </div>
-            </div>
-
-            <nav>
-                <ul class="pager">
-                    <li class="previous">
-                        <a href="" ng-click="PreviousTab(tab)"><span aria-hidden="true">&larr;</span> Previous</a>
-                    </li>
-                    <li class="next">
-                        <a href="" ng-click="NextTab(tab)">Next<span aria-hidden="true">&rarr;</span></a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-
-        <div ng-show="isActiveTab(3)" ng-class="tab==3?'tab-pane fade in active':'tab-pane fade in'">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Question</th>
-                        <th>Answer</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <input type="text" ng-model="BotQuestionAnswer.Question" />
-                        </td>
-                        <td>
-                            <input type="text" ng-model="BotQuestionAnswer.Answer" />
-                        </td>
-                        <td>
-                            <a class="btn" ng-click="AddMore(BotQuestionAnswer)" ng-show="!BotQuestionAnswer.IsEditMode">
-                                Add
-                            </a>
-                            <a class="btn" ng-click="Update(BotQuestionAnswer)" ng-show="BotQuestionAnswer.IsEditMode">
-                                Update
-                            </a>
-                        </td>
-                    </tr>
-                    <tr ng-repeat="item in BotDeployment.BotQuestionAnswers">
-                        <td>{{item.Question}}</td>
-                        <td>{{item.Answer}}</td>
-                        <td>
-                            <a class="btn" ng-click="Edit(item)">
-                                Edit
-                            </a>
-
-                            <a class="btn" ng-click="Remove($index)">
-                                Remove
-                            </a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <nav>
-                <ul class="pager">
-                    <li class="previous">
-                        <a href="" ng-click="PreviousTab(tab)"><span aria-hidden="true">&larr;</span> Previous</a>
-                    </li>
-                    <li class="next">
-                        <a href="" ng-click="NextTab(tab)">Next<span aria-hidden="true">&rarr;</span></a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-
-        <div ng-show="isActiveTab(4)" ng-class="tab==4?'tab-pane fade in active':'tab-pane fade in'">
-            <div class="row" style="padding-top:10px">
-                <div class="form-group">
-                    <label class="control-label col-sm-2" for="txtChatBotGoal" style="font-weight:normal">Define the goal of Chatbot</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="txtChatBotGoal" ng-model="BotDeployment.ChatBotGoal">
-                    </div>
-                </div>
-            </div>
-
-            <nav>
-                <ul class="pager">
-                    <li class="previous">
-                        <a href="" ng-click="PreviousTab(tab)"><span aria-hidden="true">&larr;</span> Previous</a>
-                    </li>
-                </ul>
-            </nav>
-
-            <div class="row" style="padding-top:10px">
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="button" class="btn btn-default" value="Save" ng-click="CreateChatBot()"
-                               style="border-radius:5px;height:39px;width:150px;font-weight:bold;background-color: gainsboro;" />
-
-                        <input type="button" class="btn btn-default" value="Cancel"
-                               style="border-radius:5px;height:39px;width:150px;font-weight:bold;background-color: gainsboro;"
-                               ng-click="Cancel()" />
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
     </div>
 </div>

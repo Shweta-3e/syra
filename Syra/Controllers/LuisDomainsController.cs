@@ -6,14 +6,19 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity.Owin;
 using Syra.Admin.DbContexts;
 using Syra.Admin.Entities;
+using Syra.Admin.Helper;
 
 namespace Syra.Admin.Controllers
 {
     public class LuisDomainsController : Controller
     {
         private SyraDbContext db = new SyraDbContext();
+        private Response response = new Response();
+        private ApplicationSignInManager _signInManager;
+        private ApplicationUserManager _userManager;
 
         // GET: LuisDomains
         public ActionResult Index()
@@ -59,6 +64,54 @@ namespace Syra.Admin.Controllers
             return View(luisDomain);
         }
 
+        [HttpGet]
+        public string GetDomain()
+        {
+            var useremail = HttpContext.User.Identity.Name;
+
+            _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var aspnetuser = _userManager.FindByEmailAsync(useremail).Result;
+            if(aspnetuser!=null)
+            {
+                var luisdomain = db.LuisDomains.ToList();
+                response.Data = luisdomain;
+                response.isSaved = true;
+                return response.GetResponse();
+            }
+            else
+            {
+                response.isSaved = false;
+            }
+            return response.GetResponse();
+        }
+
+        [HttpPost]
+        public string CreateDomain(LuisDomain luisDomain)
+        {
+            var luisobj = new LuisDomain();
+            var existsdomain = db.LuisDomains.Where(x => x.Name == luisDomain.Name).FirstOrDefault();
+            if(existsdomain==null)
+            {
+                luisobj.Name = luisDomain.Name;
+                luisobj.Details = luisDomain.Details;
+                luisobj.Category = luisDomain.Category;
+                luisobj.LuisAppId = luisDomain.LuisAppId;
+                luisobj.LuisAppKey = luisDomain.LuisAppKey;
+
+                db.LuisDomains.Add(luisobj);
+                db.SaveChanges();
+                response.isSaved = true;
+                response.Message = "LuisDomain is created successsfully";
+                return response.GetResponse();
+            }
+            else
+            {
+                response.isSaved = false;
+                response.Message = "LuisDomain isn't created successsfully";
+            }
+            return response.GetResponse();
+        }
         // GET: LuisDomains/Edit/5
         public ActionResult Edit(long? id)
         {

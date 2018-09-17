@@ -43,10 +43,37 @@ SyraApp.config(["$stateProvider", "$urlRouterProvider", function ($stateProvider
             id: 'plan',
             controller: 'PlanViewController',
             templateUrl: "/Appscript/AdminPlan/Template/index.html?VER=" + SOFT_VER,
+        },
+        add: {
+            url: '/adminplan/new',
+            title: 'New Plan',
+            name: 'newplancreate',
+            controller: 'PlanAddController',
+            templateUrl: "/Appscript/AdminPlan/Template/add.html?VER=" + SOFT_VER,
         }
-        
     };
     $stateProvider.state(adminplan.view);
+    $stateProvider.state(adminplan.add);
+
+    var luisdomain = {
+        view: {
+            url: '/luisdomain',
+            title: 'Luis Domain',
+            name: 'luisdomain',
+            id: 'luis',
+            controller: 'DomainViewController',
+            templateUrl: "/Appscript/LuisDomain/Template/index.html?VER=" + SOFT_VER,
+        },
+        add: {
+            url: '/luisdomain/new',
+            title: 'Luis Domain',
+            name: 'newluisdomain',
+            controller: 'DomainAddController',
+            templateUrl: '/AppScript/LuisDomain/Template/add.html?VER=' + SOFT_VER,
+        }
+    };
+    $stateProvider.state(luisdomain.view);
+    $stateProvider.state(luisdomain.add);
 
     var acc_confirmation = {
         url: '/Account/Confirmation', 

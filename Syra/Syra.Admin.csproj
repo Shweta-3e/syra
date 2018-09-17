@@ -341,6 +341,10 @@
     <Compile Include="Migrations\201809120559351_Database Changed.Designer.cs">
       <DependentUpon>201809120559351_Database Changed.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201809150403002_Update.cs" />
+    <Compile Include="Migrations\201809150403002_Update.Designer.cs">
+      <DependentUpon>201809150403002_Update.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -360,6 +364,9 @@
     <Content Include="AppScript\ChatBot\Template\add.html" />
     <Content Include="AppScript\ChatBot\Template\index.html" />
     <Content Include="AppScript\Home\Template\home.html" />
+    <Content Include="AppScript\LuisDomain\LuisDomainController.js" />
+    <Content Include="AppScript\LuisDomain\Template\add.html" />
+    <Content Include="AppScript\LuisDomain\Template\index.html" />
     <Content Include="AppScript\Register\RegisterController.js" />
     <Content Include="AppScript\Register\Template\register.html" />
     <Content Include="AppScript\Register\Template\registeradmin.html" />
@@ -530,6 +537,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201809120559351_Database Changed.resx">
       <DependentUpon>201809120559351_Database Changed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201809150403002_Update.resx">
+      <DependentUpon>201809150403002_Update.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

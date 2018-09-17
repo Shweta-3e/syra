@@ -36,7 +36,8 @@ namespace Syra.Admin
              "~/Appscript/SyraService.js",
              "~/Appscript/Register/RegisterController.js",
               "~/Appscript/ChatBot/ChatBotController.js",
-               "~/Appscript/AdminPlan/AdminPlanController.js"
+               "~/Appscript/AdminPlan/AdminPlanController.js",
+               "~/Appscript/LuisDomain/LuisDomainController.js"
              ));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(

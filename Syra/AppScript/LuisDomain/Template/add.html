@@ -1,0 +1,66 @@
+﻿<div class="Container">
+    <ul class="nav nav-tabs">
+        <li class="active" ng-class="{'active': isActiveTab(1)}"><a role="tab" data-toggle="tab" ng-click="tab=1"><b>Luis Domain Details</b></a></li>
+    </ul>
+    <div class="tab-content" style="padding-top:10px">
+        <div ng-show="isActiveTab(1)" ng-class="tab==1?'tab-pane fade in active':'tab-pane fade in'">
+            <div class="row">
+                <div class="form-group">
+                    <label class="control-label col-sm-2 mandatory required" style="font-weight:normal" for="txtName"><b>Domain Name</b></label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="txtName" ng-model="CreateLuis.Name" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="padding-top:10px">
+                <div class="form-group">
+                    <label class="control-label col-sm-2 mandatory required" for="txtDetails" style="font-weight:normal"><b>Details</b></label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="txtDetails" ng-model="CreateLuis.Details" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="padding-top:10px">
+                <div class="form-group">
+                    <label class="control-label col-sm-2 mandatory required" for="txtCategory" style="font-weight:normal"><b>Category</b></label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="txtCategory" ng-model="CreateLuis.Category" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="padding-top:10px">
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="txtLuisAppId" style="font-weight:normal"><b>Luis App Id</b></label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="txtLuisAppId" ng-model="CreateLuis.LuisAppId" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="padding-top:10px">
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="txtLuisAppKey" style="font-weight:normal"><b>Luis App Key</b></label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="txtLuisAppKey" ng-model="CreateLuis.LuisAppKey" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="padding-top:10px">
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="button" class="btn btn-default" value="Save" ng-click="LuisCreate()"
+                               style="border-radius:5px;height:39px;width:150px;font-weight:bold;background-color: gainsboro;" />
+
+                        <input type="button" class="btn btn-default" value="Cancel"
+                               style="border-radius:5px;height:39px;width:150px;font-weight:bold;background-color: gainsboro;"
+                               ng-click="Cancel()" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

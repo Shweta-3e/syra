@@ -82,10 +82,12 @@ namespace Syra.Admin.Controllers
                 db.Plans.Add(planobj);
                 db.SaveChanges();
                 response.isSaved = true;
+                response.Message = "Plan is created successfully";
                 return response.GetResponse();
             }
             else
             {
+                response.Message = "Plan is not created.";
                 response.isSaved = false;
                 //return response.GetResponse();
             }
@@ -114,6 +116,35 @@ namespace Syra.Admin.Controllers
             }
             return response.GetResponse();
         }
+
+        [HttpPost]
+        public string Delete(Int64 Id)
+        {
+            try
+            {
+                var planfind = db.Plans.Find(Id);
+                if(planfind!=null)
+                {
+                    db.Plans.Remove(planfind);
+                    db.SaveChanges();
+                    response.isSaved = true;
+                    response.Message = "Record deleted successfully";
+                    return response.GetResponse();
+                }
+                else
+                {
+                    response.isSaved = false;
+                    response.Message = "Record isn't deleted successfully";
+                }
+            }
+            catch(Exception e)
+            {
+                string message = e.Message;
+                response.Message = message;
+            }
+            return response.GetResponse();
+        }
+
         // POST: Plans/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.

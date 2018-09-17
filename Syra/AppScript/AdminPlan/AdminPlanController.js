@@ -6,11 +6,13 @@
 
         $scope.GetPlans = function () {
             $http.get('/Plans/GetPlans').success(function (data) {
-                //console.log(data);
-                if (data.isSaved) {
+                if (data.isSaved)
+                {
                     $scope.Plans = data.Data;
                     //console.log($scope.Plans);
-                } else {
+                }
+                else
+                {
                     window.location.href = ("Account/Login");
                 }
             });
@@ -18,9 +20,10 @@
         $scope.GetPlans();
         $scope.Delete = function (id) {
             if (confirm('Are you sure ? You want to delete plan')) {
-                $http.post("/Plans/Delete/", { id: id }).success(function (data) {
+                $http.post("/Plans/Delete", { id: id }).success(function (data) {
                     if (data.isSaved) {
                         syraservice.RecordStatusMessage("success", data.Message);
+                        alert(data.Message);
                         $scope.GetPlans();
                     }
                     else {
@@ -47,7 +50,7 @@ SyraApp.controller("PlanAddController", ["$scope", "$http", "syraservice", "$sta
         } else {
             $scope.IsEditMode = true;
         }
-        $scope.CreateChatBot = function () {
+        $scope.PlanCreate = function () {
             $http.post('/Plans/CreateNewPlan', { plan: $scope.CreatePlan }).success(function (data) {
                 if (data.isSaved) {
                     $scope.CreatePlan = {};

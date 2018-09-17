@@ -52,5 +52,6 @@ namespace Syra.Admin.ViewModel
         public bool IsPlanActive { get; set; }
 
         public string DeploymentScript { get; set; }
+        public Status Status { get; set; }
     }
 }

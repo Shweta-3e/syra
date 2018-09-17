@@ -6,7 +6,7 @@ var SyraApp = angular.module("syra", ["ui.router"]);
 
 SyraApp.config(["$stateProvider", "$urlRouterProvider", function ($stateProvider, $urlRouterProvider) {
 
-    
+
     $urlRouterProvider.otherwise("/Home");
 
     var home = {
@@ -76,7 +76,7 @@ SyraApp.config(["$stateProvider", "$urlRouterProvider", function ($stateProvider
     $stateProvider.state(luisdomain.add);
 
     var acc_confirmation = {
-        url: '/Account/Confirmation', 
+        url: '/Account/Confirmation',
         title: 'Account Confirmation',
         name: 'Confirmation',
         templateUrl: "/Appscript/AccountConfirmation/Template/accountconfirmation.html?VER=" + SOFT_VER,
@@ -111,5 +111,23 @@ SyraApp.config(["$stateProvider", "$urlRouterProvider", function ($stateProvider
     $stateProvider.state(chatbot.view);
     $stateProvider.state(chatbot.add);
     $stateProvider.state(chatbot.edit);
-}])
 
+    var profile = {
+        url: '/Profile',
+        title: 'Profile',
+        name: 'profile',
+        controller: 'CustomerProfileController',
+        templateUrl: "/Appscript/CustomerProfile/Template/profile.html?VER=" + SOFT_VER,
+    };
+    $stateProvider.state(profile);
+
+    var subscription = {
+        url: '/Subscription',
+        title: 'subscription',
+        name: 'subscription',
+        controller: 'CustomerProfileController',
+        templateUrl: "/Appscript/CustomerProfile/Template/subscription.html?VER=" + SOFT_VER,
+    };
+    $stateProvider.state(subscription);
+
+}]);

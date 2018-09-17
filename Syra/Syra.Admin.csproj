@@ -336,14 +336,11 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helper\AutoMapperConfig.cs" />
+    <Compile Include="Helper\PaginatedResponse.cs" />
     <Compile Include="Helper\Response.cs" />
-    <Compile Include="Migrations\201809120559351_Database Changed.cs" />
-    <Compile Include="Migrations\201809120559351_Database Changed.Designer.cs">
-      <DependentUpon>201809120559351_Database Changed.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201809150403002_Update.cs" />
-    <Compile Include="Migrations\201809150403002_Update.Designer.cs">
-      <DependentUpon>201809150403002_Update.cs</DependentUpon>
+    <Compile Include="Migrations\201809171000033_New fields added.cs" />
+    <Compile Include="Migrations\201809171000033_New fields added.Designer.cs">
+      <DependentUpon>201809171000033_New fields added.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -353,6 +350,8 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModel\BotDeploymentView.cs" />
     <Compile Include="ViewModel\BotQuestionAnswersView.cs" />
+    <Compile Include="ViewModel\CustomerPlanView.cs" />
+    <Compile Include="ViewModel\CustomerView.cs" />
     <Compile Include="ViewModel\MessageView.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -363,6 +362,9 @@
     <Content Include="AppScript\ChatBot\ChatBotController.js" />
     <Content Include="AppScript\ChatBot\Template\add.html" />
     <Content Include="AppScript\ChatBot\Template\index.html" />
+    <Content Include="AppScript\CustomerProfile\CustomerProfileController.js" />
+    <Content Include="AppScript\CustomerProfile\Template\profile.html" />
+    <Content Include="AppScript\CustomerProfile\Template\subscription.html" />
     <Content Include="AppScript\Home\Template\home.html" />
     <Content Include="AppScript\LuisDomain\LuisDomainController.js" />
     <Content Include="AppScript\LuisDomain\Template\add.html" />
@@ -378,6 +380,7 @@
     <Content Include="Content\css\jquery-ui.min.css" />
     <Content Include="Content\css\notifIt.css" />
     <Content Include="Content\css\style.css" />
+    <Content Include="Content\Custom.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -535,11 +538,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201809120559351_Database Changed.resx">
-      <DependentUpon>201809120559351_Database Changed.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201809150403002_Update.resx">
-      <DependentUpon>201809150403002_Update.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201809171000033_New fields added.resx">
+      <DependentUpon>201809171000033_New fields added.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

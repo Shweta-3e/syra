@@ -35,7 +35,7 @@ namespace Syra.Admin.Entities
         public string ChatBotGoal { get; set; }
 
         #endregion
-
+        public Status Status { get; set; }
         public DateTime DeploymentDate { get; set; }
 
         public string ResourceGroupName { get; set; }
@@ -50,6 +50,13 @@ namespace Syra.Admin.Entities
         public bool IsPlanActive { get; set; }
 
         public string DeploymentScript { get; set; }
+    }
+
+    public enum Status
+    {
+        InProgress,
+        Successful,
+        Failed
     }
 
 }

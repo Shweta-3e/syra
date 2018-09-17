@@ -21,6 +21,8 @@ namespace Syra.Admin
 
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                 "~/Scripts/jquery-2.1.4.min.js",
+                "~/Scripts/jquery-ui.min.js",
+                 "~/Scripts/bootstrap.min.js",
                 "~/syra_assets/d975e8eef86fa13dac350752bb833cac.js",
            "~/Scripts/notifIt.js"));
 
@@ -37,7 +39,8 @@ namespace Syra.Admin
              "~/Appscript/Register/RegisterController.js",
               "~/Appscript/ChatBot/ChatBotController.js",
                "~/Appscript/AdminPlan/AdminPlanController.js",
-               "~/Appscript/LuisDomain/LuisDomainController.js"
+               "~/Appscript/LuisDomain/LuisDomainController.js",
+               "~/Appscript/CustomerProfile/CustomerProfileController.js"
              ));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
@@ -45,9 +48,10 @@ namespace Syra.Admin
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      "~/Content/bootstrap.css",
-                      "~/Content/css/notifIt.css",
-                      "~/Content/site.css"
+                       "~/Content/Custom.css"
+                      //"~/Content/bootstrap.css",
+                      //"~/Content/css/notifIt.css",
+                      //"~/Content/site.css"
                       ));
         }
     }

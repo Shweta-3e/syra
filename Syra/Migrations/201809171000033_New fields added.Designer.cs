@@ -7,13 +7,13 @@ namespace Syra.Admin.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class FirstMigration : IMigrationMetadata
+    public sealed partial class Newfieldsadded : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(FirstMigration));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Newfieldsadded));
         
         string IMigrationMetadata.Id
         {
-            get { return "201809041047272_First Migration"; }
+            get { return "201809171000033_New fields added"; }
         }
         
         string IMigrationMetadata.Source

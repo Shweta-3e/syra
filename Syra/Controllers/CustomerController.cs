@@ -192,16 +192,20 @@ namespace Syra.Admin.Controllers
                         bot.LuisId = botdeployment.LuisId;
                         bot.ChatBotGoal = botdeployment.ChatBotGoal;
                         bot.BotQuestionAnswers = new List<BotQuestionAnswers>();
-                        if (botdeployment.BotQuestionAnswers.Any())
+                        if(botdeployment.BotQuestionAnswers != null)
                         {
-                            foreach(var ans in botdeployment.BotQuestionAnswers)
+                            if (botdeployment.BotQuestionAnswers.Any())
                             {
-                                BotQuestionAnswers item = new BotQuestionAnswers();
-                                item.Question = ans.Question;
-                                item.Answer = ans.Answer;
-                                bot.BotQuestionAnswers.Add(item);
+                                foreach (var ans in botdeployment.BotQuestionAnswers)
+                                {
+                                    BotQuestionAnswers item = new BotQuestionAnswers();
+                                    item.Question = ans.Question;
+                                    item.Answer = ans.Answer;
+                                    bot.BotQuestionAnswers.Add(item);
+                                }
                             }
                         }
+                        
                         customer.BotDeployments.Add(bot);
                         db.SaveChanges();
                         response.isSaved = true;
@@ -224,8 +228,22 @@ namespace Syra.Admin.Controllers
             return response.GetResponse();
         }
 
-        [HttpGet]
-        public string GetMyBots()
+        [HttpPost]
+        public string GetCurrentUser()
+        {
+            _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var useremail = HttpContext.User.Identity.Name;
+            var aspnetuser = _userManager.FindByEmailAsync(useremail).Result;
+            var customer = db.Customer.FirstOrDefault(c => c.UserId == aspnetuser.Id);
+            var botdeployments = db.BotDeployments.Where(c => c.CustomerId == customer.Id).ToList();
+            customer.BotDeployments = botdeployments;
+            response.Data = Mapper.Map<CustomerView>(customer);
+            return response.GetResponse(); 
+        }
+
+        [HttpPost]
+        public string GetMyBots(int pagesize=10, int pageno=0)
         {
             var useremail = HttpContext.User.Identity.Name;
 
@@ -234,13 +252,22 @@ namespace Syra.Admin.Controllers
 
             var aspnetuser = _userManager.FindByEmailAsync(useremail).Result;
 
+            PaginatedResponse result = new PaginatedResponse();
+
             var customer = db.Customer.FirstOrDefault(c => c.UserId == aspnetuser.Id);
             if (customer != null)
             {
                 var userbots = db.BotDeployments.Where(c => c.CustomerId == customer.Id).ToList();
-                response.isSaved = true;
-                response.Data = Mapper.Map<BotDeploymentView[]>(userbots);
-                return response.GetResponse();
+
+                result.Count = userbots.Count();
+                result.TotalPages = (int)(result.Count / pagesize) + ((result.Count % pagesize) > 0.0M ? 1 : 0);
+                var skip = pageno * pagesize;
+                result.HasNext = (skip > 0 || pagesize > 0) && (skip + pagesize < result.Count);
+                result.HasPrevious = skip > 0;
+
+                result.isSaved = true;
+                result.Entities = Mapper.Map<BotDeploymentView[]>(userbots.Skip(skip).Take(pagesize));
+                return result.GetResponse();
             }
             else
             {
@@ -294,14 +321,18 @@ namespace Syra.Admin.Controllers
                     chatbot.LuisId = botdeploymentview.LuisId;
                     chatbot.ChatBotGoal = botdeploymentview.ChatBotGoal;
                     chatbot.BotQuestionAnswers = new List<BotQuestionAnswers>();
-                    if (botdeploymentview.BotQuestionAnswers.Any())
+
+                    if(botdeploymentview.BotQuestionAnswers != null)
                     {
-                        foreach (var ans in botdeploymentview.BotQuestionAnswers)
+                        if (botdeploymentview.BotQuestionAnswers.Any())
                         {
-                            BotQuestionAnswers item = new BotQuestionAnswers();
-                            item.Question = ans.Question;
-                            item.Answer = ans.Answer;
-                            chatbot.BotQuestionAnswers.Add(item);
+                            foreach (var ans in botdeploymentview.BotQuestionAnswers)
+                            {
+                                BotQuestionAnswers item = new BotQuestionAnswers();
+                                item.Question = ans.Question;
+                                item.Answer = ans.Answer;
+                                chatbot.BotQuestionAnswers.Add(item);
+                            }
                         }
                     }
 
@@ -354,6 +385,54 @@ namespace Syra.Admin.Controllers
                 response.Message = "Unable to delete record";
                 return response.GetResponse(); ;
             }
+        }
+
+        [HttpPost]
+        public string UpdateProfile(CustomerView customerView)
+        {
+            try
+            {
+                var customer = db.Customer.Find(customerView.Id);
+
+                if(customer != null)
+                {
+                    customer.Name = customerView.Name;
+                    customer.JobTitle = customerView.JobTitle;
+                    customer.PricingPlan = customerView.PricingPlan;
+                    customer.ContactNo = customerView.ContactNo;
+                    customer.Address1 = customerView.Address1;
+                    customer.Address2 = customerView.Address2;
+                    customer.Address3 = customerView.Address3;
+                    customer.City = customerView.City;
+                    customer.Country = customerView.Country;
+                    customer.ZipCode = customerView.ZipCode;
+                    customer.BusinessRequirement = customerView.BusinessRequirement;
+                    db.SaveChanges();
+
+                    response.isSaved = true;
+                    response.Data = Mapper.Map<CustomerView>(customer);
+                    response.Message = "Profile updated successfully";
+                    return response.GetResponse();
+                }
+            }
+            catch(Exception ex)
+            {
+                response.isSaved = true;
+                response.Message = "Unable to update profile";
+            }
+            return response.GetResponse();
+        }
+
+        [HttpPost]
+        public string GetCustomerActivePlan(Int64 customerId)
+        {
+            var customer = db.Customer.Find(customerId);
+            var planobj = db.CustomerPlans.FirstOrDefault(c => c.CustomerId == customer.Id);
+            var plancheck = db.CustomerPlans.FirstOrDefault(c => c.PlanId == planobj.PlanId && c.IsActive);
+
+            response.Data = Mapper.Map<CustomerPlanView>(plancheck);
+
+            return response.GetResponse();
         }
         #endregion
 

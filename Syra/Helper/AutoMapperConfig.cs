@@ -21,6 +21,14 @@ namespace Syra.Admin.Helper
 
             Mapper.CreateMap<BotQuestionAnswers, BotQuestionAnswersView>();
             Mapper.CreateMap<BotQuestionAnswersView, BotQuestionAnswers>();
+
+            Mapper.CreateMap<Customer, CustomerView>();
+            Mapper.CreateMap<CustomerView, Customer>();
+
+            Mapper.CreateMap<CustomerPlan, CustomerPlanView>()
+                  .ForMember(c => c.AllowedBotLimit, b => b.MapFrom(s => s.Plan.AllowedBotLimit))
+                  .ForMember(c => c.PlanName, b => b.MapFrom(s => s.Plan.Name)); 
+            Mapper.CreateMap<CustomerPlanView, CustomerPlan>();
         }
     }
 }

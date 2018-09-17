@@ -15,6 +15,22 @@
             
         };
         $scope.GetLuisDomain();
+        $scope.Delete = function (id) {
+            if (confirm('Are you sure ? You want to delete Bot')) {
+                //console.log("Domain Id is : " + id);
+                $http.post("/LuisDomains/DomainDelete", { id: id }).success(function (data) {
+                    //console.log("Domain Id is : " + id);
+                    if (data.isSaved) {
+                        syraservice.RecordStatusMessage("success", data.Message);
+                        //alert(data.Message);
+                        $scope.GetLuisDomain();
+                    }
+                    else {
+                        syraservice.RecordStatusMessage("error", data.Message);
+                    }
+                });
+            }
+        };
     }
 ]);
 
@@ -34,10 +50,11 @@ SyraApp.controller("DomainAddController", ["$scope", "$http", "syraservice", "$s
         }
         $scope.LuisCreate = function () {
             $http.post('/LuisDomains/CreateDomain', { luis: $scope.CreateLuis }).success(function (data) {
+                console.log("I am in LuisDomain create");
                 if (data.isSaved) {
                     $scope.CreateLuis = {};
                     syraservice.RecordStatusMessage("success", data.Message);
-                    $state.go("luisdomain");
+                    $state.go("/luisdomain");
                 } else {
                     syraservice.RecordStatusMessage("error", data.Message);
                 }

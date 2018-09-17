@@ -112,6 +112,26 @@ namespace Syra.Admin.Controllers
             }
             return response.GetResponse();
         }
+
+        [HttpPost]
+        public string DomainDelete(Int64 Id)
+        {
+            var existsdomain = db.LuisDomains.Find(Id);
+            if(existsdomain!=null)
+            {
+                db.LuisDomains.Remove(existsdomain);
+                db.SaveChanges();
+                response.isSaved = true;
+                response.Message = "Record is deleted successfully";
+                return response.GetResponse();
+            }
+            else
+            {
+                response.isSaved = false;
+                response.Message = "Record is not deleted successfully";
+            }
+            return response.GetResponse();
+        }
         // GET: LuisDomains/Edit/5
         public ActionResult Edit(long? id)
         {

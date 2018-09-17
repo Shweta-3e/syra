@@ -20,7 +20,8 @@
         $scope.GetPlans();
         $scope.Delete = function (id) {
             if (confirm('Are you sure ? You want to delete plan')) {
-                $http.post("/Plans/Delete", { id: id }).success(function (data) {
+                $http.post("/Plans/DeletePlan", { id: id }).success(function (data) {
+                    console.log("Plan Id is : " + id);
                     if (data.isSaved) {
                         syraservice.RecordStatusMessage("success", data.Message);
                         alert(data.Message);
@@ -51,15 +52,29 @@ SyraApp.controller("PlanAddController", ["$scope", "$http", "syraservice", "$sta
             $scope.IsEditMode = true;
         }
         $scope.PlanCreate = function () {
-            $http.post('/Plans/CreateNewPlan', { plan: $scope.CreatePlan }).success(function (data) {
-                if (data.isSaved) {
-                    $scope.CreatePlan = {};
-                    syraservice.RecordStatusMessage("success", data.Message);
-                    $state.go("adminplan");
-                } else {
-                    syraservice.RecordStatusMessage("error", data.Message);
-                }
-            });
+            if ($scope.IsEditMode) {
+                $http.post('/Plans/UpdatePlan', { plan: $scope.CreatePlan }).success(function (data) {
+                    if (data.isSaved) {
+                        $scope.CreatePlan = {};
+                        syraservice.RecordStatusMessage("success", data.Message);
+                        $state.go("adminplan");
+                    } else {
+                        syraservice.RecordStatusMessage("error", data.Message);
+                    }
+                });
+            }
+            else {
+                $http.post('/Plans/CreateNewPlan', { plan: $scope.CreatePlan }).success(function (data) {
+                    if (data.isSaved) {
+                        $scope.CreatePlan = {};
+                        syraservice.RecordStatusMessage("success", data.Message);
+                        $state.go("adminplan");
+                    } else {
+                        syraservice.RecordStatusMessage("error", data.Message);
+                    }
+                });
+            }
+            
         }
 
         $scope.Cancel = function () {

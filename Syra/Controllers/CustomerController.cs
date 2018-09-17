@@ -383,7 +383,7 @@ namespace Syra.Admin.Controllers
             {
                 response.isSaved = false;
                 response.Message = "Unable to delete record";
-                return response.GetResponse(); ;
+                return response.GetResponse(); 
             }
         }
 

@@ -118,7 +118,54 @@ namespace Syra.Admin.Controllers
         }
 
         [HttpPost]
-        public string Delete(Int64 Id)
+        public string UpdatePlan(Plan plan)
+        {
+            var planobj = new Plan();
+            var plancheck = db.Plans.Where(x => x.Name == planobj.Name).FirstOrDefault();
+            if (plancheck == null)
+            {
+                planobj.Name = plan.Name;
+                planobj.Types = plan.Types;
+                planobj.MonthlyCharge = plan.MonthlyCharge;
+                planobj.SetupFees = plan.SetupFees;
+                planobj.Contract = plan.Contract;
+                planobj.SiteSpecification = plan.SiteSpecification;
+                planobj.KnowledgeDomain = plan.KnowledgeDomain;
+                planobj.AllowedBotLimit = plan.AllowedBotLimit;
+                planobj.InitialTraining = plan.InitialTraining;
+                planobj.AdvanceTraining = plan.AdvanceTraining;
+                planobj.TextQuery = plan.TextQuery;
+                planobj.PagesScrapping = plan.PagesScrapping;
+                planobj.Entities = plan.Entities;
+                planobj.Intent = plan.Intent;
+                planobj.LogRetainingDay = plan.LogRetainingDay;
+                planobj.Analyticsplan = plan.Analyticsplan;
+                planobj.SupportAvailability = plan.SupportAvailability;
+                planobj.EmbedWidget = plan.EmbedWidget;
+                planobj.FBWidget = plan.FBWidget;
+                planobj.SlackWidget = plan.SlackWidget;
+                planobj.SlackWidget = plan.SlackWidget;
+                planobj.SkypeWidget = plan.SkypeWidget;
+                planobj.TelegramWidget = plan.TelegramWidget;
+                planobj.KikWidget = plan.KikWidget;
+
+                db.Plans.Add(planobj);
+                db.SaveChanges();
+                response.isSaved = true;
+                response.Message = "Plan is created successfully";
+                return response.GetResponse();
+            }
+            else
+            {
+                response.Message = "Plan is not created.";
+                response.isSaved = false;
+                //return response.GetResponse();
+            }
+            return response.GetResponse();
+        }
+
+        [HttpPost]
+        public string DeletePlan(Int64 Id)
         {
             try
             {

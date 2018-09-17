@@ -50,10 +50,18 @@ SyraApp.config(["$stateProvider", "$urlRouterProvider", function ($stateProvider
             name: 'newplancreate',
             controller: 'PlanAddController',
             templateUrl: "/Appscript/AdminPlan/Template/add.html?VER=" + SOFT_VER,
+        },
+        edit: {
+            url: '/adminplan/edit',
+            title: 'New Plan',
+            name: 'planedit',
+            controller: 'PlanAddController',
+            templateUrl: "/Appscript/AdminPlan/Template/add.html?VER=" + SOFT_VER,
         }
     };
     $stateProvider.state(adminplan.view);
     $stateProvider.state(adminplan.add);
+    //$stateProvider.state(adminplan.edit);
 
     var luisdomain = {
         view: {

@@ -222,9 +222,9 @@
     <Compile Include="Helper\AutoMapperConfig.cs" />
     <Compile Include="Helper\PaginatedResponse.cs" />
     <Compile Include="Helper\Response.cs" />
-    <Compile Include="Migrations\201809121536302_New Db1.cs" />
-    <Compile Include="Migrations\201809121536302_New Db1.Designer.cs">
-      <DependentUpon>201809121536302_New Db1.cs</DependentUpon>
+    <Compile Include="Migrations\201809170804314_Db updated.cs" />
+    <Compile Include="Migrations\201809170804314_Db updated.Designer.cs">
+      <DependentUpon>201809170804314_Db updated.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -322,7 +322,9 @@
     <Content Include="syra_assets\wlwmanifest.xml" />
     <Content Include="syra_assets\wp-embed.min.js" />
     <Content Include="syra_assets\xmlrpc.xml" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -413,8 +415,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201809121536302_New Db1.resx">
-      <DependentUpon>201809121536302_New Db1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201809170804314_Db updated.resx">
+      <DependentUpon>201809170804314_Db updated.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -1,11 +1,10 @@
 ﻿"use strict";
 
-var SOFT_VER = "0.0002";
+var SOFT_VER = "0.01";
 
 var SyraApp = angular.module("syra", ["ui.router"]);
 
 SyraApp.config(["$stateProvider", "$urlRouterProvider", function ($stateProvider, $urlRouterProvider) {
-
 
     $urlRouterProvider.otherwise("/Home");
 
@@ -25,55 +24,6 @@ SyraApp.config(["$stateProvider", "$urlRouterProvider", function ($stateProvider
         templateUrl: "/Appscript/Register/Template/register.html?VER=" + SOFT_VER,
     };
     $stateProvider.state(register);
-
-    var registeradmin = {
-        url: '/Account/RegisterAdmin',
-        title: 'Register Admin',
-        name: 'Register Admin',
-        controller: 'RegistrationController',
-        templateUrl: "/Appscript/Register/Template/registeradmin.html?VER=" + SOFT_VER,
-    };
-    $stateProvider.state(registeradmin);
-
-    var adminplan = {
-        view: {
-            url: '/adminplan',
-            title: 'adminplan',
-            name: 'newplan',
-            id: 'plan',
-            controller: 'PlanViewController',
-            templateUrl: "/Appscript/AdminPlan/Template/index.html?VER=" + SOFT_VER,
-        },
-        add: {
-            url: '/adminplan/new',
-            title: 'New Plan',
-            name: 'newplancreate',
-            controller: 'PlanAddController',
-            templateUrl: "/Appscript/AdminPlan/Template/add.html?VER=" + SOFT_VER,
-        }
-    };
-    $stateProvider.state(adminplan.view);
-    $stateProvider.state(adminplan.add);
-
-    var luisdomain = {
-        view: {
-            url: '/luisdomain',
-            title: 'Luis Domain',
-            name: 'luisdomain',
-            id: 'luis',
-            controller: 'DomainViewController',
-            templateUrl: "/Appscript/LuisDomain/Template/index.html?VER=" + SOFT_VER,
-        },
-        add: {
-            url: '/luisdomain/new',
-            title: 'Luis Domain',
-            name: 'newluisdomain',
-            controller: 'DomainAddController',
-            templateUrl: '/AppScript/LuisDomain/Template/add.html?VER=' + SOFT_VER,
-        }
-    };
-    $stateProvider.state(luisdomain.view);
-    $stateProvider.state(luisdomain.add);
 
     var acc_confirmation = {
         url: '/Account/Confirmation',
@@ -130,4 +80,21 @@ SyraApp.config(["$stateProvider", "$urlRouterProvider", function ($stateProvider
     };
     $stateProvider.state(subscription);
 
-}]);
+    var customerplan = {
+        url: '/managecustomer',
+        title: 'managecustomer',
+        name: 'managecustomer',
+        controller: 'CustomerPlanController',
+        templateUrl: "/Appscript/CustomerPlans/Template/index.html?VER=" + SOFT_VER,
+    };
+    $stateProvider.state(customerplan);
+
+    var viwdetails = {
+        url: '/customerdetails/:Id',
+        title: 'CustomerDetails',
+        name: 'customerdetails',
+        controller: 'CustomerDetailController',
+        templateUrl: "/Appscript/CustomerPlans/Template/viewcustomerdetails.html?VER=" + SOFT_VER,
+    };
+    $stateProvider.state(viwdetails);
+}])

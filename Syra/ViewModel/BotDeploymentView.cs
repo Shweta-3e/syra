@@ -53,5 +53,8 @@ namespace Syra.Admin.ViewModel
 
         public string DeploymentScript { get; set; }
         public Status Status { get; set; }
+        public string EmbeddedScript { get; set; }
+        public string T_BotClientId { get; set; }
+        public string FirstMessage { get; set; }
     }
 }

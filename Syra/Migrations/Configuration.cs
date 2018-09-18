@@ -55,7 +55,21 @@ namespace Syra.Admin.Migrations
                     roleResult = rolemanager.Create(new IdentityRole(rolename));
                 }
             }
+           
 
+            var userStore = new UserStore<ApplicationUser>(context);
+            var manager = new UserManager<ApplicationUser>(userStore);
+            ApplicationUser user = new ApplicationUser
+            {
+                Email = "admin@gmail.com",
+                UserName = "admin@gmail.com"
+            };
+            var result = manager.Create(user, "123456");
+            if (result.Succeeded)
+            {
+                manager.AddToRole(user.Id, "Admin");
+            }
+            context.SaveChanges();
             var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
         }
     }

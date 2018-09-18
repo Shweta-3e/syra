@@ -1,0 +1,56 @@
+﻿<div class="container" ng-hide="BotDetail">
+    <h3>
+        Manage Customers
+        <span class="pull-right">
+            <a href="/#/Account/Register" style="height: 33px;border: 0px;font-size:15px;background-color: transparent;">
+                Create New
+            </a>
+        </span>
+    </h3>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="text-align-center">Sr.no</th>
+                <th class="text-align-center">Name</th>
+                <th class="text-align-center">Email</th>
+                <th class="text-align-center">Pricing Plan</th>
+                <th class="text-align-center">Register Date</th>
+                <th class="text-align-center">Active Plan</th>
+                <th class="text-align-center">Bot Limit</th>
+                <th class="text-align-center">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="customer in Customers">
+                <td class="text-align-center"><span>{{(pageSize *pageNumber)+($index+1)}}</span></td>
+                <td class="text-align-center">{{customer.Name}}</td>
+                <td class="text-align-center">{{customer.Email}}</td>
+                <td class="text-align-center">{{customer.PricingPlan}}</td>
+                <td class="text-align-center">{{customer.RegisterDate | date:'dd/MM/yy'}}</td>
+                <td class="text-align-center">{{customer.ActivePlan}}</td>
+                <td class="text-align-center">{{customer.BotLimit}}</td>
+                <td class="text-align-center">
+                    <a href="/#/customerdetails/{{customer.Id}}" class="btn btn-default">
+                        View
+                    </a>
+                    <a class="btn btn-danger" ng-click="Delete(customer.Id)">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <nav>
+        <ul class="pager">
+            <li class="previous">
+                <a href="" ng-show="HasPrevious" ng-click="PreviousRecords()"><span aria-hidden="true">&larr;</span> Previous</a>
+            </li>
+            <li class="next">
+                <a href="" ng-show="HasNext" ng-click="NextRecords()">Next<span aria-hidden="true">&rarr;</span></a>
+            </li>
+        </ul>
+    </nav>
+
+
+</div>

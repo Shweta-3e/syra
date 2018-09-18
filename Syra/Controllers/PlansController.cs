@@ -118,11 +118,20 @@ namespace Syra.Admin.Controllers
         }
 
         [HttpPost]
+        public string GetPlanEntry(Int64 Id)
+        {
+            var findplan = db.Plans.Find(Id);
+            response.Data = findplan;
+            return response.GetResponse();
+        }
+
+        [HttpPost]
         public string UpdatePlan(Plan plan)
         {
             var planobj = new Plan();
-            var plancheck = db.Plans.Where(x => x.Name == planobj.Name).FirstOrDefault();
-            if (plancheck == null)
+            var removeobj = db.Plans.Find(plan.Id);
+            var plancheck = db.Plans.Find(plan.Id);
+            if (plancheck != null)
             {
                 planobj.Name = plan.Name;
                 planobj.Types = plan.Types;
@@ -150,14 +159,16 @@ namespace Syra.Admin.Controllers
                 planobj.KikWidget = plan.KikWidget;
 
                 db.Plans.Add(planobj);
+                db.Plans.Remove(removeobj);
+                planobj.Id = plan.Id;
                 db.SaveChanges();
                 response.isSaved = true;
-                response.Message = "Plan is created successfully";
+                response.Message = "Plan is updated successfully";
                 return response.GetResponse();
             }
             else
             {
-                response.Message = "Plan is not created.";
+                response.Message = "Plan is not updated.";
                 response.isSaved = false;
                 //return response.GetResponse();
             }

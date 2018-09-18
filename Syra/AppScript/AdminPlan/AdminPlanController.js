@@ -9,7 +9,6 @@
                 if (data.isSaved)
                 {
                     $scope.Plans = data.Data;
-                    //console.log($scope.Plans);
                 }
                 else
                 {
@@ -51,6 +50,12 @@ SyraApp.controller("PlanAddController", ["$scope", "$http", "syraservice", "$sta
         } else {
             $scope.IsEditMode = true;
         }
+        if ($scope.IsEditMode) {
+            $http.post("/Plans/GetPlanEntry/", { id: $scope.id }).success(function (data) {
+                $scope.CreatePlan = data.Data;
+            });
+        }
+
         $scope.PlanCreate = function () {
             if ($scope.IsEditMode) {
                 $http.post('/Plans/UpdatePlan', { plan: $scope.CreatePlan }).success(function (data) {

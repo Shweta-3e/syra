@@ -52,7 +52,7 @@
             <div class="row" style="padding-top:10px">
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="button" class="btn btn-default" value="Save" ng-click="LuisCreate()"
+                        <input type="button" class="btn btn-primary" value="Save" ng-click="DomainCreate()"
                                style="border-radius:5px;height:39px;width:150px;font-weight:bold;background-color: gainsboro;" />
 
                         <input type="button" class="btn btn-default" value="Cancel"
@@ -64,3 +64,12 @@
         </div>
     </div>
 </div>
+<script>
+    function checkdata()
+    {
+        var name = document.getElementById("txtName").value;
+        var details = document.getElementById("txtDetails").value;
+        console.log("Name is : " + name);
+        console.log("Details is : " + details);
+    }
+</script>

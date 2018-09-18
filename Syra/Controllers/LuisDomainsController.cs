@@ -87,6 +87,48 @@ namespace Syra.Admin.Controllers
         }
 
         [HttpPost]
+        public string GetLuisDomain(Int64 Id)
+        {
+            var findluis = db.LuisDomains.Find(Id);
+            if(findluis!=null)
+            {
+                response.Data = findluis;
+                return response.GetResponse();
+            }
+            else
+            {
+                response.Data = null;
+            }
+            return response.GetResponse();
+        }
+
+        [HttpPost]
+        public string UpdateLuisDomain(LuisDomain luisDomain)
+        {
+            var luisdomain = db.LuisDomains.Find(luisDomain.Id);
+            //luisdomain = luisDomain;
+            var existsdomain = db.LuisDomains.Find(luisDomain.Id);
+            if(existsdomain!=null)
+            {
+                existsdomain.Name = luisDomain.Name;
+                existsdomain.Details = luisDomain.Details;
+                existsdomain.Category = luisDomain.Category;
+                existsdomain.LuisAppId = luisDomain.LuisAppId;
+                existsdomain.LuisAppKey = luisDomain.LuisAppKey;
+                db.SaveChanges();
+                response.isSaved = true;
+                response.Message = "Record is updated successfully";
+                return response.GetResponse();
+            }
+            else
+            {
+                response.isSaved = false;
+                response.Message = "Record isn't updated ";
+            }
+            return response.GetResponse();
+        }
+
+        [HttpPost]
         public string CreateDomain(LuisDomain luisDomain)
         {
             var luisobj = new LuisDomain();

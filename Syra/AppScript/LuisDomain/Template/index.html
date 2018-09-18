@@ -1,5 +1,5 @@
 ﻿<div class="container">
-    <h2>My Luis Domains</h2>
+    <h2>My BotDomains</h2>
 
     <p><a ui-sref="newluisdomain" style="height: 33px;border: 0px;font-size:15px;background-color: transparent;">Create New</a> </p>
 
@@ -22,10 +22,10 @@
                 <td style="text-align:center">{{luis.LuisAppId}}</td>
                 <td style="text-align:center">{{luis.LuisAppKey}}</td>
                 <td style="text-align:center">
-                    <a href="/#/chatbot/{{luis.Id}}" class="btn">
+                    <a href="/#/luisdomain/{{luis.Id}}" class="btn btn-default">
                         Edit
                     </a>
-                    <a class="btn" ng-click="Delete(luis.Id)">
+                    <a class="btn btn-danger" ng-click="Delete(luis.Id)">
                         Delete
                     </a>
                 </td>

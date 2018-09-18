@@ -6,15 +6,19 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity.Owin;
 using Syra.Admin.DbContexts;
 using Syra.Admin.Entities;
+using Syra.Admin.Helper;
 
 namespace Syra.Admin.Controllers
 {
     public class CustomerPlansController : Controller
     {
         private SyraDbContext db = new SyraDbContext();
-
+        private Response response = new Response();
+        private ApplicationSignInManager _signInManager;
+        private ApplicationUserManager _userManager;
         // GET: CustomerPlans
         public ActionResult Index()
         {
@@ -64,6 +68,21 @@ namespace Syra.Admin.Controllers
             ViewBag.CustomerId = new SelectList(db.Customer, "Id", "Id", customerPlan.CustomerId);
             ViewBag.PlanId = new SelectList(db.Plans, "Id", "Id", customerPlan.PlanId);
             return View(customerPlan);
+        }
+
+        [HttpGet]
+        public string GetCustomerPlan()
+        {
+            var useremail = HttpContext.User.Identity.Name;
+
+            _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+
+            var aspnetuser = _userManager.FindByEmailAsync(useremail).Result;
+            if(aspnetuser!=null)
+            {
+            }
+            return response.GetResponse();
         }
 
         // GET: CustomerPlans/Edit/5

@@ -52,7 +52,7 @@ SyraApp.config(["$stateProvider", "$urlRouterProvider", function ($stateProvider
             templateUrl: "/Appscript/AdminPlan/Template/add.html?VER=" + SOFT_VER,
         },
         edit: {
-            url: '/adminplan/edit',
+            url: '/adminplan/:id',
             title: 'New Plan',
             name: 'planedit',
             controller: 'PlanAddController',
@@ -61,7 +61,7 @@ SyraApp.config(["$stateProvider", "$urlRouterProvider", function ($stateProvider
     };
     $stateProvider.state(adminplan.view);
     $stateProvider.state(adminplan.add);
-    //$stateProvider.state(adminplan.edit);
+    $stateProvider.state(adminplan.edit);
 
     var luisdomain = {
         view: {
@@ -74,14 +74,22 @@ SyraApp.config(["$stateProvider", "$urlRouterProvider", function ($stateProvider
         },
         add: {
             url: '/luisdomain/new',
-            title: 'Luis Domain',
+            title: 'New LuisDomain',
             name: 'newluisdomain',
             controller: 'DomainAddController',
-            templateUrl: '/AppScript/LuisDomain/Template/add.html?VER=' + SOFT_VER,
+            templateUrl: "/AppScript/LuisDomain/Template/add.html?VER=" + SOFT_VER,
+        },
+        edit: {
+            url: '/luisdomain/:id',
+            title: 'New LuisDomain',
+            name: 'luisdomainedit',
+            controller: 'DomainAddController',
+            templateUrl: "/AppScript/LuisDomain/Template/add.html?VER=" + SOFT_VER,
         }
     };
     $stateProvider.state(luisdomain.view);
     $stateProvider.state(luisdomain.add);
+    $stateProvider.state(luisdomain.edit);
 
     var acc_confirmation = {
         url: '/Account/Confirmation',

@@ -56,5 +56,6 @@ namespace Syra.Admin.ViewModel
         public string EmbeddedScript { get; set; }
         public string T_BotClientId { get; set; }
         public string FirstMessage { get; set; }
+        public string SecondMessage { get; set; }
     }
 }

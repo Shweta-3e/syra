@@ -221,50 +221,117 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
             <div class="fusion-header-v1 fusion-logo-left fusion-sticky-menu- fusion-sticky-logo- fusion-mobile-logo-  fusion-mobile-menu-design-modern">
                 <div class="fusion-header-sticky-height"></div>
                 <div class="fusion-header">
-                    @if(Request.IsAuthenticated)
+                    @if (Request.IsAuthenticated)
                     {
-                    <div class="fusion-row">
-                        <div class="fusion-logo" data-margin-top="0px" data-margin-bottom="0px" data-margin-left="0px" data-margin-right="0px">
-                            <a class="fusion-logo-link" href="https://syra.ai/">
-                                <!-- standard logo -->
-                                <img src="~/syra_assets/syra-logo.jpg" srcset="~/syra_assets/syra-logo.jpg 1x" width="" height="" alt="Syra Logo" retina_logo_url="" class="fusion-standard-logo">
-                            </a>
-                        </div>
-                        <nav class="fusion-main-menu" aria-label="Main Menu">
-                            <ul role="menubar" id="menu-main-navigation-new" class="fusion-menu">
+                        <div class="fusion-row">
+                            <div class="fusion-logo" data-margin-top="0px" data-margin-bottom="0px" data-margin-left="0px" data-margin-right="0px">
+                                <a class="fusion-logo-link" href="https://syra.ai/">
+                                    <!-- standard logo -->
+                                    <img src="~/syra_assets/syra-logo.jpg" srcset="~/syra_assets/syra-logo.jpg 1x" width="" height="" alt="Syra Logo" retina_logo_url="" class="fusion-standard-logo">
+                                </a>
+                            </div>
+                            <nav class="fusion-main-menu" aria-label="Main Menu">
+                                <ul role="menubar" id="menu-main-navigation-new" class="fusion-menu">
 
-                                @if (User.IsInRole("Admin"))
-                                {
-                                    <li role="menuitem" id="menu-item-1307" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a href="plans/" class="fusion-bar-highlight"><span class="menu-text">Manage Plans</span></a></li>
-                                    <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/LuisDomains" class="fusion-bar-highlight"><span class="menu-text">Manage Bot Domain</span></a></li>
-                                    <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/#/managecustomer" class="fusion-bar-highlight"><span class="menu-text">Manage Customer Plan</span></a></li>
-                                    <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/Account/ForgotPassword" class="fusion-bar-highlight"><span class="menu-text">Reset Password</span></a></li>
-                                    <li><a href="javascript:document.getElementById('logoutForm').submit()">LogOff</a></li>
-                                    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                                    @if (User.IsInRole("Admin"))
                                     {
-                                        @Html.AntiForgeryToken()
+                                        <li role="menuitem" id="menu-item-1307" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a href="plans/" class="fusion-bar-highlight"><span class="menu-text">Manage Plans</span></a></li>
+                                        <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/LuisDomains" class="fusion-bar-highlight"><span class="menu-text">Manage Bot Domain</span></a></li>
+                                        <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/#/managecustomer" class="fusion-bar-highlight"><span class="menu-text">Manage Customer Plan</span></a></li>
+                                        <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/Account/ForgotPassword" class="fusion-bar-highlight"><span class="menu-text">Reset Password</span></a></li>
+                                        <li><a href="javascript:document.getElementById('logoutForm').submit()">LogOff</a></li>
+                                        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                        }
                                     }
-                                }
-                                else
-                                {
-                                    @*<li role="menuitem" id="menu-item-1399" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1399"><a href="https://syra.ai" class="fusion-bar-highlight"><span class="menu-text">Home</span></a></li>
-                                    <li role="menuitem" id="menu-item-1303" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1303"><a href="https://syra.ai/#use-cases" class="fusion-bar-highlight"><span class="menu-text">Use Cases</span></a></li>
-                                    <li role="menuitem" id="menu-item-1304" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1304"><a href="https://syra.ai/#industries" class="fusion-bar-highlight"><span class="menu-text">Industries</span></a></li>
-                                    <li role="menuitem" id="menu-item-1305" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1305"><a href="https://syra.ai/#channels" class="fusion-bar-highlight"><span class="menu-text">Channels</span></a></li>
-                                    <li role="menuitem" id="menu-item-1306" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1306"><a href="https://syra.ai/pricing/" class="fusion-bar-highlight"><span class="menu-text">Pricing</span></a></li>
-                                    <li role="menuitem" id="menu-item-1307" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a href="https://syra.ai/faq/" class="fusion-bar-highlight"><span class="menu-text">FAQ</span></a></li>*@
-                                    <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/#/Profile" class="fusion-bar-highlight"><span class="menu-text">My Profile</span></a></li>
-                                    <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/#/chatbot" @*href="/customer/mybots"*@ class="fusion-bar-highlight"><span class="menu-text">My Chatbots</span></a></li>
-                                    <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/#/Subscription" class="fusion-bar-highlight"><span class="menu-text">My Subsription</span></a></li>
-                                    <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="" class="fusion-bar-highlight"><span class="menu-text">Log Analytics</span></a></li>
-                                    <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="" class="fusion-bar-highlight"><span class="menu-text">Analytics</span></a></li>
-                                    <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/Account/ForgotPassword" class="fusion-bar-highlight"><span class="menu-text">Change Password</span></a></li>
-                                    <li><a href="javascript:document.getElementById('logoutForm').submit()">LogOff</a></li>
-                                    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                                    else
                                     {
-                                        @Html.AntiForgeryToken()
+                                        @*<li role="menuitem" id="menu-item-1399" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1399"><a href="https://syra.ai" class="fusion-bar-highlight"><span class="menu-text">Home</span></a></li>
+                <li role="menuitem" id="menu-item-1303" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1303"><a href="https://syra.ai/#use-cases" class="fusion-bar-highlight"><span class="menu-text">Use Cases</span></a></li>
+                <li role="menuitem" id="menu-item-1304" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1304"><a href="https://syra.ai/#industries" class="fusion-bar-highlight"><span class="menu-text">Industries</span></a></li>
+                <li role="menuitem" id="menu-item-1305" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1305"><a href="https://syra.ai/#channels" class="fusion-bar-highlight"><span class="menu-text">Channels</span></a></li>
+                <li role="menuitem" id="menu-item-1306" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1306"><a href="https://syra.ai/pricing/" class="fusion-bar-highlight"><span class="menu-text">Pricing</span></a></li>
+                <li role="menuitem" id="menu-item-1307" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a href="https://syra.ai/faq/" class="fusion-bar-highlight"><span class="menu-text">FAQ</span></a></li>*@
+                                        <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/#/Profile" class="fusion-bar-highlight"><span class="menu-text">My Profile</span></a></li>
+                                        <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/#/chatbot" @*href="/customer/mybots"*@ class="fusion-bar-highlight"><span class="menu-text">My Chatbots</span></a></li>
+                                        <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/#/Subscription" class="fusion-bar-highlight"><span class="menu-text">My Subsription</span></a></li>
+                                        <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="" class="fusion-bar-highlight"><span class="menu-text">Log Analytics</span></a></li>
+                                        <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="" class="fusion-bar-highlight"><span class="menu-text">Analytics</span></a></li>
+                                        <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/Account/ForgotPassword" class="fusion-bar-highlight"><span class="menu-text">Change Password</span></a></li>
+                                        <li><a href="javascript:document.getElementById('logoutForm').submit()">LogOff</a></li>
+                                        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                        }
+                                        <li role="menuitem" id="menu-item-1209" class="menu-item menu-item-type-yawp_wim menu-item-object-yawp_wim menu-item-1209 fusion-last-menu-item">
+                                            <div class="yawp_wim_wrap">
+                                                <div class="widget-area">
+                                                    <div id="menu-widget-2" class="yawp_wim_widget menu">
+                                                        <style type="text/css">
+
+                                                            #menu-widget-2 {
+                                                                text-align: left;
+                                                            }
+
+                                                                #menu-widget-2 > .fusion-widget-menu li {
+                                                                    display: inline-block;
+                                                                }
+
+                                                                #menu-widget-2 ul li a {
+                                                                    display: inline-block;
+                                                                    padding: 0;
+                                                                    border: 0;
+                                                                    color: #333333;
+                                                                    font-size: 12px;
+                                                                }
+
+                                                                    #menu-widget-2 ul li a:after {
+                                                                        content: '';
+                                                                        color: #333333;
+                                                                        padding-right: 10px;
+                                                                        padding-left: 10px;
+                                                                        font-size: 12px;
+                                                                    }
+
+                                                                    #menu-widget-2 ul li a:hover, #menu-widget-2 ul .menu-item.current-menu-item a {
+                                                                        color: #668e45;
+                                                                    }
+
+                                                                #menu-widget-2 ul li:last-child a:after {
+                                                                    display: none
+                                                                }
+
+                                                                #menu-widget-2 ul li .fusion-widget-cart-number {
+                                                                    margin: 0 7px;
+                                                                    background-color: #668e45;
+                                                                    color: #333333;
+                                                                }
+
+                                                                #menu-widget-2 ul li.fusion-active-cart-icon .fusion-widget-cart-icon:after {
+                                                                    color: #668e45;
+                                                                }
+                                                        </style><nav class="fusion-widget-menu"><ul id="menu-top-navigation" class="menu"><li id="menu-item-1361" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1361"><a href="https://syra.ai/chatbot-technologies/">Technologies</a></li><li id="menu-item-1163" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1163"><a target="_blank" href="https://syra.ai/blogs/">Blogs</a></li><li id="menu-item-1362" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1362"><a href="https://syra.ai/resources/">Resources</a></li><li id="menu-item-1216" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1216"><a href="/search">Search</a></li><li id="menu-item-1524" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-1211 current_page_item menu-item-1524"><a href="https://syra.ai/contact-us/">Get Your FREE Chatbot!</a></li></ul></nav>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
                                     }
-                                    <li role="menuitem" id="menu-item-1209" class="menu-item menu-item-type-yawp_wim menu-item-object-yawp_wim menu-item-1209 fusion-last-menu-item">
+                                </ul>
+                            </nav>
+                            <div class="fusion-mobile-menu-icons">
+                                <a href="#" class="fusion-icon fusion-icon-bars" aria-label="Toggle mobile menu"></a>
+                            </div>
+                            <nav class="fusion-mobile-nav-holder fusion-mobile-menu-text-align-left" style="display: none;">
+                                <ul role="menubar" id="mobile-menu-main-navigation-new" class="fusion-menu">
+                                    <li role="menuitem" id="mobile-menu-item-1399" class="fusion-mobile-nav-item" style=""><a href="https://syra.ai" class="fusion-bar-highlight"><span class="menu-text">Home</span></a></li>
+                                    <li role="menuitem" id="mobile-menu-item-1303" class="fusion-mobile-nav-item" style=""><a href="https://syra.ai/#use-cases" class="fusion-bar-highlight"><span class="menu-text">Use Cases</span></a></li>
+                                    <li role="menuitem" id="mobile-menu-item-1304" class="fusion-mobile-nav-item" style=""><a href="https://syra.ai/#industries" class="fusion-bar-highlight"><span class="menu-text">Industries</span></a></li>
+                                    <li role="menuitem" id="mobile-menu-item-1305" class="fusion-mobile-nav-item" style=""><a href="https://syra.ai/#channels" class="fusion-bar-highlight"><span class="menu-text">Channels</span></a></li>
+                                    <li role="menuitem" id="mobile-menu-item-1306" class="fusion-mobile-nav-item" style=""><a href="/https://syra.ai/pricing/" class="fusion-bar-highlight"><span class="menu-text">Pricing</span></a></li>
+                                    <li role="menuitem" id="mobile-menu-item-1307" class="fusion-mobile-nav-item" style=""><a href="https://syra.ai/faq/" class="fusion-bar-highlight"><span class="menu-text">FAQ</span></a></li>
+                                    <li role="menuitem" id="mobile-menu-item-1525" class="fusion-mobile-nav-item" style=""><a href="https://syra.ai/live-chatbots/" class="fusion-bar-highlight"><span class="menu-text">LIVE Chatbots</span></a></li>
+                                    <li role="menuitem" id="mobile-menu-item-1209" class="fusion-mobile-nav-item" style="">
                                         <div class="yawp_wim_wrap">
                                             <div class="widget-area">
                                                 <div id="menu-widget-2" class="yawp_wim_widget menu">
@@ -311,81 +378,14 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
                                                             #menu-widget-2 ul li.fusion-active-cart-icon .fusion-widget-cart-icon:after {
                                                                 color: #668e45;
                                                             }
-                                                    </style><nav class="fusion-widget-menu"><ul id="menu-top-navigation" class="menu"><li id="menu-item-1361" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1361"><a href="https://syra.ai/chatbot-technologies/">Technologies</a></li><li id="menu-item-1163" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1163"><a target="_blank" href="https://syra.ai/blogs/">Blogs</a></li><li id="menu-item-1362" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1362"><a href="https://syra.ai/resources/">Resources</a></li><li id="menu-item-1216" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1216"><a href="/search">Search</a></li><li id="menu-item-1524" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-1211 current_page_item menu-item-1524"><a href="https://syra.ai/contact-us/">Get Your FREE Chatbot!</a></li></ul></nav>
+                                                    </style><nav class="fusion-widget-menu"><ul id="menu-top-navigation" class="menu"><li id="mobile-menu-item-1361" class="fusion-mobile-nav-item" style=""><a href="https://syra.ai/chatbot-technologies/">Technologies</a></li><li id="mobile-menu-item-1163" class="fusion-mobile-nav-item" style=""><a target="_blank" href="https://syra.ai/blogs/">Blogs</a></li><li id="mobile-menu-item-1362" class="fusion-mobile-nav-item" style=""><a href="https://syra.ai/resources/">Resources</a></li><li id="mobile-menu-item-1216" class="fusion-mobile-nav-item" style=""><a href="/search">Search</a></li><li id="mobile-menu-item-1524" class="fusion-mobile-nav-item fusion-mobile-current-nav-item" style=""><a href="https://syra.ai/contact-us/">Get Your FREE Chatbot!</a></li></ul></nav>
                                                 </div>
                                             </div>
                                         </div>
                                     </li>
-                                }
-                            </ul>
-                        </nav>
-                        <div class="fusion-mobile-menu-icons">
-                            <a href="#" class="fusion-icon fusion-icon-bars" aria-label="Toggle mobile menu"></a>
+                                </ul>
+                            </nav>
                         </div>
-                        <nav class="fusion-mobile-nav-holder fusion-mobile-menu-text-align-left" style="display: none;">
-                            <ul role="menubar" id="mobile-menu-main-navigation-new" class="fusion-menu">
-                                <li role="menuitem" id="mobile-menu-item-1399" class="fusion-mobile-nav-item" style=""><a href="https://syra.ai" class="fusion-bar-highlight"><span class="menu-text">Home</span></a></li>
-                                <li role="menuitem" id="mobile-menu-item-1303" class="fusion-mobile-nav-item" style=""><a href="https://syra.ai/#use-cases" class="fusion-bar-highlight"><span class="menu-text">Use Cases</span></a></li>
-                                <li role="menuitem" id="mobile-menu-item-1304" class="fusion-mobile-nav-item" style=""><a href="https://syra.ai/#industries" class="fusion-bar-highlight"><span class="menu-text">Industries</span></a></li>
-                                <li role="menuitem" id="mobile-menu-item-1305" class="fusion-mobile-nav-item" style=""><a href="https://syra.ai/#channels" class="fusion-bar-highlight"><span class="menu-text">Channels</span></a></li>
-                                <li role="menuitem" id="mobile-menu-item-1306" class="fusion-mobile-nav-item" style=""><a href="/https://syra.ai/pricing/" class="fusion-bar-highlight"><span class="menu-text">Pricing</span></a></li>
-                                <li role="menuitem" id="mobile-menu-item-1307" class="fusion-mobile-nav-item" style=""><a href="https://syra.ai/faq/" class="fusion-bar-highlight"><span class="menu-text">FAQ</span></a></li>
-                                <li role="menuitem" id="mobile-menu-item-1525" class="fusion-mobile-nav-item" style=""><a href="https://syra.ai/live-chatbots/" class="fusion-bar-highlight"><span class="menu-text">LIVE Chatbots</span></a></li>
-                                <li role="menuitem" id="mobile-menu-item-1209" class="fusion-mobile-nav-item" style="">
-                                    <div class="yawp_wim_wrap">
-                                        <div class="widget-area">
-                                            <div id="menu-widget-2" class="yawp_wim_widget menu">
-                                                <style type="text/css">
-
-                                                    #menu-widget-2 {
-                                                        text-align: left;
-                                                    }
-
-                                                        #menu-widget-2 > .fusion-widget-menu li {
-                                                            display: inline-block;
-                                                        }
-
-                                                        #menu-widget-2 ul li a {
-                                                            display: inline-block;
-                                                            padding: 0;
-                                                            border: 0;
-                                                            color: #333333;
-                                                            font-size: 12px;
-                                                        }
-
-                                                            #menu-widget-2 ul li a:after {
-                                                                content: '';
-                                                                color: #333333;
-                                                                padding-right: 10px;
-                                                                padding-left: 10px;
-                                                                font-size: 12px;
-                                                            }
-
-                                                            #menu-widget-2 ul li a:hover, #menu-widget-2 ul .menu-item.current-menu-item a {
-                                                                color: #668e45;
-                                                            }
-
-                                                        #menu-widget-2 ul li:last-child a:after {
-                                                            display: none
-                                                        }
-
-                                                        #menu-widget-2 ul li .fusion-widget-cart-number {
-                                                            margin: 0 7px;
-                                                            background-color: #668e45;
-                                                            color: #333333;
-                                                        }
-
-                                                        #menu-widget-2 ul li.fusion-active-cart-icon .fusion-widget-cart-icon:after {
-                                                            color: #668e45;
-                                                        }
-                                                </style><nav class="fusion-widget-menu"><ul id="menu-top-navigation" class="menu"><li id="mobile-menu-item-1361" class="fusion-mobile-nav-item" style=""><a href="https://syra.ai/chatbot-technologies/">Technologies</a></li><li id="mobile-menu-item-1163" class="fusion-mobile-nav-item" style=""><a target="_blank" href="https://syra.ai/blogs/">Blogs</a></li><li id="mobile-menu-item-1362" class="fusion-mobile-nav-item" style=""><a href="https://syra.ai/resources/">Resources</a></li><li id="mobile-menu-item-1216" class="fusion-mobile-nav-item" style=""><a href="/search">Search</a></li><li id="mobile-menu-item-1524" class="fusion-mobile-nav-item fusion-mobile-current-nav-item" style=""><a href="https://syra.ai/contact-us/">Get Your FREE Chatbot!</a></li></ul></nav>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
                     }
                     else
                     {
@@ -495,7 +495,7 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
                         </span>
 
                         <div class="post-content">
-                           <div class="fusion-fullwidth fullwidth-box nonhundred-percent-fullwidth non-hundred-percent-height-scrolling" style='background-color: rgba(255,255,255,0);background-position: center top;background-repeat: no-repeat;padding-top:140px;padding-right:30px;padding-bottom:30px;padding-left:30px;'>
+                            <div class="fusion-fullwidth fullwidth-box nonhundred-percent-fullwidth non-hundred-percent-height-scrolling" style='background-color: rgba(255,255,255,0);background-position: center top;background-repeat: no-repeat;padding-top:140px;padding-right:30px;padding-bottom:30px;padding-left:30px;'>
                                 <div class="fusion-builder-row fusion-row ">
                                     <div class="fusion-layout-column fusion_builder_column fusion_builder_column_1_1  fusion-one-full fusion-column-first fusion-column-last 1_1" style='margin-top:0px;margin-bottom:15px;'>
                                         <div class="fusion-column-wrapper" style="padding: 0px 0px 0px 0px;background-position:left top;background-repeat:no-repeat;-webkit-background-size:cover;-moz-background-size:cover;-o-background-size:cover;background-size:cover;" data-bg-url="">

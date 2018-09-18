@@ -194,6 +194,8 @@ namespace Syra.Admin.Controllers
                         bot.ChatBotGoal = botdeployment.ChatBotGoal;
                         bot.BotQuestionAnswers = new List<BotQuestionAnswers>();
                         bot.T_BotClientId = Guid.NewGuid().ToString();
+                        bot.FirstMessage = botdeployment.FirstMessage;
+                        bot.SecondMessage = botdeployment.SecondMessage;
                         if (botdeployment.BotQuestionAnswers != null)
                         {
                             if (botdeployment.BotQuestionAnswers.Any())
@@ -323,8 +325,12 @@ namespace Syra.Admin.Controllers
                     chatbot.LuisId = botdeploymentview.LuisId;
                     chatbot.ChatBotGoal = botdeploymentview.ChatBotGoal;
                     chatbot.FirstMessage = botdeploymentview.FirstMessage;
+                    chatbot.SecondMessage = botdeploymentview.SecondMessage;
+                    chatbot.BotSecret = botdeploymentview.BotSecret;
+                    chatbot.BotURI = botdeploymentview.BotURI;
+                    chatbot.WebSiteUrl = botdeploymentview.WebSiteUrl;
                     chatbot.BotQuestionAnswers = new List<BotQuestionAnswers>();
-
+                    chatbot.Status = botdeploymentview.Status;
                     if(botdeploymentview.BotQuestionAnswers != null)
                     {
                         if (botdeploymentview.BotQuestionAnswers.Any())
@@ -448,17 +454,7 @@ namespace Syra.Admin.Controllers
                 {
                     WelcomeMsg = botdeployment.WelcomeMessage,
                     FirstMsg = botdeployment.FirstMessage,
-                    SecondMsg = "I could help you with any of following topics. Or type in any other question" +
-                    "that you may have.  <br><a href='javascript:void(0);' onclick='PostMsgOnClick(\'Unfiled Returns\')'>" +
-                    "<font color='black' style='text -decoration: underline;'>1.Unfiled Returns or </font></a><br>" +
-                    "<a href='javascript:void(0);' onclick='PostMsgOnClick(\'Back Tax Help \')' >" +
-                    "<font color='black' style='text-decoration: underline;'>2.Back Tax Help or</font></a><br>" +
-                    "<a href='javascript:void(0);' onclick='PostMsgOnClick(\'Tax Audit Representation\')' >" +
-                    "<font color='black' style='text-decoration: underline;'>3.Tax Audit Representation or</font>" +
-                    "</a><br><a href='javascript:void(0);' onclick='PostMsgOnClick(\'941 Payroll Help\')'  >" +
-                    "<font color='black' style='text-decoration: underline;'>4.941 Payroll Help or</font></a><br>" +
-                    "<a href='javascript:void(0);' onclick='PostMsgOnClick(\'Tax Planning\')' >" +
-                    "<font color='black' style='text-decoration: underline;'>5.Tax Planning</font></a>",
+                    SecondMsg = botdeployment.SecondMessage,
                     BaseColor = botdeployment.BackGroundColor,
                     BotSecret = botdeployment.BotSecret,
                     BotURI = botdeployment.BotURI,

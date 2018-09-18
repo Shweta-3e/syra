@@ -22,6 +22,7 @@ namespace Syra.Admin.Entities
         #region Bot Related Details
         public string WelcomeMessage { get; set; }
         public string FirstMessage { get; set; }
+        public string SecondMessage { get; set; }
 
         public ICollection<Message> Messages { get; set; }
         public ICollection<BotQuestionAnswers> BotQuestionAnswers { get; set; }

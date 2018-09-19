@@ -167,6 +167,7 @@ namespace Syra.Admin.Controllers
         [AllowAnonymous]
         public ActionResult RegisterAdmin()
         {
+           
             return View();
         }
 
@@ -300,58 +301,33 @@ namespace Syra.Admin.Controllers
 
         //
         // POST: /Account/Register
-        //[HttpPost]
-        //[AllowAnonymous]
-        //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> RegisterAdmin(RegisterViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var user = new ApplicationUser {UserName = model.Email, Email = model.Email};
-        //        var result = await UserManager.CreateAsync(user, model.Password);
-        //        if (result.Succeeded)
-        //        {
-        //            string CurrentUserId = user.Id;
-
-        //           await UserManager.AddToRoleAsync(user.Id, "Admin");
-
-        //            await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
-        //            return RedirectToAction("Index", "Home");
-        //        }
-        //        AddErrors(result);
-        //    }
-
-        //    // If we got this far, something failed, redisplay form
-        //    return View(model);
-        //}
         [HttpPost]
         [AllowAnonymous]
-        public string RegisterAdmin(RegisterViewModel model)
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RegisterAdmin(RegisterViewModel model)
         {
-            if(model!=null)
+            if (ModelState.IsValid)
             {
-                var userStore = new UserStore<ApplicationUser>(db);
-                var manager = new UserManager<ApplicationUser>(userStore);
-
-                var user = new ApplicationUser {UserName = model.Email, Email = model.Email };
-                var result = manager.Create(user, model.Password);
-                if(result.Succeeded)
+                var user = new ApplicationUser {UserName = model.Email, Email = model.Email};
+                var result = await UserManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
                 {
-                    manager.AddToRoles(user.Id, "Admin");
+                    string CurrentUserId = user.Id;
 
-                    response.isSaved = true;
-                    response.Message = "You are register successfully";
+                   await UserManager.AddToRoleAsync(user.Id, "Admin");
+
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                    return RedirectToAction("Index", "Home");
                 }
+                AddErrors(result);
             }
 
-            else
-            {
-                response.isSaved = false;
-                response.Message = "Registration is not successful";
-            }
-            return response.GetResponse();
+            // If we got this far, something failed, redisplay form
+            return View(model);
         }
+
+
         //
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
@@ -388,6 +364,36 @@ namespace Syra.Admin.Controllers
         public ActionResult ForgotPassword()
         {
             return View();
+        }
+
+        [HttpPost]
+        public string ChangePassWord(ResetPasswordViewModel model)
+        {
+            if(model!=null)
+            {
+                var userStore = new UserStore<ApplicationUser>(db);
+                var manager = new UserManager<ApplicationUser>(userStore);
+
+                var user = new ApplicationUser { UserName = model.Email };
+                var existingUser = UserManager.FindByName(model.Email);
+                //if(existingUser==null || !(UserManager.IsEmailConfirmed(existingUser.Id)))
+                //{
+                //    response.Message = "Email not found";
+                //}
+                string resetToken = UserManager.GeneratePasswordResetToken(existingUser.Id);
+                model.Code = resetToken;
+                var result = UserManager.ResetPassword(existingUser.Id, model.Code, model.Password);
+                if(result.Succeeded)
+                {
+                    response.isSaved = true;
+                    response.Message = "Password is reset successfully";
+                }
+                else
+                {
+                    response.isSaved = false;
+                }
+            }
+            return response.GetResponse();
         }
 
         //

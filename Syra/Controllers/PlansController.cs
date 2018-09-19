@@ -6,7 +6,6 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using AutoMapper;
 using Microsoft.AspNet.Identity.Owin;
 using Syra.Admin.DbContexts;
 using Syra.Admin.Entities;
@@ -20,7 +19,6 @@ namespace Syra.Admin.Controllers
         private ApplicationUserManager _userManager;
         private SyraDbContext db = new SyraDbContext();
         private Response response = new Response();
-
         // GET: Plans
         public ActionResult Index()
         {
@@ -47,6 +45,7 @@ namespace Syra.Admin.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public string CreateNewPlan(Plan plan)
         {
@@ -202,6 +201,7 @@ namespace Syra.Admin.Controllers
             }
             return response.GetResponse();
         }
+
 
         // POST: Plans/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 

@@ -27,6 +27,8 @@ namespace Syra.Admin.ViewModel
         public string JobTitle { get; set; }
         public string PricingPlan { get; set; }
         public string BusinessRequirement { get; set; }
+       
+        public string T_ClientId { get; set; }
 
 
         public ICollection<CustomerPlanView> CustomerPlans { get; set; }

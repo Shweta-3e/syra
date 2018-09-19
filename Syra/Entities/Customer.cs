@@ -31,7 +31,8 @@ namespace Syra.Admin.Entities
         public string JobTitle { get; set; }
         public string PricingPlan { get; set; }
         public string BusinessRequirement { get; set; }
-     
+      
+        
 
         public ICollection<CustomerPlan> CustomerPlans { get; set; }
 

@@ -15,11 +15,11 @@ namespace Syra.Admin.Controllers
 {
     public class LuisDomainsController : Controller
     {
-        private SyraDbContext db = new SyraDbContext();
-        private Response response = new Response();
+
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-
+        private SyraDbContext db = new SyraDbContext();
+        private Response response = new Response();
         // GET: LuisDomains
         public ActionResult Index()
         {
@@ -63,7 +63,7 @@ namespace Syra.Admin.Controllers
 
             return View(luisDomain);
         }
-
+        
         [HttpGet]
         public string GetDomain()
         {
@@ -174,6 +174,7 @@ namespace Syra.Admin.Controllers
             }
             return response.GetResponse();
         }
+
         // GET: LuisDomains/Edit/5
         public ActionResult Edit(long? id)
         {

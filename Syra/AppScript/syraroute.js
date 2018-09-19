@@ -1,11 +1,10 @@
 ﻿"use strict";
 
-var SOFT_VER = "0.0002";
+var SOFT_VER = "0.01";
 
 var SyraApp = angular.module("syra", ["ui.router"]);
 
 SyraApp.config(["$stateProvider", "$urlRouterProvider", function ($stateProvider, $urlRouterProvider) {
-
 
     $urlRouterProvider.otherwise("/Home");
 
@@ -16,6 +15,15 @@ SyraApp.config(["$stateProvider", "$urlRouterProvider", function ($stateProvider
         templateUrl: "/Appscript/Home/Template/home.html?VER=" + SOFT_VER,
     };
     $stateProvider.state(home);
+
+    var resetpassword = {
+        url: '/Account/ForgotPassWord',
+        title: 'Forgot Password',
+        name: 'forgotpassword',
+        controller: 'ChangepasswordController',
+        templateUrl: "/Appscript/ChangePassword/Template/forgotpassword.html?VER=" + SOFT_VER,
+    };
+    $stateProvider.state(resetpassword);
 
     var register = {
         url: '/Account/Register',
@@ -146,4 +154,21 @@ SyraApp.config(["$stateProvider", "$urlRouterProvider", function ($stateProvider
     };
     $stateProvider.state(subscription);
 
-}]);
+    var customerplan = {
+        url: '/managecustomer',
+        title: 'managecustomer',
+        name: 'managecustomer',
+        controller: 'CustomerPlanController',
+        templateUrl: "/Appscript/CustomerPlans/Template/index.html?VER=" + SOFT_VER,
+    };
+    $stateProvider.state(customerplan);
+
+    var viwdetails = {
+        url: '/customerdetails/:Id',
+        title: 'CustomerDetails',
+        name: 'customerdetails',
+        controller: 'CustomerDetailController',
+        templateUrl: "/Appscript/CustomerPlans/Template/viewcustomerdetails.html?VER=" + SOFT_VER,
+    };
+    $stateProvider.state(viwdetails);
+}])

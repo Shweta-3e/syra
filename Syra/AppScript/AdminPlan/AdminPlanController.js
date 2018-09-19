@@ -3,6 +3,7 @@
 
 
         $scope.Plans = {};
+        $scope.PlanDetails = false;
 
         $scope.GetPlans = function () {
             $http.get('/Plans/GetPlans').success(function (data) {
@@ -31,6 +32,10 @@
                     }
                 });
             }
+        };
+        $scope.Cancel = function () {
+            $scope.PlanDetails = false;
+            $state.go("newplan");
         };
 
     }

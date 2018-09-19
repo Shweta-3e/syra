@@ -112,6 +112,7 @@ namespace Syra.Admin.Controllers
                         bot.DeploymentDate = DateTime.Now;
                         bot.DeleteDate = DateTime.Now;
                         bot.LuisId = botdeployment.LuisId;
+                      
                         customer.BotDeployments.Add(bot);
                         db.SaveChanges();
                         return RedirectToAction("MyBots");
@@ -192,7 +193,8 @@ namespace Syra.Admin.Controllers
                         bot.LuisId = botdeployment.LuisId;
                         bot.ChatBotGoal = botdeployment.ChatBotGoal;
                         bot.BotQuestionAnswers = new List<BotQuestionAnswers>();
-                        if(botdeployment.BotQuestionAnswers != null)
+                        bot.T_BotClientId = Guid.NewGuid().ToString();
+                        if (botdeployment.BotQuestionAnswers != null)
                         {
                             if (botdeployment.BotQuestionAnswers.Any())
                             {
@@ -205,7 +207,7 @@ namespace Syra.Admin.Controllers
                                 }
                             }
                         }
-                        
+                        bot.EmbeddedScript = "<script src=https://syra.ai/bigdataadvisor/assets/big-data-advisor.js " + "clientID= " + bot.T_BotClientId + "></script>";
                         customer.BotDeployments.Add(bot);
                         db.SaveChanges();
                         response.isSaved = true;
@@ -320,6 +322,7 @@ namespace Syra.Admin.Controllers
                     chatbot.DeleteDate = botdeploymentview.DeleteDate;
                     chatbot.LuisId = botdeploymentview.LuisId;
                     chatbot.ChatBotGoal = botdeploymentview.ChatBotGoal;
+                    chatbot.FirstMessage = botdeploymentview.FirstMessage;
                     chatbot.BotQuestionAnswers = new List<BotQuestionAnswers>();
 
                     if(botdeploymentview.BotQuestionAnswers != null)
@@ -434,6 +437,87 @@ namespace Syra.Admin.Controllers
 
             return response.GetResponse();
         }
+
+        [HttpGet]
+        public string GetCustomerDetails(string clientId)
+        {
+            var botdeployment = db.BotDeployments.FirstOrDefault(c => c.T_BotClientId == clientId);
+            if(botdeployment != null)
+            {
+                var customerDetails = new 
+                {
+                    WelcomeMsg = botdeployment.WelcomeMessage,
+                    FirstMsg = botdeployment.FirstMessage,
+                    SecondMsg = "I could help you with any of following topics. Or type in any other question" +
+                    "that you may have.  <br><a href='javascript:void(0);' onclick='PostMsgOnClick(\'Unfiled Returns\')'>" +
+                    "<font color='black' style='text -decoration: underline;'>1.Unfiled Returns or </font></a><br>" +
+                    "<a href='javascript:void(0);' onclick='PostMsgOnClick(\'Back Tax Help \')' >" +
+                    "<font color='black' style='text-decoration: underline;'>2.Back Tax Help or</font></a><br>" +
+                    "<a href='javascript:void(0);' onclick='PostMsgOnClick(\'Tax Audit Representation\')' >" +
+                    "<font color='black' style='text-decoration: underline;'>3.Tax Audit Representation or</font>" +
+                    "</a><br><a href='javascript:void(0);' onclick='PostMsgOnClick(\'941 Payroll Help\')'  >" +
+                    "<font color='black' style='text-decoration: underline;'>4.941 Payroll Help or</font></a><br>" +
+                    "<a href='javascript:void(0);' onclick='PostMsgOnClick(\'Tax Planning\')' >" +
+                    "<font color='black' style='text-decoration: underline;'>5.Tax Planning</font></a>",
+                    BaseColor = botdeployment.BackGroundColor,
+                    BotSecret = botdeployment.BotSecret,
+                    BotURI = botdeployment.BotURI,
+                    WebsiteURL = botdeployment.WebSiteUrl,
+                    DomainName = botdeployment.DomainName,
+                };
+                response.Data = customerDetails;
+                return response.GetResponse();
+            }
+            else
+            {
+                response.isSaved = false;
+                response.Message = "Please provide valid client Id";
+                return response.GetResponse();
+            }
+        }
+
+        [HttpGet]
+        public string GetCustomers()
+        {
+            var customers = db.Customer.Include("CustomerPlans").Include("BotDeployments").ToList();
+            response.Data = (from a in customers
+                             select new
+                             {
+                                 Id = a.Id,
+                                 Name = a.Name,
+                                 PricingPlan = a.PricingPlan,
+                                 RegisterDate = a.RegisterDate,
+                                 Email = a.Email,
+                                 ActivePlan = a.CustomerPlans.FirstOrDefault(c => c.IsActive).Plan.Name,
+                                 BotLimit = a.CustomerPlans.FirstOrDefault(c => c.IsActive).Plan.AllowedBotLimit
+                             }).ToList();
+
+            return response.GetResponse();
+        }
+
+        [HttpPost]
+        public string GetCustomerById(Int64 customerId)
+        {
+            var customer = db.Customer.Include("BotDeployments").FirstOrDefault(c => c.Id == customerId);
+            if(customer != null)
+            {
+                response.Data = Mapper.Map<CustomerView>(customer);
+            }
+            return response.GetResponse();
+        }
+
+        //[HttpGet]
+        //public string UpdateGUID()
+        //{
+        //    var botdeployments = db.BotDeployments.ToList();
+
+        //    foreach (var bot in botdeployments)
+        //    {
+        //        bot.T_BotClientId = Guid.NewGuid().ToString();
+        //    }
+        //    db.SaveChanges();
+        //    return "";
+        //}
         #endregion
 
     }

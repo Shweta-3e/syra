@@ -39,7 +39,7 @@ namespace Syra.Admin.Migrations
             {
                 var luisdomain = new List<LuisDomain>
             {
-                new LuisDomain { Name = "Smarteraspnet", Details = "Host Website", Category ="Deploy Website", LuisAppId = "APP123", LuisAppKey = "Test123"},
+                new LuisDomain { Name = "TEST DOMAIN", Details = "TESTING", Category ="Deploy Website", LuisAppId = "APP123", LuisAppKey = "Test123"},
             };
                 luisdomain.ForEach(x => context.LuisDomains.Add(x));
                 context.SaveChanges();
@@ -56,6 +56,20 @@ namespace Syra.Admin.Migrations
                 }
             }
 
+
+            var userStore = new UserStore<ApplicationUser>(context);
+            var manager = new UserManager<ApplicationUser>(userStore);
+            ApplicationUser user = new ApplicationUser
+            {
+                Email = "admin@thirdeyedata.io",
+                UserName = "admin@thirdeyedata.io"
+            };
+            var result = manager.Create(user, "123456");
+            if (result.Succeeded)
+            {
+                manager.AddToRole(user.Id, "Admin");
+            }
+            context.SaveChanges();
             var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
         }
     }

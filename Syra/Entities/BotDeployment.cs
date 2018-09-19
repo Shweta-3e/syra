@@ -21,6 +21,7 @@ namespace Syra.Admin.Entities
 
         #region Bot Related Details
         public string WelcomeMessage { get; set; }
+        public string FirstMessage { get; set; }
 
         public ICollection<Message> Messages { get; set; }
         public ICollection<BotQuestionAnswers> BotQuestionAnswers { get; set; }
@@ -50,6 +51,8 @@ namespace Syra.Admin.Entities
         public bool IsPlanActive { get; set; }
 
         public string DeploymentScript { get; set; }
+        public string EmbeddedScript { get; set; }
+        public string T_BotClientId { get; set; }
     }
 
     public enum Status

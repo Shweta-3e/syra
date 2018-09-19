@@ -20,7 +20,9 @@
                            console.log(data.Data);
                            $scope.CustomerPlan = data.Data;
                        });
-               });
+                });
+
+            
         }
         $scope.GetCurrentUser();
 
@@ -60,7 +62,14 @@
         $scope.ViewBotDetails = function (chatbot) {
             $scope.BotDetail = true;
             $scope.BotDeployment = chatbot;
+            console.log(chatbot);
         };
+
+        $scope.CopyToClipBoard =  function() {
+            var copyText = document.getElementById("txtEmbeddedScript");
+            copyText.select();
+            document.execCommand("copy");
+        }
 
         $scope.Delete = function (id) {
             if (confirm('Are you sure ? You want to delete chatbot')) {

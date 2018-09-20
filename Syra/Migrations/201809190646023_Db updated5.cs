@@ -3,7 +3,7 @@ namespace Syra.Admin.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Dbupdated : DbMigration
+    public partial class Dbupdated5 : DbMigration
     {
         public override void Up()
         {

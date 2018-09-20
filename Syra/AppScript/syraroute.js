@@ -1,6 +1,6 @@
 ﻿"use strict";
 
-var SOFT_VER = "0.011";
+var SOFT_VER = "0.012";
 
 var SyraApp = angular.module("syra", ["ui.router"]);
 

@@ -147,6 +147,10 @@
                             <span ng-show="chatbot.Status == 2">Failed</span>
                         </td>
                         <td class="text-align-center">
+                            <span ng-show="chatbot.IsPlanActive == 'True'">Active</span>
+                            <span ng-show="chatbot.IsPlanActive == 'vcbFalse'">Inactive</span>
+                        </td>
+                        <td class="text-align-center">
                             <a ng-click="EditChatbot(chatbot.Id)" class="btn btn-default">
                                 Edit
                             </a>
@@ -338,7 +342,7 @@
             <div class="row" style="padding-top:10px">
                 <div class="form-group">
                     <label class="control-label col-sm-2 mandatory required" for="txtPassword" style="font-weight:normal">Knowledge Domain</label>
-                    <div class="col-sm-10">
+                    <div class="col-sm-6">
                         <select class="custom-select"
                                 id="ddlLuis" ng-model="BotDeployment.LuisId">
                             <option>Choose...</option>
@@ -347,6 +351,12 @@
                                 {{domain.Name}}
                             </option>
                         </select>
+                    </div>
+                    <div class="col-sm-1">
+                        Domain Key
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="text" class="form-control " id="txtDomainKey" ng-model="BotDeployment.DomainKey" required />
                     </div>
                 </div>
             </div>
@@ -529,6 +539,18 @@
                     </label>
                     <label class="radio-inline">
                         <input type="radio" name="optradio" ng-model="BotDeployment.Status" value="2">Failed
+                    </label>
+                </div>
+            </div>
+
+            <div class="row" style="padding-top:10px">
+                <div class="form-group">
+                    <label class="control-label col-sm-2 mandatory required" for="txtPlanActive" style="font-weight:normal">Is Plan Active</label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" ng-checked="BotDeployment.IsPlanActive=='True'" ng-true-value="'True'" ng-model="BotDeployment.IsPlanActive">Active
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" ng-checked="BotDeployment.IsPlanActive=='False'" ng-true-value="'False'" ng-model="BotDeployment.IsPlanActive">InActive
                     </label>
                 </div>
             </div>

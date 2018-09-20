@@ -1,6 +1,6 @@
 ﻿
 <!DOCTYPE html>
-<html  class="" lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# og: http://ogp.me/ns#">
+<html class="" lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# og: http://ogp.me/ns#">
 <head>
     @*@Scripts.Render("~/Content/css")*@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -68,10 +68,10 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
 
         if (mi_track_user) {
             (function (i, s, o, g, r, a, m) {
-            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-                (i[r].q = i[r].q || []).push(arguments)
-            }, i[r].l = 1 * new Date(); a = s.createElement(o),
-                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+                i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
             })(window, document, 'script', '//www.google-analytics.com/analytics.js', '__gaTracker');
 
             __gaTracker('create', 'UA-59058464-11', 'auto');
@@ -146,7 +146,7 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
     <link rel='stylesheet' id='contact-form-7-css' href='~/syra_assets/contact-form-styles.css' type='text/css' media='all' />
     <link rel='stylesheet' id='tablepress-columnfilterwidgets-css-css' href='~/syra_assets/ColumnFilterWidgets.min.css' type='text/css' media='all' />
     <link rel='stylesheet' id='avada-stylesheet-css' href='~/syra_assets/avada-style.min.css' type='text/css' media='all' />
-    <link rel='stylesheet' href='~/Content/Custom.css' type='text/css'/>
+    <link rel='stylesheet' href='~/Content/Custom.css' type='text/css' />
     <link rel='stylesheet' href='~/Content/css/bootstrapcss/bootstrap.min.css' type='text/css' />
     <link rel='stylesheet' href='~/Content/css/notifIt.css' type='text/css' />
     <link rel='stylesheet' href='~/Content/css/jquery-ui.min.css' type='text/css' />
@@ -179,10 +179,10 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
 
     <script>
         (function (i, s, o, g, r, a, m) {
-        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-            (i[r].q = i[r].q || []).push(arguments)
-        }, i[r].l = 1 * new Date(); a = s.createElement(o),
-            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
         })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'gaplusu');
 
         function gaplus_track() {
@@ -223,47 +223,47 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
                 <div class="fusion-header">
                     @if (Request.IsAuthenticated)
                     {
-                    <div class="fusion-row">
-                        <div class="fusion-logo" data-margin-top="0px" data-margin-bottom="0px" data-margin-left="0px" data-margin-right="0px">
-                            <a class="fusion-logo-link" href="https://syra.ai/">
-                                <!-- standard logo -->
-                                <img src="~/syra_assets/syra-logo.jpg" srcset="~/syra_assets/syra-logo.jpg 1x" width="" height="" alt="Syra Logo" retina_logo_url="" class="fusion-standard-logo">
-                            </a>
-                        </div>
-                        <nav class="fusion-main-menu" aria-label="Main Menu">
-                            <ul role="menubar" id="menu-main-navigation-new" class="fusion-menu">
+                        <div class="fusion-row">
+                            <div class="fusion-logo" data-margin-top="0px" data-margin-bottom="0px" data-margin-left="0px" data-margin-right="0px">
+                                <a class="fusion-logo-link" href="https://syra.ai/">
+                                    <!-- standard logo -->
+                                    <img src="~/syra_assets/syra-logo.jpg" srcset="~/syra_assets/syra-logo.jpg 1x" width="" height="" alt="Syra Logo" retina_logo_url="" class="fusion-standard-logo">
+                                </a>
+                            </div>
+                            <nav class="fusion-main-menu" aria-label="Main Menu">
+                                <ul role="menubar" id="menu-main-navigation-new" class="fusion-menu">
 
-                                @if (User.IsInRole("Admin"))
-                                {
-                                    <li role="menuitem" id="menu-item-1307" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a ui-sref="newplan" class="fusion-bar-highlight"><span class="menu-text">Manage Plans</span></a></li>
-                                    <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a ui-sref="luisdomain" class="fusion-bar-highlight"><span class="menu-text">Manage Bot Domain</span></a></li>
-                                    <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/#/managecustomer" class="fusion-bar-highlight"><span class="menu-text">Manage Customer Plan</span></a></li>
-                                    <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a ui-sref="forgotpassword" class="fusion-bar-highlight"><span class="menu-text">Reset Password</span></a></li>
-                                    <li><a href="javascript:document.getElementById('logoutForm').submit()">LogOff</a></li>
-                                    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                                    @if (User.IsInRole("Admin"))
                                     {
-                                        <li role="menuitem" id="menu-item-1307" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a href="plans/" class="fusion-bar-highlight"><span class="menu-text">Manage Plans</span></a></li>
-                                        <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/LuisDomains" class="fusion-bar-highlight"><span class="menu-text">Manage Bot Domain</span></a></li>
+                                        <li role="menuitem" id="menu-item-1307" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a ui-sref="newplan" class="fusion-bar-highlight"><span class="menu-text">Manage Plans</span></a></li>
+                                        <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a ui-sref="luisdomain" class="fusion-bar-highlight"><span class="menu-text">Manage Bot Domain</span></a></li>
                                         <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/#/managecustomer" class="fusion-bar-highlight"><span class="menu-text">Manage Customer Plan</span></a></li>
-                                        <li role = "menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a ui-sref="forgotpassword" class="fusion-bar-highlight"><span class="menu-text">Reset Password</span></a></li>
+                                        <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a ui-sref="forgotpassword" class="fusion-bar-highlight"><span class="menu-text">Reset Password</span></a></li>
                                         <li><a href="javascript:document.getElementById('logoutForm').submit()">LogOff</a></li>
                                         using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
                                         {
                                             @Html.AntiForgeryToken()
                                         }
                                     }
-                                }
-                                else
-                                {
-                                     <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/#/Profile" class="fusion-bar-highlight"><span class="menu-text">My Profile</span></a></li>
-                                    <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/#/chatbot" @*href="/customer/mybots"*@ class="fusion-bar-highlight"><span class="menu-text">My Chatbots</span></a></li>
-                                    <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/#/Subscription" class="fusion-bar-highlight"><span class="menu-text">My Subsription</span></a></li>
-                                    <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="" class="fusion-bar-highlight"><span class="menu-text">Log Analytics</span></a></li>
-                                    <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="" class="fusion-bar-highlight"><span class="menu-text">Analytics</span></a></li>
-                                    <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/Account/ForgotPassword" class="fusion-bar-highlight"><span class="menu-text">Change Password</span></a></li>
-                                    <li><a href="javascript:document.getElementById('logoutForm').submit()">LogOff</a></li>
-                                    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                                    else
                                     {
+                                        @*<li role="menuitem" id="menu-item-1399" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1399"><a href="https://syra.ai" class="fusion-bar-highlight"><span class="menu-text">Home</span></a></li>
+                                            <li role="menuitem" id="menu-item-1303" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1303"><a href="https://syra.ai/#use-cases" class="fusion-bar-highlight"><span class="menu-text">Use Cases</span></a></li>
+                                            <li role="menuitem" id="menu-item-1304" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1304"><a href="https://syra.ai/#industries" class="fusion-bar-highlight"><span class="menu-text">Industries</span></a></li>
+                                            <li role="menuitem" id="menu-item-1305" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-1305"><a href="https://syra.ai/#channels" class="fusion-bar-highlight"><span class="menu-text">Channels</span></a></li>
+                                            <li role="menuitem" id="menu-item-1306" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-1306"><a href="https://syra.ai/pricing/" class="fusion-bar-highlight"><span class="menu-text">Pricing</span></a></li>
+                                            <li role="menuitem" id="menu-item-1307" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a href="https://syra.ai/faq/" class="fusion-bar-highlight"><span class="menu-text">FAQ</span></a></li>*@
+                                        <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/#/Profile" class="fusion-bar-highlight"><span class="menu-text">My Profile</span></a></li>
+                                        <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/#/chatbot" @*href="/customer/mybots"*@ class="fusion-bar-highlight"><span class="menu-text">My Chatbots</span></a></li>
+                                        <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/#/Subscription" class="fusion-bar-highlight"><span class="menu-text">My Subsription</span></a></li>
+                                        <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="" class="fusion-bar-highlight"><span class="menu-text">Log Analytics</span></a></li>
+                                        <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="" class="fusion-bar-highlight"><span class="menu-text">Analytics</span></a></li>
+                                        <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/Account/ForgotPassword" class="fusion-bar-highlight"><span class="menu-text">Change Password</span></a></li>
+                                        <li><a href="javascript:document.getElementById('logoutForm').submit()">LogOff</a></li>
+                                        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                        }
                                         <li role="menuitem" id="menu-item-1209" class="menu-item menu-item-type-yawp_wim menu-item-object-yawp_wim menu-item-1209 fusion-last-menu-item">
                                             <div class="yawp_wim_wrap">
                                                 <div class="widget-area">
@@ -317,7 +317,6 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
                                             </div>
                                         </li>
                                     }
-                                }
                                 </ul>
                             </nav>
                             <div class="fusion-mobile-menu-icons">
@@ -1697,7 +1696,7 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
         /* ]]> */
     </script>
     <script type='text/javascript' src='~/syra_assets/hustle_front.min.js'></script>
-    
+
     <script type='text/javascript' src='~/syra_assets/comment-reply.min.js'></script>
     <script type='text/javascript' src='~/syra_assets/jquery.qtip.min.js'></script>
     <script type='text/javascript' src='~/syra_assets/moment.min.js'></script>
@@ -1713,7 +1712,7 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
     <script type='text/javascript' src='~/syra_assets/wp-embed.min.js'></script>
     @RenderSection("scripts", required: false)
     @*<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">*@
-   
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/angularjs")
     @Scripts.Render("~/bundles/angularapp")

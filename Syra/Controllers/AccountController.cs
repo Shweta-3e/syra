@@ -278,18 +278,18 @@ namespace Syra.Admin.Controllers
 
                         //return RedirectToAction("AccountConfirmation", "Account");
 
-                        response.isSaved = true;
+                        response.IsSuccess = true;
                         response.Message = "Your register successfully";
                     }
                     else
                     {
-                        response.isSaved = false;
+                        response.IsSuccess = false;
                         response.Message = "Customer does not exist";
                     }
                 }
                 else
                 {
-                    response.isSaved = false;
+                    response.IsSuccess = false;
                     response.Message = "Email already exists.";
                 }
             }
@@ -385,12 +385,12 @@ namespace Syra.Admin.Controllers
                 var result = UserManager.ResetPassword(existingUser.Id, model.Code, model.Password);
                 if(result.Succeeded)
                 {
-                    response.isSaved = true;
+                    response.IsSuccess = true;
                     response.Message = "Password is reset successfully";
                 }
                 else
                 {
-                    response.isSaved = false;
+                    response.IsSuccess = false;
                 }
             }
             return response.GetResponse();

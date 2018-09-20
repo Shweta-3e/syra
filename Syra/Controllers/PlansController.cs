@@ -80,14 +80,14 @@ namespace Syra.Admin.Controllers
 
                 db.Plans.Add(planobj);
                 db.SaveChanges();
-                response.isSaved = true;
+                response.IsSuccess = true;
                 response.Message = "Plan is created successfully";
                 return response.GetResponse();
             }
             else
             {
                 response.Message = "Plan is not created.";
-                response.isSaved = false;
+                response.IsSuccess = false;
                 //return response.GetResponse();
             }
             return response.GetResponse();
@@ -105,13 +105,13 @@ namespace Syra.Admin.Controllers
             if(aspnetuser!=null)
             {
                 var plan = db.Plans.ToList();
-                response.isSaved = true;
+                response.IsSuccess = true;
                 response.Data = plan;
                 return response.GetResponse();
             }
             else
             {
-                response.isSaved = false;
+                response.IsSuccess = false;
             }
             return response.GetResponse();
         }
@@ -161,14 +161,14 @@ namespace Syra.Admin.Controllers
                 db.Plans.Remove(removeobj);
                 planobj.Id = plan.Id;
                 db.SaveChanges();
-                response.isSaved = true;
+                response.IsSuccess = true;
                 response.Message = "Plan is updated successfully";
                 return response.GetResponse();
             }
             else
             {
                 response.Message = "Plan is not updated.";
-                response.isSaved = false;
+                response.IsSuccess = false;
                 //return response.GetResponse();
             }
             return response.GetResponse();
@@ -184,13 +184,13 @@ namespace Syra.Admin.Controllers
                 {
                     db.Plans.Remove(planfind);
                     db.SaveChanges();
-                    response.isSaved = true;
+                    response.IsSuccess = true;
                     response.Message = "Record deleted successfully";
                     return response.GetResponse();
                 }
                 else
                 {
-                    response.isSaved = false;
+                    response.IsSuccess = false;
                     response.Message = "Record isn't deleted successfully";
                 }
             }

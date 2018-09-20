@@ -76,12 +76,12 @@ namespace Syra.Admin.Controllers
             {
                 var luisdomain = db.LuisDomains.ToList();
                 response.Data = luisdomain;
-                response.isSaved = true;
+                response.IsSuccess = true;
                 return response.GetResponse();
             }
             else
             {
-                response.isSaved = false;
+                response.IsSuccess = false;
             }
             return response.GetResponse();
         }
@@ -116,13 +116,13 @@ namespace Syra.Admin.Controllers
                 existsdomain.LuisAppId = luisDomain.LuisAppId;
                 existsdomain.LuisAppKey = luisDomain.LuisAppKey;
                 db.SaveChanges();
-                response.isSaved = true;
+                response.IsSuccess = true;
                 response.Message = "Record is updated successfully";
                 return response.GetResponse();
             }
             else
             {
-                response.isSaved = false;
+                response.IsSuccess = false;
                 response.Message = "Record isn't updated ";
             }
             return response.GetResponse();
@@ -143,13 +143,13 @@ namespace Syra.Admin.Controllers
 
                 db.LuisDomains.Add(luisobj);
                 db.SaveChanges();
-                response.isSaved = true;
+                response.IsSuccess = true;
                 response.Message = "LuisDomain is created successsfully";
                 return response.GetResponse();
             }
             else
             {
-                response.isSaved = false;
+                response.IsSuccess = false;
                 response.Message = "LuisDomain isn't created successsfully";
             }
             return response.GetResponse();
@@ -163,13 +163,13 @@ namespace Syra.Admin.Controllers
             {
                 db.LuisDomains.Remove(existsdomain);
                 db.SaveChanges();
-                response.isSaved = true;
+                response.IsSuccess = true;
                 response.Message = "Record is deleted successfully";
                 return response.GetResponse();
             }
             else
             {
-                response.isSaved = false;
+                response.IsSuccess = false;
                 response.Message = "Record is not deleted successfully";
             }
             return response.GetResponse();

@@ -39,7 +39,7 @@ namespace Syra.Admin.Migrations
             {
                 var luisdomain = new List<LuisDomain>
             {
-                new LuisDomain { Name = "TEST DOMAIN", Details = "TESTING", Category ="Deploy Website", LuisAppId = "APP123", LuisAppKey = "Test123"},
+                new LuisDomain { Name = "TEST BOT", Details = "TEST BOT", Category ="Deploy Website", LuisAppId = "APP123", LuisAppKey = "Test123"},
             };
                 luisdomain.ForEach(x => context.LuisDomains.Add(x));
                 context.SaveChanges();

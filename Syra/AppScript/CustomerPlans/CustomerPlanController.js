@@ -22,12 +22,18 @@ SyraApp.controller("CustomerDetailController", ["$scope", "$http", "syraservice"
         $scope.IsEditMode = false;
         $scope.BotQuestionAnswer = {};
 
-        if ($scope.Id != undefined) {
-            $http.post("/Customer/GetCustomerById", { customerId: parseInt($scope.Id)}).success(function (response) {
+        $scope.LoadCustomer = function () {
+            $http.post("/Customer/GetCustomerById", { customerId: parseInt($scope.Id) }).success(function (response) {
                 console.log(response.Data);
                 $scope.Customer = response.Data;
             });
         }
+
+        if ($scope.Id != undefined) {
+            $scope.LoadCustomer();
+        }
+
+        
         $scope.isActiveTab = function (tab) {
             return $scope.tab == tab;
         };
@@ -39,6 +45,13 @@ SyraApp.controller("CustomerDetailController", ["$scope", "$http", "syraservice"
         $scope.Cancel = function () {
             $state.go("managecustomer");
         };
+
+        $scope.GetLuisDomain = function () {
+            $http.get('/Customer/GetLuisDomains').success(function (data) {
+                $scope.LuisDomains = data.Data;
+            });
+        };
+        $scope.GetLuisDomain();
 
         $scope.ViewBotDetails = function (chatbot) {
             $scope.BotDetail = true;
@@ -85,12 +98,13 @@ SyraApp.controller("CustomerDetailController", ["$scope", "$http", "syraservice"
             $scope.isActiveChatTab($scope.Chattab);
         };
 
-        $scope.Update = function () {
+        $scope.UpdateChatBot = function () {
             $http.post('/Customer/UpdateChatBot', { botdeploymentview: $scope.BotDeployment }).success(function (data) {
                 if (data.isSaved) {
                     $scope.BotDeployment = {};
                     syraservice.RecordStatusMessage("success", data.Message);
                     $scope.IsEditMode = false;
+                    $scope.LoadCustomer();
                 } else {
                     syraservice.RecordStatusMessage("error", data.Message);
                 }
@@ -109,5 +123,25 @@ SyraApp.controller("CustomerDetailController", ["$scope", "$http", "syraservice"
 
         $scope.UpdateBotQuestionAnswer = function (data) {
             $scope.BotQuestionAnswer = {};
+        };
+
+        $scope.Delete = function (id) {
+            if (confirm('Are you sure ? You want to delete chatbot')) {
+                $http.post("/Customer/Delete/", { id: id }).success(function (data) {
+                    if (data.isSaved) {
+                        syraservice.RecordStatusMessage("success", data.Message);
+                        $scope.LoadCustomer();
+                    }
+                    else {
+                        syraservice.RecordStatusMessage("error", data.Message);
+                    }
+                });
+            }
+        };
+
+        $scope.CopyToClipBoard = function () {
+            var copyText = document.getElementById("txtEmbeddedScript");
+            copyText.select();
+            document.execCommand("copy");
         }
  }]);

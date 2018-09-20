@@ -78,6 +78,7 @@
                         console.log("Called")
                         syraservice.RecordStatusMessage("success", data.Message);
                         $scope.GetChatBots();
+                        $scope.GetCurrentUser();
                     }
                     else {
                         syraservice.RecordStatusMessage("error", data.Message);

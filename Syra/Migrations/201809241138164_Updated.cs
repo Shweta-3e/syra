@@ -3,16 +3,16 @@ namespace Syra.Admin.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Dbupdated5 : DbMigration
+    public partial class Updated : DbMigration
     {
         public override void Up()
         {
-            AddColumn("dbo.BotDeployments", "SecondMessage", c => c.String());
+            DropColumn("dbo.BotDeployments", "DomainKey");
         }
         
         public override void Down()
         {
-            DropColumn("dbo.BotDeployments", "SecondMessage");
+            AddColumn("dbo.BotDeployments", "DomainKey", c => c.String());
         }
     }
 }

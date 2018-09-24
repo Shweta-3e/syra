@@ -15,7 +15,7 @@
 
     $scope.Registration = function () {
         $http.post('/Account/Register', { model: $scope.Register }).success(function (data) {
-            if (data.isSaved) {
+            if (data.IsSuccess) {
                 $state.go("Confirmation");
             }
         });

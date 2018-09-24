@@ -249,37 +249,45 @@ namespace Syra.Admin.Controllers
         [HttpPost]
         public string GetMyBots(int pagesize=10, int pageno=0)
         {
-            var useremail = HttpContext.User.Identity.Name;
-
-            _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-            _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-
-            var aspnetuser = _userManager.FindByEmailAsync(useremail).Result;
-
-            PaginatedResponse result = new PaginatedResponse();
-
-            var customer = db.Customer.FirstOrDefault(c => c.UserId == aspnetuser.Id);
-            if (customer != null)
+            try
             {
-                var userbots = db.BotDeployments.Where(c => c.CustomerId == customer.Id).ToList();
+                var useremail = HttpContext.User.Identity.Name;
 
-                result.Count = userbots.Count();
-                result.TotalPages = (int)(result.Count / pagesize) + ((result.Count % pagesize) > 0.0M ? 1 : 0);
-                var skip = pageno * pagesize;
-                result.HasNext = (skip > 0 || pagesize > 0) && (skip + pagesize < result.Count);
-                result.HasPrevious = skip > 0;
+                _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+                _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
 
-                result.isSaved = true;
-                result.Entities = Mapper.Map<BotDeploymentView[]>(userbots.Skip(skip).Take(pagesize));
-                return result.GetResponse();
-            }
-            else
+                var aspnetuser = _userManager.FindByEmailAsync(useremail).Result;
+
+                PaginatedResponse result = new PaginatedResponse();
+
+                var customer = db.Customer.FirstOrDefault(c => c.UserId == aspnetuser.Id);
+                if (customer != null)
+                {
+                    var userbots = db.BotDeployments.Where(c => c.CustomerId == customer.Id).ToList();
+
+                    result.Count = userbots.Count();
+                    result.TotalPages = (int)(result.Count / pagesize) + ((result.Count % pagesize) > 0.0M ? 1 : 0);
+                    var skip = pageno * pagesize;
+                    result.HasNext = (skip > 0 || pagesize > 0) && (skip + pagesize < result.Count);
+                    result.HasPrevious = skip > 0;
+
+                    result.isSaved = true;
+                    result.Entities = Mapper.Map<BotDeploymentView[]>(userbots.Skip(skip).Take(pagesize));
+                    return result.GetResponse();
+                }
+                else
+                {
+                    response.IsSuccess = false;
+                    //return RedirectToAction("Login", "Account");
+                }
+
+                return response.GetResponse();
+            }catch(Exception ex)
             {
                 response.IsSuccess = false;
-                //return RedirectToAction("Login", "Account");
+                response.Message = ex.Message;
+                return response.GetResponse();
             }
-
-            return response.GetResponse();
             //return View(ViewBag.Bots);
         }
 
@@ -510,6 +518,7 @@ namespace Syra.Admin.Controllers
                                  Name = a.Name,
                                  PricingPlan = a.PricingPlan,
                                  RegisterDate = a.RegisterDate,
+                                 ExpiaryDate = a.CustomerPlans.Where(c => c.CustomerId == a.Id).FirstOrDefault().ExpiryDate,
                                  Email = a.Email,
                                  ActivePlan = a.CustomerPlans.FirstOrDefault(c => c.IsActive).Plan.Name,
                                  BotLimit = a.CustomerPlans.FirstOrDefault(c => c.IsActive).Plan.AllowedBotLimit

@@ -132,6 +132,7 @@
                         <th class="text-align-center">Luis Domain Name</th>
                         <th class="text-align-center">Deployment Date</th>
                         <th class="text-align-center">Status</th>
+                        <th class="text-align-center">PlanActive</th>
                         <th class="text-align-center">Actions</th>
                     </tr>
                 </thead>
@@ -147,8 +148,8 @@
                             <span ng-show="chatbot.Status == 2">Failed</span>
                         </td>
                         <td class="text-align-center">
-                            <span ng-show="chatbot.IsPlanActive == 'True'">Active</span>
-                            <span ng-show="chatbot.IsPlanActive == 'vcbFalse'">Inactive</span>
+                            <span ng-show="chatbot.IsPlanActive == true">Active</span>
+                            <span ng-show="chatbot.IsPlanActive == false">Inactive</span>
                         </td>
                         <td class="text-align-center">
                             <a ng-click="EditChatbot(chatbot.Id)" class="btn btn-default">

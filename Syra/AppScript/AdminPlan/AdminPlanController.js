@@ -7,7 +7,7 @@
 
         $scope.GetPlans = function () {
             $http.get('/Plans/GetPlans').success(function (data) {
-                if (data.isSaved)
+                if (data.IsSuccess)
                 {
                     $scope.Plans = data.Data;
                 }
@@ -22,7 +22,7 @@
             if (confirm('Are you sure ? You want to delete plan')) {
                 $http.post("/Plans/DeletePlan", { id: id }).success(function (data) {
                     console.log("Plan Id is : " + id);
-                    if (data.isSaved) {
+                    if (data.IsSuccess) {
                         syraservice.RecordStatusMessage("success", data.Message);
                         alert(data.Message);
                         $scope.GetPlans();
@@ -64,7 +64,7 @@ SyraApp.controller("PlanAddController", ["$scope", "$http", "syraservice", "$sta
         $scope.PlanCreate = function () {
             if ($scope.IsEditMode) {
                 $http.post('/Plans/UpdatePlan', { plan: $scope.CreatePlan }).success(function (data) {
-                    if (data.isSaved) {
+                    if (data.IsSuccess) {
                         $scope.CreatePlan = {};
                         syraservice.RecordStatusMessage("success", data.Message);
                         $state.go("adminplan");
@@ -75,7 +75,7 @@ SyraApp.controller("PlanAddController", ["$scope", "$http", "syraservice", "$sta
             }
             else {
                 $http.post('/Plans/CreateNewPlan', { plan: $scope.CreatePlan }).success(function (data) {
-                    if (data.isSaved) {
+                    if (data.IsSuccess) {
                         $scope.CreatePlan = {};
                         syraservice.RecordStatusMessage("success", data.Message);
                         $state.go("adminplan");

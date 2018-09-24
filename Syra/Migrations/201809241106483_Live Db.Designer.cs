@@ -7,13 +7,13 @@ namespace Syra.Admin.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class LocalDb : IMigrationMetadata
+    public sealed partial class LiveDb : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(LocalDb));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(LiveDb));
         
         string IMigrationMetadata.Id
         {
-            get { return "201809200819157_LocalDb"; }
+            get { return "201809241106483_Live Db"; }
         }
         
         string IMigrationMetadata.Source

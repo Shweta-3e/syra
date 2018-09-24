@@ -8,7 +8,7 @@
 
         $scope.ForgotPassword = function () {
             $http.post('/Account/ChangePassWord', { model: $scope.Changepassword }).success(function (data) {
-                if (data.isSaved) {
+                if (data.IsSuccess) {
                     $scope.Changepassword = {};
                     syraservice.RecordStatusMessage("success", data.Message);
                     $state.go("Home");

@@ -21,8 +21,6 @@
                            $scope.CustomerPlan = data.Data;
                        });
                 });
-
-            
         }
         $scope.GetCurrentUser();
 
@@ -32,7 +30,7 @@
                     pagesize: $scope.pageSize,
                     pageno: $scope.pageNumber
                 }).success(function (data) {
-                    if (data.isSaved) {
+                    if (data.IsSaved == true) {
                         $scope.MyChatBots = data.Entities;
                         $scope.HasNext = data.HasNext;
                         $scope.HasPrevious = data.HasPrevious;
@@ -74,7 +72,7 @@
         $scope.Delete = function (id) {
             if (confirm('Are you sure ? You want to delete chatbot')) {
                 $http.post("/Customer/Delete/", { id: id }).success(function (data) {
-                    if (data.isSaved) {
+                    if (data.IsSuccess) {
                         console.log("Called")
                         syraservice.RecordStatusMessage("success", data.Message);
                         $scope.GetChatBots();
@@ -128,7 +126,7 @@ SyraApp.controller("ChatBotAddController", ["$scope", "$http", "syraservice", "$
         $scope.CreateChatBot = function () {
             if ($scope.IsEditMode) {
                 $http.post('/Customer/UpdateChatBot', { botdeploymentview: $scope.BotDeployment }).success(function (data) {
-                    if (data.isSaved) {
+                    if (data.IsSuccess) {
                         $scope.BotDeployment = {};
                         syraservice.RecordStatusMessage("success", data.Message);
                         $state.go("chatbot");
@@ -138,7 +136,7 @@ SyraApp.controller("ChatBotAddController", ["$scope", "$http", "syraservice", "$
                 });
             } else {
                 $http.post('/Customer/CreateNewChatBot', { botdeployment: $scope.BotDeployment }).success(function (data) {
-                    if (data.isSaved) {
+                    if (data.IsSuccess) {
                         $scope.BotDeployment = {};
                         syraservice.RecordStatusMessage("success", data.Message);
                         $state.go("chatbot");

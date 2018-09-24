@@ -222,9 +222,9 @@
     <Compile Include="Helper\AutoMapperConfig.cs" />
     <Compile Include="Helper\PaginatedResponse.cs" />
     <Compile Include="Helper\Response.cs" />
-    <Compile Include="Migrations\201809200819157_LocalDb.cs" />
-    <Compile Include="Migrations\201809200819157_LocalDb.Designer.cs">
-      <DependentUpon>201809200819157_LocalDb.cs</DependentUpon>
+    <Compile Include="Migrations\201809241106483_Live Db.cs" />
+    <Compile Include="Migrations\201809241106483_Live Db.Designer.cs">
+      <DependentUpon>201809241106483_Live Db.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -251,10 +251,10 @@
     <Content Include="AppScript\CustomerPlans\CustomerPlanController.js" />
     <Content Include="AppScript\CustomerPlans\Template\index.html" />
     <Content Include="AppScript\CustomerPlans\Template\viewcustomerdetails.html" />
-    <Content Include="AppScript\CustomerPlans\Home\CustomerProfile\CustomerProfileController.js" />
-    <Content Include="AppScript\CustomerPlans\Home\CustomerProfile\Template\profile.html" />
-    <Content Include="AppScript\CustomerPlans\Home\CustomerProfile\Template\subscription.html" />
-    <Content Include="AppScript\CustomerPlans\Home\Template\home.html" />
+    <Content Include="AppScript\CustomerProfile\CustomerProfileController.js" />
+    <Content Include="AppScript\CustomerProfile\Template\profile.html" />
+    <Content Include="AppScript\CustomerProfile\Template\subscription.html" />
+    <Content Include="AppScript\Home\Template\home.html" />
     <Content Include="AppScript\LuisDomain\LuisDomainController.js" />
     <Content Include="AppScript\LuisDomain\Template\add.html" />
     <Content Include="AppScript\LuisDomain\Template\index.html" />
@@ -423,8 +423,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201809200819157_LocalDb.resx">
-      <DependentUpon>201809200819157_LocalDb.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201809241106483_Live Db.resx">
+      <DependentUpon>201809241106483_Live Db.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

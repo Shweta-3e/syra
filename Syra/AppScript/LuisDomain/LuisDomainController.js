@@ -5,7 +5,7 @@
 
         $scope.GetLuisDomain = function () {
             $http.get('/LuisDomains/GetDomain').success(function (data) {
-                if (data.isSaved) {
+                if (data.IsSuccess) {
                     $scope.luisdomain = data.Data;
                 }
                 else {
@@ -19,7 +19,7 @@
             if (confirm('Are you sure ? You want to delete Bot')) {
                 $http.post("/LuisDomains/DomainDelete", { id: id }).success(function (data) {
                     console.log("Domain Id is : " + id);
-                    if (data.isSaved) {
+                    if (data.IsSuccess) {
                         syraservice.RecordStatusMessage("success", data.Message);
                         $scope.GetLuisDomain();
                     }
@@ -54,7 +54,7 @@ SyraApp.controller("DomainAddController", ["$scope", "$http", "syraservice", "$s
         $scope.DomainCreate = function () {
             if ($scope.IsEditMode) {
                 $http.post('/LuisDomains/UpdateLuisDomain', { luisDomain: $scope.CreateLuis }).success(function (data) {
-                    if (data.isSaved) {
+                    if (data.IsSuccess) {
                         $scope.CreateLuis = {};
                         syraservice.RecordStatusMessage("success", data.Message);
                         $state.go("/luisdomain");
@@ -65,7 +65,7 @@ SyraApp.controller("DomainAddController", ["$scope", "$http", "syraservice", "$s
             }
             else {
                 $http.post('/LuisDomains/CreateDomain', { luisDomain: $scope.CreateLuis }).success(function (data) {
-                    if (data.isSaved) {
+                    if (data.IsSuccess) {
                         $scope.CreateLuis = {};
                         syraservice.RecordStatusMessage("success", data.Message);
                         $state.go("/luisdomain");

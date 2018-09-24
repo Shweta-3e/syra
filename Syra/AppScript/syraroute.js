@@ -1,6 +1,6 @@
 ﻿"use strict";
 
-var SOFT_VER = "0.012";
+var SOFT_VER = "1.01";
 
 var SyraApp = angular.module("syra", ["ui.router"]);
 
@@ -108,7 +108,6 @@ SyraApp.config(["$stateProvider", "$urlRouterProvider", function ($stateProvider
     $stateProvider.state(acc_confirmation);
 
     var chatbot = {
-
         view: {
             url: '/chatbot',
             title: 'chatbot',

@@ -84,7 +84,15 @@ namespace Syra.Admin.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    var user = new ClaimsPrincipal(AuthenticationManager.AuthenticationResponseGrant.Identity);
+                    if (user.IsInRole("Admin"))
+                    {
+                        return RedirectToLocal("/home/#/managecustomer");
+                    }
+                    else
+                    {
+                        return RedirectToLocal("/home/#/chatbot");
+                    }
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -648,6 +656,7 @@ namespace Syra.Admin.Controllers
 
         private ActionResult RedirectToLocal(string returnUrl)
         {
+            return Redirect(returnUrl);
             if (Url.IsLocalUrl(returnUrl))
             {
                 return Redirect(returnUrl);

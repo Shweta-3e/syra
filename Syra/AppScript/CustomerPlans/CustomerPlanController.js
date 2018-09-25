@@ -6,6 +6,7 @@
 
         $scope.GetCustomers = function () {
             $http.get("/Customer/GetCustomers").success(function (response) {
+                console.log(response.Data);
                 $scope.Customers = response.Data;
             });
         }
@@ -100,7 +101,7 @@ SyraApp.controller("CustomerDetailController", ["$scope", "$http", "syraservice"
 
         $scope.UpdateChatBot = function () {
             $http.post('/Customer/UpdateChatBot', { botdeploymentview: $scope.BotDeployment }).success(function (data) {
-                if (data.isSaved) {
+                if (data.IsSuccess) {
                     $scope.BotDeployment = {};
                     syraservice.RecordStatusMessage("success", data.Message);
                     $scope.IsEditMode = false;
@@ -128,7 +129,7 @@ SyraApp.controller("CustomerDetailController", ["$scope", "$http", "syraservice"
         $scope.Delete = function (id) {
             if (confirm('Are you sure ? You want to delete chatbot')) {
                 $http.post("/Customer/Delete/", { id: id }).success(function (data) {
-                    if (data.isSaved) {
+                    if (data.IsSuccess) {
                         syraservice.RecordStatusMessage("success", data.Message);
                         $scope.LoadCustomer();
                     }

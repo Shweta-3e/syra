@@ -55,7 +55,7 @@ namespace Syra.Admin.Migrations
                     roleResult = rolemanager.Create(new IdentityRole(rolename));
                 }
             }
-           
+
 
             var userStore = new UserStore<ApplicationUser>(context);
             var manager = new UserManager<ApplicationUser>(userStore);

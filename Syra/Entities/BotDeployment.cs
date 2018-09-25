@@ -54,6 +54,7 @@ namespace Syra.Admin.Entities
         public string DeploymentScript { get; set; }
         public string EmbeddedScript { get; set; }
         public string T_BotClientId { get; set; }
+        public string DomainKey { get; set; }
     }
 
     public enum Status

@@ -33,13 +33,17 @@ namespace Syra.Admin
                                "~/Scripts/angular/angular-ui-router.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/angularapp").Include(
-             //Admin module
+               //Admin module
+               "~/Appscript/syraapp.js",
              "~/Appscript/syraroute.js",
              "~/Appscript/SyraService.js",
              "~/Appscript/Register/RegisterController.js",
               "~/Appscript/ChatBot/ChatBotController.js",
                "~/Appscript/CustomerProfile/CustomerProfileController.js",
-               "~/Appscript/CustomerPlans/CustomerPlanController.js"
+               "~/Appscript/CustomerPlans/CustomerPlanController.js",
+               "~/Appscript/AdminPlan/AdminPlanController.js",
+               "~/Appscript/LuisDomain/LuisDomainController.js",
+               "~/Appscript/ChangePassword/ChangePasswordController.js"
              ));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(

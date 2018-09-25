@@ -8,38 +8,43 @@
         $scope.BotDetail = false;
         $scope.CustomerPlan = {};
 
+        console.log("Fixed this issue");
+
         $scope.GetCurrentUser = function () {
             $http.post('/Customer/GetCurrentUser'
-               ).success(function (data) {
-                   $scope.Customer = data.Data;
+            ).success(function (data) {
+                console.log(data);
+                $scope.Customer = data.Data;
 
-                   $http.post('/Customer/GetCustomerActivePlan',
-                       {
-                           customerId: $scope.Customer.Id
-                       }).success(function (data) {
-                           console.log(data.Data);
-                           $scope.CustomerPlan = data.Data;
-                       });
-                });
+                $http.post('/Customer/GetCustomerActivePlan',
+                    {
+                        customerId: $scope.Customer.Id
+                    }).success(function (data) {
+                        console.log(data.Data);
+                        $scope.CustomerPlan = data.Data;
+                    });
+            });
+        };
 
-            
-        }
         $scope.GetCurrentUser();
 
         $scope.GetChatBots = function () {
+
             $http.post('/Customer/GetMyBots',
                 {
                     pagesize: $scope.pageSize,
                     pageno: $scope.pageNumber
                 }).success(function (data) {
-                    if (data.isSaved) {
+                    console.log(data);
+                    if (data.IsSuccess == true) {
                         $scope.MyChatBots = data.Entities;
                         $scope.HasNext = data.HasNext;
                         $scope.HasPrevious = data.HasPrevious;
                         $scope.TotalPages = data.TotalPages;
-                    } else {
-                        window.location.href = ("Account/Login");
                     }
+                    //else {
+                    //    window.location.href = ("Account/Login");
+                    //}
                 });
         };
         $scope.GetChatBots();
@@ -65,16 +70,16 @@
             console.log(chatbot);
         };
 
-        $scope.CopyToClipBoard =  function() {
+        $scope.CopyToClipBoard = function () {
             var copyText = document.getElementById("txtEmbeddedScript");
             copyText.select();
             document.execCommand("copy");
-        }
+        };
 
         $scope.Delete = function (id) {
             if (confirm('Are you sure ? You want to delete chatbot')) {
                 $http.post("/Customer/Delete/", { id: id }).success(function (data) {
-                    if (data.isSaved) {
+                    if (data.IsSuccess) {
                         console.log("Called")
                         syraservice.RecordStatusMessage("success", data.Message);
                         $scope.GetChatBots();
@@ -91,7 +96,6 @@
             $scope.BotDetail = false;
             $state.go("chatbot");
         };
-
     }
 ]);
 
@@ -128,7 +132,7 @@ SyraApp.controller("ChatBotAddController", ["$scope", "$http", "syraservice", "$
         $scope.CreateChatBot = function () {
             if ($scope.IsEditMode) {
                 $http.post('/Customer/UpdateChatBot', { botdeploymentview: $scope.BotDeployment }).success(function (data) {
-                    if (data.isSaved) {
+                    if (data.IsSuccess) {
                         $scope.BotDeployment = {};
                         syraservice.RecordStatusMessage("success", data.Message);
                         $state.go("chatbot");
@@ -138,7 +142,7 @@ SyraApp.controller("ChatBotAddController", ["$scope", "$http", "syraservice", "$
                 });
             } else {
                 $http.post('/Customer/CreateNewChatBot', { botdeployment: $scope.BotDeployment }).success(function (data) {
-                    if (data.isSaved) {
+                    if (data.IsSuccess) {
                         $scope.BotDeployment = {};
                         syraservice.RecordStatusMessage("success", data.Message);
                         $state.go("chatbot");

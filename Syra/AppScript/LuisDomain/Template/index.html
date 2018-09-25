@@ -1,8 +1,19 @@
 ﻿<div class="container">
-    <h2>My Luis Domains</h2>
-
-    <p><a ui-sref="newluisdomain" style="height: 33px;border: 0px;font-size:15px;background-color: transparent;">Create New</a> </p>
-
+    <h3>
+        My BotDomains <span class="badge"></span>
+        <span class="pull-right">
+            <a ui-sref="newluisdomain" style="height: 33px;border: 0px;font-size:15px;background-color: transparent;">
+                Create New
+            </a>
+        </span>
+    </h3>
+    <!--<h3>My BotDomains</h3>
+    <span class="pull-right">
+        <a ui-sref="newluisdomain" style="height: 33px;border: 0px;font-size:15px;background-color: transparent;">
+            Create New
+        </a>
+    </span>-->
+    <!--<p><a ui-sref="newluisdomain" style="height: 33px;border: 0px;font-size:15px;background-color: transparent;">Create New</a> </p>-->
     <table class="table">
         <thead>
             <tr>
@@ -22,15 +33,14 @@
                 <td style="text-align:center">{{luis.LuisAppId}}</td>
                 <td style="text-align:center">{{luis.LuisAppKey}}</td>
                 <td style="text-align:center">
-                    <a href="/#/chatbot/{{chatbot.Id}}" class="btn">
+                    <a href="/#/luisdomain/{{luis.Id}}" class="btn btn-default">
                         Edit
                     </a>
-                    <a class="btn" ng-click="Delete(chatbot.Id)">
+                    <a class="btn btn-danger" ng-click="Delete(luis.Id)">
                         Delete
                     </a>
                 </td>
             </tr>
         </tbody>
     </table>
-
 </div>

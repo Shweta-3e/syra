@@ -5,7 +5,7 @@
 
         $scope.GetLuisDomain = function () {
             $http.get('/LuisDomains/GetDomain').success(function (data) {
-                if (data.isSaved) {
+                if (data.IsSuccess) {
                     $scope.luisdomain = data.Data;
                 }
                 else {
@@ -15,6 +15,20 @@
             
         };
         $scope.GetLuisDomain();
+        $scope.Delete = function (id) {
+            if (confirm('Are you sure ? You want to delete Bot')) {
+                $http.post("/LuisDomains/DomainDelete", { id: id }).success(function (data) {
+                    console.log("Domain Id is : " + id);
+                    if (data.IsSuccess) {
+                        syraservice.RecordStatusMessage("success", data.Message);
+                        $scope.GetLuisDomain();
+                    }
+                    else {
+                        syraservice.RecordStatusMessage("error", data.Message);
+                    }
+                });
+            }
+        };
     }
 ]);
 
@@ -32,16 +46,34 @@ SyraApp.controller("DomainAddController", ["$scope", "$http", "syraservice", "$s
         } else {
             $scope.IsEditMode = true;
         }
-        $scope.LuisCreate = function () {
-            $http.post('/LuisDomains/CreateDomain', { luis: $scope.CreateLuis }).success(function (data) {
-                if (data.isSaved) {
-                    $scope.CreateLuis = {};
-                    syraservice.RecordStatusMessage("success", data.Message);
-                    $state.go("luisdomain");
-                } else {
-                    syraservice.RecordStatusMessage("error", data.Message);
-                }
+        if ($scope.IsEditMode) {
+            $http.post("/LuisDomains/GetLuisDomain/", { id: $scope.id }).success(function (data) {
+                $scope.CreateLuis = data.Data;
             });
+        }
+        $scope.DomainCreate = function () {
+            if ($scope.IsEditMode) {
+                $http.post('/LuisDomains/UpdateLuisDomain', { luisDomain: $scope.CreateLuis }).success(function (data) {
+                    if (data.IsSuccess) {
+                        $scope.CreateLuis = {};
+                        syraservice.RecordStatusMessage("success", data.Message);
+                        $state.go("/luisdomain");
+                    } else {
+                        syraservice.RecordStatusMessage("error", data.Message);
+                    }
+                });
+            }
+            else {
+                $http.post('/LuisDomains/CreateDomain', { luisDomain: $scope.CreateLuis }).success(function (data) {
+                    if (data.IsSuccess) {
+                        $scope.CreateLuis = {};
+                        syraservice.RecordStatusMessage("success", data.Message);
+                        $state.go("/luisdomain");
+                    } else {
+                        syraservice.RecordStatusMessage("error", data.Message);
+                    }
+                });
+            }
         }
 
         $scope.Cancel = function () {

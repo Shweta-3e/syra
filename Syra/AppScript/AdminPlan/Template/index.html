@@ -1,9 +1,12 @@
 ﻿<div class="container">
-    <h2>Plans</h2>
-
-    <p><a ui-sref="newplancreate" style="height: 33px;border: 0px;font-size:15px;background-color: transparent;">Create New</a>
-    </p>
-
+    <h3>
+        My Plans <span class="badge"></span>
+        <span class="pull-right">
+            <a ui-sref="newplancreate" style="height: 33px;border: 0px;font-size:15px;background-color: transparent;">
+                Create New
+            </a>
+        </span>
+    </h3>
     <table class="table">
         <thead>
             <tr>
@@ -23,15 +26,14 @@
                 <td style="text-align:center">{{plan.SetupFees}}</td>
                 <td style="text-align:center">{{plan.SiteSpecification}}</td>
                 <td style="text-align:center">
-                    <a href="/#/adminplan/{{plan.Id}}" class="btn">
-                        Edit
+                    <a href="/#/adminplan/{{plan.Id}}" class="btn btn-default">
+                        <b>Edit</b>
                     </a>
-                    <a class="btn" ng-click="Delete(plan.Id)">
+                    <a class="btn btn-danger" ng-click="Delete(plan.Id)">
                         Delete
                     </a>
                 </td>
             </tr>
         </tbody>
     </table>
-
 </div>

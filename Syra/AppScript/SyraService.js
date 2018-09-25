@@ -1,4 +1,5 @@
-﻿SyraApp.service("syraservice",
+﻿
+SyraApp.service("syraservice",
 ["$rootScope", "$http", "$interval", "$filter", "$document", "$q",
     function ($rootScope, $serviceHttp, $interval, $filter, $document, $q) {
 

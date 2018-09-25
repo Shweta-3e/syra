@@ -3,13 +3,13 @@
 
 
         $scope.Plans = {};
+        $scope.PlanDetails = false;
 
         $scope.GetPlans = function () {
             $http.get('/Plans/GetPlans').success(function (data) {
-                if (data.isSaved)
+                if (data.IsSuccess)
                 {
                     $scope.Plans = data.Data;
-                    //console.log($scope.Plans);
                 }
                 else
                 {
@@ -20,8 +20,9 @@
         $scope.GetPlans();
         $scope.Delete = function (id) {
             if (confirm('Are you sure ? You want to delete plan')) {
-                $http.post("/Plans/Delete", { id: id }).success(function (data) {
-                    if (data.isSaved) {
+                $http.post("/Plans/DeletePlan", { id: id }).success(function (data) {
+                    console.log("Plan Id is : " + id);
+                    if (data.IsSuccess) {
                         syraservice.RecordStatusMessage("success", data.Message);
                         alert(data.Message);
                         $scope.GetPlans();
@@ -31,6 +32,10 @@
                     }
                 });
             }
+        };
+        $scope.Cancel = function () {
+            $scope.PlanDetails = false;
+            $state.go("newplan");
         };
 
     }
@@ -50,16 +55,36 @@ SyraApp.controller("PlanAddController", ["$scope", "$http", "syraservice", "$sta
         } else {
             $scope.IsEditMode = true;
         }
-        $scope.PlanCreate = function () {
-            $http.post('/Plans/CreateNewPlan', { plan: $scope.CreatePlan }).success(function (data) {
-                if (data.isSaved) {
-                    $scope.CreatePlan = {};
-                    syraservice.RecordStatusMessage("success", data.Message);
-                    $state.go("adminplan");
-                } else {
-                    syraservice.RecordStatusMessage("error", data.Message);
-                }
+        if ($scope.IsEditMode) {
+            $http.post("/Plans/GetPlanEntry/", { id: $scope.id }).success(function (data) {
+                $scope.CreatePlan = data.Data;
             });
+        }
+
+        $scope.PlanCreate = function () {
+            if ($scope.IsEditMode) {
+                $http.post('/Plans/UpdatePlan', { plan: $scope.CreatePlan }).success(function (data) {
+                    if (data.IsSuccess) {
+                        $scope.CreatePlan = {};
+                        syraservice.RecordStatusMessage("success", data.Message);
+                        $state.go("adminplan");
+                    } else {
+                        syraservice.RecordStatusMessage("error", data.Message);
+                    }
+                });
+            }
+            else {
+                $http.post('/Plans/CreateNewPlan', { plan: $scope.CreatePlan }).success(function (data) {
+                    if (data.IsSuccess) {
+                        $scope.CreatePlan = {};
+                        syraservice.RecordStatusMessage("success", data.Message);
+                        $state.go("adminplan");
+                    } else {
+                        syraservice.RecordStatusMessage("error", data.Message);
+                    }
+                });
+            }
+            
         }
 
         $scope.Cancel = function () {

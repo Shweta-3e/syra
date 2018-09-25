@@ -6,15 +6,20 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity.Owin;
 using Syra.Admin.DbContexts;
 using Syra.Admin.Entities;
+using Syra.Admin.Helper;
 
 namespace Syra.Admin.Controllers
 {
     public class LuisDomainsController : Controller
     {
-        private SyraDbContext db = new SyraDbContext();
 
+        private ApplicationSignInManager _signInManager;
+        private ApplicationUserManager _userManager;
+        private SyraDbContext db = new SyraDbContext();
+        private Response response = new Response();
         // GET: LuisDomains
         public ActionResult Index()
         {
@@ -57,6 +62,117 @@ namespace Syra.Admin.Controllers
             }
 
             return View(luisDomain);
+        }
+        
+        [HttpGet]
+        public string GetDomain()
+        {
+            var useremail = HttpContext.User.Identity.Name;
+
+            _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var aspnetuser = _userManager.FindByEmailAsync(useremail).Result;
+            if(aspnetuser!=null)
+            {
+                var luisdomain = db.LuisDomains.ToList();
+                response.Data = luisdomain;
+                response.IsSuccess = true;
+                return response.GetResponse();
+            }
+            else
+            {
+                response.IsSuccess = false;
+            }
+            return response.GetResponse();
+        }
+
+        [HttpPost]
+        public string GetLuisDomain(Int64 Id)
+        {
+            var findluis = db.LuisDomains.Find(Id);
+            if(findluis!=null)
+            {
+                response.Data = findluis;
+                return response.GetResponse();
+            }
+            else
+            {
+                response.Data = null;
+            }
+            return response.GetResponse();
+        }
+
+        [HttpPost]
+        public string UpdateLuisDomain(LuisDomain luisDomain)
+        {
+            var luisdomain = db.LuisDomains.Find(luisDomain.Id);
+            //luisdomain = luisDomain;
+            var existsdomain = db.LuisDomains.Find(luisDomain.Id);
+            if(existsdomain!=null)
+            {
+                existsdomain.Name = luisDomain.Name;
+                existsdomain.Details = luisDomain.Details;
+                existsdomain.Category = luisDomain.Category;
+                existsdomain.LuisAppId = luisDomain.LuisAppId;
+                existsdomain.LuisAppKey = luisDomain.LuisAppKey;
+                db.SaveChanges();
+                response.IsSuccess = true;
+                response.Message = "Record is updated successfully";
+                return response.GetResponse();
+            }
+            else
+            {
+                response.IsSuccess = false;
+                response.Message = "Record isn't updated ";
+            }
+            return response.GetResponse();
+        }
+
+        [HttpPost]
+        public string CreateDomain(LuisDomain luisDomain)
+        {
+            var luisobj = new LuisDomain();
+            var existsdomain = db.LuisDomains.Where(x => x.Name == luisDomain.Name).FirstOrDefault();
+            if(existsdomain==null)
+            {
+                luisobj.Name = luisDomain.Name;
+                luisobj.Details = luisDomain.Details;
+                luisobj.Category = luisDomain.Category;
+                luisobj.LuisAppId = luisDomain.LuisAppId;
+                luisobj.LuisAppKey = luisDomain.LuisAppKey;
+
+                db.LuisDomains.Add(luisobj);
+                db.SaveChanges();
+                response.IsSuccess = true;
+                response.Message = "LuisDomain is created successsfully";
+                return response.GetResponse();
+            }
+            else
+            {
+                response.IsSuccess = false;
+                response.Message = "LuisDomain isn't created successsfully";
+            }
+            return response.GetResponse();
+        }
+
+        [HttpPost]
+        public string DomainDelete(Int64 Id)
+        {
+            var existsdomain = db.LuisDomains.Find(Id);
+            if(existsdomain!=null)
+            {
+                db.LuisDomains.Remove(existsdomain);
+                db.SaveChanges();
+                response.IsSuccess = true;
+                response.Message = "Record is deleted successfully";
+                return response.GetResponse();
+            }
+            else
+            {
+                response.IsSuccess = false;
+                response.Message = "Record is not deleted successfully";
+            }
+            return response.GetResponse();
         }
 
         // GET: LuisDomains/Edit/5

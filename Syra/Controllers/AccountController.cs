@@ -278,18 +278,18 @@ namespace Syra.Admin.Controllers
 
                         //return RedirectToAction("AccountConfirmation", "Account");
 
-                        response.isSaved = true;
+                        response.IsSuccess = true;
                         response.Message = "Your register successfully";
                     }
                     else
                     {
-                        response.isSaved = false;
+                        response.IsSuccess = false;
                         response.Message = "Customer does not exist";
                     }
                 }
                 else
                 {
-                    response.isSaved = false;
+                    response.IsSuccess = false;
                     response.Message = "Email already exists.";
                 }
             }
@@ -364,6 +364,36 @@ namespace Syra.Admin.Controllers
         public ActionResult ForgotPassword()
         {
             return View();
+        }
+
+        [HttpPost]
+        public string ChangePassWord(ResetPasswordViewModel model)
+        {
+            if(model!=null)
+            {
+                var userStore = new UserStore<ApplicationUser>(db);
+                var manager = new UserManager<ApplicationUser>(userStore);
+
+                var user = new ApplicationUser { UserName = model.Email };
+                var existingUser = UserManager.FindByName(model.Email);
+                //if(existingUser==null || !(UserManager.IsEmailConfirmed(existingUser.Id)))
+                //{
+                //    response.Message = "Email not found";
+                //}
+                string resetToken = UserManager.GeneratePasswordResetToken(existingUser.Id);
+                model.Code = resetToken;
+                var result = UserManager.ResetPassword(existingUser.Id, model.Code, model.Password);
+                if(result.Succeeded)
+                {
+                    response.IsSuccess = true;
+                    response.Message = "Password is reset successfully";
+                }
+                else
+                {
+                    response.IsSuccess = false;
+                }
+            }
+            return response.GetResponse();
         }
 
         //

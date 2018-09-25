@@ -170,7 +170,7 @@ namespace Syra.Admin.Controllers
                     //customer has active plan
                     if (count >= plancheck.Plan.AllowedBotLimit)
                     {
-                        response.isSaved = false;
+                        response.IsSuccess = false;
                         response.Message = "Plan allowed limit exceeds! Please upgrade your plan";
                         return response.GetResponse();
                     }
@@ -209,10 +209,10 @@ namespace Syra.Admin.Controllers
                                 }
                             }
                         }
-                        bot.EmbeddedScript = "<script src=https://syra.ai/bigdataadvisor/assets/big-data-advisor.js " + "clientID= " + bot.T_BotClientId + "></script>";
+                        bot.EmbeddedScript = "<script src= \"https://syra.ai/genericbot/assets/genericbot.js\" " + "clientID=\"" + bot.T_BotClientId + "\"></script>";
                         customer.BotDeployments.Add(bot);
                         db.SaveChanges();
-                        response.isSaved = true;
+                        response.IsSuccess = true;
                         response.Message = "Chat bot created successfully";
                         return response.GetResponse();
                         //return RedirectToAction("MyBots");
@@ -220,7 +220,7 @@ namespace Syra.Admin.Controllers
                 }
                 else
                 {
-                    response.isSaved = false;
+                    response.IsSuccess = false;
                     response.Message = "Please Active your plan";
                     return response.GetResponse();
                     //return RedirectToAction("MyBots");
@@ -232,54 +232,49 @@ namespace Syra.Admin.Controllers
             return response.GetResponse();
         }
 
-        [HttpPost]
-        public string GetCurrentUser()
-        {
-            _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-            _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            var useremail = HttpContext.User.Identity.Name;
-            var aspnetuser = _userManager.FindByEmailAsync(useremail).Result;
-            var customer = db.Customer.FirstOrDefault(c => c.UserId == aspnetuser.Id);
-            var botdeployments = db.BotDeployments.Where(c => c.CustomerId == customer.Id).ToList();
-            customer.BotDeployments = botdeployments;
-            response.Data = Mapper.Map<CustomerView>(customer);
-            return response.GetResponse(); 
-        }
 
         [HttpPost]
         public string GetMyBots(int pagesize=10, int pageno=0)
         {
-            var useremail = HttpContext.User.Identity.Name;
-
-            _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-            _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-
-            var aspnetuser = _userManager.FindByEmailAsync(useremail).Result;
-
-            PaginatedResponse result = new PaginatedResponse();
-
-            var customer = db.Customer.FirstOrDefault(c => c.UserId == aspnetuser.Id);
-            if (customer != null)
+            try
             {
-                var userbots = db.BotDeployments.Where(c => c.CustomerId == customer.Id).ToList();
+                var useremail = HttpContext.User.Identity.Name;
 
-                result.Count = userbots.Count();
-                result.TotalPages = (int)(result.Count / pagesize) + ((result.Count % pagesize) > 0.0M ? 1 : 0);
-                var skip = pageno * pagesize;
-                result.HasNext = (skip > 0 || pagesize > 0) && (skip + pagesize < result.Count);
-                result.HasPrevious = skip > 0;
+                _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+                _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
 
-                result.isSaved = true;
-                result.Entities = Mapper.Map<BotDeploymentView[]>(userbots.Skip(skip).Take(pagesize));
-                return result.GetResponse();
-            }
-            else
+                var aspnetuser = _userManager.FindByEmailAsync(useremail).Result;
+
+                PaginatedResponse result = new PaginatedResponse();
+
+                var customer = db.Customer.FirstOrDefault(c => c.UserId == aspnetuser.Id);
+                if (customer != null)
+                {
+                    var userbots = db.BotDeployments.Where(c => c.CustomerId == customer.Id).ToList();
+
+                    result.Count = userbots.Count();
+                    result.TotalPages = (int)(result.Count / pagesize) + ((result.Count % pagesize) > 0.0M ? 1 : 0);
+                    var skip = pageno * pagesize;
+                    result.HasNext = (skip > 0 || pagesize > 0) && (skip + pagesize < result.Count);
+                    result.HasPrevious = skip > 0;
+
+                    result.IsSuccess = true;
+                    result.Entities = Mapper.Map<BotDeploymentView[]>(userbots.Skip(skip).Take(pagesize));
+                    return result.GetResponse();
+                }
+                else
+                {
+                    response.IsSuccess = false;
+                    //return RedirectToAction("Login", "Account");
+                }
+
+                return response.GetResponse();
+            }catch(Exception ex)
             {
-                response.isSaved = false;
-                //return RedirectToAction("Login", "Account");
+                response.IsSuccess = false;
+                response.Message = ex.Message;
+                return response.GetResponse();
             }
-
-            return response.GetResponse();
             //return View(ViewBag.Bots);
         }
 
@@ -331,6 +326,8 @@ namespace Syra.Admin.Controllers
                     chatbot.WebSiteUrl = botdeploymentview.WebSiteUrl;
                     chatbot.BotQuestionAnswers = new List<BotQuestionAnswers>();
                     chatbot.Status = botdeploymentview.Status;
+                    chatbot.IsPlanActive = botdeploymentview.IsPlanActive;
+                    chatbot.DomainKey = botdeploymentview.DomainKey;
                     if(botdeploymentview.BotQuestionAnswers != null)
                     {
                         if (botdeploymentview.BotQuestionAnswers.Any())
@@ -355,19 +352,19 @@ namespace Syra.Admin.Controllers
 
                     db.SaveChanges();
 
-                    response.isSaved = true;
+                    response.IsSuccess = true;
                     response.Message = "Record updated successfully";
                     return response.GetResponse();
                 }
                 else
                 {
-                    response.isSaved = false;
+                    response.IsSuccess = false;
                     response.Message = "Record does not exist";
                 }
             }
             catch (Exception ex)
             {
-                response.isSaved = false;
+                response.IsSuccess = false;
                 response.Message = ex.Message;
             }
             return response.GetResponse();
@@ -383,16 +380,16 @@ namespace Syra.Admin.Controllers
                 {
                     db.BotDeployments.Remove(chatbot);
                     db.SaveChanges();
-                    response.isSaved = true;
+                    response.IsSuccess = true;
                     response.Message = "Record deleted successfully";
                 }
                 return response.GetResponse();
             }
             catch (Exception ex)
             {
-                response.isSaved = false;
+                response.IsSuccess = false;
                 response.Message = "Unable to delete record";
-                return response.GetResponse(); ;
+                return response.GetResponse(); 
             }
         }
 
@@ -418,7 +415,7 @@ namespace Syra.Admin.Controllers
                     customer.BusinessRequirement = customerView.BusinessRequirement;
                     db.SaveChanges();
 
-                    response.isSaved = true;
+                    response.IsSuccess = true;
                     response.Data = Mapper.Map<CustomerView>(customer);
                     response.Message = "Profile updated successfully";
                     return response.GetResponse();
@@ -426,9 +423,23 @@ namespace Syra.Admin.Controllers
             }
             catch(Exception ex)
             {
-                response.isSaved = true;
+                response.IsSuccess = true;
                 response.Message = "Unable to update profile";
             }
+            return response.GetResponse();
+        }
+
+        [HttpPost]
+        public string GetCurrentUser()
+        {
+            _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var useremail = HttpContext.User.Identity.Name;
+            var aspnetuser = _userManager.FindByEmailAsync(useremail).Result;
+            var customer = db.Customer.FirstOrDefault(c => c.UserId == aspnetuser.Id);
+            var botdeployments = db.BotDeployments.Where(c => c.CustomerId == customer.Id).ToList();
+            customer.BotDeployments = botdeployments;
+            response.Data = Mapper.Map<CustomerView>(customer);
             return response.GetResponse();
         }
 
@@ -450,23 +461,48 @@ namespace Syra.Admin.Controllers
             var botdeployment = db.BotDeployments.FirstOrDefault(c => c.T_BotClientId == clientId);
             if(botdeployment != null)
             {
-                var customerDetails = new 
+                if (botdeployment.IsPlanActive)
                 {
-                    WelcomeMsg = botdeployment.WelcomeMessage,
-                    FirstMsg = botdeployment.FirstMessage,
-                    SecondMsg = botdeployment.SecondMessage,
-                    BaseColor = botdeployment.BackGroundColor,
-                    BotSecret = botdeployment.BotSecret,
-                    BotURI = botdeployment.BotURI,
-                    WebsiteURL = botdeployment.WebSiteUrl,
-                    DomainName = botdeployment.DomainName,
-                };
-                response.Data = customerDetails;
-                return response.GetResponse();
+                    var customerDetails = new
+                    {
+                        WelcomeMsg = botdeployment.WelcomeMessage,
+                        FirstMsg = botdeployment.FirstMessage,
+                        SecondMsg = botdeployment.SecondMessage,
+                        BaseColor = botdeployment.BackGroundColor,
+                        BotSecret = botdeployment.BotSecret,
+                        BotURI = botdeployment.BotURI,
+                        WebsiteURL = botdeployment.WebSiteUrl,
+                        DomainName = botdeployment.DomainName,
+                        Botchatname = botdeployment.DomainKey
+                    };
+                    response.IsSuccess = true;
+                    response.Data = customerDetails;
+                    return response.GetResponse();
+                }
+                else
+                {
+                    var customerDetails = new
+                    {
+                        WelcomeMsg = botdeployment.WelcomeMessage,
+                        FirstMsg = botdeployment.FirstMessage,
+                        SecondMsg = botdeployment.SecondMessage,
+                        BaseColor = botdeployment.BackGroundColor,
+                        BotSecret = botdeployment.BotSecret,
+                        BotURI = botdeployment.BotURI,
+                        WebsiteURL = botdeployment.WebSiteUrl,
+                        DomainName = botdeployment.DomainName,
+                        Botchatname = botdeployment.DomainKey
+                    };
+                    response.IsSuccess = false;
+                    response.Data = customerDetails;
+                    response.Message = "Your plan has been disabled, please contact administrator";
+                    return response.GetResponse();
+                }
+               
             }
             else
             {
-                response.isSaved = false;
+                response.IsSuccess = false;
                 response.Message = "Please provide valid client Id";
                 return response.GetResponse();
             }
@@ -483,6 +519,7 @@ namespace Syra.Admin.Controllers
                                  Name = a.Name,
                                  PricingPlan = a.PricingPlan,
                                  RegisterDate = a.RegisterDate,
+                                 ExpiaryDate = a.CustomerPlans.Where(c => c.CustomerId == a.Id).FirstOrDefault().ExpiryDate,
                                  Email = a.Email,
                                  ActivePlan = a.CustomerPlans.FirstOrDefault(c => c.IsActive).Plan.Name,
                                  BotLimit = a.CustomerPlans.FirstOrDefault(c => c.IsActive).Plan.AllowedBotLimit

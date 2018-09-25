@@ -57,5 +57,6 @@ namespace Syra.Admin.ViewModel
         public string T_BotClientId { get; set; }
         public string FirstMessage { get; set; }
         public string SecondMessage { get; set; }
+        public string DomainKey {get;set;}
     }
 }

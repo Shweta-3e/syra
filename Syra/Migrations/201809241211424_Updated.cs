@@ -7,14 +7,10 @@ namespace Syra.Admin.Migrations
     {
         public override void Up()
         {
-            AddColumn("dbo.BotDeployments", "SecondMessage", c => c.String());
-            AddColumn("dbo.BotDeployments", "DomainKey", c => c.String());
         }
         
         public override void Down()
         {
-            DropColumn("dbo.BotDeployments", "DomainKey");
-            DropColumn("dbo.BotDeployments", "SecondMessage");
         }
     }
 }

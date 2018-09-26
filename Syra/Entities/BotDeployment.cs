@@ -42,6 +42,8 @@ namespace Syra.Admin.Entities
 
         public string ResourceGroupName { get; set; }
         public string BlobStorageName { get; set; }
+        public string BlobConnectionString { get; set; }
+        public string ContainerName { get; set; }
         public string WebSiteUrl { get; set; }
         public DateTime DeleteDate { get; set; }
 

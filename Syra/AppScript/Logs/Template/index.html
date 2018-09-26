@@ -1,0 +1,52 @@
+﻿<head>
+    <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/Scripts/moment.js"></script>
+    <script src="~/Scripts/bootstrap-datetimepicker.js"></script>
+</head>
+<div class="container" ng-hide="LogView">
+    <h3>
+        Log View
+        <span class="pull-right">
+        </span>
+    </h3>
+    <div class='input-group date' id='datetimepicker1' style="padding-bottom:50px; width:400px;">
+        <input type='text' class="form-control" ng-model="selectedDt" data-date-time-picker />
+        <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+        </span>
+            <button class="btn btn-success" style="margin-left:25px;" ng-click="showDate()">Submit</button>
+     </div>
+        <div>
+            <table class="table table-responsive table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th class="text-align-center" style="width:200px">DateTime</th>
+                        <!--<th class="text-align-center">Time</th>-->
+                        <th class="text-align-center">Session Id</th>
+                        <th class="text-align-center">IPAddress</th>
+                        <th class="text-align-center">Region</th>
+                        <th class="text-align-center">User Query</th>
+                        <th class="text-align-center">Bot Answers</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="log in Logs">
+                        <td class="text-align-center">{{log.Log_Date| date:'MM-dd-yy HH:mm:ss'}}</td>
+                        <!--<td class="text-align-center">{{log.LogTime}}</td>-->
+                        
+
+                        <td class="text-align-center">{{log.SessionId}}</td>
+                        <td class="text-align-center">{{log.IPAddress}}</td>
+                        <td class="text-align-center">{{log.Region}}</td>
+                        <td class="text-align-center">{{log.UserQuery}}</td>
+                        <td class="text-align-center" ng-bind-html="log.BotAnswers1"></td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>

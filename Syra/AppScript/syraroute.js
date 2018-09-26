@@ -164,4 +164,13 @@
         templateUrl: "/Appscript/CustomerPlans/Template/viewcustomerdetails.html?VER=" + SOFT_VER,
     };
     $stateProvider.state(viwdetails);
+
+    var logs = {
+        url: '/logs',
+        title: 'Logs',
+        name: 'logs',
+        controller: 'LogsController',
+        templateUrl: "/Appscript/Logs/Template/index.html?VER=" + SOFT_VER,
+    };
+    $stateProvider.state(logs);
 }]);

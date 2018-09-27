@@ -136,8 +136,8 @@ namespace Syra.Admin.Controllers
         [HttpPost]
         public string GetLogs(string customerdt)
         {
-            try
-            {
+            //try
+            //{
                 List<SessionLog> logs = new List<SessionLog>();
                 SyraDbContext db = new SyraDbContext();
 
@@ -185,25 +185,25 @@ namespace Syra.Admin.Controllers
                                 log.LogDate = splitedword[5];
                                 log.LogTime = splitedword[6];
                                 string tempdate = log.LogDate + log.LogTime;
-                                log.Log_Date = Convert.ToDateTime(tempdate);
-                                logs.Add(new SessionLog { SessionId = splitedword[0] , IPAddress =splitedword[1] , Region = splitedword[2] , UserQuery = splitedword[3] , BotAnswers = splitedword[4] , Log_Date=log.Log_Date});
+                                //log.Log_Date = DateTime.Parse(tempdate);
+                                logs.Add(new SessionLog { SessionId = splitedword[0] , IPAddress =splitedword[1] , Region = splitedword[2] , UserQuery = splitedword[3] , BotAnswers = splitedword[4] , LogDate= tempdate });
                             }
                         }
                         response.IsSuccess = true;
                         response.Data = logs;
                         return response.GetResponse();
                     }
-                }
+                //}
 
                 
             }
-            catch (Exception e)
-            {
-                response.IsSuccess = false;
-                string errmsg = e.Message;
-                response.Message = errmsg;
-                Console.WriteLine(errmsg);
-            }
+            //catch (Exception e)
+            //{
+            //    response.IsSuccess = false;
+            //    string errmsg = e.Message;
+            //    response.Message = errmsg;
+            //    Console.WriteLine(errmsg);
+            //}
             return response.GetResponse();
         }
         #region BotDeployment

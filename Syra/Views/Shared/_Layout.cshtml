@@ -204,8 +204,8 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
     <link rel="icon" href="~/syra_assets/syra-logo-e1522054091102.jpg" sizes="192x192" />
     <link rel="apple-touch-icon-precomposed" href="~/syra_assets/syra-logo-e1522054091102.jpg" />
     <meta name="msapplication-TileImage" content="~/syra_assets/syra-logo-e1522054091102.jpg" />
-
-
+    <link href="~/Scripts/Datatables/css/angular-datatables.min.css" rel="stylesheet" />
+        
     <script type="text/javascript">
         var doc = document.documentElement;
         doc.setAttribute('data-useragent', navigator.userAgent);
@@ -250,9 +250,9 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
                                         <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/#/Profile" class="fusion-bar-highlight"><span class="menu-text">My Profile</span></a></li>
                                         <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a ui-sref="chatbot" @*href="/customer/mybots"*@ class="fusion-bar-highlight"><span class="menu-text">My Chatbots</span></a></li>
                                         <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/#/Subscription" class="fusion-bar-highlight"><span class="menu-text">My Subsription</span></a></li>
-                                        <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="" class="fusion-bar-highlight"><span class="menu-text">Log Analytics</span></a></li>
+                                        <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a ui-sref="logs" class="fusion-bar-highlight"><span class="menu-text">Log Analytics</span></a></li>
                                         <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="" class="fusion-bar-highlight"><span class="menu-text">Analytics</span></a></li>
-                                        <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/Account/ForgotPassword" class="fusion-bar-highlight"><span class="menu-text">Change Password</span></a></li>
+                                        <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a ui-sref="forgotpassword" class="fusion-bar-highlight"><span class="menu-text">Change Password</span></a></li>
                                         <li><a href="javascript:document.getElementById('logoutForm').submit()">LogOff</a></li>
                                         using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
                                         {
@@ -283,7 +283,7 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
                                     <li role="menuitem" id="menu-item-1307" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a href="https://syra.ai/faq/" class="fusion-bar-highlight"><span class="menu-text">FAQ</span></a></li>
                                     <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="https://syra.ai/live-chatbots/" class="fusion-bar-highlight"><span class="menu-text">LIVE Chatbots</span></a></li>
                                     <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/Account/Login" class="fusion-bar-highlight"><span class="menu-text">Sign In</span></a></li>
-                                    <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/#/Account/Register" class="fusion-bar-highlight"><span class="menu-text">Register</span></a></li>
+                                    <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/Account/Register" class="fusion-bar-highlight"><span class="menu-text">Register</span></a></li>
                                     <li role="menuitem" id="menu-item-1209" class="menu-item menu-item-type-yawp_wim menu-item-object-yawp_wim menu-item-1209">
                                         <div class="yawp_wim_wrap">
                                             <div class="widget-area">
@@ -1588,6 +1588,9 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/angularjs")
+    <script src="~/Scripts/Datatables/angular-datatables.min.js"></script>
     @Scripts.Render("~/bundles/angularapp")
+
+
 </body>
 </html>

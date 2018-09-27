@@ -2,15 +2,21 @@
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+using Microsoft.WindowsAzure.Storage;
+using Microsoft.WindowsAzure.Storage.Blob;
 using Syra.Admin.DbContexts;
 using Syra.Admin.Entities;
 using Syra.Admin.Helper;
 using Syra.Admin.Models;
 using Syra.Admin.ViewModel;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.Mvc;
 
 namespace Syra.Admin.Controllers
@@ -127,7 +133,79 @@ namespace Syra.Admin.Controllers
             }
             return View(botdeployment);
         }
+        [HttpPost]
+        public string GetLogs(string customerdt)
+        {
+            try
+            {
+                List<SessionLog> logs = new List<SessionLog>();
+                SyraDbContext db = new SyraDbContext();
 
+                //Get current Logged in user by his email 
+                _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+                _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                var useremail = HttpContext.User.Identity.Name;
+                var aspnetuser = _userManager.FindByEmailAsync(useremail).Result;
+                
+                if(aspnetuser!=null)
+                {
+                    //based on aspnetuser object, get customer details
+                    var customer = db.Customer.FirstOrDefault(c => c.UserId == aspnetuser.Id);
+                    var botdata = db.BotDeployments.Where(c => c.CustomerId == customer.Id).FirstOrDefault();
+                    var connstring = botdata.BlobConnectionString;
+                    var blobstorage = botdata.BlobStorageName;
+                    var containername = botdata.ContainerName;
+
+                    CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connstring);
+                    CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+                    CloudBlobContainer container = blobClient.GetContainerReference(containername);
+                    DateTime datetime = DateTime.Now;
+                    var date = datetime.ToString("dd-MM-yyyy");
+                    var blob_file_name = customerdt + "" + ".csv";
+                    CloudBlockBlob blockBlob = container.GetBlockBlobReference(blob_file_name);
+                    bool blob_check = blockBlob.Exists();
+                    if (blob_check == false)
+                    {
+                        Console.WriteLine("Blob Container doesn't exist");
+                    }
+                    else
+                    {
+                        using (StreamReader reader = new StreamReader(blockBlob.OpenRead()))
+                        {
+                            SessionLog log = new SessionLog();
+                            while (!reader.EndOfStream)
+                            {
+                                var line = reader.ReadLine();
+                                string[] splitedword = line.Split('|');
+                                log.SessionId = splitedword[0];
+                                log.IPAddress = splitedword[1];
+                                log.Region = splitedword[2];
+                                log.UserQuery = splitedword[3];
+                                log.BotAnswers = splitedword[4];
+                                log.LogDate = splitedword[5];
+                                log.LogTime = splitedword[6];
+                                string tempdate = log.LogDate + log.LogTime;
+                                log.Log_Date = Convert.ToDateTime(tempdate);
+                                logs.Add(new SessionLog { SessionId = splitedword[0] , IPAddress =splitedword[1] , Region = splitedword[2] , UserQuery = splitedword[3] , BotAnswers = splitedword[4] , Log_Date=log.Log_Date});
+                            }
+                        }
+                        response.IsSuccess = true;
+                        response.Data = logs;
+                        return response.GetResponse();
+                    }
+                }
+
+                
+            }
+            catch (Exception e)
+            {
+                response.IsSuccess = false;
+                string errmsg = e.Message;
+                response.Message = errmsg;
+                Console.WriteLine(errmsg);
+            }
+            return response.GetResponse();
+        }
         #region BotDeployment
 
         //Get LuisDomains

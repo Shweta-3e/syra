@@ -43,7 +43,9 @@ namespace Syra.Admin
                "~/Appscript/CustomerPlans/CustomerPlanController.js",
                "~/Appscript/AdminPlan/AdminPlanController.js",
                "~/Appscript/LuisDomain/LuisDomainController.js",
-               "~/Appscript/ChangePassword/ChangePasswordController.js"
+               "~/Appscript/ChangePassword/ChangePasswordController.js",
+                "~/Appscript/Logs/LogController.js"
+
              ));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(

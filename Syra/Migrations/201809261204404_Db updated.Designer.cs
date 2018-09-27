@@ -7,13 +7,13 @@ namespace Syra.Admin.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class Updated : IMigrationMetadata
+    public sealed partial class Dbupdated : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Updated));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Dbupdated));
         
         string IMigrationMetadata.Id
         {
-            get { return "201809241211424_Updated"; }
+            get { return "201809261204404_Db updated"; }
         }
         
         string IMigrationMetadata.Source

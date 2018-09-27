@@ -276,18 +276,18 @@ namespace Syra.Admin.Controllers
                         }
                         manager.AddToRoleAsync(user.Id, "Customer");
 
-                        //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                        var task1=SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false).Status;
 
-                        // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                        // Send an email with this link
-                        //string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                        //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                        //await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
+                        //For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                        //Send an email with this link
+                        string code = UserManager.GenerateEmailConfirmationToken(user.Id);
+                        var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
 
                         //return RedirectToAction("AccountConfirmation", "Account");
 
                         response.IsSuccess = true;
-                        response.Message = "Your register successfully";
+                        response.Message = "Your account is registered successfully. Please check your email";
                     }
                     else
                     {
@@ -383,7 +383,7 @@ namespace Syra.Admin.Controllers
                 var manager = new UserManager<ApplicationUser>(userStore);
 
                 var user = new ApplicationUser { UserName = model.Email };
-                var existingUser = UserManager.FindByName(model.Email);
+                var existingUser = UserManager.FindByEmail(model.Email);
                 //if(existingUser==null || !(UserManager.IsEmailConfirmed(existingUser.Id)))
                 //{
                 //    response.Message = "Email not found";
@@ -413,7 +413,7 @@ namespace Syra.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindByNameAsync(model.Email);
+                var user = await UserManager.FindByEmailAsync(model.Email);
                 if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
                 {
                     // Don't reveal that the user does not exist or is not confirmed
@@ -421,11 +421,11 @@ namespace Syra.Admin.Controllers
                 }
 
                 // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                // Send an email with this link
-                //string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                //var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                //await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                //return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                //Send an email with this link
+                string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
             // If we got this far, something failed, redisplay form
@@ -459,7 +459,7 @@ namespace Syra.Admin.Controllers
             {
                 return View(model);
             }
-            var user = await UserManager.FindByNameAsync(model.Email);
+            var user = await UserManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
                 // Don't reveal that the user does not exist

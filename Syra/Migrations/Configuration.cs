@@ -69,6 +69,7 @@ namespace Syra.Admin.Migrations
             {
                 manager.AddToRole(user.Id, "Admin");
             }
+           
             context.SaveChanges();
             var UserManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
         }

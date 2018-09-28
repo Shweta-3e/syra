@@ -262,6 +262,8 @@
     <Content Include="AppScript\AdminPlan\AdminPlanController.js" />
     <Content Include="AppScript\AdminPlan\Template\add.html" />
     <Content Include="AppScript\AdminPlan\Template\index.html" />
+    <Content Include="AppScript\Analytics\AnalyticsController.js" />
+    <Content Include="AppScript\Analytics\index.html" />
     <Content Include="AppScript\ChangePassword\ChangePasswordController.js" />
     <Content Include="AppScript\ChangePassword\Template\forgotpassword.html" />
     <Content Include="AppScript\ChatBot\ChatBotController.js" />

@@ -19,6 +19,15 @@
     };
     $stateProvider.state(resetpassword);
 
+    var analytics = {
+        url: '/analytics',
+        title: 'Preview Analytics',
+        name: 'analytics',
+        controller: 'AnalyticsController',
+        templateUrl: "/Appscript/Analytics/Template/forgotpassword.html?VER=" + SOFT_VER,
+    };
+    $stateProvider.state(analytics);
+
     var register = {
         url: '/Account/Register',
         title: 'Register',

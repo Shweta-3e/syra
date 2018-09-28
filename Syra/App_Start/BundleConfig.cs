@@ -46,7 +46,8 @@ namespace Syra.Admin
                "~/Appscript/AdminPlan/AdminPlanController.js",
                "~/Appscript/LuisDomain/LuisDomainController.js",
                "~/Appscript/ChangePassword/ChangePasswordController.js",
-                "~/Appscript/Logs/LogController.js"
+                "~/Appscript/Logs/LogController.js",
+                "~/Appscript/Analytics/AnalyticsController.js"
 
              ));
 

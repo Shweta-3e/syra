@@ -1,6 +1,10 @@
 ﻿SyraApp.controller("LogsController", ["$scope", "$http", "syraservice", "$state", "$sce", "$stateParams",
     function ($scope, $http, syraservice, $state, $sce, $stateParams) {
         $scope.test = "Angular Js Date time picker";
+
+        this.myDate = new Date();
+        this.isOpen = false;
+
         $scope.selectedDt = "";
         $scope.showDate = function () {
             //alert($scope.selectedDt);

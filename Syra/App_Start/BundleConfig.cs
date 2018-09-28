@@ -23,6 +23,8 @@ namespace Syra.Admin
                 "~/Scripts/jquery-2.1.4.min.js",
                 "~/Scripts/jquery-ui.min.js",
                  "~/Scripts/bootstrap.min.js",
+                 "~/Scripts/bootstrap-datetimepicker.js",
+                 "~/Scripts/moment.js",
                 "~/syra_assets/d975e8eef86fa13dac350752bb833cac.js",
            "~/Scripts/notifIt.js"));
 
@@ -53,7 +55,8 @@ namespace Syra.Admin
                       "~/Scripts/respond.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                       "~/Content/Custom.css"
+                       "~/Content/Custom.css",
+                       "~/Content/bootstrap-datetimepicker.css"
                       //"~/Content/bootstrap.css",
                       //"~/Content/css/notifIt.css",
                       //"~/Content/site.css"

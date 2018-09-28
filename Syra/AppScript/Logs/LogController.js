@@ -4,11 +4,8 @@
 
         this.myDate = new Date();
         this.isOpen = false;
-
-        $scope.selectedDt = "";
         $scope.showDate = function () {
-            //alert($scope.selectedDt);
-            $http.post("/Customer/GetLogs", { customerdt: $scope.selectedDt }).success(function (response) {
+            $http.post("/Customer/GetLogs", { startdt: $scope.myDate, enddt: $scope.endDate }).success(function (response) {
                 console.log(response.Data);
                 if (response.IsSuccess) {
                     console.log("I am in success");

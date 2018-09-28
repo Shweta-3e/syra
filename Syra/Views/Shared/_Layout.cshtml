@@ -251,7 +251,7 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
                                         <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a ui-sref="chatbot" @*href="/customer/mybots"*@ class="fusion-bar-highlight"><span class="menu-text">My Chatbots</span></a></li>
                                         <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/#/Subscription" class="fusion-bar-highlight"><span class="menu-text">My Subsription</span></a></li>
                                         <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a ui-sref="logs" class="fusion-bar-highlight"><span class="menu-text">Log Analytics</span></a></li>
-                                        <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="" class="fusion-bar-highlight"><span class="menu-text">Analytics</span></a></li>
+                                        <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a ui-sref="analytics" class="fusion-bar-highlight"><span class="menu-text">Analytics</span></a></li>
                                         <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a ui-sref="forgotpassword" class="fusion-bar-highlight"><span class="menu-text">Change Password</span></a></li>
                                         <li><a href="javascript:document.getElementById('logoutForm').submit()">LogOff</a></li>
                                         using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
@@ -1547,6 +1547,8 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
             }
         });
     </script>
+    <link rel="stylesheet" href='~/Scripts/datatables.bootstrap.css'>
+    @*<link rel="stylesheet" href='vendor/angular-datatables/dist/plugins/bootstrap/datatables.bootstrap.min.css'>*@
     <link rel='stylesheet' id='hstl-roboto-css' href='https://fonts.googleapis.com/css?family=Roboto+Condensed%3A300%2C300i%2C400%2C400i%2C700%2C700i%7CRoboto%3A300%2C300i%2C400%2C400i%2C500%2C500i%2C700%2C700i&#038;ver=4.9.8' type='text/css' media='all' />
     <link rel='stylesheet' id='hstl-opensans-css' href='https://fonts.googleapis.com/css?family=Open+Sans%3A400%2C400i%2C700%2C700i&#038;ver=4.9.8' type='text/css' media='all' />
     <link rel='stylesheet' id='hstl-source-code-pro-css' href='https://fonts.googleapis.com/css?family=Source+Code+Pro&#038;ver=4.9.8' type='text/css' media='all' />
@@ -1592,6 +1594,9 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-animate.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-aria.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-messages.min.js"></script>
+    @*<script src="~/vendor/angular-datatables/dist/plugins/bootstrap/angular-datatables.bootstrap.min.js"></script>*@
+    <script type="text/javascript" src="~/Scripts/angular-datatables.min.js"></script>
+    <script src="~/Scripts/jquery.dataTables.min.js"></script>
 
     <!-- Angular Material Library -->
     <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.8/angular-material.min.js"></script>

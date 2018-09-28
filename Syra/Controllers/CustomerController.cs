@@ -134,7 +134,7 @@ namespace Syra.Admin.Controllers
             return View(botdeployment);
         }
         [HttpPost]
-        public string GetLogs(string customerdt)
+        public string GetLogs(DateTime startdt,DateTime enddt)
         {
             //try
             //{
@@ -159,44 +159,84 @@ namespace Syra.Admin.Controllers
                     CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connstring);
                     CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
                     CloudBlobContainer container = blobClient.GetContainerReference(containername);
-                    DateTime datetime = DateTime.Now;
-                    var date = datetime.ToString("dd-MM-yyyy");
-                    var blob_file_name = customerdt + "" + ".csv";
-                    CloudBlockBlob blockBlob = container.GetBlockBlobReference(blob_file_name);
-                    bool blob_check = blockBlob.Exists();
-                    if (blob_check == false)
+                    //var startdateonly = startdt.Date.ToString("dd-MM-yyyy");
+                    //var enddateonly = enddt.Date.ToString("dd-MM-yyyy");
+                    bool blob_check = false;
+                    for(DateTime date = startdt; date <= enddt; date = date.AddDays(1))
                     {
-                        Console.WriteLine("Blob Container doesn't exist");
-                    }
-                    else
-                    {
-                        using (StreamReader reader = new StreamReader(blockBlob.OpenRead()))
+                        var startdateonly = date.Date.ToString("dd-MM-yyyy");
+                        //var enddateonly = enddt.Date.ToString("dd-MM-yyyy");
+                        var blob_file_name = startdateonly + "" + ".csv";
+                        CloudBlockBlob blockBlob = container.GetBlockBlobReference(blob_file_name);
+                        blob_check = blockBlob.Exists();
+                        if (blob_check == false)
                         {
-                            SessionLog log = new SessionLog();
-                            while (!reader.EndOfStream)
-                            {
-                                var line = reader.ReadLine();
-                                string[] splitedword = line.Split('|');
-                                log.SessionId = splitedword[0];
-                                log.IPAddress = splitedword[1];
-                                log.Region = splitedword[2];
-                                log.UserQuery = splitedword[3];
-                                log.BotAnswers = splitedword[4];
-                                log.LogDate = splitedword[5];
-                                log.LogTime = splitedword[6];
-                                string tempdate = log.LogDate + log.LogTime;
-                                //log.Log_Date = DateTime.Parse(tempdate);
-                                logs.Add(new SessionLog { SessionId = splitedword[0] , IPAddress =splitedword[1] , Region = splitedword[2] , UserQuery = splitedword[3] , BotAnswers = splitedword[4] , LogDate= tempdate });
-                            }
+                            Console.WriteLine("Blob Container doesn't exist");
                         }
-                        response.IsSuccess = true;
-                        response.Data = logs;
-                        return response.GetResponse();
+                        else
+                        {
+                            using (StreamReader reader = new StreamReader(blockBlob.OpenRead()))
+                            {
+                                SessionLog log = new SessionLog();
+                                while (!reader.EndOfStream)
+                                {
+                                    var line = reader.ReadLine();
+                                    string[] splitedword = line.Split('|');
+                                    log.SessionId = splitedword[0];
+                                    log.IPAddress = splitedword[1];
+                                    log.Region = splitedword[2];
+                                    log.UserQuery = splitedword[3];
+                                    log.BotAnswers = splitedword[4];
+                                    log.LogDate = splitedword[5];
+                                    log.LogTime = splitedword[6];
+                                    string tempdate = log.LogDate + log.LogTime;
+                                    string dt = Convert.ToDateTime(startdt).ToString("dd-MM-yyyy");
+                                    //log.Log_Date = DateTime.Parse(tempdate);
+                                    logs.Add(new SessionLog { SessionId = splitedword[0], IPAddress = splitedword[1], Region = splitedword[2], UserQuery = splitedword[3], BotAnswers = splitedword[4], LogDate = tempdate });
+                                }
+                            }
+                            response.IsSuccess = true;
+                            response.Data = logs;
+                            //return response.GetResponse();
+                        }
                     }
+                    //var blob_file_name = startdateonly + "" + ".csv";
+                    //CloudBlockBlob blockBlob = container.GetBlockBlobReference(blob_file_name);
+                    //bool blob_check = blockBlob.Exists();
+                    //if (blob_check == false)
+                    //{
+                    //    Console.WriteLine("Blob Container doesn't exist");
+                    //}
+                    //else
+                    //{
+                    //    using (StreamReader reader = new StreamReader(blockBlob.OpenRead()))
+                    //    {
+                    //        SessionLog log = new SessionLog();
+                    //        while (!reader.EndOfStream)
+                    //        {
+                    //            var line = reader.ReadLine();
+                    //            string[] splitedword = line.Split('|');
+                    //            log.SessionId = splitedword[0];
+                    //            log.IPAddress = splitedword[1];
+                    //            log.Region = splitedword[2];
+                    //            log.UserQuery = splitedword[3];
+                    //            log.BotAnswers = splitedword[4];
+                    //            log.LogDate = splitedword[5];
+                    //            log.LogTime = splitedword[6];
+                    //            string tempdate = log.LogDate + log.LogTime;
+                    //            string dt=Convert.ToDateTime(startdt).ToString("dd-MM-yyyy");
+                    //        //log.Log_Date = DateTime.Parse(tempdate);
+                    //        logs.Add(new SessionLog { SessionId = splitedword[0] , IPAddress =splitedword[1] , Region = splitedword[2] , UserQuery = splitedword[3] , BotAnswers = splitedword[4] , LogDate= tempdate });
+                    //        }
+                    //    }
+                    //    response.IsSuccess = true;
+                    //    response.Data = logs;
+                    //    return response.GetResponse();
+                    //}
                 //}
 
                 
-            }
+                }
             //catch (Exception e)
             //{
             //    response.IsSuccess = false;

@@ -1,6 +1,6 @@
 ﻿"use strict";
 var SOFT_VER = "1.0108";
-var SyraApp = angular.module("syra", ["ui.router", 'ngMaterial', 'ngMessages']);
+var SyraApp = angular.module("syra", ["ui.router", 'ngMaterial', 'ngMessages', 'datatables']);
 SyraApp.directive("dateTimePicker", DatetimePicker);
 function DatetimePicker() {
     return {

@@ -4,6 +4,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
+using Newtonsoft.Json;
 using Syra.Admin.DbContexts;
 using Syra.Admin.Entities;
 using Syra.Admin.Helper;
@@ -13,8 +14,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
@@ -133,15 +137,168 @@ namespace Syra.Admin.Controllers
             }
             return View(botdeployment);
         }
+        public string GetIPDetails(string ipaddress)
+        {
+            string ipadd = ipaddress.Replace(" ", "");
+            var Uri = "https://extreme-ip-lookup.com/json/" + ipadd;
+            HttpWebRequest request = WebRequest.Create(Uri) as System.Net.HttpWebRequest;
+            Encoding encoding = new UTF8Encoding();
+            request.Method = "GET";
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            var reader = new StreamReader(response.GetResponseStream());
+            String jsonresponse = "";
+            String temp = null;
+            while (!reader.EndOfStream)
+            {
+                temp = reader.ReadLine();
+                jsonresponse += temp;
+            }
+            return jsonresponse;
+        }
+        public void CountryCode(string json)
+        {
+            string oldcontent = "";
+            var file = "C:/Users/trainee/Desktop/syra-santosh/Syra/AppScript/Analytics/Template/locations.json";
+            using (StreamReader reader = new StreamReader(file))
+            {
+                oldcontent = reader.ReadToEnd();
+                if(oldcontent!=null)
+                {
+                    oldcontent = null;
+                }
+            }
+            using (StreamWriter writer = new StreamWriter(file))
+            {
+                //writer.Write(oldcontent);
+                writer.Write(json.ToString());
+                writer.Close();
+            }
+        }
+
+        [HttpPost]
+        public string GetAnalytics(DateTime startdt, DateTime enddt)
+        {
+            //try
+            //{
+            List<ArrayList> arraylist = new List<ArrayList>();
+            List<SessionLog> logs = new List<SessionLog>();
+            List<Lontitude> countries = new List<Lontitude>();
+            List<Location> _data = new List<Location>();
+            SyraDbContext db = new SyraDbContext();
+            var ipdetails = new GetIPAddress();
+            //var query = new Lontitude();
+            _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var useremail = HttpContext.User.Identity.Name;
+            var aspnetuser = _userManager.FindByEmailAsync(useremail).Result;
+
+            if (aspnetuser != null)
+            {
+                //based on aspnetuser object, get customer details
+                var customer = db.Customer.FirstOrDefault(c => c.UserId == aspnetuser.Id);
+                var botdata = db.BotDeployments.Where(c => c.CustomerId == customer.Id).FirstOrDefault();
+                var connstring = botdata.BlobConnectionString;
+                var blobstorage = botdata.BlobStorageName;
+                var containername = botdata.ContainerName;
+
+                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connstring);
+                CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+                CloudBlobContainer container = blobClient.GetContainerReference(containername);
+                bool blob_check = false;
+                for (DateTime date = startdt; date <= enddt; date = date.AddDays(1))
+                {
+                    var startdateonly = date.Date.ToString("dd-MM-yyyy");
+                    var blob_file_name = startdateonly + "" + ".csv";
+                    CloudBlockBlob blockBlob = container.GetBlockBlobReference(blob_file_name);
+                    blob_check = blockBlob.Exists();
+                    if (blob_check == false)
+                    {
+                        Console.WriteLine("Blob Container doesn't exist");
+                    }
+                    else
+                    {
+                        using (StreamReader reader = new StreamReader(blockBlob.OpenRead()))
+                        {
+
+                            SessionLog log = new SessionLog();
+                            while (!reader.EndOfStream)
+                            {
+                                //string oldcontent;
+                                var line = reader.ReadLine();
+                                string[] splitedword = line.Split('|');
+                                log.SessionId = splitedword[0];
+                                log.IPAddress = splitedword[1];
+                                log.Region = splitedword[2];
+                                log.UserQuery = splitedword[3];
+                                log.BotAnswers = splitedword[4];
+                                log.LogDate = splitedword[5];
+                                log.LogTime = splitedword[6];
+                                string tempdate = log.LogDate + log.LogTime;
+                                string dt = Convert.ToDateTime(startdt).ToString("dd-MM-yyyy");
+                                logs.Add(new SessionLog { SessionId = splitedword[0], IPAddress = splitedword[1], Region = splitedword[2], UserQuery = splitedword[3], BotAnswers = splitedword[4], LogDate = tempdate });
+
+                                string jsonresponse = GetIPDetails(log.IPAddress);
+                                ipdetails = JsonConvert.DeserializeObject<GetIPAddress>(jsonresponse);
+                                countries.Add(new Lontitude { Countries = ipdetails.countryCode,UserQuery=log.UserQuery});
+                            }
+                        }
+                        response.IsSuccess = true;
+                        response.Data = logs;
+
+                        //return response.GetResponse();
+                    }
+                }
+                var dupcountries = countries.GroupBy(x => new { x.Countries }).Select(group => new { Name = group.Key, Count = group.Count() })
+                             .OrderByDescending(x => x.Count);
+                var dupUserQuery= countries.GroupBy(x => new { x.UserQuery }).Select(group => new { Name = group.Key, Count = group.Count() })
+                              .OrderByDescending(x => x.Count);
+                foreach(var y in dupUserQuery)
+                {
+                    arraylist.Add(new ArrayList { y.Name.UserQuery, y.Count });
+                }
+                response.Data = arraylist;
+                foreach (var x in dupcountries)
+                {
+                    try
+                    {
+                        RegionInfo myRI1 = new RegionInfo(x.Name.Countries);
+                        if (x.Name.Countries == "" || x.Name.Countries == null)
+                        {
+                            Console.WriteLine("Error");
+                        }
+                        else
+                        {
+                            _data.Add(new Location()
+                            {
+                                code3 = myRI1.ThreeLetterISORegionName,
+                                name = myRI1.EnglishName,
+                                value = float.Parse(x.Count.ToString(), CultureInfo.InvariantCulture.NumberFormat),
+                                code = myRI1.TwoLetterISORegionName
+                            });
+                        }
+                    }
+                    catch(Exception e)
+                    {
+                        string message = e.Message;
+                        response.Message = message;
+                    }
+                }
+                string json = JsonConvert.SerializeObject(_data.ToArray());
+                CountryCode(json);
+            }
+            return response.GetResponse();
+        }
+
         [HttpPost]
         public string GetLogs(DateTime startdt,DateTime enddt)
         {
             //try
             //{
                 List<SessionLog> logs = new List<SessionLog>();
+                List<Lontitude> countries = new List<Lontitude>();
+                List<Location> _data = new List<Location>();
                 SyraDbContext db = new SyraDbContext();
-
-                //Get current Logged in user by his email 
+                var ipdetails = new GetIPAddress();
                 _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
                 _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
                 var useremail = HttpContext.User.Identity.Name;
@@ -159,13 +316,10 @@ namespace Syra.Admin.Controllers
                     CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connstring);
                     CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
                     CloudBlobContainer container = blobClient.GetContainerReference(containername);
-                    //var startdateonly = startdt.Date.ToString("dd-MM-yyyy");
-                    //var enddateonly = enddt.Date.ToString("dd-MM-yyyy");
                     bool blob_check = false;
                     for(DateTime date = startdt; date <= enddt; date = date.AddDays(1))
                     {
                         var startdateonly = date.Date.ToString("dd-MM-yyyy");
-                        //var enddateonly = enddt.Date.ToString("dd-MM-yyyy");
                         var blob_file_name = startdateonly + "" + ".csv";
                         CloudBlockBlob blockBlob = container.GetBlockBlobReference(blob_file_name);
                         blob_check = blockBlob.Exists();
@@ -177,9 +331,11 @@ namespace Syra.Admin.Controllers
                         {
                             using (StreamReader reader = new StreamReader(blockBlob.OpenRead()))
                             {
+                                
                                 SessionLog log = new SessionLog();
                                 while (!reader.EndOfStream)
                                 {
+                                    //string oldcontent;
                                     var line = reader.ReadLine();
                                     string[] splitedword = line.Split('|');
                                     log.SessionId = splitedword[0];
@@ -191,59 +347,20 @@ namespace Syra.Admin.Controllers
                                     log.LogTime = splitedword[6];
                                     string tempdate = log.LogDate + log.LogTime;
                                     string dt = Convert.ToDateTime(startdt).ToString("dd-MM-yyyy");
-                                    //log.Log_Date = DateTime.Parse(tempdate);
                                     logs.Add(new SessionLog { SessionId = splitedword[0], IPAddress = splitedword[1], Region = splitedword[2], UserQuery = splitedword[3], BotAnswers = splitedword[4], LogDate = tempdate });
-                                }
+
+                                    //string jsonresponse = GetIPDetails(log.IPAddress);
+                                    //ipdetails = JsonConvert.DeserializeObject<GetIPAddress>(jsonresponse);
+                                    //countries.Add(new Lontitude { Countries = ipdetails.countryCode });
                             }
+                        }
                             response.IsSuccess = true;
                             response.Data = logs;
-                            //return response.GetResponse();
-                        }
+                            
+                        //return response.GetResponse();
                     }
-                    //var blob_file_name = startdateonly + "" + ".csv";
-                    //CloudBlockBlob blockBlob = container.GetBlockBlobReference(blob_file_name);
-                    //bool blob_check = blockBlob.Exists();
-                    //if (blob_check == false)
-                    //{
-                    //    Console.WriteLine("Blob Container doesn't exist");
-                    //}
-                    //else
-                    //{
-                    //    using (StreamReader reader = new StreamReader(blockBlob.OpenRead()))
-                    //    {
-                    //        SessionLog log = new SessionLog();
-                    //        while (!reader.EndOfStream)
-                    //        {
-                    //            var line = reader.ReadLine();
-                    //            string[] splitedword = line.Split('|');
-                    //            log.SessionId = splitedword[0];
-                    //            log.IPAddress = splitedword[1];
-                    //            log.Region = splitedword[2];
-                    //            log.UserQuery = splitedword[3];
-                    //            log.BotAnswers = splitedword[4];
-                    //            log.LogDate = splitedword[5];
-                    //            log.LogTime = splitedword[6];
-                    //            string tempdate = log.LogDate + log.LogTime;
-                    //            string dt=Convert.ToDateTime(startdt).ToString("dd-MM-yyyy");
-                    //        //log.Log_Date = DateTime.Parse(tempdate);
-                    //        logs.Add(new SessionLog { SessionId = splitedword[0] , IPAddress =splitedword[1] , Region = splitedword[2] , UserQuery = splitedword[3] , BotAnswers = splitedword[4] , LogDate= tempdate });
-                    //        }
-                    //    }
-                    //    response.IsSuccess = true;
-                    //    response.Data = logs;
-                    //    return response.GetResponse();
-                    //}
-                //}
-
-                
-                }
-            //catch (Exception e)
-            //{
-            //    response.IsSuccess = false;
-            //    string errmsg = e.Message;
-            //    response.Message = errmsg;
-            //    Console.WriteLine(errmsg);
-            //}
+                    }
+            }
             return response.GetResponse();
         }
         #region BotDeployment

@@ -229,8 +229,11 @@
     <Compile Include="DbContexts\SyraDbContext.cs" />
     <Compile Include="Entities\BotDeployment.cs" />
     <Compile Include="Entities\BotQuestionAnswers.cs" />
+    <Compile Include="Entities\CountryCode.cs" />
     <Compile Include="Entities\Customer.cs" />
     <Compile Include="Entities\CustomerPlan.cs" />
+    <Compile Include="Entities\GetIPAddress.cs" />
+    <Compile Include="Entities\Lontitude.cs" />
     <Compile Include="Entities\LuisDomain.cs" />
     <Compile Include="Entities\Message.cs" />
     <Compile Include="Entities\Plan.cs" />
@@ -263,7 +266,8 @@
     <Content Include="AppScript\AdminPlan\Template\add.html" />
     <Content Include="AppScript\AdminPlan\Template\index.html" />
     <Content Include="AppScript\Analytics\AnalyticsController.js" />
-    <Content Include="AppScript\Analytics\index.html" />
+    <Content Include="AppScript\Analytics\Template\index.html" />
+    <Content Include="AppScript\Analytics\Template\WorldBased.html" />
     <Content Include="AppScript\ChangePassword\ChangePasswordController.js" />
     <Content Include="AppScript\ChangePassword\Template\forgotpassword.html" />
     <Content Include="AppScript\ChatBot\ChatBotController.js" />
@@ -333,6 +337,7 @@
     <Content Include="Content\bootstrap-datepicker.standalone.css.map" />
     <Content Include="Content\bootstrap-datepicker.min.css.map" />
     <Content Include="Content\bootstrap-datepicker.css.map" />
+    <Content Include="AppScript\Analytics\Template\locations.json" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\datatables.bootstrap.css" />
     <Content Include="Scripts\Datatables\angular-datatables.js" />

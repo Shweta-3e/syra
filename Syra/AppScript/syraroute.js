@@ -24,7 +24,7 @@
         title: 'Preview Analytics',
         name: 'analytics',
         controller: 'AnalyticsController',
-        templateUrl: "/Appscript/Analytics/Template/forgotpassword.html?VER=" + SOFT_VER,
+        templateUrl: "/Appscript/Analytics/Template/index.html?VER=" + SOFT_VER,
     };
     $stateProvider.state(analytics);
 

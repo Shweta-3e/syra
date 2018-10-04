@@ -244,8 +244,6 @@ namespace Syra.Admin.Controllers
                         }
                         response.IsSuccess = true;
                         response.Data = logs;
-
-                        //return response.GetResponse();
                     }
                 }
                 var dupcountries = countries.GroupBy(x => new { x.Countries }).Select(group => new { Name = group.Key, Count = group.Count() })
@@ -256,7 +254,8 @@ namespace Syra.Admin.Controllers
                 {
                     arraylist.Add(new ArrayList { y.Name.UserQuery, y.Count });
                 }
-                response.Data = arraylist;
+                var firstFiveArrivals = arraylist.Take(10);
+                response.Data = firstFiveArrivals;
                 foreach (var x in dupcountries)
                 {
                     try

@@ -37,19 +37,24 @@
     </div>
     <div id="container" style="max-width: 1000px"></div>
     <div id="container_query" style="min-width: 200px; height: 400px; margin: 0 auto"></div>
-    <!--getUserQuery();-->
     <script>
         function getUserQuery(userquerydata) {
+            console.log(Object.values(userquerydata));
+            var arr = [];
             for (var item in userquerydata) {
-                console.log(item.UserQuery + "" + item.Count);
+                for (var i = 0; i < 10; i++) {
+                    //console.log(userquerydata[item][i]);
+                    arr.push(userquerydata[item][i]);
+                }
             }
+            console.log(arr.slice(5, 10));
             Highcharts.chart('container_query', {
                 chart: {
                     type: 'column',
                     borderWidth: 1
                 },
                 title: {
-                    text: 'World\'s largest cities per 2017'
+                    text: 'Most Common Questions Asked'
                 },
                 xAxis: {
                     type: 'category',
@@ -64,39 +69,18 @@
                 yAxis: {
                     min: 0,
                     title: {
-                        text: 'Population (millions)'
+                        text: 'Count of asked Questions'
                     }
                 },
                 legend: {
                     enabled: false
                 },
                 tooltip: {
-                    pointFormat: 'Population in 2017: <b>{point.y:.1f} millions</b>'
+                    pointFormat: 'Questions Asked: <b>{point.y:.1f}</b>'
                 },
                 series: [{
                     name: 'Population',
-                    data: [
-                        ['Shanghai', 24.2],
-                        ['Beijing', 20.8],
-                        ['Karachi', 14.9],
-                        ['Shenzhen', 13.7],
-                        ['Guangzhou', 13.1],
-                        ['Istanbul', 12.7],
-                        ['Mumbai', 12.4],
-                        ['Moscow', 12.2],
-                        ['São Paulo', 12.0],
-                        ['Delhi', 11.7],
-                        ['Kinshasa', 11.5],
-                        ['Tianjin', 11.2],
-                        ['Lahore', 11.1],
-                        ['Jakarta', 10.6],
-                        ['Dongguan', 10.6],
-                        ['Lagos', 10.6],
-                        ['Bengaluru', 10.3],
-                        ['Seoul', 9.8],
-                        ['Foshan', 9.3],
-                        ['Tokyo', 9.3]
-                    ],
+                    data: arr.slice(5,10),
                     dataLabels: {
                         enabled: true,
                         rotation: -90,

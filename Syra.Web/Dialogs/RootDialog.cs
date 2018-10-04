@@ -30,7 +30,7 @@ namespace MikeHabibChatBot.Dialogs
         public int contactcount = 0;
         public bool fetchloc = true;
         public string uniqueidc;
-       
+
         public Task StartAsync(IDialogContext context)
         {
             if (fetchloc == true)
@@ -41,7 +41,7 @@ namespace MikeHabibChatBot.Dialogs
             context.Wait(MessageReceivedAsync);
             return Task.CompletedTask;
         }
-      
+
         private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<object> result)
         {
             string username;
@@ -49,7 +49,7 @@ namespace MikeHabibChatBot.Dialogs
             //activity = context.Activity;
             // calculate something for us to return
             int length = (activity.Text ?? string.Empty).Length;
-            if(activity.From.Name!=null)
+            if (activity.From.Name != null)
             {
                 username = activity.From.Name;
                 Console.WriteLine("Username: " + username);

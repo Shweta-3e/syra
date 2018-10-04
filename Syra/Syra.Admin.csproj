@@ -230,6 +230,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LuisDomainsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Entities\ManageDb.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Controllers\PlansController.cs" />
     <Compile Include="DbContexts\SyraDbContext.cs" />
@@ -250,9 +251,9 @@
     <Compile Include="Helper\AutoMapperConfig.cs" />
     <Compile Include="Helper\PaginatedResponse.cs" />
     <Compile Include="Helper\Response.cs" />
-    <Compile Include="Migrations\201809261204404_Db updated.cs" />
-    <Compile Include="Migrations\201809261204404_Db updated.Designer.cs">
-      <DependentUpon>201809261204404_Db updated.cs</DependentUpon>
+    <Compile Include="Migrations\201810041133287_Db Changed.cs" />
+    <Compile Include="Migrations\201810041133287_Db Changed.Designer.cs">
+      <DependentUpon>201810041133287_Db Changed.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -292,6 +293,9 @@
     <Content Include="AppScript\LuisDomain\LuisDomainController.js" />
     <Content Include="AppScript\LuisDomain\Template\add.html" />
     <Content Include="AppScript\LuisDomain\Template\index.html" />
+    <Content Include="AppScript\ManageDb\ManageDbController.js" />
+    <Content Include="AppScript\ManageDb\Template\index.html" />
+    <Content Include="AppScript\ManageDb\Template\view.html" />
     <Content Include="AppScript\Register\RegisterController.js" />
     <Content Include="AppScript\Register\Template\register.html" />
     <Content Include="AppScript\syraapp.js" />
@@ -583,8 +587,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201809261204404_Db updated.resx">
-      <DependentUpon>201809261204404_Db updated.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201810041133287_Db Changed.resx">
+      <DependentUpon>201810041133287_Db Changed.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

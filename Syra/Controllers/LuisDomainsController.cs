@@ -240,6 +240,26 @@ namespace Syra.Admin.Controllers
         }
 
         [HttpPost]
+        public string DeleteData(Int64 Id)
+        {
+            var existsdata = db.ManageDbs.Find(Id);
+            if (existsdata != null)
+            {
+                db.ManageDbs.Remove(existsdata);
+                db.SaveChanges();
+                response.IsSuccess = true;
+                response.Message = "Record is deleted successfully";
+                return response.GetResponse();
+            }
+            else
+            {
+                response.IsSuccess = false;
+                response.Message = "Record is not deleted successfully";
+            }
+            return response.GetResponse();
+        }
+
+        [HttpPost]
         public string DomainDelete(Int64 Id)
         {
             var existsdomain = db.LuisDomains.Find(Id);

@@ -8,7 +8,7 @@
         </span>
     </h3>
     
-    <table class="table table-responsive table-bordered table-striped">
+    <table datatable="ng" dt-options="vm.dtOptions" dt-columns="vm.dtColumns"class="table table-responsive table-bordered table-striped">
         <thead>
             <tr>
                 <th style="text-align:center">Intent</th>
@@ -21,7 +21,7 @@
             <tr ng-repeat="entry in alldata">
                 <td style="text-align:center">{{entry.Intent}}</td>
                 <td style="text-align:center">{{entry.Entity}}</td>
-                <td style="text-align:center">{{entry.Response}}</td>
+                <td style="text-align:center" ng-bind-html="entry.BotResponse"></td>
                 <td style="text-align:center">
                     <a href="/#/database/{{entry.Id}}" class="btn btn-default">
                         Edit

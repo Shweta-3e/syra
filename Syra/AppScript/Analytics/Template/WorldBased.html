@@ -10,10 +10,7 @@
     <script src="https://code.highcharts.com/maps/highmaps.js"></script>
     <script src="https://code.highcharts.com/maps/modules/data.js"></script>
     <script src="https://code.highcharts.com/mapdata/custom/world.js"></script>
-    <!--<script src="https://code.highcharts.com/highcharts.js"></script>-->
-    <!--<script src="https://code.highcharts.com/modules/exporting.js"></script>
-    <script src="https://code.highcharts.com/modules/export-data.js"></script>-->
-</head>
+    </head>
 <body>
     <div class="row">
         <div class='col-sm-3'>
@@ -36,18 +33,18 @@
         </div>
     </div>
     <div id="container" style="max-width: 1000px"></div>
-    <div id="container_query" style="min-width: 200px; height: 400px; margin: 0 auto"></div>
+    <div id="container_query" style="min-width: 100px; height: 350px; margin: 0 auto;width:1340px;"></div>
     <script>
         function getUserQuery(userquerydata) {
             console.log(Object.values(userquerydata));
             var arr = [];
             for (var item in userquerydata) {
-                for (var i = 0; i < 10; i++) {
+                for (var i = 0; i < 15; i++) {
                     //console.log(userquerydata[item][i]);
                     arr.push(userquerydata[item][i]);
                 }
             }
-            console.log(arr.slice(5, 10));
+            console.log(arr.slice(15,25));
             Highcharts.chart('container_query', {
                 chart: {
                     type: 'column',
@@ -58,6 +55,9 @@
                 },
                 xAxis: {
                     type: 'category',
+                    title: {
+                        text: 'Questions asked'
+                    },
                     labels: {
                         rotation: -45,
                         style: {
@@ -78,9 +78,19 @@
                 tooltip: {
                     pointFormat: 'Questions Asked: <b>{point.y:.1f}</b>'
                 },
+                plotOptions: {
+                    series: {
+                        pointWidth: 30
+                    },
+                    column: {
+                        pointPadding: 0,
+                        borderWidth: 0
+                    }
+                },
                 series: [{
                     name: 'Population',
-                    data: arr.slice(5,10),
+                    data: arr.slice(15, 25),
+                    color: '#4195f4',
                     dataLabels: {
                         enabled: true,
                         rotation: -90,

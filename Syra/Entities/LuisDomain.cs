@@ -11,7 +11,7 @@ namespace Syra.Admin.Entities
         public string Category { get; set; }
         public string LuisAppId { get; set; }
         public string LuisAppKey { get; set; }
-
+        public ICollection<LuisResponse> LuisResponses { get; set; }
         public ICollection<BotDeployment> BotDeployments { get; set; }
     }
 }

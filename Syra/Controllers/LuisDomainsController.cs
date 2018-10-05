@@ -139,21 +139,25 @@ namespace Syra.Admin.Controllers
             return response.GetResponse();
         }
         [HttpPost]
-        public string CreateEntries(ManageDb manageDb)
+        public string CreateEntries(LuisResponse manageDb)
         {
-            var dbobj = new ManageDb();
-            var existsdomain = db.ManageDbs.Where(x => x.Entity == manageDb.Entity).FirstOrDefault();
-            if (existsdomain == null)
-            {
-                dbobj.Entity = manageDb.Entity;
-                dbobj.Intent = manageDb.Intent;
-                dbobj.Response = manageDb.Response;
-                db.ManageDbs.Add(dbobj);
-                db.SaveChanges();
-                response.IsSuccess = true;
-                response.Message = "Data is inserted successsfully";
-                return response.GetResponse();
-            }
+            var dbobj = new LuisResponse();
+            //var existsdomain = db.LuisDomains.Where(x => x.Name == manageDb.BotDomain).FirstOrDefault();
+            //if (existsdomain != null)
+            //{
+                var checkentity = db.ManageDbs.Where(x => x.Entity == manageDb.Entity).FirstOrDefault();
+                if(checkentity==null)
+                {
+                    dbobj.Entity = manageDb.Entity;
+                    dbobj.Intent = manageDb.Intent;
+                    dbobj.Response = manageDb.Response;
+                    db.ManageDbs.Add(dbobj);
+                    db.SaveChanges();
+                    response.IsSuccess = true;
+                    response.Message = "Data is inserted successsfully";
+                    return response.GetResponse();
+                }
+            //}
             else
             {
                 response.IsSuccess = false;
@@ -163,7 +167,7 @@ namespace Syra.Admin.Controllers
         }
 
         [HttpPost]
-        public string UpdateDatabase(ManageDb managedb)
+        public string UpdateDatabase(LuisResponse managedb)
         {
             var finddb = db.ManageDbs.Find(managedb.Id);
             //luisdomain = luisDomain;

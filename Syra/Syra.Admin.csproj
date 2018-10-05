@@ -230,7 +230,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LuisDomainsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Entities\ManageDb.cs" />
+    <Compile Include="Entities\LuisResponse.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Controllers\PlansController.cs" />
     <Compile Include="DbContexts\SyraDbContext.cs" />
@@ -254,6 +254,14 @@
     <Compile Include="Migrations\201810041133287_Db Changed.cs" />
     <Compile Include="Migrations\201810041133287_Db Changed.Designer.cs">
       <DependentUpon>201810041133287_Db Changed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810050528540_New field Added.cs" />
+    <Compile Include="Migrations\201810050528540_New field Added.Designer.cs">
+      <DependentUpon>201810050528540_New field Added.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810051016060_LuisResponse Added.cs" />
+    <Compile Include="Migrations\201810051016060_LuisResponse Added.Designer.cs">
+      <DependentUpon>201810051016060_LuisResponse Added.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -589,6 +597,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201810041133287_Db Changed.resx">
       <DependentUpon>201810041133287_Db Changed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810050528540_New field Added.resx">
+      <DependentUpon>201810050528540_New field Added.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810051016060_LuisResponse Added.resx">
+      <DependentUpon>201810051016060_LuisResponse Added.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

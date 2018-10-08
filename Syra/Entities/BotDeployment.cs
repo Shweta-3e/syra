@@ -50,6 +50,10 @@ namespace Syra.Admin.Entities
         public virtual LuisDomain LuisDomain { get; set; }
         public Int64 LuisId { get; set; }
 
+        public virtual ICollection<LuisResponseForCustomer> LuisResponsesforcusts { get; set; }
+        public bool InheritStandardQA { get; set; }
+        public bool HasAdditionalResponse { get; set; }
+
         public bool IsDeleted { get; set; }
         public bool IsPlanActive { get; set; }
 

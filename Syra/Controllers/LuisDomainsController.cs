@@ -86,6 +86,27 @@ namespace Syra.Admin.Controllers
             return response.GetResponse();
         }
 
+        [HttpGet]
+        public string GetDb()
+        {
+            var useremail = HttpContext.User.Identity.Name;
+
+            _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var aspnetuser = _userManager.FindByEmailAsync(useremail).Result;
+            if (aspnetuser != null)
+            {
+                var dbdetail = db.ManageDbs.ToList();
+                response.Data = dbdetail;
+                response.IsSuccess = true;
+                return response.GetResponse();
+            }
+            else
+            {
+                response.IsSuccess = false;
+            }
+            return response.GetResponse();
+        }
         [HttpPost]
         public string GetLuisDomain(Int64 Id)
         {
@@ -98,6 +119,73 @@ namespace Syra.Admin.Controllers
             else
             {
                 response.Data = null;
+            }
+            return response.GetResponse();
+        }
+
+        [HttpPost]
+        public string GetDbEntries(Int64 Id)
+        {
+            var finddb = db.ManageDbs.Find(Id);
+            if (finddb != null)
+            {
+                response.Data = finddb;
+                return response.GetResponse();
+            }
+            else
+            {
+                response.Data = null;
+            }
+            return response.GetResponse();
+        }
+        [HttpPost]
+        public string CreateEntries(LuisResponse manageDb)
+        {
+            var dbobj = new LuisResponse();
+            //var existsdomain = db.LuisDomains.Where(x => x.Name == manageDb.BotDomain).FirstOrDefault();
+            //if (existsdomain != null)
+            //{
+                var checkentity = db.ManageDbs.Where(x => x.Entity == manageDb.Entity).FirstOrDefault();
+                if(checkentity==null)
+                {
+                    dbobj.Entity = manageDb.Entity;
+                    dbobj.Intent = manageDb.Intent;
+                    dbobj.Response = manageDb.Response;
+                    db.ManageDbs.Add(dbobj);
+                    db.SaveChanges();
+                    response.IsSuccess = true;
+                    response.Message = "Data is inserted successsfully";
+                    return response.GetResponse();
+                }
+            //}
+            else
+            {
+                response.IsSuccess = false;
+                response.Message = "Data isn't inserted successsfully";
+            }
+            return response.GetResponse();
+        }
+
+        [HttpPost]
+        public string UpdateDatabase(LuisResponse managedb)
+        {
+            var finddb = db.ManageDbs.Find(managedb.Id);
+            //luisdomain = luisDomain;
+            var existsdata = db.ManageDbs.Find(managedb.Id);
+            if (existsdata != null)
+            {
+                existsdata.Intent = managedb.Intent;
+                existsdata.Entity = managedb.Entity;
+                existsdata.Response = managedb.Response;
+                db.SaveChanges();
+                response.IsSuccess = true;
+                response.Message = "Record is updated successfully";
+                return response.GetResponse();
+            }
+            else
+            {
+                response.IsSuccess = false;
+                response.Message = "Record isn't updated ";
             }
             return response.GetResponse();
         }
@@ -151,6 +239,26 @@ namespace Syra.Admin.Controllers
             {
                 response.IsSuccess = false;
                 response.Message = "LuisDomain isn't created successsfully";
+            }
+            return response.GetResponse();
+        }
+
+        [HttpPost]
+        public string DeleteData(Int64 Id)
+        {
+            var existsdata = db.ManageDbs.Find(Id);
+            if (existsdata != null)
+            {
+                db.ManageDbs.Remove(existsdata);
+                db.SaveChanges();
+                response.IsSuccess = true;
+                response.Message = "Record is deleted successfully";
+                return response.GetResponse();
+            }
+            else
+            {
+                response.IsSuccess = false;
+                response.Message = "Record is not deleted successfully";
             }
             return response.GetResponse();
         }

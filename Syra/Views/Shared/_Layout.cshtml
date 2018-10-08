@@ -214,6 +214,7 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
 </head>
 
 <body ng-app="syra" class="home page-template page-template-100-width page-template-100-width-php page page-id-1293 fusion-image-hovers fusion-body ltr fusion-sticky-header no-tablet-sticky-header no-mobile-sticky-header no-mobile-slidingbar no-mobile-totop mobile-logo-pos-left layout-wide-mode fusion-top-header menu-text-align-center mobile-menu-design-modern fusion-show-pagination-text fusion-header-layout-v1 avada-responsive avada-footer-fx-bg-parallax">
+
     <div id="wrapper" class="">
         <div id="home" style="position:relative;top:-1px;"></div>
 
@@ -238,7 +239,9 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
                                         <li role="menuitem" id="menu-item-1307" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a ui-sref="newplan" class="fusion-bar-highlight"><span class="menu-text">Manage Plans</span></a></li>
                                         <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a ui-sref="luisdomain" class="fusion-bar-highlight"><span class="menu-text">Manage Bot Domain</span></a></li>
                                         <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/#/managecustomer" class="fusion-bar-highlight"><span class="menu-text">Manage Customer Plan</span></a></li>
+                                        <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a ui-sref="dbdetail" class="fusion-bar-highlight"><span class="menu-text">Manage Database</span></a></li>
                                         <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a ui-sref="forgotpassword" class="fusion-bar-highlight"><span class="menu-text">Reset Password</span></a></li>
+
                                         <li><a href="javascript:document.getElementById('logoutForm').submit()">LogOff</a></li>
                                         using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
                                         {
@@ -251,7 +254,7 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
                                         <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a ui-sref="chatbot" @*href="/customer/mybots"*@ class="fusion-bar-highlight"><span class="menu-text">My Chatbots</span></a></li>
                                         <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/#/Subscription" class="fusion-bar-highlight"><span class="menu-text">My Subsription</span></a></li>
                                         <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a ui-sref="logs" class="fusion-bar-highlight"><span class="menu-text">Log Analytics</span></a></li>
-                                        <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a ui-sref="analytics" class="fusion-bar-highlight"><span class="menu-text">Analytics</span></a></li>
+                                        <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="~/AppScript/Analytics/Template/WorldBased.html" class="fusion-bar-highlight"><span class="menu-text">Analytics</span></a></li>
                                         <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a ui-sref="forgotpassword" class="fusion-bar-highlight"><span class="menu-text">Change Password</span></a></li>
                                         <li><a href="javascript:document.getElementById('logoutForm').submit()">LogOff</a></li>
                                         using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
@@ -1537,6 +1540,14 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
                                                             <# } #>
 
     </script>
+
+    <div class="container">
+        <input type="text" id="message" />
+        <input type="button" id="sendmessage" value="Send" />
+        <input type="hidden" id="displayname" />
+        <ul id="discussion"></ul>
+    </div>
+
     <script type="text/javascript">
         jQuery(document).ready(function () {
             var ajaxurl = '~/syra_assets/admin-ajax.php';
@@ -1579,7 +1590,7 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
     <script type='text/javascript'>
         /* <![CDATA[ */
         var simcal_default_calendar = { "ajax_url": "\/wp-admin\/admin-ajax.php", "nonce": "f27359c850", "locale": "en_US", "text_dir": "ltr", "months": { "full": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], "short": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"] }, "days": { "full": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "short": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] }, "meridiem": { "AM": "AM", "am": "am", "PM": "PM", "pm": "pm" } };
-/* ]]> */
+        /* ]]> */
     </script>
     <script type='text/javascript' src='~/syra_assets/default-calendar.min.js'></script>
     @*<script type='text/javascript' src='~/syra_assets/d975e8eef86fa13dac350752bb833cac.js'></script>*@
@@ -1594,6 +1605,7 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-animate.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-aria.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-messages.min.js"></script>
+
     <script type="text/javascript" src="~/Scripts/angular-datatables.min.js"></script>
     <script src="~/Scripts/jquery.dataTables.min.js"></script>
 
@@ -1601,6 +1613,46 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
     <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.8/angular-material.min.js"></script>
 
     <script src="~/Scripts/Datatables/angular-datatables.min.js"></script>
+    <!--Reference the SignalR library. -->
+    <script src="Scripts/jquery.signalR-2.3.0.min.js"></script>
+    <!--Reference the autogenerated SignalR hub script. -->
+    <script src="signalr/hubs"></script>
+    <!--Add script to update the page and send messages.-->
+    <script type="text/javascript">
+        $(function () {
+
+            console.log("hi");
+
+            // Declare a proxy to reference the hub.
+            var chat = $.connection.syraHub;
+            // Create a function that the hub can call to broadcast messages.
+            chat.client.broadcastMessage = function (name, message) {
+                console.log("Hub Message received");
+                // Html encode display name and message.
+
+                var encodedName = $('<div />').text(name).html();
+                var encodedMsg = $('<div />').text(message).html();
+                // Add the message to the page.
+                $('#discussion').append('<li><strong>' + encodedName
+                    + '</strong>:&nbsp;&nbsp;' + encodedMsg + '</li>');
+            };
+            // Get the user name and store it to prepend to messages.
+            $('#displayname').val(prompt('Enter your name:', ''));
+            // Set initial focus to message input box.
+            $('#message').focus();
+            
+            // Start the connection.
+            $.connection.hub.start().done(function () {
+                $('#sendmessage').click(function () {
+                    console.log("Button Clicked");
+                    // Call the Send method on the hub.
+                    chat.server.send($('#displayname').val(), $('#message').val(), "12345");
+                    // Clear text box and reset focus for next comment.
+                    $('#message').val('').focus();
+                });
+            });
+        });
+    </script>
     @Scripts.Render("~/bundles/angularapp")
 
 

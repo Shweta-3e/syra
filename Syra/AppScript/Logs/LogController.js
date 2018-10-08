@@ -6,7 +6,7 @@
         this.isOpen = false;
         $scope.showDate = function () {
             $http.post("/Customer/GetLogs", { startdt: $scope.myDate, enddt: $scope.endDate }).success(function (response) {
-                console.log(response.Data);
+                //console.log(response.Data);
                 if (response.IsSuccess) {
                     console.log("I am in success");
                     $scope.Logs = response.Data;

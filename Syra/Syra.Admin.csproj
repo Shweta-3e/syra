@@ -56,6 +56,12 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.3.0\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.3.0\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Azure.KeyVault.Core, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Azure.KeyVault.Core.1.0.0\lib\net40\Microsoft.Azure.KeyVault.Core.dll</HintPath>
     </Reference>
@@ -224,13 +230,17 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LuisDomainsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Entities\LuisResponse.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Controllers\PlansController.cs" />
     <Compile Include="DbContexts\SyraDbContext.cs" />
     <Compile Include="Entities\BotDeployment.cs" />
     <Compile Include="Entities\BotQuestionAnswers.cs" />
+    <Compile Include="Entities\CountryCode.cs" />
     <Compile Include="Entities\Customer.cs" />
     <Compile Include="Entities\CustomerPlan.cs" />
+    <Compile Include="Entities\GetIPAddress.cs" />
+    <Compile Include="Entities\Lontitude.cs" />
     <Compile Include="Entities\LuisDomain.cs" />
     <Compile Include="Entities\Message.cs" />
     <Compile Include="Entities\Plan.cs" />
@@ -241,15 +251,16 @@
     <Compile Include="Helper\AutoMapperConfig.cs" />
     <Compile Include="Helper\PaginatedResponse.cs" />
     <Compile Include="Helper\Response.cs" />
-    <Compile Include="Migrations\201809261204404_Db updated.cs" />
-    <Compile Include="Migrations\201809261204404_Db updated.Designer.cs">
-      <DependentUpon>201809261204404_Db updated.cs</DependentUpon>
+    <Compile Include="Migrations\201810051200263_updated.cs" />
+    <Compile Include="Migrations\201810051200263_updated.Designer.cs">
+      <DependentUpon>201810051200263_updated.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SignalR\SyraHub.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModel\BotDeploymentView.cs" />
     <Compile Include="ViewModel\BotQuestionAnswersView.cs" />
@@ -263,7 +274,8 @@
     <Content Include="AppScript\AdminPlan\Template\add.html" />
     <Content Include="AppScript\AdminPlan\Template\index.html" />
     <Content Include="AppScript\Analytics\AnalyticsController.js" />
-    <Content Include="AppScript\Analytics\index.html" />
+    <Content Include="AppScript\Analytics\Template\index.html" />
+    <Content Include="AppScript\Analytics\Template\WorldBased.html" />
     <Content Include="AppScript\ChangePassword\ChangePasswordController.js" />
     <Content Include="AppScript\ChangePassword\Template\forgotpassword.html" />
     <Content Include="AppScript\ChatBot\ChatBotController.js" />
@@ -281,6 +293,9 @@
     <Content Include="AppScript\LuisDomain\LuisDomainController.js" />
     <Content Include="AppScript\LuisDomain\Template\add.html" />
     <Content Include="AppScript\LuisDomain\Template\index.html" />
+    <Content Include="AppScript\ManageDb\ManageDbController.js" />
+    <Content Include="AppScript\ManageDb\Template\index.html" />
+    <Content Include="AppScript\ManageDb\Template\view.html" />
     <Content Include="AppScript\Register\RegisterController.js" />
     <Content Include="AppScript\Register\Template\register.html" />
     <Content Include="AppScript\syraapp.js" />
@@ -333,6 +348,7 @@
     <Content Include="Content\bootstrap-datepicker.standalone.css.map" />
     <Content Include="Content\bootstrap-datepicker.min.css.map" />
     <Content Include="Content\bootstrap-datepicker.css.map" />
+    <Content Include="AppScript\Analytics\Template\locations.json" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\datatables.bootstrap.css" />
     <Content Include="Scripts\Datatables\angular-datatables.js" />
@@ -368,6 +384,8 @@
     <Content Include="Scripts\jquery-2.1.4.min.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Scripts\jquery.dataTables.min.js" />
+    <Content Include="Scripts\jquery.signalR-2.3.0.js" />
+    <Content Include="Scripts\jquery.signalR-2.3.0.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -569,8 +587,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201809261204404_Db updated.resx">
-      <DependentUpon>201809261204404_Db updated.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201810051200263_updated.resx">
+      <DependentUpon>201810051200263_updated.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

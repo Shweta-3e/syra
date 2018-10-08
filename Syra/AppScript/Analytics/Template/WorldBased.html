@@ -1,0 +1,198 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>World Based Analysis</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://code.highcharts.com/maps/highmaps.js"></script>
+    <script src="https://code.highcharts.com/maps/modules/data.js"></script>
+    <script src="https://code.highcharts.com/mapdata/custom/world.js"></script>
+    </head>
+<body>
+    <div class="row">
+        <div class='col-sm-3'>
+            <div class="form-group">
+                <div id="filterDate2">
+                    <div class="input-group date" data-date-format="mm-dd-yyyy" style="width:450px;margin-top:25px;margin-left:50px;">
+                        <input type="text" id="startdate" class="form-control" placeholder="Start Date" style="margin-right:20px;">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-th"></span>
+                        </div>
+                        <input type="text" id="enddate" class="form-control" placeholder="End Date">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-th"></span>
+                        </div>
+                        <button class="btn btn-success" style="margin-left:25px;" onclick="showDate()">Submit</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="container" style="max-width: 1000px"></div>
+    <div id="container_query" style="min-width: 100px; height: 350px; margin: 0 auto;width:1340px;"></div>
+    <script>
+        function getUserQuery(userquerydata) {
+            console.log(Object.values(userquerydata));
+            var arr = [];
+            for (var item in userquerydata) {
+                for (var i = 0; i < 15; i++) {
+                    //console.log(userquerydata[item][i]);
+                    arr.push(userquerydata[item][i]);
+                }
+            }
+            console.log(arr.slice(15,25));
+            Highcharts.chart('container_query', {
+                chart: {
+                    type: 'column',
+                    borderWidth: 1
+                },
+                title: {
+                    text: 'Most Common Questions Asked'
+                },
+                xAxis: {
+                    type: 'category',
+                    title: {
+                        text: 'Questions asked'
+                    },
+                    labels: {
+                        rotation: -45,
+                        style: {
+                            fontSize: '13px',
+                            fontFamily: 'Verdana, sans-serif'
+                        }
+                    }
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Count of asked Questions'
+                    }
+                },
+                legend: {
+                    enabled: false
+                },
+                tooltip: {
+                    pointFormat: 'Questions Asked: <b>{point.y:.1f}</b>'
+                },
+                plotOptions: {
+                    series: {
+                        pointWidth: 30
+                    },
+                    column: {
+                        pointPadding: 0,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: 'Population',
+                    data: arr.slice(15, 25),
+                    color: '#4195f4',
+                    dataLabels: {
+                        enabled: true,
+                        rotation: -90,
+                        color: '#FFFFFF',
+                        align: 'right',
+                        format: '{point.y:.1f}', // one decimal
+                        y: 10, // 10 pixels down from the top
+                        style: {
+                            fontSize: '13px',
+                            fontFamily: 'Verdana, sans-serif'
+                        }
+                    }
+                }]
+            });
+        }
+        function getWorldMap() {
+            $.getJSON('/AppScript/Analytics/Template/locations.json', function (data) {
+                // Prevent logarithmic errors in color calulcation
+                $.each(data, function () {
+                    this.value = (this.value < 1 ? 1 : this.value);
+                });
+                // Initiate the chart
+                Highcharts.mapChart('container', {
+                    chart: {
+                        map: 'custom/world',
+                        borderWidth: 1
+                        //backgroundColor: '#b6d7a8'
+                    },
+                    title: {
+                        text: 'World Based Analysis'
+                    },
+                    mapNavigation: {
+                        enabled: true,
+                        enableDoubleClickZoomTo: true
+                    },
+                    colorAxis: {
+                        min: 1,
+                        max: 500,
+                        type: 'logarithmic',
+                        minColor: '#f45041',
+                        maxColor: '#4194f4',
+                    },
+                    series: [{
+                        data: data,
+                        joinBy: ['iso-a3', 'code3'],
+                        name: 'Questions asked',
+                        states: {
+                            hover: {
+                                color: '#42f4aa'
+                            }
+                        },
+                        tooltip: {
+                            valueSuffix: ''
+                        }
+                    }]
+                });
+            });
+        }
+
+        function showDate() {
+            var startdate = document.getElementById("startdate").value;
+            var enddate = document.getElementById("enddate").value;
+            $.ajax({
+                type: "POST",
+                url: "/Customer/GetAnalytics?startdt=" + startdate + '&enddt=' + enddate,
+                data: '{ }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    if (response != null) {
+                        console.log(response);
+                        getWorldMap();
+                        getUserQuery(response);
+                        //drawGlobe();
+                        //drawGraticule();
+                        //enableRotation();
+                    } else {
+                        alert("Something went wrong");
+                    }
+                },
+                failure: function (response) {
+                    //alert(response.responseText);
+                },
+                error: function (response) {
+                    //alert(response.responseText);
+                }
+            });
+        }
+
+    </script>
+    <style>
+        #container {
+            height: 500px;
+            min-width: 310px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        /*.loading {
+            margin-top: 10em;
+            text-align: center;
+            color: gray;
+        }*/
+    </style>
+</body>
+</html>

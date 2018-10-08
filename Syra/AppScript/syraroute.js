@@ -10,6 +10,33 @@
     };
     $stateProvider.state(home);
 
+    var database = {
+        view: {
+            url: '/database',
+            title: 'DB Details',
+            name: 'dbdetail',
+            id: 'entry',
+            controller: 'DatabaseViewController',
+            templateUrl: "/Appscript/ManageDb/Template/view.html?VER=" + SOFT_VER,
+        },
+        add: {
+            url: '/database/new',
+            title: 'New DataEntry',
+            name: 'newdataentry',
+            controller: 'DatabaseAddController',
+            templateUrl: "/AppScript/ManageDb/Template/index.html?VER=" + SOFT_VER,
+        },
+        edit: {
+            url: '/database/:id',
+            title: 'Edit Database',
+            name: 'entryedit',
+            controller: 'DatabaseAddController',
+            templateUrl: "/AppScript/ManageDb/Template/index.html?VER=" + SOFT_VER,
+        }
+    };
+    $stateProvider.state(database.view);
+    $stateProvider.state(database.add);
+    $stateProvider.state(database.edit);
     var resetpassword = {
         url: '/Account/ForgotPassWord',
         title: 'Forgot Password',
@@ -24,7 +51,7 @@
         title: 'Preview Analytics',
         name: 'analytics',
         controller: 'AnalyticsController',
-        templateUrl: "/Appscript/Analytics/Template/forgotpassword.html?VER=" + SOFT_VER,
+        templateUrl: "/Appscript/Analytics/Template/index.html?VER=" + SOFT_VER,
     };
     $stateProvider.state(analytics);
 

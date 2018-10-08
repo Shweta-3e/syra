@@ -1,24 +1,27 @@
-﻿SyraApp.controller("DomainViewController", ["$scope", "$http", "syraservice", "$state",
-    function ($scope, $http, syraservice, $state) {
+﻿SyraApp.controller("DatabaseViewController", ["$scope", "$http", "syraservice", "$sce","$state",
+    function ($scope, $http, syraservice, $sce, $state) {
 
-        $scope.luisdomain = [];
+        $scope.alldata = [];
 
-        $scope.GetLuisDomain = function () {
-            $http.get('/LuisDomains/GetDomain').success(function (data) {
+        $scope.GetData = function () {
+            $http.get('/LuisDomains/GetDb').success(function (data) {
                 if (data.IsSuccess) {
-                    $scope.luisdomain = data.Data;
+                    $scope.alldata = data.Data;
+                    angular.forEach($scope.alldata, function (entry) {
+                        entry.BotResponse = $sce.trustAsHtml(entry.Response);
+                        
+                    });
                 }
                 else {
                     window.href.location('/Home');
                 }
             });
-            
         };
-        $scope.GetLuisDomain();
+        $scope.GetData();
         $scope.Delete = function (id) {
-            if (confirm('Are you sure ? You want to delete Bot')) {
-                $http.post("/LuisDomains/DomainDelete", { id: id }).success(function (data) {
-                    console.log("Domain Id is : " + id);
+            if (confirm('Are you sure ? You want to delete data from db?')) {
+                $http.post("/LuisDomains/DeleteData", { id: id }).success(function (data) {
+                    console.log("DataEntry Id is : " + id);
                     if (data.IsSuccess) {
                         syraservice.RecordStatusMessage("success", data.Message);
                         $scope.GetLuisDomain();
@@ -32,10 +35,10 @@
     }
 ]);
 
-SyraApp.controller("DomainAddController", ["$scope", "$http", "syraservice", "$state", "$stateParams",
+SyraApp.controller("DatabaseAddController", ["$scope", "$http", "syraservice", "$state", "$stateParams",
     function ($scope, $http, syraservice, $state, $stateParams) {
 
-        $scope.CreateLuis = {};
+        $scope.CreateDbEntry = {};
         $scope.IsEditMode = false;
         $scope.tab = 1;
 
@@ -47,26 +50,26 @@ SyraApp.controller("DomainAddController", ["$scope", "$http", "syraservice", "$s
             $scope.IsEditMode = true;
         }
         if ($scope.IsEditMode) {
-            $http.post("/LuisDomains/GetLuisDomain/", { id: $scope.id }).success(function (data) {
-                $scope.CreateLuis = data.Data;
+            $http.post("/LuisDomains/GetDbEntries/", { id: $scope.id }).success(function (data) {
+                $scope.CreateDbEntry = data.Data;
             });
         }
-        $scope.DomainCreate = function () {
+        $scope.DbEntryCreate = function () {
             if ($scope.IsEditMode) {
-                $http.post('/LuisDomains/UpdateLuisDomain', { luisDomain: $scope.CreateLuis }).success(function (data) {
+                $http.post('/LuisDomains/UpdateDatabase', { managedb: $scope.CreateDbEntry }).success(function (data) {
                     if (data.IsSuccess) {
-                        $scope.CreateLuis = {};
+                        $scope.CreateDbEntry = {};
                         syraservice.RecordStatusMessage("success", data.Message);
-                        $state.go("/luisdomain");
+                        $state.go("/database");
                     } else {
                         syraservice.RecordStatusMessage("error", data.Message);
                     }
                 });
             }
             else {
-                $http.post('/LuisDomains/CreateDomain', { manageDb: $scope.CreateLuis }).success(function (data) {
+                $http.post('/LuisDomains/CreateEntries', { manageDb: $scope.CreateDbEntry }).success(function (data) {
                     if (data.IsSuccess) {
-                        $scope.CreateLuis = {};
+                        $scope.CreateDbEntry = {};
                         syraservice.RecordStatusMessage("success", data.Message);
                         $state.go("/luisdomain");
                     } else {
@@ -77,7 +80,7 @@ SyraApp.controller("DomainAddController", ["$scope", "$http", "syraservice", "$s
         }
 
         $scope.Cancel = function () {
-            $state.go("luisdomain");
+            $state.go("/database");
         };
         $scope.SetActiveTab = function (tab, control) {
             $scope.tab = tab;

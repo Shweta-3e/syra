@@ -28,6 +28,7 @@ namespace Syra.Admin.DbContexts
         public DbSet<LuisDomain> LuisDomains { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Plan> Plans { get; set; }
+        public DbSet<LuisResponse> ManageDbs { get; set; } 
         public DbSet<BotQuestionAnswers> BotQuestionAnswers { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -51,6 +52,17 @@ namespace Syra.Admin.DbContexts
                .HasForeignKey(c => c.PlanId).
                WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<LuisResponse>()
+                .HasRequired(c => c.BotDomain)
+                .WithMany(c => c.LuisResponses)
+                .HasForeignKey(c => c.BotDomainId)
+                .WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<LuisResponseForCustomer>()
+                .HasRequired(c => c.BotDeployment)
+                .WithMany(c => c.LuisResponsesforcusts)
+                .HasForeignKey(c => c.BotDeploymentId)
+                .WillCascadeOnDelete(true);
         }
 
     }

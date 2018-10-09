@@ -2,15 +2,17 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>World Based Analysis</title>
+    <title>Preview Analysis</title>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css">
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <!--<script src="https://code.highcharts.com/highcharts.js"></script>-->
     <script src="https://code.highcharts.com/maps/highmaps.js"></script>
     <script src="https://code.highcharts.com/maps/modules/data.js"></script>
     <script src="https://code.highcharts.com/mapdata/custom/world.js"></script>
-    </head>
+    <!--<script src="https://code.highcharts.com/modules/series-label.js"></script>-->
+</head>
 <body>
     <div class="row">
         <div class='col-sm-3'>
@@ -33,22 +35,131 @@
         </div>
     </div>
     <div id="container" style="max-width: 1000px"></div>
-    <div id="container_query" style="min-width: 100px; height: 350px; margin: 0 auto;width:1340px;"></div>
+    <div id="container_query" style="min-width: 100px; height: 500px; margin: 0 auto;margin-left:175px;margin-top:30px;"></div>
+    <!--<div id="external" style="min-width: 310px; height: 400px; margin: 0 auto;margin-left:175px;margin-top:30px;">
+        <a href="externalscript.html" onload="lowpeaktime()">Peak and Low Timing</a>
+    </div>-->
+    <div id="goalconversion" style="min-width: 100px; height: 500px; margin: 0 auto;margin-left:175px;margin-top:30px;"></div>
     <script>
+        function totalconversation() {
+
+        }
+        function clickedlink(startdt, enddt) {
+            var startdate = startdt;
+            var enddate = enddt;
+            $.ajax({
+                type: "POST",
+                url: "/Customer/GetClickedLink?startdt=" + startdate + '&enddt=' + enddate,
+                data: '{ }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    if (response != null) {
+                        console.log(response);
+                        getClickedLink(response);
+                    } else {
+                        alert("Something went wrong");
+                    }
+                },
+                failure: function (response) {
+                },
+                error: function (response) {
+                }
+            });
+        }
+        function getClickedLink(clickedlinkdata) {
+            
+            console.log(Object.values(clickedlinkdata));
+            var linkdata = [];
+            var finaldata = [];
+            var arr = [];
+            for (var item in clickedlinkdata) {
+                linkdata.push(clickedlinkdata[item]);
+            }
+            console.log("Array is : ");
+            finaldata.push(linkdata.slice(1, 2));
+            for (var i = 0; i < finaldata.length; i++) {
+                for (var j = 0; j <= i; j++) {
+                    console.log(finaldata[i][j]);
+                    arr.push(finaldata[i][j]);
+                }
+            }
+            console.log(arr);
+            Highcharts.chart('goalconversion', {
+                chart: {
+                    type: 'column',
+                    borderWidth: 1,
+                    width: 1000
+                },
+                title: {
+                    text: 'Goal Conversions'
+                },
+                xAxis: {
+                    type: 'category',
+                    title: {
+                        text: 'Links Clicked'
+                    },
+                    labels: {
+                        rotation: -45,
+                        style: {
+                            fontSize: '13px',
+                            fontFamily: 'Verdana, sans-serif'
+                        }
+                    }
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Count of clicked links'
+                    }
+                },
+                legend: {
+                    enabled: false
+                },
+                tooltip: {
+                    pointFormat: 'Link clicked: <b>{point.y:.1f}</b>'
+                },
+                plotOptions: {
+                    series: {
+                        pointWidth: 30
+                    },
+                    column: {
+                        pointPadding: 0,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: 'Population',
+                    data: arr[0],
+                    color: '#f4a742',
+                    dataLabels: {
+                        enabled: true,
+                        rotation: -90,
+                        color: '#FFFFFF',
+                        align: 'right',
+                        format: '{point.y:.1f}',
+                        y: 10, 
+                        style: {
+                            fontSize: '13px',
+                            fontFamily: 'Verdana, sans-serif'
+                        }
+                    }
+                }]
+            });
+        }
         function getUserQuery(userquerydata) {
-            console.log(Object.values(userquerydata));
             var arr = [];
             for (var item in userquerydata) {
                 for (var i = 0; i < 15; i++) {
-                    //console.log(userquerydata[item][i]);
+                    console.log(userquerydata[item][i]);
                     arr.push(userquerydata[item][i]);
                 }
             }
-            console.log(arr.slice(15,25));
             Highcharts.chart('container_query', {
                 chart: {
                     type: 'column',
-                    borderWidth: 1
+                    borderWidth: 1,
+                    width: 1000
                 },
                 title: {
                     text: 'Most Common Questions Asked'
@@ -161,21 +272,17 @@
                 dataType: "json",
                 success: function (response) {
                     if (response != null) {
-                        console.log(response);
                         getWorldMap();
                         getUserQuery(response);
-                        //drawGlobe();
-                        //drawGraticule();
-                        //enableRotation();
+                        clickedlink(startdate, enddate);
+                        
                     } else {
                         alert("Something went wrong");
                     }
                 },
                 failure: function (response) {
-                    //alert(response.responseText);
                 },
                 error: function (response) {
-                    //alert(response.responseText);
                 }
             });
         }
@@ -188,11 +295,6 @@
             max-width: 800px;
             margin: 0 auto;
         }
-        /*.loading {
-            margin-top: 10em;
-            text-align: center;
-            color: gray;
-        }*/
     </style>
 </body>
 </html>

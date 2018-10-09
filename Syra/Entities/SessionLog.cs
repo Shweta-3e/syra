@@ -8,6 +8,7 @@ namespace Syra.Admin.Entities
     public class SessionLog
     {
         public string SessionId { get; set; }
+        public string ClickedLink { get; set; }
         public string IPAddress { get; set; }
         public string Region { get; set; }
         public string UserQuery { get; set; }

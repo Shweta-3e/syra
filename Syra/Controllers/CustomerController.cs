@@ -176,6 +176,77 @@ namespace Syra.Admin.Controllers
         }
 
         [HttpPost]
+        public string GetClickedLink(DateTime startdt,DateTime enddt)
+        {
+            List<ArrayList> arraylist = new List<ArrayList>();
+            List<SessionLog> logs = new List<SessionLog>();
+            List<Lontitude> countries = new List<Lontitude>();
+            SyraDbContext db = new SyraDbContext();
+            _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var useremail = HttpContext.User.Identity.Name;
+            var aspnetuser = _userManager.FindByEmailAsync(useremail).Result;
+
+            if (aspnetuser != null)
+            {
+                //based on aspnetuser object, get customer details
+                var customer = db.Customer.FirstOrDefault(c => c.UserId == aspnetuser.Id);
+                var botdata = db.BotDeployments.Where(c => c.CustomerId == customer.Id).FirstOrDefault();
+                var connstring = botdata.BlobConnectionString;
+                var blobstorage = botdata.BlobStorageName;
+                var containername = ConfigurationManager.AppSettings["clickedlink_container"].ToString();
+
+                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connstring);
+                CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+                CloudBlobContainer container = blobClient.GetContainerReference(containername);
+                bool blob_check = false;
+                for (DateTime date = startdt; date <= enddt; date = date.AddDays(1))
+                {
+                    var startdateonly = date.Date.ToString("dd-MM-yyyy");
+                    var blob_file_name = startdateonly + "" + ".csv";
+                    CloudBlockBlob blockBlob = container.GetBlockBlobReference(blob_file_name);
+                    blob_check = blockBlob.Exists();
+                    if (blob_check == false)
+                    {
+                        Console.WriteLine("Blob Container doesn't exist");
+                    }
+                    else
+                    {
+                        using (StreamReader reader = new StreamReader(blockBlob.OpenRead()))
+                        {
+
+                            SessionLog log = new SessionLog();
+                            while (!reader.EndOfStream)
+                            {
+                                //string oldcontent;
+                                var line = reader.ReadLine();
+                                string[] splitedword = line.Split('|');
+                                log.SessionId = splitedword[0];
+                                log.ClickedLink = splitedword[3];
+                                int index = log.ClickedLink.IndexOf(".com/");
+                                int length = "./com".Length;
+                                int substringindex = index + length;
+                                log.ClickedLink = log.ClickedLink.Substring(substringindex);
+                                countries.Add(new Lontitude { Links = log.ClickedLink, UserId = log.SessionId });
+                            }
+                        }
+                        response.IsSuccess = true;
+                        response.Data = logs;
+                    }
+                }
+                var duplinks = countries.GroupBy(x => new { x.Links }).Select(group => new { Name = group.Key, Count = group.Count() })
+                              .OrderByDescending(x => x.Count);
+                foreach (var y in duplinks)
+                {
+                    arraylist.Add(new ArrayList { y.Name.Links, y.Count });
+                }
+                var firstFiveArrivals = arraylist.Take(7);
+                response.Data = firstFiveArrivals;
+            }
+            return response.GetResponse();
+        }
+
+        [HttpPost]
         public string GetAnalytics(DateTime startdt, DateTime enddt)
         {
             //try

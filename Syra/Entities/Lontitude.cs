@@ -9,6 +9,8 @@ namespace Syra.Admin.Entities
     {
         public string Countries { get; set; }
         public string UserQuery { get; set; }
+        public string Links { get; set; }
+        public string UserId { get; set; }
     }
     public class Location
     {
@@ -17,5 +19,5 @@ namespace Syra.Admin.Entities
         public string code { get; set; }
         public string code3 { get; set; }
     }
-
+    
 }

@@ -255,6 +255,14 @@
     <Compile Include="Migrations\201810051200263_updated.Designer.cs">
       <DependentUpon>201810051200263_updated.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201810080718187_Response changed.cs" />
+    <Compile Include="Migrations\201810080718187_Response changed.Designer.cs">
+      <DependentUpon>201810080718187_Response changed.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201810080730171_Response changed2.cs" />
+    <Compile Include="Migrations\201810080730171_Response changed2.Designer.cs">
+      <DependentUpon>201810080730171_Response changed2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -589,6 +597,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201810051200263_updated.resx">
       <DependentUpon>201810051200263_updated.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810080718187_Response changed.resx">
+      <DependentUpon>201810080718187_Response changed.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201810080730171_Response changed2.resx">
+      <DependentUpon>201810080730171_Response changed2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

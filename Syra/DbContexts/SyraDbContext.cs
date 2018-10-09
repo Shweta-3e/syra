@@ -58,9 +58,9 @@ namespace Syra.Admin.DbContexts
                 .HasForeignKey(c => c.BotDomainId)
                 .WillCascadeOnDelete(true);
 
-            modelBuilder.Entity<LuisResponseForCustomer>()
-                .HasRequired(c => c.BotDeployment)
-                .WithMany(c => c.LuisResponsesforcusts)
+            modelBuilder.Entity<LuisResponse>()
+                .HasOptional(c => c.BotDeployment)
+                .WithMany(c => c.LuisResponses)
                 .HasForeignKey(c => c.BotDeploymentId)
                 .WillCascadeOnDelete(true);
         }

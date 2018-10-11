@@ -7,11 +7,12 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css">
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <!--<script src="https://code.highcharts.com/highcharts.js"></script>-->
-    <script src="https://code.highcharts.com/maps/highmaps.js"></script>
-    <script src="https://code.highcharts.com/maps/modules/data.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/series-label.js"></script>
+    <script src="http://code.highcharts.com/maps/modules/map.js"></script>
+    <script src="https://code.highcharts.com/modules/drilldown.js"></script>
     <script src="https://code.highcharts.com/mapdata/custom/world.js"></script>
-    <!--<script src="https://code.highcharts.com/modules/series-label.js"></script>-->
+    <script src="http://code.highcharts.com/mapdata/countries/us/us-all.js"></script>
 </head>
 <body>
     <div class="row">
@@ -34,16 +35,14 @@
             </div>
         </div>
     </div>
-    <div id="container" style="max-width: 1000px"></div>
-    <div id="container_query" style="min-width: 100px; height: 500px; margin: 0 auto;margin-left:175px;margin-top:30px;"></div>
-    <!--<div id="external" style="min-width: 310px; height: 400px; margin: 0 auto;margin-left:175px;margin-top:30px;">
-        <a href="externalscript.html" onload="lowpeaktime()">Peak and Low Timing</a>
-    </div>-->
+    <div id="container" style="max-width: 1000px">
+    </div>
     <div id="goalconversion" style="min-width: 100px; height: 500px; margin: 0 auto;margin-left:175px;margin-top:30px;"></div>
+    <div id="botreply" style="min-width: 100px; height: 500px; margin: 0 auto;margin-left:175px;margin-top:30px;"></div>
+    <div id="time_container" style="min-width: 100px; height: 500px; margin: 0 auto;margin-left:175px;margin-top:30px;"></div>
+    <div id="container_query" style="min-width: 100px; height: 500px; margin: 0 auto;margin-left:175px;margin-top:30px;"></div>
+    <div id="usa-container" style="min-width: 100px; height: 500px; margin: 0 auto;margin-left:175px;margin-top:30px;"></div>
     <script>
-        function totalconversation() {
-
-        }
         function clickedlink(startdt, enddt) {
             var startdate = startdt;
             var enddate = enddt;
@@ -55,7 +54,7 @@
                 dataType: "json",
                 success: function (response) {
                     if (response != null) {
-                        console.log(response);
+                        //console.log(response);
                         getClickedLink(response);
                     } else {
                         alert("Something went wrong");
@@ -67,9 +66,411 @@
                 }
             });
         }
+        function botreply(startdt, enddt) {
+            var startdate = startdt;
+            var enddate = enddt;
+            $.ajax({
+                type: "POST",
+                url: "/Customer/BotReply?startdt=" + startdate + '&enddt=' + enddate,
+                data: '{ }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    if (response != null) {
+                        //console.log(response);
+                        botresponse(response);
+                    } else {
+                        alert("Something went wrong");
+                    }
+                },
+                failure: function (response) {
+                },
+                error: function (response) {
+                }
+            });
+        }
+        $(function () {
+            var data = [
+                {
+                    "hc-key": "us-ma",
+                    "value": 0
+                },
+                {
+                    "hc-key": "us-wa",
+                    "value": 1
+                },
+                {
+                    "hc-key": "us-ca",
+                    "value": 2
+                },
+                {
+                    "hc-key": "us-or",
+                    "value": 3
+                },
+                {
+                    "hc-key": "us-wi",
+                    "value": 4
+                },
+                {
+                    "hc-key": "us-me",
+                    "value": 5
+                },
+                {
+                    "hc-key": "us-mi",
+                    "value": 6
+                },
+                {
+                    "hc-key": "us-nv",
+                    "value": 7
+                },
+                {
+                    "hc-key": "us-nm",
+                    "value": 8
+                },
+                {
+                    "hc-key": "us-co",
+                    "value": 9
+                },
+                {
+                    "hc-key": "us-wy",
+                    "value": 10
+                },
+                {
+                    "hc-key": "us-ks",
+                    "value": 11
+                },
+                {
+                    "hc-key": "us-ne",
+                    "value": 12
+                },
+                {
+                    "hc-key": "us-ok",
+                    "value": 13
+                },
+                {
+                    "hc-key": "us-mo",
+                    "value": 14
+                },
+                {
+                    "hc-key": "us-il",
+                    "value": 15
+                },
+                {
+                    "hc-key": "us-in",
+                    "value": 16
+                },
+                {
+                    "hc-key": "us-vt",
+                    "value": 17
+                },
+                {
+                    "hc-key": "us-az",
+                    "value": 18
+                },
+                {
+                    "hc-key": "us-ar",
+                    "value": 19
+                },
+                {
+                    "hc-key": "us-tx",
+                    "value": 20
+                },
+                {
+                    "hc-key": "us-ri",
+                    "value": 21
+                },
+                {
+                    "hc-key": "us-al",
+                    "value": 22
+                },
+                {
+                    "hc-key": "us-ga",
+                    "value": 23
+                },
+                {
+                    "hc-key": "us-ms",
+                    "value": 24
+                },
+                {
+                    "hc-key": "us-sc",
+                    "value": 25
+                },
+                {
+                    "hc-key": "us-nc",
+                    "value": 26
+                },
+                {
+                    "hc-key": "us-va",
+                    "value": 27
+                },
+                {
+                    "hc-key": "us-ia",
+                    "value": 28
+                },
+                {
+                    "hc-key": "us-md",
+                    "value": 29
+                },
+                {
+                    "hc-key": "us-de",
+                    "value": 30
+                },
+                {
+                    "hc-key": "us-nj",
+                    "value": 31
+                },
+                {
+                    "hc-key": "us-pa",
+                    "value": 32
+                },
+                {
+                    "hc-key": "us-ny",
+                    "value": 33
+                },
+                {
+                    "hc-key": "us-id",
+                    "value": 34
+                },
+                {
+                    "hc-key": "us-sd",
+                    "value": 35
+                },
+                {
+                    "hc-key": "us-ct",
+                    "value": 36
+                },
+                {
+                    "hc-key": "us-nh",
+                    "value": 37
+                },
+                {
+                    "hc-key": "us-ky",
+                    "value": 38
+                },
+                {
+                    "hc-key": "us-oh",
+                    "value": 39
+                },
+                {
+                    "hc-key": "us-tn",
+                    "value": 40
+                },
+                {
+                    "hc-key": "us-wv",
+                    "value": 41
+                },
+                {
+                    "hc-key": "us-dc",
+                    "value": 42
+                },
+                {
+                    "hc-key": "us-la",
+                    "value": 43
+                },
+                {
+                    "hc-key": "us-fl",
+                    "value": 44
+                },
+                {
+                    "hc-key": "us-mn",
+                    "value": 45
+                },
+                {
+                    "hc-key": "us-mt",
+                    "value": 46
+                },
+                {
+                    "hc-key": "us-nd",
+                    "value": 47
+                },
+                {
+                    "hc-key": "us-ut",
+                    "value": 48
+                },
+                {
+                    "hc-key": "us-hi",
+                    "value": 49
+                },
+                {
+                    "hc-key": "us-ak",
+                    "value": 50
+                },
+                {
+                    "value": 51
+                }
+            ];
+
+            // Initiate the chart
+            $('#usa-container').highcharts('Map', {
+
+                title: {
+                    text: 'Highmaps basic demo'
+                },
+                mapNavigation: {
+                    enabled: true,
+                    buttonOptions: {
+                        verticalAlign: 'bottom'
+                    }
+                },
+                tooltip: {
+                    enabled: false
+                },
+
+                colorAxis: {
+                    min: 0
+                },
+
+                series: [{
+                    data: data,
+                    mapData: Highcharts.maps['countries/us/us-all'],
+                    joinBy: 'hc-key',
+                    name: 'Random data',
+                    states: {
+                        hover: {
+                            color: '#BADA55'
+                        }
+                    },
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.name}'
+                    }
+                }, {
+                    name: 'Separators',
+                    type: 'mapline',
+                    data: Highcharts.geojson(Highcharts.maps['countries/us/us-all'], 'mapline'),
+                    color: 'silver',
+                    showInLegend: false,
+                    enableMouseTracking: false
+                }]
+            });
+        });
+
+
+
+        function botresponse(response) {
+            var linkdata = [];
+            var finaldata = [];
+            var arr = [];
+            var category = [];
+            var rightans = [];
+            var wrongans = [];
+            for (var item in response) {
+                linkdata.push(response[item]);
+            }
+            finaldata.push(linkdata.slice(1, 2));
+            for (var i = 0; i < finaldata.length; i++) {
+                for (var j = 0; j <= i; j++) {
+                    console.log(finaldata[i][j]);
+                    arr.push(finaldata[i][j]);
+                }
+            }
+            for (var i = 0; i < arr[0].length; i++) {
+                for (var j = 0; j < 3; j++) {
+                    if (j == 0) {
+                        category.push(arr[0][i][j])
+                    }
+                    if (j == 1) {
+                        if (arr[0][i][j] == 'right') {
+                            j++;
+                            rightans.push(arr[0][i][j]);
+                            wrongans.push(arr[0][i][j] = 0);
+                        }
+                        else {
+                            j++;
+                            wrongans.push(arr[0][i][j]);
+                            rightans.push(arr[0][i][j] = 0);
+                        }
+
+                    }
+                }
+            }
+
+            Highcharts.chart('botreply', {
+                chart: {
+                    type: 'areaspline',
+                    borderWidth: 1,
+                    width: 1000,
+                },
+                title: {
+                    text: 'Analysis of Bot Reply',
+                    style: {
+                        color: '#8d3052',
+                        fontWeight: 'bold',
+                        fontSize: '24px'
+                    }
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'left',
+                    verticalAlign: 'top',
+                    x: 150,
+                    y: 100,
+                    floating: true,
+                    borderWidth: 1,
+                    backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
+                },
+                xAxis: {
+                    categories: category,
+                    plotBands: [{ // visualize the weekend
+                        from: 4.5,
+                        to: 6.5,
+                        color: 'rgba(68, 170, 213, .2)'
+                    }],
+                    labels: {
+                        rotation: -45,
+                        style: {
+                            fontSize: '13px',
+                            fontFamily: 'Verdana, sans-serif'
+                        }
+                    },
+                    style: {
+                        color: '#3c1414',
+                        fontWeight: 'bold',
+                        fontSize: '16px'
+                    },
+                    title: {
+                        text: 'User Query'
+                    },
+                },
+                yAxis: {
+                    title: {
+                        text: 'Total counts of Bot reply'
+                    },
+                    style: {
+                        color: '#3c1414',
+                        fontWeight: 'bold',
+                        fontSize: '16px'
+                    }
+                },
+                tooltip: {
+                    shared: true,
+                    valueSuffix: ' units'
+                },
+                credits: {
+                    enabled: false
+                },
+                plotOptions: {
+                    areaspline: {
+                        fillOpacity: 0.5
+                    }
+                },
+                series: [{
+                    name: 'Right reply',
+                    data: rightans,
+                    color: '#03a546',
+                    gapSize: 1
+                    
+                }, {
+                    name: 'Wrong reply',
+                    data: wrongans,
+                    color: '#9b0707',
+                    gapSize: 1
+                    },
+                    
+                ]
+            });
+        }
         function getClickedLink(clickedlinkdata) {
-            
-            console.log(Object.values(clickedlinkdata));
             var linkdata = [];
             var finaldata = [];
             var arr = [];
@@ -92,12 +493,22 @@
                     width: 1000
                 },
                 title: {
-                    text: 'Goal Conversions'
+                    text: 'Goal Conversions',
+                    style: {
+                        color: '#8d3052',
+                        fontWeight: 'bold',
+                        fontSize: '24px'
+                    }
                 },
                 xAxis: {
                     type: 'category',
                     title: {
-                        text: 'Links Clicked'
+                        text: 'Links Clicked',
+                        style: {
+                            color: '#3c1414',
+                            fontWeight: 'bold',
+                            fontSize: '16px'
+                        }
                     },
                     labels: {
                         rotation: -45,
@@ -110,7 +521,12 @@
                 yAxis: {
                     min: 0,
                     title: {
-                        text: 'Count of clicked links'
+                        text: 'Count of clicked links',
+                        style: {
+                            color: '#3c1414',
+                            fontWeight: 'bold',
+                            fontSize: '16px'
+                        }
                     }
                 },
                 legend: {
@@ -138,7 +554,7 @@
                         color: '#FFFFFF',
                         align: 'right',
                         format: '{point.y:.1f}',
-                        y: 10, 
+                        y: 10,
                         style: {
                             fontSize: '13px',
                             fontFamily: 'Verdana, sans-serif'
@@ -149,9 +565,9 @@
         }
         function getUserQuery(userquerydata) {
             var arr = [];
+            console.log(userquerydata.value);
             for (var item in userquerydata) {
                 for (var i = 0; i < 15; i++) {
-                    console.log(userquerydata[item][i]);
                     arr.push(userquerydata[item][i]);
                 }
             }
@@ -162,12 +578,22 @@
                     width: 1000
                 },
                 title: {
-                    text: 'Most Common Questions Asked'
+                    text: 'Most Common Questions Asked',
+                    style: {
+                        color: '#8d3052',
+                        fontWeight: 'bold',
+                        fontSize: '24px'
+                    }
                 },
                 xAxis: {
                     type: 'category',
                     title: {
-                        text: 'Questions asked'
+                        text: 'Questions asked',
+                        style: {
+                            color: '#3c1414',
+                            fontWeight: 'bold',
+                            fontSize: '16px'
+                        }
                     },
                     labels: {
                         rotation: -45,
@@ -180,7 +606,12 @@
                 yAxis: {
                     min: 0,
                     title: {
-                        text: 'Count of asked Questions'
+                        text: 'Count of asked Questions',
+                        style: {
+                            color: '#3c1414',
+                            fontWeight: 'bold',
+                            fontSize: '16px'
+                        }
                     }
                 },
                 legend: {
@@ -228,10 +659,14 @@
                     chart: {
                         map: 'custom/world',
                         borderWidth: 1
-                        //backgroundColor: '#b6d7a8'
                     },
                     title: {
-                        text: 'World Based Analysis'
+                        text: 'World Based Analysis',
+                        style: {
+                            color: '#8d3052',
+                            fontWeight: 'bold',
+                            fontSize: '24px'
+                        }
                     },
                     mapNavigation: {
                         enabled: true,
@@ -260,6 +695,82 @@
                 });
             });
         }
+        function timechart() {
+            $.getJSON(
+                '/AppScript/Analytics/Template/Epochtime.json',
+                function (data) {
+                    Highcharts.chart('time_container', {
+                        chart: {
+                            zoomType: 'x',
+                            borderWidth: 1,
+                            width: 1000,
+                        },
+                        title: {
+                            text: 'Peak and Low Time',
+                            style: {
+                                color: '#8d3052',
+                                fontWeight: 'bold',
+                                fontSize: '24px'
+                            }
+                        },
+                        xAxis: {
+                            type: 'datetime',
+                            title: {
+                                text: 'Dates for Query',
+                                style: {
+                                    color: '#3c1414',
+                                    fontWeight: 'bold',
+                                    fontSize: '16px'
+                                }
+                            },
+                        },
+                        yAxis: {
+                            title: {
+                                text: 'Count of questions asked',
+                                style: {
+                                    color: '#3c1414',
+                                    fontWeight: 'bold',
+                                    fontSize: '16px'
+                                }
+                            }
+                        },
+                        legend: {
+                            enabled: false
+                        },
+                        plotOptions: {
+                            area: {
+                                fillColor: {
+                                    linearGradient: {
+                                        x1: 0,
+                                        y1: 0,
+                                        x2: 0,
+                                        y2: 1
+                                    },
+                                    stops: [
+                                        [0, Highcharts.getOptions().colors[0]],
+                                        [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                                    ]
+                                },
+                                marker: {
+                                    radius: 2
+                                },
+                                lineWidth: 1,
+                                states: {
+                                    hover: {
+                                        lineWidth: 1
+                                    }
+                                },
+                                threshold: null
+                            }
+                        },
+                        series: [{
+                            type: 'area',
+                            data: data
+                        }]
+                    });
+                }
+            );
+        }
 
         function showDate() {
             var startdate = document.getElementById("startdate").value;
@@ -274,8 +785,6 @@
                     if (response != null) {
                         getWorldMap();
                         getUserQuery(response);
-                        clickedlink(startdate, enddate);
-                        
                     } else {
                         alert("Something went wrong");
                     }
@@ -285,6 +794,9 @@
                 error: function (response) {
                 }
             });
+            clickedlink(startdate, enddate);
+            botreply(startdate, enddate);
+            timechart();
         }
 
     </script>

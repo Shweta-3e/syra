@@ -7,24 +7,6 @@ namespace Syra.Admin.Entities
 {
     public class GetIPAddress
     {
-        //public string ip { get; set; }
-        //public string city { get; set; }
-        //public string region { get; set; }
-        //public string region_code { get; set; }
-        //public string country { get; set; }
-        //public string country_name { get; set; }
-        //public string continent_code { get; set; }
-        //public string in_eu { get; set; }
-        //public string postal { get; set; }
-        //public string latitude { get; set; }
-        //public string longitude { get; set; }
-        //public string timezone { get; set; }
-        //public string utc_offset { get; set; }
-        //public string country_calling_code { get; set; }
-        //public string currency { get; set; }
-        //public string languages { get; set; }
-        //public string asn { get; set; }
-        //public string org { get; set; }
         public string businessName { get; set; }
         public string businessWebsite { get; set; }
         public string city { get; set; }
@@ -41,4 +23,21 @@ namespace Syra.Admin.Entities
         public string region { get; set; }
         public string status { get; set; }
     }
+    public class GeoLocation
+    {
+        public string IP { get; set; }
+        public string Country { get; set; }
+        public string Countrycode { get; set; }
+        public string Region { get; set; }
+        public string RegionCode { get; set; }
+        public string City { get; set; }
+        public string ZipCode { get; set; }
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
+        public string Timezone { get; set; }
+        public string ISP { get; set; }
+        public string Organization { get; set; }
+        public string AS { get; set; }
+    }
+
 }

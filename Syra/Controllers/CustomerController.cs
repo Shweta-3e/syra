@@ -73,8 +73,6 @@ namespace Syra.Admin.Controllers
             ViewBag.LuisDomains = db.LuisDomains.ToList();
             return View();
         }
-
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CreateBot([Bind(Include = "LuisId,Id,Name,CustomerId,CompanyName,FacebookPage,Website,ContactPage,ContactNo,WelcomeMessage,BackGroundColor,ChatBotGoal")] BotDeployment botdeployment)
@@ -175,6 +173,24 @@ namespace Syra.Admin.Controllers
             }
         }
 
+        public void UsaRegion(string usajson)
+        {
+            string oldcontent = "";
+            var file = "C:/Users/trainee/Desktop/syra-santosh/Syra/AppScript/Analytics/Template/UsaRegion.json";
+            using (StreamReader reader = new StreamReader(file))
+            {
+                oldcontent = reader.ReadToEnd();
+                if (oldcontent != null)
+                {
+                    oldcontent = null;
+                }
+            }
+            using (StreamWriter writer = new StreamWriter(file))
+            {
+                writer.Write(usajson.ToString());
+                writer.Close();
+            }
+        }
         public void EpochTime(string json)
         {
             string oldcontent = "";
@@ -196,8 +212,7 @@ namespace Syra.Admin.Controllers
         }
         [HttpPost]
         public string LowPeakTime()
-        {
-            
+        {  
             SyraDbContext db = new SyraDbContext();
             List<ArrayList> arraylist = new List<ArrayList>();
             List<LowHighTime> dataline = new List<LowHighTime>();
@@ -298,7 +313,6 @@ namespace Syra.Admin.Controllers
             }
             return response.GetResponse();
         }
-
         [HttpPost]
         public string BotReply(DateTime startdt,DateTime enddt)
         {
@@ -370,7 +384,6 @@ namespace Syra.Admin.Controllers
             }
             return response.GetResponse();
         }
-
         [HttpPost]
         public string GetClickedLink(DateTime startdt,DateTime enddt)
         {
@@ -442,6 +455,25 @@ namespace Syra.Admin.Controllers
             return response.GetResponse();
         }
 
+        public string GetUsaCode(string ipaddr)
+        {
+            string ipadd = ipaddr.Replace(" ", "");
+            var Uri = "http://ip-api.com/json/" + ipadd;
+            HttpWebRequest request = WebRequest.Create(Uri) as System.Net.HttpWebRequest;
+            Encoding encoding = new UTF8Encoding();
+            request.Method = "GET";
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            var reader = new StreamReader(response.GetResponseStream());
+            String jsonresponse = "";
+            String temp = null;
+            while (!reader.EndOfStream)
+            {
+                temp = reader.ReadLine();
+                jsonresponse += temp;
+            }
+            return jsonresponse;
+        }
+
         [HttpPost]
         public string GetAnalytics(DateTime startdt, DateTime enddt)
         {
@@ -451,9 +483,12 @@ namespace Syra.Admin.Controllers
             List<ArrayList> anslist = new List<ArrayList>();
             List<SessionLog> logs = new List<SessionLog>();
             List<Lontitude> countries = new List<Lontitude>();
+            List<USARegion> region = new List<USARegion>();
             List<Location> _data = new List<Location>();
+            List<USALocation> _location = new List<USALocation>();
             SyraDbContext db = new SyraDbContext();
             var ipdetails = new GetIPAddress();
+            var geolocatoin = new GeoLocation();
             //var query = new Lontitude();
             _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
@@ -497,6 +532,12 @@ namespace Syra.Admin.Controllers
                                 log.SessionId = splitedword[0];
                                 log.IPAddress = splitedword[1];
                                 log.Region = splitedword[2];
+                                if(log.Region.Contains('.'))
+                                {
+                                    string temp = log.IPAddress;
+                                    log.IPAddress = log.Region;
+                                    log.Region = temp;
+                                }
                                 log.UserQuery = splitedword[3];
                                 log.BotAnswers = splitedword[4];
                                 log.LogDate = splitedword[5];
@@ -507,6 +548,12 @@ namespace Syra.Admin.Controllers
 
                                 string jsonresponse = GetIPDetails(log.IPAddress);
                                 ipdetails = JsonConvert.DeserializeObject<GetIPAddress>(jsonresponse);
+                                if(ipdetails.country== "United States")
+                                {
+                                    string jsondeatil = GetUsaCode(ipdetails.query);
+                                    geolocatoin= JsonConvert.DeserializeObject<GeoLocation>(jsondeatil);
+                                    region.Add(new USARegion { hckey = (("US-"+geolocatoin.Region).ToLower()) });
+                                }
                                 countries.Add(new Lontitude { Countries = ipdetails.countryCode, UserQuery = log.UserQuery });
                             }
                         }
@@ -518,6 +565,18 @@ namespace Syra.Admin.Controllers
                              .OrderByDescending(x => x.Count);
                 var dupUserQuery= countries.GroupBy(x => new { x.UserQuery }).Select(group => new { Name = group.Key, Count = group.Count() })
                               .OrderByDescending(x => x.Count);
+                var dupusaregion = region.GroupBy(x => new { x.hckey }).Select(group => new { Name = group.Key, Count = group.Count() });
+                foreach(var item in dupusaregion)
+                {
+                   _location.Add(new USALocation()
+                    {
+                        hckey = item.Name.hckey,
+                        value = item.Count
+                    });
+
+                }
+                string usajson = JsonConvert.SerializeObject(_location.ToArray());
+                UsaRegion(usajson);
                 foreach (var y in dupUserQuery)
                 {
                     arraylist.Add(new ArrayList { y.Name.UserQuery, y.Count });

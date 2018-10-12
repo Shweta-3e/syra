@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,6 +14,7 @@ namespace Syra.Admin.Entities
         public string UserId { get; set; }
         public string righans { get; set; }
         public string wrongans { get; set; }
+        
     }
     public class Location
     {
@@ -22,6 +24,7 @@ namespace Syra.Admin.Entities
         public string code3 { get; set; }
         public Int64 epochtime { get; set; }
         public Int64 counttime { get; set; }
+        
     }
     public class LowHighTime
     {
@@ -30,6 +33,17 @@ namespace Syra.Admin.Entities
         public Int64 timecount { get; set; }
         public string status { get; set; }
     }
-
-    
+    public class USARegion
+    {
+        public string hckey { get; set; }
+    }
+    public class USALocation
+    {
+        [JsonProperty(PropertyName = "hc-key")]
+        public string hckey { get; set; }
+        public float value { get; set; }
+        private static char dash = '-';
+        private static string key = "key";
+    }
+   
 }

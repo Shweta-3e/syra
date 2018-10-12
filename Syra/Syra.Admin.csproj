@@ -358,6 +358,7 @@
     <Content Include="AppScript\Analytics\Template\locations.json" />
     <Content Include="AppScript\Analytics\Template\Epochtime.json" />
     <Content Include="AppScript\Analytics\Template\DemoTime.json" />
+    <Content Include="AppScript\Analytics\Template\UsaRegion.json" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\datatables.bootstrap.css" />
     <Content Include="Scripts\Datatables\angular-datatables.js" />

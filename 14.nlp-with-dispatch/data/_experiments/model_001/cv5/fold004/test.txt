@@ -1,0 +1,35 @@
+Label	Weight	Text
+l_Home Automation	1.928571	turn on light in bedroom
+l_Home Automation	1.928571	breezeway on please
+l_Home Automation	1.928571	set lights to bright
+l_Home Automation	1.928571	living room lamp on please
+l_Home Automation	1.928571	lock the doors for me please
+l_Home Automation	1.928571	play dvd
+l_Home Automation	1.928571	turn on the furnace room lights
+l_Home Automation	1.928571	turn on light in bedroom
+l_Home Automation	1.928571	breezeway on please
+l_Home Automation	1.928571	set lights to bright
+l_Home Automation	1.928571	living room lamp on please
+l_Home Automation	1.928571	lock the doors for me please
+l_Home Automation	1.928571	play dvd
+l_Home Automation	1.928571	turn on the furnace room lights
+l_Weather	2.7	forecast in celcius
+l_Weather	2.7	do florida residents usually need ice scrapers
+l_Weather	2.7	was last year about this time as wet as it is now in the south ?
+l_Weather	2.7	get florence temperature in september
+l_Weather	2.7	get the daily temperature greenwood indiana
+l_Weather	2.7	forecast in celcius
+l_Weather	2.7	do florida residents usually need ice scrapers
+l_Weather	2.7	was last year about this time as wet as it is now in the south ?
+l_Weather	2.7	get florence temperature in september
+l_Weather	2.7	get the daily temperature greenwood indiana
+None	2.7	lower your volume
+None	2.7	lower your volume
+None	2.7	lower your volume
+None	2.7	lower your volume
+None	2.7	lower your volume
+None	2.7	lower your volume
+None	2.7	lower your volume
+None	2.7	lower your volume
+None	2.7	lower your volume
+None	2.7	lower your volume

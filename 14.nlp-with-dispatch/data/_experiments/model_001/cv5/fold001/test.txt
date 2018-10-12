@@ -1,0 +1,35 @@
+Label	Weight	Text
+l_Home Automation	1.928571	shut down my work computer
+l_Home Automation	1.928571	start master bedroom light.
+l_Home Automation	1.928571	turn on bathroom heater
+l_Home Automation	1.928571	turn off venice lamp
+l_Home Automation	1.928571	set lights to concentrate
+l_Home Automation	1.928571	turn on external speaker
+l_Home Automation	1.928571	turn on my bedroom lights.
+l_Home Automation	1.928571	shut down my work computer
+l_Home Automation	1.928571	start master bedroom light.
+l_Home Automation	1.928571	turn on bathroom heater
+l_Home Automation	1.928571	turn off venice lamp
+l_Home Automation	1.928571	set lights to concentrate
+l_Home Automation	1.928571	turn on external speaker
+l_Home Automation	1.928571	turn on my bedroom lights.
+l_Weather	2.7	show average rainfall for boise
+l_Weather	2.7	what is the weather in redmond ?
+l_Weather	2.7	i want to know the temperature at death valley
+l_Weather	2.7	how much rain does chambersburg get a year
+l_Weather	2.7	will it snow today
+l_Weather	2.7	show average rainfall for boise
+l_Weather	2.7	what is the weather in redmond ?
+l_Weather	2.7	i want to know the temperature at death valley
+l_Weather	2.7	how much rain does chambersburg get a year
+l_Weather	2.7	will it snow today
+None	2.7	dim kitchen lights to 25 .
+None	2.7	dim kitchen lights to 25 .
+None	2.7	dim kitchen lights to 25 .
+None	2.7	dim kitchen lights to 25 .
+None	2.7	dim kitchen lights to 25 .
+None	2.7	dim kitchen lights to 25 .
+None	2.7	dim kitchen lights to 25 .
+None	2.7	dim kitchen lights to 25 .
+None	2.7	dim kitchen lights to 25 .
+None	2.7	dim kitchen lights to 25 .

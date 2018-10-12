@@ -1,0 +1,35 @@
+Label	Weight	Text
+l_Home Automation	1.928571	turn on thermostat please
+l_Home Automation	1.928571	coffee bar on please
+l_Home Automation	1.928571	turn the fan to high
+l_Home Automation	1.928571	set lights out in bedroom
+l_Home Automation	1.928571	turn dimmer off
+l_Home Automation	1.928571	turn thermostat on 70.
+l_Home Automation	1.928571	theater on please
+l_Home Automation	1.928571	turn on thermostat please
+l_Home Automation	1.928571	coffee bar on please
+l_Home Automation	1.928571	turn the fan to high
+l_Home Automation	1.928571	set lights out in bedroom
+l_Home Automation	1.928571	turn dimmer off
+l_Home Automation	1.928571	turn thermostat on 70.
+l_Home Automation	1.928571	theater on please
+l_Weather	2.7	will it rain this weekend
+l_Weather	2.7	what's the weather like in minneapolis
+l_Weather	2.7	what is the rain volume in sonoma county ?
+l_Weather	2.7	show me the forecast at alabama
+l_Weather	2.7	get for me the weather conditions in sonoma county
+l_Weather	2.7	will it rain this weekend
+l_Weather	2.7	what's the weather like in minneapolis
+l_Weather	2.7	what is the rain volume in sonoma county ?
+l_Weather	2.7	show me the forecast at alabama
+l_Weather	2.7	get for me the weather conditions in sonoma county
+None	2.7	turn on the internet in my bedroom please
+None	2.7	turn on the internet in my bedroom please
+None	2.7	turn on the internet in my bedroom please
+None	2.7	turn on the internet in my bedroom please
+None	2.7	turn on the internet in my bedroom please
+None	2.7	turn on the internet in my bedroom please
+None	2.7	turn on the internet in my bedroom please
+None	2.7	turn on the internet in my bedroom please
+None	2.7	turn on the internet in my bedroom please
+None	2.7	turn on the internet in my bedroom please

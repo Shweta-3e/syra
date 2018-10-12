@@ -1,0 +1,35 @@
+Label	Weight	Text
+l_Home Automation	1.928571	turn off foyer lights
+l_Home Automation	1.928571	turn off ac please
+l_Home Automation	1.928571	fish pond off please
+l_Home Automation	1.928571	turn off staircase
+l_Home Automation	1.928571	turn on kitchen faucet
+l_Home Automation	1.928571	turn off living room light
+l_Home Automation	1.928571	turn on light in bedroom
+l_Home Automation	1.928571	turn off foyer lights
+l_Home Automation	1.928571	turn off ac please
+l_Home Automation	1.928571	fish pond off please
+l_Home Automation	1.928571	turn off staircase
+l_Home Automation	1.928571	turn on kitchen faucet
+l_Home Automation	1.928571	turn off living room light
+l_Home Automation	1.928571	turn on light in bedroom
+l_Weather	2.7	will it be raining in ranchi
+l_Weather	2.7	provide me by toronto weather please
+l_Weather	2.7	what's the weather going to be like in hawaii ?
+l_Weather	2.7	get the forcast for me
+l_Weather	2.7	what will the weather be tomorrow in new york ?
+l_Weather	2.7	will it be raining in ranchi
+l_Weather	2.7	provide me by toronto weather please
+l_Weather	2.7	what's the weather going to be like in hawaii ?
+l_Weather	2.7	get the forcast for me
+l_Weather	2.7	what will the weather be tomorrow in new york ?
+None	2.7	lower your volume
+None	2.7	lower your volume
+None	2.7	lower your volume
+None	2.7	lower your volume
+None	2.7	lower your volume
+None	2.7	lower your volume
+None	2.7	lower your volume
+None	2.7	lower your volume
+None	2.7	lower your volume
+None	2.7	lower your volume

@@ -1,0 +1,57 @@
+{
+    "name": "NLP-With-Dispatch-Bot",
+    "description": "",
+    "services": [
+        {
+            "type": "endpoint",
+            "name": "nlp-with-dispatch",
+            "id": "http://localhost:3978/api/messages",
+            "appId": "",
+            "appPassword": "",
+            "endpoint": "http://localhost:3978/api/messages"
+        },
+        {
+            "type": "endpoint",
+            "name": "development",
+            "id": "http://localhost:3978/api/messages",
+            "appId": "",
+            "appPassword": "",
+            "endpoint": "http://localhost:3978/api/messages"
+        },
+        {
+            "type": "luis",
+            "name": "Home Automation",
+            "appId": "6a24810a-b158-4b85-9a79-ff500b1f2fd9",
+            "version": "0.1",
+            "authoringKey": "v7KX0w48t/g8uUOjAnlkzA==!X9GnLutF2HyJeHnicQm32YEk492qXVaPooJBdgnPn4QUHluYexk1BaOKrFjifEn1",
+            "subscriptionKey": "1aGmLmuauAWDmuacSUtDSQ==!yXz2rgbjifDDDmaDwB5IhN3W2eZTUfF5GO/N0e6WZbS2l/NlX+gMcIGpLhxSvM7b",
+            "region": "westus",
+            "id": "56"
+        },
+        {
+            "type": "luis",
+            "name": "Weather",
+            "appId": "369da01e-7782-43bb-9ee8-9b7c47f894d4",
+            "version": "0.1",
+            "authoringKey": "tMOdxrnkOPFtbsSFioH8JA==!8lpLTPr0+h/TFTwHivf2zgAjR8D97n8UtPdCVGbVxdTynfQztzgGG1LAybYu1fHz",
+            "subscriptionKey": "t2Pb3U5o8wUrTEvcGFJPMA==!x1PEM3wdnxXgI/BJJgUfNPyXYhM9BekNb8nFqPGTrthWBKW3IgYpd89JOL6ZDh3B",
+            "region": "westus",
+            "id": "95"
+        },
+      {
+        "type": "dispatch",
+        "name": "NLP-With-Dispatch-BotDispatch",
+        "appId": "e1848338-9ed5-4960-b704-bb9bcf50df76",
+        "authoringKey": "zii34LLGLcT/yeruMbZySg==!hUkJL6Wz1Tb+FjzWn+T7YAGtH5QwiWq529jOTmrANrFkGn/ID9TOcKjz2GxxZse3",
+        "version": "Dispatch",
+        "region": "westus",
+        "serviceIds": [
+          "56",
+          "95"
+        ],
+        "id": "78"
+      }
+    ],
+    "padlock": "6+etxiLOWYp5PwQmN5SfrQ==!o+RqV1b4wjbj2PLIMy3LBPTXC2ob/fM7SVyRDcIY2VlrO9shkRKVjeW4AewwSfBg",
+    "version": "2.0"
+}

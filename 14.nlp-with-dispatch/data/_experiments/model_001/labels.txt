@@ -1,0 +1,4 @@
+Label	LabelName	Samples
+0	l_Home Automation	34
+1	l_Weather	26
+2	None	12

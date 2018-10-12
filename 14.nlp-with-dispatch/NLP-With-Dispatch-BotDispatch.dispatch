@@ -1,0 +1,36 @@
+{
+  "authoringRegion": "westus",
+  "hierarchical": true,
+  "services": [
+    {
+      "appId": "6a24810a-b158-4b85-9a79-ff500b1f2fd9",
+      "authoringKey": "e6d3d39c8364452baec720946d038b6f",
+      "subscriptionKey": "e6d3d39c8364452baec720946d038b6f",
+      "version": "0.1",
+      "region": "westus",
+      "type": "luis",
+      "name": "Home Automation",
+      "id": "56"
+    },
+    {
+      "appId": "369da01e-7782-43bb-9ee8-9b7c47f894d4",
+      "authoringKey": "e6d3d39c8364452baec720946d038b6f",
+      "subscriptionKey": "e6d3d39c8364452baec720946d038b6f",
+      "version": "0.1",
+      "region": "westus",
+      "type": "luis",
+      "name": "Weather",
+      "id": "95"
+    }
+  ],
+  "serviceIds": [
+    "56",
+    "95"
+  ],
+  "appId": "e1848338-9ed5-4960-b704-bb9bcf50df76",
+  "authoringKey": "e6d3d39c8364452baec720946d038b6f",
+  "version": "Dispatch",
+  "region": "westus",
+  "type": "dispatch",
+  "name": "NLP-With-Dispatch-BotDispatch"
+}

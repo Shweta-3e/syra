@@ -1,0 +1,35 @@
+Label	Weight	Text
+l_Home Automation	1.928571	change temperature to seventy two degrees
+l_Home Automation	1.928571	make some coffee
+l_Home Automation	1.928571	illuminate please
+l_Home Automation	1.928571	fish pond on please
+l_Home Automation	1.928571	living room lamps off please
+l_Home Automation	1.928571	make camera 1 off please
+l_Home Automation	1.928571	snap switch fan fifty percent
+l_Home Automation	1.928571	change temperature to seventy two degrees
+l_Home Automation	1.928571	make some coffee
+l_Home Automation	1.928571	illuminate please
+l_Home Automation	1.928571	fish pond on please
+l_Home Automation	1.928571	living room lamps off please
+l_Home Automation	1.928571	make camera 1 off please
+l_Home Automation	1.928571	snap switch fan fifty percent
+l_Weather	2.7	soliciting today's weather
+l_Weather	2.7	get the weather at saint george utah
+l_Weather	2.7	temperature of delhi in celsius please
+l_Weather	2.7	current weather ?
+l_Weather	2.7	what to wear in march in california
+l_Weather	2.7	soliciting today's weather
+l_Weather	2.7	get the weather at saint george utah
+l_Weather	2.7	temperature of delhi in celsius please
+l_Weather	2.7	current weather ?
+l_Weather	2.7	what to wear in march in california
+None	2.7	decrease temperature for me please
+None	2.7	decrease temperature for me please
+None	2.7	decrease temperature for me please
+None	2.7	decrease temperature for me please
+None	2.7	decrease temperature for me please
+None	2.7	decrease temperature for me please
+None	2.7	decrease temperature for me please
+None	2.7	decrease temperature for me please
+None	2.7	decrease temperature for me please
+None	2.7	decrease temperature for me please

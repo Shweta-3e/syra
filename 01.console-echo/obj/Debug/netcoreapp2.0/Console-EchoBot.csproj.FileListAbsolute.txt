@@ -1,0 +1,11 @@
+C:\Users\ThirdEye\Documents\Visual Studio 2017\Projects\BotBuilder-Samples-master\BotBuilder-Samples-master\samples\csharp_dotnetcore\01.console-echo\bin\Debug\netcoreapp2.0\Console-EchoBot.deps.json
+C:\Users\ThirdEye\Documents\Visual Studio 2017\Projects\BotBuilder-Samples-master\BotBuilder-Samples-master\samples\csharp_dotnetcore\01.console-echo\bin\Debug\netcoreapp2.0\Console-EchoBot.runtimeconfig.json
+C:\Users\ThirdEye\Documents\Visual Studio 2017\Projects\BotBuilder-Samples-master\BotBuilder-Samples-master\samples\csharp_dotnetcore\01.console-echo\bin\Debug\netcoreapp2.0\Console-EchoBot.runtimeconfig.dev.json
+C:\Users\ThirdEye\Documents\Visual Studio 2017\Projects\BotBuilder-Samples-master\BotBuilder-Samples-master\samples\csharp_dotnetcore\01.console-echo\bin\Debug\netcoreapp2.0\Console-EchoBot.dll
+C:\Users\ThirdEye\Documents\Visual Studio 2017\Projects\BotBuilder-Samples-master\BotBuilder-Samples-master\samples\csharp_dotnetcore\01.console-echo\bin\Debug\netcoreapp2.0\Console-EchoBot.pdb
+C:\Users\ThirdEye\Documents\Visual Studio 2017\Projects\BotBuilder-Samples-master\BotBuilder-Samples-master\samples\csharp_dotnetcore\01.console-echo\obj\Debug\netcoreapp2.0\Console-EchoBot.csprojResolveAssemblyReference.cache
+C:\Users\ThirdEye\Documents\Visual Studio 2017\Projects\BotBuilder-Samples-master\BotBuilder-Samples-master\samples\csharp_dotnetcore\01.console-echo\obj\Debug\netcoreapp2.0\Console-EchoBot.csproj.CoreCompileInputs.cache
+C:\Users\ThirdEye\Documents\Visual Studio 2017\Projects\BotBuilder-Samples-master\BotBuilder-Samples-master\samples\csharp_dotnetcore\01.console-echo\obj\Debug\netcoreapp2.0\Console-EchoBot.AssemblyInfoInputs.cache
+C:\Users\ThirdEye\Documents\Visual Studio 2017\Projects\BotBuilder-Samples-master\BotBuilder-Samples-master\samples\csharp_dotnetcore\01.console-echo\obj\Debug\netcoreapp2.0\Console-EchoBot.AssemblyInfo.cs
+C:\Users\ThirdEye\Documents\Visual Studio 2017\Projects\BotBuilder-Samples-master\BotBuilder-Samples-master\samples\csharp_dotnetcore\01.console-echo\obj\Debug\netcoreapp2.0\Console-EchoBot.dll
+C:\Users\ThirdEye\Documents\Visual Studio 2017\Projects\BotBuilder-Samples-master\BotBuilder-Samples-master\samples\csharp_dotnetcore\01.console-echo\obj\Debug\netcoreapp2.0\Console-EchoBot.pdb

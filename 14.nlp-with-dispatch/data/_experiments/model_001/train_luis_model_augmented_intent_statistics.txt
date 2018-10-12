@@ -1,0 +1,4 @@
+Intent	Utterance Count	Utterance Average Length	Utterance Maximum Length	Utterance Minimum Length	Utterance Length StdDev
+l_Home Automation	34	22.647	41	8	5.72
+l_Weather	26	36.154	64	17	11.202
+None	4	29.5	41	17	10.344

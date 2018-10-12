@@ -1,0 +1,61 @@
+Label	Weight	Text
+l_Home Automation	1	change temperature to seventy two degrees
+l_Home Automation	1	make some coffee
+l_Home Automation	1	illuminate please
+l_Home Automation	1	fish pond on please
+l_Home Automation	1	living room lamps off please
+l_Home Automation	1	make camera 1 off please
+l_Home Automation	1	snap switch fan fifty percent
+l_Home Automation	1	shut down my work computer
+l_Home Automation	1	start master bedroom light.
+l_Home Automation	1	turn on bathroom heater
+l_Home Automation	1	turn off venice lamp
+l_Home Automation	1	set lights to concentrate
+l_Home Automation	1	turn on external speaker
+l_Home Automation	1	turn on my bedroom lights.
+l_Home Automation	1	turn on thermostat please
+l_Home Automation	1	coffee bar on please
+l_Home Automation	1	turn the fan to high
+l_Home Automation	1	set lights out in bedroom
+l_Home Automation	1	turn dimmer off
+l_Home Automation	1	turn thermostat on 70.
+l_Home Automation	1	theater on please
+l_Home Automation	1	breezeway on please
+l_Home Automation	1	set lights to bright
+l_Home Automation	1	living room lamp on please
+l_Home Automation	1	lock the doors for me please
+l_Home Automation	1	play dvd
+l_Home Automation	1	turn on the furnace room lights
+l_Weather	1.285714	soliciting today's weather
+l_Weather	1.285714	get the weather at saint george utah
+l_Weather	1.285714	temperature of delhi in celsius please
+l_Weather	1.285714	current weather ?
+l_Weather	1.285714	what to wear in march in california
+l_Weather	1.285714	show average rainfall for boise
+l_Weather	1.285714	what is the weather in redmond ?
+l_Weather	1.285714	i want to know the temperature at death valley
+l_Weather	1.285714	how much rain does chambersburg get a year
+l_Weather	1.285714	will it snow today
+l_Weather	1.285714	will it rain this weekend
+l_Weather	1.285714	what's the weather like in minneapolis
+l_Weather	1.285714	what is the rain volume in sonoma county ?
+l_Weather	1.285714	show me the forecast at alabama
+l_Weather	1.285714	get for me the weather conditions in sonoma county
+l_Weather	1.285714	forecast in celcius
+l_Weather	1.285714	do florida residents usually need ice scrapers
+l_Weather	1.285714	was last year about this time as wet as it is now in the south ?
+l_Weather	1.285714	get florence temperature in september
+l_Weather	1.285714	get the daily temperature greenwood indiana
+l_Weather	1.285714	what is the weather today at 10 day durham ?
+None	2.25	decrease temperature for me please
+None	2.25	dim kitchen lights to 25 .
+None	2.25	turn on the internet in my bedroom please
+None	2.25	decrease temperature for me please
+None	2.25	dim kitchen lights to 25 .
+None	2.25	turn on the internet in my bedroom please
+None	2.25	decrease temperature for me please
+None	2.25	dim kitchen lights to 25 .
+None	2.25	turn on the internet in my bedroom please
+None	2.25	decrease temperature for me please
+None	2.25	dim kitchen lights to 25 .
+None	2.25	turn on the internet in my bedroom please

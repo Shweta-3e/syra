@@ -80,8 +80,8 @@ namespace NLP_With_Dispatch_Bot
 
             services.AddBot<NlpDispatchBot>(options =>
             {
-
                 options.CredentialProvider = new SimpleCredentialProvider(endpointService.AppId, endpointService.AppPassword);
+
                 // Creates a logger for the application to use.
                 ILogger logger = _loggerFactory.CreateLogger<NlpDispatchBot>();
 
@@ -89,6 +89,7 @@ namespace NLP_With_Dispatch_Bot
                 options.OnTurnError = async (context, exception) =>
                 {
                     logger.LogError($"Exception caught : {exception}");
+                    await context.SendActivityAsync(exception.StackTrace);
                     await context.SendActivityAsync("Sorry, it looks like something went wrong.");
                 };
 
@@ -211,11 +212,10 @@ namespace NLP_With_Dispatch_Bot
                             throw new InvalidOperationException("The LUIS Authoring Key ('authoringKey') is required to run this sample. Please update your '.bot' file.");
                         }
 
-                        //if (string.IsNullOrWhiteSpace(dispatch.SubscriptionKey))
-                        //{
+                        // if (string.IsNullOrWhiteSpace(dispatch.SubscriptionKey))
+                        // {
                         //    throw new InvalidOperationException("The Subscription Key ('subscriptionKey') is required to run this sample. Please update your '.bot' file.");
-                        //}
-
+                        // }
                         if (string.IsNullOrWhiteSpace(dispatch.Region))
                         {
                             throw new InvalidOperationException("The Region ('region') is required to run this sample. Please update your '.bot' file.");

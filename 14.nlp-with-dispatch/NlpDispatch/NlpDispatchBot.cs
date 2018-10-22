@@ -22,8 +22,6 @@ namespace NLP_With_Dispatch_Bot
     /// </summary>
     public class NlpDispatchBot : IBot
     {
-        private const string WelcomeText = "This bot will introduce you to Dispatch for QnA Maker and LUIS. Type a greeting, or a question about the weather to get started";
-
         /// <summary>
         /// Key in the Bot config (.bot file) for the Home Automation Luis instance.
         /// </summary>
@@ -37,13 +35,14 @@ namespace NLP_With_Dispatch_Bot
         /// <summary>
         /// Key in the Bot config (.bot file) for the Dispatch.
         /// </summary>
-        public static readonly string DispatchKey = "nlp-with-dispatchDispatch";
+        public static readonly string DispatchKey = "NLP-With-Dispatch-BotDispatch";
 
         /// <summary>
         /// Key in the Bot config (.bot file) for the QnaMaker instance.
         /// In the .bot file, multiple instances of QnaMaker can be configured.
         /// </summary>
         public static readonly string QnAMakerKey = "sample-qna";
+        private const string WelcomeText = "This bot will introduce you to Dispatch for QnA Maker and LUIS. Type a greeting, or a question about the weather to get started";
 
         /// <summary>
         /// Services configured from the ".bot" file.
@@ -58,11 +57,10 @@ namespace NLP_With_Dispatch_Bot
         {
             _services = services ?? throw new System.ArgumentNullException(nameof(services));
 
-            //if (!_services.QnAServices.ContainsKey(QnAMakerKey))
-            //{
+            // if (!_services.QnAServices.ContainsKey(QnAMakerKey))
+            // {
             //    throw new System.ArgumentException($"Invalid configuration.  Please check your '.bot' file for a QnA service named '{DispatchKey}'.");
-            //}
-
+            // }
             if (!_services.LuisServices.ContainsKey(HomeAutomationLuisKey))
             {
                 throw new System.ArgumentException($"Invalid configuration.  Please check your '.bot' file for a Luis service named '{HomeAutomationLuisKey}'.");
@@ -120,8 +118,8 @@ namespace NLP_With_Dispatch_Bot
             const string homeAutomationDispatchKey = "l_Home_Automation";
             const string weatherDispatchKey = "l_Weather";
             const string noneDispatchKey = "None";
-            const string qnaDispatchKey = "q_sample-qna";
 
+            // const string qnaDispatchKey = "q_sample-qna";
             switch (topIntent.Value.intent)
             {
                 case homeAutomationDispatchKey:
@@ -138,10 +136,9 @@ namespace NLP_With_Dispatch_Bot
                 case noneDispatchKey:
                     // You can provide logic here to handle the known None intent (none of the above).
                     // In this example we fall through to the QnA intent.
-                case qnaDispatchKey:
-                    await DispatchToQnAMakerAsync(context, QnAMakerKey);
-                    break;
-
+                // case qnaDispatchKey:
+                //    await DispatchToQnAMakerAsync(context, QnAMakerKey);
+                //    break;
                 default:
                     // The intent didn't match any case, so just display the recognition results.
                     await context.SendActivityAsync($"Dispatch intent: {topIntent.Value.intent} ({topIntent.Value.score}).");

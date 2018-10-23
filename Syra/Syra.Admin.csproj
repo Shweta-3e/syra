@@ -275,7 +275,6 @@
     <Content Include="AppScript\AdminPlan\Template\index.html" />
     <Content Include="AppScript\Analytics\AnalyticsController.js" />
     <Content Include="AppScript\Analytics\Template\analytics.html" />
-    <Content Include="AppScript\Analytics\Template\externalscript.html" />
     <Content Include="AppScript\ChangePassword\ChangePasswordController.js" />
     <Content Include="AppScript\ChangePassword\Template\forgotpassword.html" />
     <Content Include="AppScript\ChatBot\ChatBotController.js" />
@@ -350,6 +349,9 @@
     <Content Include="Content\bootstrap-datepicker.min.css.map" />
     <Content Include="Content\bootstrap-datepicker.css.map" />
     <Content Include="AppScript\Analytics\Template\locations.json" />
+    <Content Include="AppScript\Analytics\Template\Epochtime.json" />
+    <Content Include="AppScript\Analytics\Template\DemoTime.json" />
+    <Content Include="AppScript\Analytics\Template\UsaRegion.json" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\datatables.bootstrap.css" />
     <Content Include="Scripts\Datatables\angular-datatables.js" />

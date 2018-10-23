@@ -35,8 +35,7 @@
             </div>
         </div>
     </div>
-    <div id="container" style="max-width: 1000px">
-    </div>
+    <div id="container" style="max-width: 1000px"></div>
     <div id="goalconversion" style="min-width: 100px; height: 500px; margin: 0 auto;margin-left:175px;margin-top:30px;"></div>
     <div id="botreply" style="min-width: 100px; height: 500px; margin: 0 auto;margin-left:175px;margin-top:30px;"></div>
     <div id="time_container" style="min-width: 100px; height: 500px; margin: 0 auto;margin-left:175px;margin-top:30px;"></div>
@@ -382,6 +381,7 @@
                     series: [{
                         data: data,
                         mapData: Highcharts.maps['countries/us/us-all'],
+                        nullColor: '#9fe079',
                         joinBy: 'hc-key',
                         name: 'Random data',
                         states: {
@@ -739,6 +739,7 @@
                     },
                     series: [{
                         data: data,
+                        nullColor:'#dbd072',
                         joinBy: ['iso-a3', 'code3'],
                         name: 'Questions asked',
                         states: {

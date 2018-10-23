@@ -741,22 +741,45 @@ namespace Syra.Admin.Controllers
             _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var useremail = HttpContext.User.Identity.Name;
             var aspnetuser = _userManager.FindByEmailAsync(useremail).Result;
-            var customer = db.Customer.FirstOrDefault(c => c.UserId == aspnetuser.Id);
-            var botdeployments = db.BotDeployments.Where(c => c.CustomerId == customer.Id).ToList();
-            customer.BotDeployments = botdeployments;
-            response.Data = Mapper.Map<CustomerView>(customer);
+            if (aspnetuser != null)
+            {
+                var customer = db.Customer.FirstOrDefault(c => c.UserId == aspnetuser.Id);
+                var botdeployments = db.BotDeployments.Where(c => c.CustomerId == customer.Id).ToList();
+                customer.BotDeployments = botdeployments;
+                response.Data = Mapper.Map<CustomerView>(customer);
+                response.RedirectToLogin = false;
+            }
+            else
+            {
+                response.RedirectToLogin = true;
+            }
+          
             return response.GetResponse();
         }
 
         [HttpPost]
-        public string GetCustomerActivePlan(Int64 customerId)
+        public string GetCustomerActivePlan()
         {
-            var customer = db.Customer.Find(customerId);
-            var planobj = db.CustomerPlans.FirstOrDefault(c => c.CustomerId == customer.Id);
-            var plancheck = db.CustomerPlans.FirstOrDefault(c => c.PlanId == planobj.PlanId && c.IsActive);
+            _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var useremail = HttpContext.User.Identity.Name;
+            var aspnetuser = _userManager.FindByEmail(useremail);
+            if (aspnetuser != null)
+            {
+                var customer = db.Customer.FirstOrDefault(c => c.UserId == aspnetuser.Id);
+                // var botdeployments = db.BotDeployments.Where(c => c.CustomerId == customer.Id).ToList();
+                var plan = db.CustomerPlans.FirstOrDefault(c => c.CustomerId == customer.Id);
+                response.Data = Mapper.Map<CustomerPlanView>(plan);
 
-            response.Data = Mapper.Map<CustomerPlanView>(plancheck);
-
+                response.IsSuccess = true;
+                response.RedirectToLogin = false;
+            }
+            else
+            {
+                response.Data = null;
+                response.IsSuccess = false;
+                response.RedirectToLogin = true;
+            }
             return response.GetResponse();
         }
 

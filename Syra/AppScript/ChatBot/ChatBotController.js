@@ -6,27 +6,12 @@
         $scope.pageNumber = 0;
         $scope.BotDeployment = {};
         $scope.BotDetail = false;
-        $scope.CustomerPlan = {};
+        $scope.Customer = {};
 
-        console.log("Fixed this issue");
-
-        $scope.GetCurrentUser = function () {
-            $http.post('/Customer/GetCurrentUser'
-            ).success(function (data) {
-                console.log(data);
-                $scope.Customer = data.Data;
-
-                $http.post('/Customer/GetCustomerActivePlan',
-                    {
-                        customerId: $scope.Customer.Id
-                    }).success(function (data) {
-                        console.log(data.Data);
-                        $scope.CustomerPlan = data.Data;
-                    });
-            });
-        };
-
-        $scope.GetCurrentUser();
+        syraservice.GetUserProfile().then(function (res) {
+            $scope.Customer= res;
+            $scope.GetChatBots();
+        });
 
         $scope.GetChatBots = function () {
 
@@ -35,8 +20,7 @@
                     pagesize: $scope.pageSize,
                     pageno: $scope.pageNumber
                 }).success(function (data) {
-                    console.log(data);
-                    if (data.IsSuccess == true) {
+                    if (data.IsSuccess === true) {
                         $scope.MyChatBots = data.Entities;
                         $scope.HasNext = data.HasNext;
                         $scope.HasPrevious = data.HasPrevious;
@@ -47,7 +31,7 @@
                     //}
                 });
         };
-        $scope.GetChatBots();
+       
 
         $scope.NextRecords = function () {
             if ($scope.pageNumber < $scope.TotalPages) {
@@ -67,7 +51,6 @@
         $scope.ViewBotDetails = function (chatbot) {
             $scope.BotDetail = true;
             $scope.BotDeployment = chatbot;
-            console.log(chatbot);
         };
 
         $scope.CopyToClipBoard = function () {
@@ -99,8 +82,9 @@
     }
 ]);
 
-SyraApp.controller("ChatBotAddController", ["$scope", "$http", "syraservice", "$state", "$stateParams",
-    function ($scope, $http, syraservice, $state, $stateParams) {
+SyraApp.controller("ChatBotAddController", ["$scope", "$http",
+    "syraservice", "$state", "$stateParams", "KeyCode", "$timeout",
+    function ($scope, $http, syraservice, $state, $stateParams, KeyCode, $timeout) {
 
         $scope.BotDeployment = {};
         $scope.IsEditMode = false;
@@ -157,6 +141,22 @@ SyraApp.controller("ChatBotAddController", ["$scope", "$http", "syraservice", "$
             $state.go("chatbot");
         };
 
+        $scope.ChangeTab = function ($event, tab, control) {
+            if ($event.keyCode === KeyCode.Tab) {
+                $scope.SetActiveTab(tab, control);
+            }
+        };
+
+        $scope.ChangeTabMulti = function ($event, tab, control) {
+            if ($event.keyCode === KeyCode.Tab) {
+                if ($scope.BotQuestionAnswer.Question && $scope.BotQuestionAnswer.Answer) {
+                    $scope.AddMore($scope.BotQuestionAnswer);
+                } else {
+                    $scope.SetActiveTab(tab, control);
+                }
+            }
+        };
+
         $scope.SetActiveTab = function (tab, control) {
             $scope.tab = tab;
             $timeout(function () {
@@ -199,6 +199,6 @@ SyraApp.controller("ChatBotAddController", ["$scope", "$http", "syraservice", "$
 
         $scope.Update = function (data) {
             $scope.BotQuestionAnswer = {};
-        }
+        };
     }
 ]);

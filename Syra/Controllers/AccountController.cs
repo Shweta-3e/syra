@@ -256,39 +256,47 @@ namespace Syra.Admin.Controllers
                     var result = manager.Create(user, model.Password);
                     if (result.Succeeded)
                     {
-                        var customerPlan = new CustomerPlan();
-                        customerPlan.PlanId = model.PlanId;
-                        customerPlan.IsActive = true;
-                        customerPlan.CustomerId = customer.Id;
-                        customer.UserId = user.Id;
-                        customer.JobTitle = model.JobTitle;
-                        customerPlan.ActivationDate = DateTime.Now;
-                        customerPlan.ExpiryDate = DateTime.Now;
-                        customer.Email = model.Email;
-                        customer.RegisterDate = DateTime.Now;
-                        customer.BusinessRequirement = model.BusinessRequirement;
-                        //var check_duplicate = db.Customer.Where(x => x.Email == customer.Email).FirstOrDefault();
-                        if (existingUser == null)
+                        var check_duplicate = db.Customer.Where(x => x.Email == customer.Email).FirstOrDefault();
+                        if (check_duplicate == null)
                         {
+                            var customerPlan = new CustomerPlan();
+                            customerPlan.PlanId = model.PlanId;
+                            customerPlan.IsActive = true;
+                            customerPlan.CustomerId = customer.Id;
+                            customer.UserId = user.Id;  
+                            customer.JobTitle = model.JobTitle;
+                            customerPlan.ActivationDate = DateTime.Now;
+                            customerPlan.ExpiryDate = DateTime.Now;
+                            customer.Email = model.Email;
+                            customer.RegisterDate = DateTime.Now;
+                            customer.BusinessRequirement = model.BusinessRequirement;
+                            
                             customer.CustomerPlans.Add(customerPlan);
                             db.Customer.Add(customer);
                             db.SaveChanges();
+
+                            manager.AddToRoleAsync(user.Id, "Customer");
+
+                            SignInManager.SignIn(user, isPersistent: false, rememberBrowser: false);
+
+                            //For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                            //Send an email with this link
+
+                            string code = UserManager.GenerateEmailConfirmationToken(user.Id);
+                            var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                            UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
+
+                            //return RedirectToAction("AccountConfirmation", "Account");
+
+                            response.IsSuccess = true;
+                            response.Message = "Your account is registered successfully. Please check your email";
                         }
-                        manager.AddToRoleAsync(user.Id, "Customer");
-
-                        var task1=SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false).Status;
-
-                        //For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                        //Send an email with this link
-
-                        string code = UserManager.GenerateEmailConfirmationToken(user.Id);
-                        var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                        UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
-
-                        //return RedirectToAction("AccountConfirmation", "Account");
-
-                        response.IsSuccess = true;
-                        response.Message = "Your account is registered successfully. Please check your email";
+                        else
+                        {
+                            //Customer already added in list with same email. Ask them to login
+                            response.IsSuccess = false;
+                            response.Message = "Email already exists.";
+                        }
                     }
                     else
                     {

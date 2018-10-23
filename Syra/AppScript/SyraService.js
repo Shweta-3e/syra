@@ -1,5 +1,4 @@
-﻿
-SyraApp.service("syraservice",
+﻿SyraApp.service("syraservice",
 ["$rootScope", "$http", "$interval", "$filter", "$document", "$q",
     function ($rootScope, $serviceHttp, $interval, $filter, $document, $q) {
 
@@ -26,6 +25,27 @@ SyraApp.service("syraservice",
                 opacity: 1,
                 multiline: true
             });
+        };
+
+
+        this.GetUserProfile = function () {
+            var d = $q.defer();
+
+            $serviceHttp.post('/Customer/GetCustomerActivePlan').success(function (data) {
+                if (data.IsSuccess) {
+                    if (data.RedirectToLogin) {
+                        d.resolve("");
+                        window.location.href = "Account/Login";
+                    } else {
+                        d.resolve(data.Data);
+                    }
+                } else {
+                    //redirect to login or ivalid response
+                    d.resolve("");
+                }
+            });
+
+            return d.promise;
         };
 
     }

@@ -12,6 +12,7 @@ namespace Syra.Admin.Helper
         public object Data { get; set; }
         public string Message { get; set; }
 
+        public bool RedirectToLogin { get; set; }
         public string GetResponse()
         {
             return JsonConvert.SerializeObject(this);

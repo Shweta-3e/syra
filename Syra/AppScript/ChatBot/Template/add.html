@@ -49,17 +49,9 @@
                 <div class="form-group">
                     <label class="control-label col-sm-2 mandatory required" for="txtContactNo" style="font-weight:normal">Phone No</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="txtContactNo" ng-model="BotDeployment.ContactNo" required>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row" style="padding-top:10px">
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="button" class="btn btn-default" value="Cancel"
-                               style="border-radius:5px;height:39px;width:150px;font-weight:bold;background-color: gainsboro;"
-                               ng-click="Cancel()" />
+                        <input type="text" class="form-control" id="txtContactNo" 
+                               ng-model="BotDeployment.ContactNo"  
+                               ng-keydown="ChangeTab($event,2,'#txtName')" required>
                     </div>
                 </div>
             </div>
@@ -121,17 +113,9 @@
                 <div class="form-group">
                     <label class="control-label col-sm-2 mandatory required" for="txtBackGroundColor" style="font-weight:normal">Background Color</label>
                     <div class="col-sm-10">
-                        <input type="text" class="form-control" id="txtBackGroundColor" ng-model="BotDeployment.BackGroundColor">
-                    </div>
-                </div>
-            </div>
-
-            <div class="row" style="padding-top:10px">
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="button" class="btn btn-default" value="Cancel"
-                               style="border-radius:5px;height:39px;width:150px;font-weight:bold;background-color: gainsboro;"
-                               ng-click="Cancel()" />
+                        <input type="text" class="form-control" id="txtBackGroundColor"
+                               ng-model="BotDeployment.BackGroundColor"
+                               ng-keydown="ChangeTab($event,3,'#txtQuestion')" >
                     </div>
                 </div>
             </div>
@@ -160,10 +144,11 @@
                 <tbody>
                     <tr>
                         <td>
-                            <input type="text" ng-model="BotQuestionAnswer.Question" />
+                            <input type="text" id="txtQuestion" ng-model="BotQuestionAnswer.Question" />
                         </td>
                         <td>
-                            <input type="text" ng-model="BotQuestionAnswer.Answer" />
+                            <input type="text" ng-model="BotQuestionAnswer.Answer" 
+                                   ng-keydown="ChangeTabMulti($event,4,'#txtChatBotGoal')" />
                         </td>
                         <td>
                             <a class="btn" ng-click="AddMore(BotQuestionAnswer)" ng-show="!BotQuestionAnswer.IsEditMode">
@@ -190,16 +175,6 @@
                 </tbody>
             </table>
 
-            <div class="row" style="padding-top:10px">
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="button" class="btn btn-default" value="Cancel"
-                               style="border-radius:5px;height:39px;width:150px;font-weight:bold;background-color: gainsboro;"
-                               ng-click="Cancel()" />
-                    </div>
-                </div>
-            </div>
-
             <nav>
                 <ul class="pager">
                     <li class="previous">
@@ -222,31 +197,26 @@
                 </div>
             </div>
 
-            <div class="row" style="padding-top:10px">
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="button" class="btn btn-default" value="Save" ng-click="CreateChatBot()"
-                               style="border-radius:5px;height:39px;width:150px;font-weight:bold;background-color: gainsboro;" />
-
-                        <input type="button" class="btn btn-default" value="Cancel"
-                               style="border-radius:5px;height:39px;width:150px;font-weight:bold;background-color: gainsboro;"
-                               ng-click="Cancel()" />
-                    </div>
-                </div>
-            </div>
-
             <nav>
                 <ul class="pager">
                     <li class="previous">
                         <a href="" ng-click="PreviousTab(tab)"><span aria-hidden="true">&larr;</span> Previous</a>
                     </li>
+                    <li class="next">
+                        <a href=""  ng-click="CreateChatBot()">Save</a>
+                    </li>
                 </ul>
             </nav>
 
 
-
-
         </div>
+
+
+
+        <input type="button" class="btn btn-default btn-danger" value="Go Back"
+               style="border-radius:5px;height:39px;width:150px;font-weight:bold;"
+               ng-click="Cancel()" />
+
     </div>
 </div>
 

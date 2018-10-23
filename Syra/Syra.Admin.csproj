@@ -251,17 +251,9 @@
     <Compile Include="Helper\AutoMapperConfig.cs" />
     <Compile Include="Helper\PaginatedResponse.cs" />
     <Compile Include="Helper\Response.cs" />
-    <Compile Include="Migrations\201810051200263_updated.cs" />
-    <Compile Include="Migrations\201810051200263_updated.Designer.cs">
-      <DependentUpon>201810051200263_updated.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810080718187_Response changed.cs" />
-    <Compile Include="Migrations\201810080718187_Response changed.Designer.cs">
-      <DependentUpon>201810080718187_Response changed.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810080730171_Response changed2.cs" />
-    <Compile Include="Migrations\201810080730171_Response changed2.Designer.cs">
-      <DependentUpon>201810080730171_Response changed2.cs</DependentUpon>
+    <Compile Include="Migrations\201810090854096_Updated.cs" />
+    <Compile Include="Migrations\201810090854096_Updated.Designer.cs">
+      <DependentUpon>201810090854096_Updated.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -295,6 +287,7 @@
     <Content Include="AppScript\CustomerProfile\CustomerProfileController.js" />
     <Content Include="AppScript\CustomerProfile\Template\profile.html" />
     <Content Include="AppScript\CustomerProfile\Template\subscription.html" />
+    <Content Include="AppScript\genericbot.js" />
     <Content Include="AppScript\Home\Template\home.html" />
     <Content Include="AppScript\Logs\LogController.js" />
     <Content Include="AppScript\Logs\Template\index.html" />
@@ -595,14 +588,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201810051200263_updated.resx">
-      <DependentUpon>201810051200263_updated.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810080718187_Response changed.resx">
-      <DependentUpon>201810080718187_Response changed.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810080730171_Response changed2.resx">
-      <DependentUpon>201810080730171_Response changed2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201810090854096_Updated.resx">
+      <DependentUpon>201810090854096_Updated.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -1,12 +1,12 @@
 ﻿<div class="container" ng-hide="BotDetail">
     <h3>
-        My Bots <span class="badge">{{Customer.BotDeployments.length}}/{{CustomerPlan.AllowedBotLimit}}</span>
-        <span class="pull-right" ng-hide="Customer.BotDeployments.length == CustomerPlan.AllowedBotLimit">
+        My Bots <span class="badge">{{MyChatBots.length}}/{{Customer.AllowedBotLimit}}</span>
+        <span class="pull-right" ng-hide="MyChatBots.length == Customer.AllowedBotLimit">
             <a ui-sref="newchatbot" style="height: 33px;border: 0px;font-size:15px;background-color: transparent;">
                 Create New
             </a>
         </span>
-        <span class="pull-right" ng-show="Customer.BotDeployments.length == CustomerPlan.AllowedBotLimit">
+        <span class="pull-right" ng-show="MyChatBots.length == Customer.AllowedBotLimit">
             <a style="height: 33px;border: 0px;font-size:15px;background-color: transparent;">
                 Upgrade
             </a>

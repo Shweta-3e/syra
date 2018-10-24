@@ -251,9 +251,9 @@
     <Compile Include="Helper\AutoMapperConfig.cs" />
     <Compile Include="Helper\PaginatedResponse.cs" />
     <Compile Include="Helper\Response.cs" />
-    <Compile Include="Migrations\201810090854096_Updated.cs" />
-    <Compile Include="Migrations\201810090854096_Updated.Designer.cs">
-      <DependentUpon>201810090854096_Updated.cs</DependentUpon>
+    <Compile Include="Migrations\201810230453472_Updated.cs" />
+    <Compile Include="Migrations\201810230453472_Updated.Designer.cs">
+      <DependentUpon>201810230453472_Updated.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -590,8 +590,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201810090854096_Updated.resx">
-      <DependentUpon>201810090854096_Updated.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201810230453472_Updated.resx">
+      <DependentUpon>201810230453472_Updated.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

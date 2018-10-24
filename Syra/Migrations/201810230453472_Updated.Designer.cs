@@ -13,7 +13,7 @@ namespace Syra.Admin.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201810090854096_Updated"; }
+            get { return "201810230453472_Updated"; }
         }
         
         string IMigrationMetadata.Source

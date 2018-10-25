@@ -135,6 +135,7 @@ namespace Syra.Admin.Controllers
             }
             return View(botdeployment);
         }
+
         public string GetIPDetails(string ipaddress)
         {
             string ipadd = ipaddress.Replace(" ", "");
@@ -153,6 +154,7 @@ namespace Syra.Admin.Controllers
             }
             return jsonresponse;
         }
+
         public void CountryCode(string json)
         {
             string oldcontent = "";
@@ -191,6 +193,7 @@ namespace Syra.Admin.Controllers
                 writer.Close();
             }
         }
+
         public void EpochTime(string json)
         {
             string oldcontent = "";
@@ -210,6 +213,7 @@ namespace Syra.Admin.Controllers
                 writer.Close();
             }
         }
+  
         [HttpPost]
         public string LowPeakTime()
         {  
@@ -313,6 +317,7 @@ namespace Syra.Admin.Controllers
             }
             return response.GetResponse();
         }
+
         [HttpPost]
         public string BotReply(DateTime startdt,DateTime enddt)
         {
@@ -384,6 +389,7 @@ namespace Syra.Admin.Controllers
             }
             return response.GetResponse();
         }
+
         [HttpPost]
         public string GetClickedLink(DateTime startdt,DateTime enddt)
         {
@@ -636,7 +642,7 @@ namespace Syra.Admin.Controllers
                     var customer = db.Customer.FirstOrDefault(c => c.UserId == aspnetuser.Id);
                     var botdata = db.BotDeployments.Where(c => c.CustomerId == customer.Id).FirstOrDefault();
                     var connstring = botdata.BlobConnectionString;
-                    var blobstorage = botdata.BlobStorageName;
+                    //var blobstorage = botdata.BlobStorageName;
                     var containername = botdata.ContainerName;
 
                     CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connstring);
@@ -674,10 +680,6 @@ namespace Syra.Admin.Controllers
                                     string tempdate = log.LogDate + log.LogTime;
                                     string dt = Convert.ToDateTime(startdt).ToString("dd-MM-yyyy");
                                     logs.Add(new SessionLog { SessionId = splitedword[0], IPAddress = splitedword[1], Region = splitedword[2], UserQuery = splitedword[3], BotAnswers = splitedword[4], LogDate = tempdate });
-
-                                    //string jsonresponse = GetIPDetails(log.IPAddress);
-                                    //ipdetails = JsonConvert.DeserializeObject<GetIPAddress>(jsonresponse);
-                                    //countries.Add(new Lontitude { Countries = ipdetails.countryCode });
                             }
                         }
                             response.IsSuccess = true;
@@ -889,6 +891,8 @@ namespace Syra.Admin.Controllers
                     chatbot.Status = botdeploymentview.Status;
                     chatbot.IsPlanActive = botdeploymentview.IsPlanActive;
                     chatbot.DomainKey = botdeploymentview.DomainKey;
+                    chatbot.BlobConnectionString = botdeploymentview.BlobConnectionString;
+                    chatbot.ContainerName = botdeploymentview.ContainerName;
                     if(botdeploymentview.BotQuestionAnswers != null)
                     {
                         if (botdeploymentview.BotQuestionAnswers.Any())
@@ -1008,11 +1012,21 @@ namespace Syra.Admin.Controllers
         public string GetCustomerActivePlan(Int64 customerId)
         {
             var customer = db.Customer.Find(customerId);
-            var planobj = db.CustomerPlans.FirstOrDefault(c => c.CustomerId == customer.Id);
-            var plancheck = db.CustomerPlans.FirstOrDefault(c => c.PlanId == planobj.PlanId && c.IsActive);
-
-            response.Data = Mapper.Map<CustomerPlanView>(plancheck);
-
+            var plan = db.CustomerPlans.FirstOrDefault(c => c.CustomerId == customer.Id && c.IsActive);
+            response.Data = new
+            {
+                plan.Plan.MonthlyCharge,
+                plan.Plan.AllowedBotLimit,
+                plan.Plan.AdvanceTraining,
+                plan.Plan.Analyticsplan,
+                plan.Plan.LogRetainingDay,
+                plan.Plan.SiteSpecification,
+                plan.Plan.KnowledgeDomain,
+                plan.Plan.Name,
+                plan.Plan.SetupFees,
+                plan.ActivationDate,
+                plan.ExpiryDate
+            };
             return response.GetResponse();
         }
 

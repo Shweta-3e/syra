@@ -22,6 +22,7 @@ SyraApp.controller("CustomerDetailController", ["$scope", "$http", "syraservice"
         $scope.BotDetail = false;
         $scope.IsEditMode = false;
         $scope.BotQuestionAnswer = {};
+        //$scope.BotDeployment.IsPlanActive = true;
 
         $scope.LoadCustomer = function () {
             $http.post("/Customer/GetCustomerById", { customerId: parseInt($scope.Id) }).success(function (response) {

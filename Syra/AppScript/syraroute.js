@@ -9,7 +9,6 @@
         templateUrl: "/Appscript/Home/Template/home.html?VER=" + SOFT_VER,
     };
     $stateProvider.state(home);
-
     var database = {
         view: {
             url: '/database',

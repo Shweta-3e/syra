@@ -6,12 +6,15 @@ using System.Web;
 
 namespace Syra.Admin.Helper
 {
+    [JsonObject(IsReference = true)]
     public class Response
     {
         public bool IsSuccess { get; set; }
+        
         public object Data { get; set; }
         public string Message { get; set; }
 
+        
         public string GetResponse()
         {
             return JsonConvert.SerializeObject(this);

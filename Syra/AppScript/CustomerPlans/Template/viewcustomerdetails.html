@@ -262,6 +262,7 @@
         <li ng-class="{'active': isActiveChatTab(2)}"><a role="tab" data-toggle="tab" ng-class="{active:isActiveChatTab(2)}" ng-click="Chattab=2">Chatbot Details</a></li>
         <li ng-class="{'active': isActiveChatTab(3)}"><a role="tab" data-toggle="tab" ng-class="{active:isActiveChatTab(3)}" ng-click="Chattab=3">Quations and Answers for Chatbots</a></li>
         <li ng-class="{'active': isActiveChatTab(4)}"><a role="tab" data-toggle="tab" ng-class="{active:isActiveChatTab(4)}" ng-click="Chattab=4">Goal Defination</a></li>
+        <li ng-class="{'active': isActiveChatTab(5)}"><a role="tab" data-toggle="tab" ng-class="{active:isActiveChatTab(5)}" ng-click="Chattab=5">Blob Details</a></li>
     </ul>
 
     <div class="tab-content" style="padding-top:10px">
@@ -316,7 +317,7 @@
                     <div class="col-md-offset-2 col-md-10">
                         <input type="button" class="btn btn-default" value="Cancel"
                                style="border-radius:5px;height:39px;width:150px;font-weight:bold;background-color: gainsboro;"
-                                ng-click="IsEditMode=false"  />
+                               ng-click="IsEditMode=false" />
                     </div>
                 </div>
             </div>
@@ -553,6 +554,37 @@
                     <label class="checkbox-inline">
                         <input type="checkbox" ng-checked="BotDeployment.IsPlanActive=='False'" ng-true-value="'False'" ng-model="BotDeployment.IsPlanActive">InActive
                     </label>
+                </div>
+            </div>
+
+            <nav>
+                <ul class="pager">
+                    <li class="previous">
+                        <a href="" ng-click="PreviousTab(Chattab)"><span aria-hidden="true">&larr;</span> Previous</a>
+                    </li>
+                    <li class="next">
+                        <a href="" ng-click="NextTab(Chattab)">Next<span aria-hidden="true">&rarr;</span></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <div ng-show="isActiveChatTab(5)" ng-class="Chattab==5?'tab-pane fade in active':'tab-pane fade in'">
+            <div class="row" style="padding-top:10px">
+                <div class="form-group">
+                    <label class="control-label col-sm-2 mandatory required" for="txtBlobConnectionString" style="font-weight:normal">Blob ConnectionString</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="txtBlobConnectionString" ng-model="BotDeployment.BlobConnectionString">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="padding-top:10px">
+                <div class="form-group">
+                    <label class="control-label col-sm-2 mandatory required" for="txtContainerName" style="font-weight:normal">Blob Conatiner</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="txtContainerName" ng-model="BotDeployment.ContainerName">
+                    </div>
                 </div>
             </div>
 

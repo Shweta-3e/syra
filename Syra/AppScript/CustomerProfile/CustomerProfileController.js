@@ -14,6 +14,8 @@
                         customerId: $scope.Customer.Id
                     }).success(function (data) {
                         $scope.CustomerPlan = data.Data;
+                        console.log("Customer plan is : ");
+                        console.log($scope.CustomerPlan);
                     });
             });
         }

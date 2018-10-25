@@ -51,5 +51,6 @@ namespace Syra.Admin.Entities
         public string SupportAvailability { get; set; }
 
         public ICollection<CustomerPlan> CustomerPlans { get; set; }
+
     }
 }

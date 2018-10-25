@@ -1,0 +1,23 @@
+﻿<div class="container" ng-hide="LogView">
+    <h3 style="margin-top:20px;">
+        Preview Analytics
+        <span class="pull-right">
+        </span>
+    </h3>
+    <div class='input-group date' id='datetimepicker1' style="padding-bottom:50px; width:400px;">
+
+        <md-datepicker ng-model="fromdate" md-placeholder="Start Date" md-min-date="minstartDate" md-max-date="maxstartDate" style="margin-right:20px"
+                       md-open-on-focus></md-datepicker>
+
+        <md-datepicker ng-model="todate" md-placeholder="End Date" md-min-date="minendDate" md-max-date="maxendDate"
+                       md-open-on-focus></md-datepicker>
+        <button class="btn btn-success" style="margin-left:25px;" ng-click="GetReportData()">Submit</button>
+    </div>
+
+    <div id="goalconversion" style="min-width: 100px; height: 500px; margin: 0 auto;margin-top:30px;"></div>
+    <div id="botreply" style="min-width: 100px; height: 500px; margin: 0 auto;margin-top:30px;"></div>
+    <div id="container-worldmap" style="max-width: 1000px;margin-top:30px;"></div>
+    <div id="usa-container" style="min-width: 100px; height: 500px; margin: 0 auto;margin-top:30px;"></div>
+    <div id="container_query" style="min-width: 100px; height: 500px; margin: 0 auto;margin-top:30px;"></div>
+    <div id="time_container" style="min-width: 100px; height: 500px; margin: 0 auto;margin-top:30px;"></div>
+</div>

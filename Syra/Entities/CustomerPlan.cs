@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Syra.Admin.ViewModel;
 
 namespace Syra.Admin.Entities
 {
@@ -16,5 +18,7 @@ namespace Syra.Admin.Entities
         public DateTime ExpiryDate { get; set; }
 
         public bool IsActive { get; set; }
+
+        //public ICollection<CustomerPlanView> CustomerPlanViews { get; set; }
     }
 }

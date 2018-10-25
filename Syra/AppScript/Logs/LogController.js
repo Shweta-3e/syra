@@ -2,8 +2,30 @@
     function ($scope, $http, syraservice, $state, $sce, $stateParams) {
         $scope.test = "Angular Js Date time picker";
 
-        this.myDate = new Date();
-        this.isOpen = false;
+        $scope.myDate = new Date();
+        $scope.endDate = new Date();
+
+        $scope.minstartDate = new Date(
+            $scope.myDate.getFullYear(),
+            $scope.myDate.getMonth() - 1,
+            $scope.myDate.getDate());
+
+        $scope.maxstartDate = new Date(
+            $scope.myDate.getFullYear(),
+            $scope.myDate.getMonth(),
+            $scope.myDate.getDate());
+
+        $scope.minendDate = new Date(
+            $scope.myDate.getFullYear(),
+            $scope.myDate.getMonth() - 1,
+            $scope.myDate.getDate());
+
+        $scope.maxendDate = new Date(
+            $scope.endDate.getFullYear(),
+            $scope.endDate.getMonth(),
+            $scope.endDate.getDate());
+
+        //this.isOpen = false;
         $scope.showDate = function () {
             $http.post("/Customer/GetLogs", { startdt: $scope.myDate, enddt: $scope.endDate }).success(function (response) {
                 //console.log(response.Data);

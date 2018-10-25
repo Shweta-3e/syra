@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Syra.Admin.Entities;
 
 namespace Syra.Admin.ViewModel
 {
@@ -21,5 +22,7 @@ namespace Syra.Admin.ViewModel
         public DateTime ExpiryDate { get; set; }
 
         public bool IsActive { get; set; }
+
+        
     }
 }

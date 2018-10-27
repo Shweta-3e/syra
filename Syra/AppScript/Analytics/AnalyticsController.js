@@ -38,23 +38,19 @@
 
             $http.post(usadataurl, { startdt: startdate, enddt: enddate }).success(function (response) {
                 if (response != null) {
-                    console.log(response);
                     $scope.GetUsaMap(response);
                 } else {
                     alert("Something went wrong");
                 }
             });
 
-            //$http.post(url, { startdt: startdate, enddt: enddate }).success(function (response) {
-            //    if (response != null) {
-            //        console.log("Path is : ");
-            //        console.log(response);
-            //        $scope.GetWorldMap();
-            //        //$scope.GetUsaMap();
-            //    } else {
-            //        alert("Something went wrong");
-            //    }
-            //});
+            $http.post(url, { startdt: startdate, enddt: enddate }).success(function (response) {
+                if (response != null) {
+                    $scope.GetWorldAnalysis(response);
+                } else {
+                    alert("Something went wrong");
+                }
+            });
 
             $http.post(clickedlinkurl, { startdt: startdate, enddt: enddate }).success(function (response) {
                 if (response != null) {
@@ -90,57 +86,63 @@
             //});
         };
 
-        $scope.GetWorldMap = function () {
-            $.getJSON('/AppScript/Analytics/Template/locations.json', function (data) {
-                // Prevent logarithmic errors in color calulcation
-                $.each(data, function () {
-                    this.value = (this.value < 1 ? 1 : this.value);
-                });
-                // Initiate the chart
-                Highcharts.mapChart('container-worldmap', {
-                    chart: {
-                        map: 'custom/world',
-                        borderWidth: 1
-                    },
-                    title: {
-                        text: 'World Based Analysis',
-                        style: {
-                            color: '#8d3052',
-                            fontWeight: 'bold',
-                            fontSize: '24px'
+        $scope.GetWorldAnalysis = function (worlddata) {
+            var data = worlddata.Data;
+            $('#container').highcharts('Map', {
+                chart: {
+                    map: 'custom/world',
+                    borderWidth: 1,
+                    width: 1000
+                },
+                title: {
+                    text: 'World Based Analysis',
+                    style: {
+                        color: '#8d3052',
+                        fontWeight: 'bold',
+                        fontSize: '24px'
+                    }
+                },
+                mapNavigation: {
+                    enabled: true,
+                    buttonOptions: {
+                        verticalAlign: 'bottom'
+                    }
+                },
+                colorAxis: {
+                    min: 1,
+                    max: 500,
+                    type: 'logarithmic',
+                    minColor: '#8c0c09',
+                    maxColor: '#11e056',
+                    
+                },
+                series: [{
+                    data: data,
+                    nullColor: '#c4d5f2',
+                    mapData: Highcharts.maps['custom/world'],
+                    joinBy: ['iso-a3', 'code3'],
+                    name: 'Question asked',
+                    states: {
+                        hover: {
+                            color: '#42f4aa'
                         }
                     },
-                    mapNavigation: {
+                    dataLabels: {
                         enabled: true,
-                        enableDoubleClickZoomTo: true
-                    },
-                    colorAxis: {
-                        min: 1,
-                        max: 500,
-                        type: 'logarithmic',
-                        minColor: '#f45041',
-                        maxColor: '#4194f4',
-                    },
-                    series: [{
-                        data: data,
-                        nullColor: '#dbd072',
-                        joinBy: ['iso-a3', 'code3'],
-                        name: 'Questions asked',
-                        states: {
-                            hover: {
-                                color: '#42f4aa'
-                            }
-                        },
-                        tooltip: {
-                            valueSuffix: ''
-                        }
-                    }]
-                });
+                        format: '{point.name}'
+                    }
+                }, {
+                    name: 'Separators',
+                    type: 'mapline',
+                    data: Highcharts.geojson(Highcharts.maps['custom/world'], 'mapline'),
+                    color: '#6d5a59',
+                    showInLegend: false,
+                    enableMouseTracking: false
+                }]
             });
         };
 
         $scope.GetUsaMap = function (usadata) {
-            console.log(usadata);
             var data = usadata.Data;
             $('#usa-container').highcharts('Map', {
                     chart: {

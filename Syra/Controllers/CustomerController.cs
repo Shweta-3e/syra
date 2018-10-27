@@ -155,53 +155,6 @@ namespace Syra.Admin.Controllers
             return jsonresponse;
         }
 
-        public string CountryCode(string json)
-        {
-            //string error_log = e.Message;
-            string oldcontent = "";
-
-            string dirpath = Directory.GetCurrentDirectory();
-            //string fileName = "~/Syra/AppScript/Analytics/Template/locations.json";
-
-            //string fullname = Path.Combine(Directory.GetDirectoryRoot(fileName));
-            //var file = "C:/inetpub/wwwroot/syra/AppScript/Analytics/Template/locations.json";
-            var file = System.Web.HttpContext.Current.Server.MapPath(@"\Template\locations.json");
-            using (StreamReader reader = new StreamReader(file))
-            {
-                oldcontent = reader.ReadToEnd();
-                if (oldcontent != null)
-                {
-                    oldcontent = null;
-                }
-            }
-            using (StreamWriter writer = new StreamWriter(file))
-            {
-                //writer.Write(oldcontent);
-                writer.Write(json.ToString());
-                writer.Close();
-            }
-            return file;
-        }
-
-        //public void UsaRegion(string usajson)
-        //{
-        //    string oldcontent = "";
-        //    var file = System.Web.HttpContext.Current.Server.MapPath(@"\AppScript\Analytics\Template\UsaRegion.json");
-        //    using (StreamReader reader = new StreamReader(file))
-        //    {
-        //        oldcontent = reader.ReadToEnd();
-        //        if (oldcontent != null)
-        //        {
-        //            oldcontent = null;
-        //        }
-        //    }
-        //    using (StreamWriter writer = new StreamWriter(file))
-        //    {
-        //        writer.Write(usajson.ToString());
-        //        writer.Close();
-        //    }
-        //}
-
         public void EpochTime(string json)
         {
             string oldcontent = "";
@@ -447,7 +400,7 @@ namespace Syra.Admin.Controllers
             List<ArrayList> arraylist = new List<ArrayList>();
             List<ArrayList> anslist = new List<ArrayList>();
             List<SessionLog> logs = new List<SessionLog>();
-            List<Lontitude> countries = new List<Lontitude>();
+            List<Longtitude> countries = new List<Longtitude>();
             List<USARegion> region = new List<USARegion>();
             List<Location> _data = new List<Location>();
             List<USALocation> _location = new List<USALocation>();
@@ -509,7 +462,7 @@ namespace Syra.Admin.Controllers
                                     string dt = Convert.ToDateTime(startdt).ToString("dd-MM-yyyy");
                                     logs.Add(new SessionLog { SessionId = splitedword[0], IPAddress = splitedword[1], Region = splitedword[2], UserQuery = splitedword[3], BotAnswers = splitedword[4], LogDate = tempdate });
 
-                                    countries.Add(new Lontitude { UserQuery = log.UserQuery });
+                                    countries.Add(new Longtitude { UserQuery = log.UserQuery });
                                 }
                             }
                             catch(Exception e)
@@ -540,7 +493,7 @@ namespace Syra.Admin.Controllers
         {
             List<ArrayList> arraylist = new List<ArrayList>();
             List<SessionLog> logs = new List<SessionLog>();
-            List<Lontitude> countries = new List<Lontitude>();
+            List<Longtitude> countries = new List<Longtitude>();
             SyraDbContext db = new SyraDbContext();
             _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
@@ -589,7 +542,7 @@ namespace Syra.Admin.Controllers
                                     int length = "./com".Length;
                                     int substringindex = index + length;
                                     log.ClickedLink = log.ClickedLink.Substring(substringindex);
-                                    countries.Add(new Lontitude { Links = log.ClickedLink, UserId = log.SessionId });
+                                    countries.Add(new Longtitude { Links = log.ClickedLink, UserId = log.SessionId });
                                 }
                             }
                             catch(Exception e)
@@ -639,7 +592,7 @@ namespace Syra.Admin.Controllers
         {
             List<USALocation> usadata = new List<USALocation>();
             List<SessionLog> logs = new List<SessionLog>();
-            List<Lontitude> countries = new List<Lontitude>();
+            List<Longtitude> countries = new List<Longtitude>();
             List<USARegion> region = new List<USARegion>();
             SyraDbContext db = new SyraDbContext();
             var ipdetails = new GetIPAddress();
@@ -710,7 +663,7 @@ namespace Syra.Admin.Controllers
                                         geolocatoin = JsonConvert.DeserializeObject<GeoLocation>(jsondeatil);
                                         region.Add(new USARegion { hckey = (("US-" + geolocatoin.Region).ToLower()) });
                                     }
-                                    countries.Add(new Lontitude { Countries = ipdetails.countryCode, UserQuery = log.UserQuery });
+                                    countries.Add(new Longtitude { Countries = ipdetails.countryCode, UserQuery = log.UserQuery });
                                 }
                             }
                             catch (Exception e)
@@ -739,12 +692,9 @@ namespace Syra.Admin.Controllers
         [HttpPost]
         public string GetAnalytics(DateTime startdt, DateTime enddt)
         {
-            //to convert object into arrray
-            List<ArrayList> arraylist = new List<ArrayList>();
-
-            List<ArrayList> anslist = new List<ArrayList>();
+            
             List<SessionLog> logs = new List<SessionLog>();
-            List<Lontitude> countries = new List<Lontitude>();
+            List<Longtitude> countries = new List<Longtitude>();
             List<USARegion> region = new List<USARegion>();
             List<Location> _data = new List<Location>();
             List<USALocation> _location = new List<USALocation>();
@@ -766,10 +716,13 @@ namespace Syra.Admin.Controllers
                 var blobstorage = botdata.BlobStorageName;
                 var containername = botdata.ContainerName;
 
+                //read data from blob storage
                 CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connstring);
                 CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
                 CloudBlobContainer container = blobClient.GetContainerReference(containername);
                 bool blob_check = false;
+
+                //get date based on each date of range
                 for (DateTime date = startdt; date <= enddt; date = date.AddDays(1))
                 {
                     var startdateonly = date.Date.ToString("dd-MM-yyyy");
@@ -790,7 +743,6 @@ namespace Syra.Admin.Controllers
                             {
                                 while (!reader.EndOfStream)
                                 {
-                                    //string oldcontent;
                                     var line = reader.ReadLine();
                                     string[] splitedword = line.Split('|');
                                     log.SessionId = splitedword[0];
@@ -812,13 +764,7 @@ namespace Syra.Admin.Controllers
 
                                     string jsonresponse = GetIPDetails(log.IPAddress);
                                     ipdetails = JsonConvert.DeserializeObject<GetIPAddress>(jsonresponse);
-                                    if (ipdetails.country == "United States")
-                                    {
-                                        string jsondeatil = GetUsaCode(ipdetails.query);
-                                        geolocatoin = JsonConvert.DeserializeObject<GeoLocation>(jsondeatil);
-                                        region.Add(new USARegion { hckey = (("US-" + geolocatoin.Region).ToLower()) });
-                                    }
-                                    countries.Add(new Lontitude { Countries = ipdetails.countryCode, UserQuery = log.UserQuery });
+                                    countries.Add(new Longtitude { Countries = ipdetails.countryCode});
                                 }
                             }
                             catch(Exception e)
@@ -830,8 +776,11 @@ namespace Syra.Admin.Controllers
                         response.IsSuccess = true;
                     }
                 }
+                //get count of distinct countries
                 var dupcountries = countries.GroupBy(x => new { x.Countries }).Select(group => new { Name = group.Key, Count = group.Count() })
                              .OrderByDescending(x => x.Count);
+
+                //convert data for json format of country
                 foreach (var x in dupcountries)
                 {
                     try
@@ -858,13 +807,7 @@ namespace Syra.Admin.Controllers
                         response.Message = message;
                     }
                 }
-                //C:\inetpub\wwwroot\syra\AppScript\Analytics\Template
-                //\AppScript\Analytics\Template\locations.json
-                string json = JsonConvert.SerializeObject(_data.ToArray());
-                //FileInfo f = new FileInfo(fileName);
-                //string fullname = f.FullName;
-                string pathname = CountryCode(json);
-               response.Data = pathname;
+                response.Data = _data;
             }
             return response.GetResponse();
         }
@@ -875,7 +818,7 @@ namespace Syra.Admin.Controllers
             //try
             //{
                 List<SessionLog> logs = new List<SessionLog>();
-                List<Lontitude> countries = new List<Lontitude>();
+                List<Longtitude> countries = new List<Longtitude>();
                 List<Location> _data = new List<Location>();
                 SyraDbContext db = new SyraDbContext();
                 var ipdetails = new GetIPAddress();

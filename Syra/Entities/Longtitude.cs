@@ -6,7 +6,7 @@ using System.Web;
 
 namespace Syra.Admin.Entities
 {
-    public class Lontitude
+    public class Longtitude
     {
         public string Countries { get; set; }
         public string UserQuery { get; set; }
@@ -22,8 +22,6 @@ namespace Syra.Admin.Entities
         public float value { get; set; }
         public string code { get; set; }
         public string code3 { get; set; }
-        public Int64 epochtime { get; set; }
-        public Int64 counttime { get; set; }
     }
     public class LowHighTime
     {

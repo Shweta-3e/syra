@@ -251,21 +251,9 @@
     <Compile Include="Helper\AutoMapperConfig.cs" />
     <Compile Include="Helper\PaginatedResponse.cs" />
     <Compile Include="Helper\Response.cs" />
-    <Compile Include="Migrations\201810041133287_Db Changed.cs" />
-    <Compile Include="Migrations\201810041133287_Db Changed.Designer.cs">
-      <DependentUpon>201810041133287_Db Changed.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810050528540_New field Added.cs" />
-    <Compile Include="Migrations\201810050528540_New field Added.Designer.cs">
-      <DependentUpon>201810050528540_New field Added.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810051016060_LuisResponse Added.cs" />
-    <Compile Include="Migrations\201810051016060_LuisResponse Added.Designer.cs">
-      <DependentUpon>201810051016060_LuisResponse Added.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810250820488_Db Updated.cs" />
-    <Compile Include="Migrations\201810250820488_Db Updated.Designer.cs">
-      <DependentUpon>201810250820488_Db Updated.cs</DependentUpon>
+    <Compile Include="Migrations\201810251759362_New ConnString.cs" />
+    <Compile Include="Migrations\201810251759362_New ConnString.Designer.cs">
+      <DependentUpon>201810251759362_New ConnString.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -360,10 +348,10 @@
     <Content Include="Content\bootstrap-datepicker.standalone.css.map" />
     <Content Include="Content\bootstrap-datepicker.min.css.map" />
     <Content Include="Content\bootstrap-datepicker.css.map" />
-    <Content Include="AppScript\Analytics\Template\locations.json" />
     <Content Include="AppScript\Analytics\Template\Epochtime.json" />
     <Content Include="AppScript\Analytics\Template\DemoTime.json" />
     <Content Include="AppScript\Analytics\Template\UsaRegion.json" />
+    <Content Include="AppScript\Analytics\Template\locations.json" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\datatables.bootstrap.css" />
     <Content Include="Scripts\Datatables\angular-datatables.js" />
@@ -602,17 +590,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201810041133287_Db Changed.resx">
-      <DependentUpon>201810041133287_Db Changed.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810050528540_New field Added.resx">
-      <DependentUpon>201810050528540_New field Added.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810051016060_LuisResponse Added.resx">
-      <DependentUpon>201810051016060_LuisResponse Added.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810250820488_Db Updated.resx">
-      <DependentUpon>201810250820488_Db Updated.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201810251759362_New ConnString.resx">
+      <DependentUpon>201810251759362_New ConnString.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

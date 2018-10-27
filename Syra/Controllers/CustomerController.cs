@@ -155,31 +155,19 @@ namespace Syra.Admin.Controllers
             return jsonresponse;
         }
 
-        public void CountryCode(string json)
+        public string CountryCode(string json)
         {
+            //string error_log = e.Message;
             string oldcontent = "";
-            var file = "C:/Users/trainee/Desktop/syra-santosh/Syra/AppScript/Analytics/Template/locations.json";
-            using (StreamReader reader = new StreamReader(file))
-            {
-                oldcontent = reader.ReadToEnd();
-                if(oldcontent!=null)
-                {
-                    oldcontent = null;
-                }
-            }
-            using (StreamWriter writer = new StreamWriter(file))
-            {
-                //writer.Write(oldcontent);
-                writer.Write(json.ToString());
-                writer.Close();
-            }
-        }
 
-        public void UsaRegion(string usajson)
-        {
-            string oldcontent = "";
-            var file = "C:/Users/trainee/Desktop/syra-santosh/Syra/AppScript/Analytics/Template/UsaRegion.json";
-            using (StreamReader reader = new StreamReader(file))
+            string dirpath = Directory.GetCurrentDirectory();
+            string fileName = "\\AppScript\\Analytics\\Template\\locations.json";
+
+            string fullname = Path.Combine(Directory.GetCurrentDirectory(), fileName);
+
+            //var file = "C:/inetpub/wwwroot/syra/AppScript/Analytics/Template/locations.json";
+            //var file = System.Web.HttpContext.Current.Request.MapPath("..\\AppScript\\Analytics\\Template\\locations.json");
+            using (StreamReader reader = new StreamReader(fullname))
             {
                 oldcontent = reader.ReadToEnd();
                 if (oldcontent != null)
@@ -187,17 +175,38 @@ namespace Syra.Admin.Controllers
                     oldcontent = null;
                 }
             }
-            using (StreamWriter writer = new StreamWriter(file))
+            using (StreamWriter writer = new StreamWriter(fullname))
             {
-                writer.Write(usajson.ToString());
+                //writer.Write(oldcontent);
+                writer.Write(json.ToString());
                 writer.Close();
             }
+            return fullname;
         }
+
+        //public void UsaRegion(string usajson)
+        //{
+        //    string oldcontent = "";
+        //    var file = System.Web.HttpContext.Current.Server.MapPath(@"\AppScript\Analytics\Template\UsaRegion.json");
+        //    using (StreamReader reader = new StreamReader(file))
+        //    {
+        //        oldcontent = reader.ReadToEnd();
+        //        if (oldcontent != null)
+        //        {
+        //            oldcontent = null;
+        //        }
+        //    }
+        //    using (StreamWriter writer = new StreamWriter(file))
+        //    {
+        //        writer.Write(usajson.ToString());
+        //        writer.Close();
+        //    }
+        //}
 
         public void EpochTime(string json)
         {
             string oldcontent = "";
-            var file = "C:/Users/trainee/Desktop/syra-santosh/Syra/AppScript/Analytics/Template/Epochtime.json";
+            var file = System.Web.HttpContext.Current.Request.MapPath("..\\AppScript\\Analytics\\Template\\Epochtime.json");
             using (StreamReader reader = new StreamReader(file))
             {
                 oldcontent = reader.ReadToEnd();
@@ -243,59 +252,67 @@ namespace Syra.Admin.Controllers
                 
                 bool blob_check = false;
                 DateTime startdt= DateTime.ParseExact("23-08-2018", "dd-MM-yyyy", null);
-                DateTime enddt = DateTime.ParseExact("23-02-2019", "dd-MM-yyyy", null);
-                for (DateTime date = startdt; date <= enddt; date = date.AddDays(1))
+                DateTime enddt = DateTime.ParseExact("23-12-2018", "dd-MM-yyyy", null);
+                try
                 {
-                    var startdateonly = date.Date.ToString("dd-MM-yyyy");
-                    var blob_file_name = startdateonly + "" + ".csv";
-                    CloudBlockBlob blockBlob = container.GetBlockBlobReference(blob_file_name);
-                    blob_check = blockBlob.Exists();
-                    if (blob_check == false)
+                    for (DateTime date = startdt; date <= enddt; date = date.AddDays(1))
                     {
-                        string timedate = startdateonly.ToString().Replace("-", "/").Replace(" ", "");
-                        CultureInfo culture = new CultureInfo("en-US");
-                        DateTime dateobj = DateTime.ParseExact(timedate, "dd/MM/yyyy", culture);
-                        int year = dateobj.Year;
-                        int month = dateobj.Month;
-                        int day = dateobj.Day;
-                        int hour = dateobj.Hour;
-                        int minute = dateobj.Minute;
-                        int second = dateobj.Second;
-                        var dateTime = new DateTime(year, month, day, hour, minute, second, DateTimeKind.Utc);
-                        var dateTimeOffset = new DateTimeOffset(dateTime);
-                        var unixDateTime = dateTimeOffset.ToUnixTimeSeconds();
-                        Int64 epochtime = Convert.ToInt64(unixDateTime) * 1000;
-                        dataline.Add(new LowHighTime { epochtime = epochtime ,status="no data"});
-                    }
-                    else
-                    {
-                        using (StreamReader reader = new StreamReader(blockBlob.OpenRead()))
+                        var startdateonly = date.Date.ToString("dd-MM-yyyy");
+                        var blob_file_name = startdateonly + "" + ".csv";
+                        CloudBlockBlob blockBlob = container.GetBlockBlobReference(blob_file_name);
+                        blob_check = blockBlob.Exists();
+                        if (blob_check == false)
                         {
-                            SessionLog log = new SessionLog();
-                            while (!reader.EndOfStream)
+                            string timedate = startdateonly.ToString().Replace("-", "/").Replace(" ", "");
+                            CultureInfo culture = new CultureInfo("en-US");
+                            DateTime dateobj = DateTime.ParseExact(timedate, "dd/MM/yyyy", culture);
+                            int year = dateobj.Year;
+                            int month = dateobj.Month;
+                            int day = dateobj.Day;
+                            int hour = dateobj.Hour;
+                            int minute = dateobj.Minute;
+                            int second = dateobj.Second;
+                            var dateTime = new DateTime(year, month, day, hour, minute, second, DateTimeKind.Utc);
+                            var dateTimeOffset = new DateTimeOffset(dateTime);
+                            var unixDateTime = dateTimeOffset.ToUnixTimeSeconds();
+                            Int64 epochtime = Convert.ToInt64(unixDateTime) * 1000;
+                            dataline.Add(new LowHighTime { epochtime = epochtime, status = "no data" });
+                        }
+                        else
+                        {
+                            using (StreamReader reader = new StreamReader(blockBlob.OpenRead()))
                             {
-                                var line = reader.ReadLine();
-                                string[] splitedword = line.Split('|');
-                                log.LogDate = splitedword[5];
-                                log.LogDate = log.LogDate.Replace("-", "/").Replace(" ","");
-                                log.LogTime = splitedword[6].Replace(" ", "");
-                                CultureInfo culture = new CultureInfo("en-US");
-                                string timedate = log.LogDate;
-                                DateTime dateobj = DateTime.ParseExact(timedate, "dd/MM/yyyy", culture);
-                                int year = dateobj.Year;
-                                int month = dateobj.Month;
-                                int day = dateobj.Day;
-                                int hour = dateobj.Hour;
-                                int minute = dateobj.Minute;
-                                int second = dateobj.Second;
-                                var dateTime = new DateTime(year, month, day, hour, minute, second, DateTimeKind.Utc);
-                                var dateTimeOffset = new DateTimeOffset(dateTime);
-                                var unixDateTime = dateTimeOffset.ToUnixTimeSeconds();
-                                Int64 epochtime = Convert.ToInt64(unixDateTime) * 1000;
-                                dataline.Add(new LowHighTime { epochtime = epochtime ,status="data"});
+                                SessionLog log = new SessionLog();
+                                while (!reader.EndOfStream)
+                                {
+                                    var line = reader.ReadLine();
+                                    string[] splitedword = line.Split('|');
+                                    log.LogDate = splitedword[5];
+                                    log.LogDate = log.LogDate.Replace("-", "/").Replace(" ", "");
+                                    log.LogTime = splitedword[6].Replace(" ", "");
+                                    CultureInfo culture = new CultureInfo("en-US");
+                                    string timedate = log.LogDate;
+                                    DateTime dateobj = DateTime.ParseExact(timedate, "dd/MM/yyyy", culture);
+                                    int year = dateobj.Year;
+                                    int month = dateobj.Month;
+                                    int day = dateobj.Day;
+                                    int hour = dateobj.Hour;
+                                    int minute = dateobj.Minute;
+                                    int second = dateobj.Second;
+                                    var dateTime = new DateTime(year, month, day, hour, minute, second, DateTimeKind.Utc);
+                                    var dateTimeOffset = new DateTimeOffset(dateTime);
+                                    var unixDateTime = dateTimeOffset.ToUnixTimeSeconds();
+                                    Int64 epochtime = Convert.ToInt64(unixDateTime) * 1000;
+                                    dataline.Add(new LowHighTime { epochtime = epochtime, status = "data" });
+                                }
                             }
                         }
                     }
+                }
+                catch(Exception e)
+                {
+                    string errmsg = e.Message;
+                    response.Message = errmsg;
                 }
                 var dupepochtime= dataline.GroupBy(x => new { x.epochtime,x.status,x.timecount }).Select(group => new { Name = group.Key, Count = group.Count() });
                 foreach(var item in dupepochtime)
@@ -311,7 +328,7 @@ namespace Syra.Admin.Controllers
                     }
                 }
                 string json = JsonConvert.SerializeObject(arraylist);
-                EpochTime(json);
+                //EpochTime(json);
                 response.Data = arraylist;
                 response.IsSuccess = true;
             }
@@ -321,14 +338,125 @@ namespace Syra.Admin.Controllers
         [HttpPost]
         public string BotReply(DateTime startdt,DateTime enddt)
         {
-            List<ArrayList> anslist = new List<ArrayList>();
-            List<Lontitude> countries = new List<Lontitude>();
             SyraDbContext db = new SyraDbContext();
             _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var useremail = HttpContext.User.Identity.Name;
             var aspnetuser = _userManager.FindByEmailAsync(useremail).Result;
 
+            //to hold asked questions and its responses 
+            var catagories = new List<string>();
+            var logs = new List<SessionLog>();
+
+
+            if (aspnetuser != null)
+            {
+                //based on aspnetuser object, get customer details
+                var customer = db.Customer.FirstOrDefault(c => c.UserId == aspnetuser.Id);
+                var botdata = db.BotDeployments.Where(c => c.CustomerId == customer.Id).FirstOrDefault();
+                var connstring = botdata.BlobConnectionString;
+                var blobstorage = botdata.BlobStorageName;
+                var containername = botdata.ContainerName;
+                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connstring);
+                CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+                CloudBlobContainer container = blobClient.GetContainerReference(containername);
+
+               
+                bool blob_check = false;
+                for (DateTime date = startdt; date <= enddt; date = date.AddDays(1))
+                {
+                    var startdateonly = date.Date.ToString("dd-MM-yyyy");
+                    var blob_file_name = startdateonly + "" + ".csv";
+                    CloudBlockBlob blockBlob = container.GetBlockBlobReference(blob_file_name);
+                    blob_check = blockBlob.Exists();
+                    if (blob_check == false)
+                    {
+                        //No logs for that date, hence do nothing
+                        Console.WriteLine("Blob Container doesn't exist");
+                    }
+                    else
+                    {
+                        // we have log file, hence going to read it and send back to client
+                        using (StreamReader reader = new StreamReader(blockBlob.OpenRead()))
+                        {
+                            try
+                            {
+                                while (!reader.EndOfStream)
+                                {
+                                    //string oldcontent;
+                                    SessionLog log = new SessionLog();
+                                    var line = reader.ReadLine();
+                                    string[] splitedword = line.Split('|');
+                                    log.SessionId = splitedword[0];
+                                    log.UserQuery = splitedword[3];
+                                    log.BotAnswers = splitedword[4];
+                                    log.IPAddress = splitedword[1];
+                                    log.Region = splitedword[2];
+                                    log.LogDate = splitedword[5];
+                                    if (log.BotAnswers.Contains("Hmmm...I didn’t quite get that"))
+                                    {
+                                        log.IsWrongAnswer = true;
+                                    }
+                                    logs.Add(log);
+                                }
+                            }
+                            catch(Exception e)
+                            {
+                                string errmsg = e.Message;
+                                response.Message = errmsg;
+                            }
+                        }
+                    }
+                }
+
+                //all distinct questions being asked in bot
+                catagories = logs.Select(c => c.UserQuery).Distinct().ToList();
+
+                var result = (from c in logs
+                               group c by new { c.UserQuery, c.IsWrongAnswer } into g
+                               select new
+                               {
+                                   g.Key.UserQuery,
+                                   g.Key.IsWrongAnswer,
+                                   Total = g.Count(),
+                               });
+                var totalQuestions = result.Sum(c => c.Total);
+                var rightAnswers = result.Where(c=>c.IsWrongAnswer==false).Sum(c => c.Total);
+                var wrongAnswers = totalQuestions - rightAnswers;
+
+
+                response.Data = new
+                {
+                    catagories,
+                    result,
+                    TotalQuestions = totalQuestions,
+                    RightAnswers = rightAnswers,
+                    WrongAnswers = wrongAnswers,
+                    AllQuestions= logs,
+                };
+
+                if (result.Count() <= 0)
+                    response.Data = false;
+               
+            }
+            return response.GetResponse();
+        }
+
+        [HttpPost]
+        public string UserQuery(DateTime startdt, DateTime enddt)
+        {
+            List<ArrayList> arraylist = new List<ArrayList>();
+            List<ArrayList> anslist = new List<ArrayList>();
+            List<SessionLog> logs = new List<SessionLog>();
+            List<Lontitude> countries = new List<Lontitude>();
+            List<USARegion> region = new List<USARegion>();
+            List<Location> _data = new List<Location>();
+            List<USALocation> _location = new List<USALocation>();
+            SyraDbContext db = new SyraDbContext();
+            _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var useremail = HttpContext.User.Identity.Name;
+            var aspnetuser = _userManager.FindByEmailAsync(useremail).Result;
             if (aspnetuser != null)
             {
                 //based on aspnetuser object, get customer details
@@ -358,34 +486,52 @@ namespace Syra.Admin.Controllers
                         {
 
                             SessionLog log = new SessionLog();
-                            while (!reader.EndOfStream)
+                            try
                             {
-                                //string oldcontent;
-                                var line = reader.ReadLine();
-                                string[] splitedword = line.Split('|');
-                                log.SessionId = splitedword[0];
-                                log.UserQuery = splitedword[3];
-                                log.BotAnswers = splitedword[4];
-                                if(log.BotAnswers.Contains("Hmmm...I didn’t quite get that"))
+                                while (!reader.EndOfStream)
                                 {
-                                    countries.Add(new Lontitude {  UserQuery = log.UserQuery, righans = "wrong" });
+                                    //string oldcontent;
+                                    var line = reader.ReadLine();
+                                    string[] splitedword = line.Split('|');
+                                    log.SessionId = splitedword[0];
+                                    log.IPAddress = splitedword[1];
+                                    log.Region = splitedword[2];
+                                    if (log.Region.Contains('.'))
+                                    {
+                                        string temp = log.IPAddress;
+                                        log.IPAddress = log.Region;
+                                        log.Region = temp;
+                                    }
+                                    log.UserQuery = splitedword[3];
+                                    log.BotAnswers = splitedword[4];
+                                    log.LogDate = splitedword[5];
+                                    log.LogTime = splitedword[6];
+                                    string tempdate = log.LogDate + log.LogTime;
+                                    string dt = Convert.ToDateTime(startdt).ToString("dd-MM-yyyy");
+                                    logs.Add(new SessionLog { SessionId = splitedword[0], IPAddress = splitedword[1], Region = splitedword[2], UserQuery = splitedword[3], BotAnswers = splitedword[4], LogDate = tempdate });
+
+                                    countries.Add(new Lontitude { UserQuery = log.UserQuery });
                                 }
-                                else
-                                {
-                                    countries.Add(new Lontitude {  UserQuery = log.UserQuery, righans = "right" });
-                                }
+                            }
+                            catch(Exception e)
+                            {
+                                string errmsg = e.Message;
+                                response.Message = errmsg;
                             }
                         }
                         response.IsSuccess = true;
+                        response.Data = logs;
                     }
                 }
-                var rightreply = countries.GroupBy(x => new { x.righans, x.UserQuery }).Select(group => new { Name = group.Key, Count = group.Count() })
+                var dupUserQuery = countries.GroupBy(x => new { x.UserQuery }).Select(group => new { Name = group.Key, Count = group.Count() })
                               .OrderByDescending(x => x.Count);
-                foreach (var ans in rightreply)
+                foreach (var y in dupUserQuery)
                 {
-                    anslist.Add(new ArrayList { ans.Name.UserQuery, ans.Name.righans, ans.Count });
+                    arraylist.Add(new ArrayList { y.Name.UserQuery, y.Count });
                 }
-                response.Data = anslist.Take(10);
+                var firstTenArrivals = arraylist.Take(10);
+                response.Data = firstTenArrivals;
+                
             }
             return response.GetResponse();
         }
@@ -431,19 +577,28 @@ namespace Syra.Admin.Controllers
                         {
 
                             SessionLog log = new SessionLog();
-                            while (!reader.EndOfStream)
+                            try
                             {
-                                //string oldcontent;
-                                var line = reader.ReadLine();
-                                string[] splitedword = line.Split('|');
-                                log.SessionId = splitedword[0];
-                                log.ClickedLink = splitedword[3];
-                                int index = log.ClickedLink.IndexOf(".com/");
-                                int length = "./com".Length;
-                                int substringindex = index + length;
-                                log.ClickedLink = log.ClickedLink.Substring(substringindex);
-                                countries.Add(new Lontitude { Links = log.ClickedLink, UserId = log.SessionId });
+                                while (!reader.EndOfStream)
+                                {
+                                    //string oldcontent;
+                                    var line = reader.ReadLine();
+                                    string[] splitedword = line.Split('|');
+                                    log.SessionId = splitedword[0];
+                                    log.ClickedLink = splitedword[3];
+                                    int index = log.ClickedLink.IndexOf(".com/");
+                                    int length = "./com".Length;
+                                    int substringindex = index + length;
+                                    log.ClickedLink = log.ClickedLink.Substring(substringindex);
+                                    countries.Add(new Lontitude { Links = log.ClickedLink, UserId = log.SessionId });
+                                }
                             }
+                            catch(Exception e)
+                            {
+                                string errmsg = e.Message;
+                                response.Message = errmsg;
+                            }
+                            
                         }
                         response.IsSuccess = true;
                         response.Data = logs;
@@ -455,7 +610,7 @@ namespace Syra.Admin.Controllers
                 {
                     arraylist.Add(new ArrayList { y.Name.Links, y.Count });
                 }
-                var firstFiveArrivals = arraylist.Take(7);
+                var firstFiveArrivals = arraylist.Take(10);
                 response.Data = firstFiveArrivals;
             }
             return response.GetResponse();
@@ -481,11 +636,111 @@ namespace Syra.Admin.Controllers
         }
 
         [HttpPost]
+        public string GetUSAAnalytics(DateTime startdt, DateTime enddt)
+        {
+            List<SessionLog> logs = new List<SessionLog>();
+            List<Lontitude> countries = new List<Lontitude>();
+            List<USARegion> region = new List<USARegion>();
+            SyraDbContext db = new SyraDbContext();
+            var ipdetails = new GetIPAddress();
+            var geolocatoin = new GeoLocation();
+
+            _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var useremail = HttpContext.User.Identity.Name;
+            var aspnetuser = _userManager.FindByEmailAsync(useremail).Result;
+
+            if (aspnetuser != null)
+            {
+                //based on aspnetuser object, get customer details
+                var customer = db.Customer.FirstOrDefault(c => c.UserId == aspnetuser.Id);
+                var botdata = db.BotDeployments.Where(c => c.CustomerId == customer.Id).FirstOrDefault();
+                var connstring = botdata.BlobConnectionString;
+                var blobstorage = botdata.BlobStorageName;
+                var containername = botdata.ContainerName;
+
+                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connstring);
+                CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+                CloudBlobContainer container = blobClient.GetContainerReference(containername);
+                bool blob_check = false;
+                for (DateTime date = startdt; date <= enddt; date = date.AddDays(1))
+                {
+                    var startdateonly = date.Date.ToString("dd-MM-yyyy");
+                    var blob_file_name = startdateonly + "" + ".csv";
+                    CloudBlockBlob blockBlob = container.GetBlockBlobReference(blob_file_name);
+                    blob_check = blockBlob.Exists();
+                    if (blob_check == false)
+                    {
+                        Console.WriteLine("Blob Container doesn't exist");
+                    }
+                    else
+                    {
+                        using (StreamReader reader = new StreamReader(blockBlob.OpenRead()))
+                        {
+                            SessionLog log = new SessionLog();
+                            try
+                            {
+                                while (!reader.EndOfStream)
+                                {
+                                    //string oldcontent;
+                                    var line = reader.ReadLine();
+                                    string[] splitedword = line.Split('|');
+                                    log.SessionId = splitedword[0];
+                                    log.IPAddress = splitedword[1];
+                                    log.Region = splitedword[2];
+                                    if (log.Region.Contains('.'))
+                                    {
+                                        string temp = log.IPAddress;
+                                        log.IPAddress = log.Region;
+                                        log.Region = temp;
+                                    }
+                                    log.UserQuery = splitedword[3];
+                                    log.BotAnswers = splitedword[4];
+                                    log.LogDate = splitedword[5];
+                                    log.LogTime = splitedword[6];
+                                    string tempdate = log.LogDate + log.LogTime;
+                                    string dt = Convert.ToDateTime(startdt).ToString("dd-MM-yyyy");
+                                    logs.Add(new SessionLog { SessionId = splitedword[0], IPAddress = splitedword[1], Region = splitedword[2], UserQuery = splitedword[3], BotAnswers = splitedword[4], LogDate = tempdate });
+
+                                    string jsonresponse = GetIPDetails(log.IPAddress);
+                                    ipdetails = JsonConvert.DeserializeObject<GetIPAddress>(jsonresponse);
+                                    if (ipdetails.country == "United States")
+                                    {
+                                        string jsondeatil = GetUsaCode(ipdetails.query);
+                                        geolocatoin = JsonConvert.DeserializeObject<GeoLocation>(jsondeatil);
+                                        region.Add(new USARegion { hckey = (("US-" + geolocatoin.Region).ToLower()) });
+                                    }
+                                    countries.Add(new Lontitude { Countries = ipdetails.countryCode, UserQuery = log.UserQuery });
+                                }
+                            }
+                            catch(Exception e)
+                            {
+                                string errmsg = e.Message;
+                                Console.WriteLine(errmsg);
+                            }
+                        }
+                        response.IsSuccess = true;
+                    }
+                }
+                var dupusaregion = region.GroupBy(x => new { x.hckey }).Select(group => new { Name = group.Key, Count = group.Count() });
+                foreach (var item in dupusaregion)
+                {
+                    response.Data = new USALocation()
+                    {
+                        hckey = item.Name.hckey,
+                        value = item.Count
+                    };
+                }
+            }
+            return response.GetResponse();
+        }
+
+        [HttpPost]
         public string GetAnalytics(DateTime startdt, DateTime enddt)
         {
-            //try
-            //{
+            //to convert object into arrray
             List<ArrayList> arraylist = new List<ArrayList>();
+
             List<ArrayList> anslist = new List<ArrayList>();
             List<SessionLog> logs = new List<SessionLog>();
             List<Lontitude> countries = new List<Lontitude>();
@@ -530,65 +785,52 @@ namespace Syra.Admin.Controllers
                         {
 
                             SessionLog log = new SessionLog();
-                            while (!reader.EndOfStream)
+                            try
                             {
-                                //string oldcontent;
-                                var line = reader.ReadLine();
-                                string[] splitedword = line.Split('|');
-                                log.SessionId = splitedword[0];
-                                log.IPAddress = splitedword[1];
-                                log.Region = splitedword[2];
-                                if(log.Region.Contains('.'))
+                                while (!reader.EndOfStream)
                                 {
-                                    string temp = log.IPAddress;
-                                    log.IPAddress = log.Region;
-                                    log.Region = temp;
-                                }
-                                log.UserQuery = splitedword[3];
-                                log.BotAnswers = splitedword[4];
-                                log.LogDate = splitedword[5];
-                                log.LogTime = splitedword[6];
-                                string tempdate = log.LogDate + log.LogTime;
-                                string dt = Convert.ToDateTime(startdt).ToString("dd-MM-yyyy");
-                                logs.Add(new SessionLog { SessionId = splitedword[0], IPAddress = splitedword[1], Region = splitedword[2], UserQuery = splitedword[3], BotAnswers = splitedword[4], LogDate = tempdate });
+                                    //string oldcontent;
+                                    var line = reader.ReadLine();
+                                    string[] splitedword = line.Split('|');
+                                    log.SessionId = splitedword[0];
+                                    log.IPAddress = splitedword[1];
+                                    log.Region = splitedword[2];
+                                    if (log.Region.Contains('.'))
+                                    {
+                                        string temp = log.IPAddress;
+                                        log.IPAddress = log.Region;
+                                        log.Region = temp;
+                                    }
+                                    log.UserQuery = splitedword[3];
+                                    log.BotAnswers = splitedword[4];
+                                    log.LogDate = splitedword[5];
+                                    log.LogTime = splitedword[6];
+                                    string tempdate = log.LogDate + log.LogTime;
+                                    string dt = Convert.ToDateTime(startdt).ToString("dd-MM-yyyy");
+                                    logs.Add(new SessionLog { SessionId = splitedword[0], IPAddress = splitedword[1], Region = splitedword[2], UserQuery = splitedword[3], BotAnswers = splitedword[4], LogDate = tempdate });
 
-                                string jsonresponse = GetIPDetails(log.IPAddress);
-                                ipdetails = JsonConvert.DeserializeObject<GetIPAddress>(jsonresponse);
-                                if(ipdetails.country== "United States")
-                                {
-                                    string jsondeatil = GetUsaCode(ipdetails.query);
-                                    geolocatoin= JsonConvert.DeserializeObject<GeoLocation>(jsondeatil);
-                                    region.Add(new USARegion { hckey = (("US-"+geolocatoin.Region).ToLower()) });
+                                    string jsonresponse = GetIPDetails(log.IPAddress);
+                                    ipdetails = JsonConvert.DeserializeObject<GetIPAddress>(jsonresponse);
+                                    if (ipdetails.country == "United States")
+                                    {
+                                        string jsondeatil = GetUsaCode(ipdetails.query);
+                                        geolocatoin = JsonConvert.DeserializeObject<GeoLocation>(jsondeatil);
+                                        region.Add(new USARegion { hckey = (("US-" + geolocatoin.Region).ToLower()) });
+                                    }
+                                    countries.Add(new Lontitude { Countries = ipdetails.countryCode, UserQuery = log.UserQuery });
                                 }
-                                countries.Add(new Lontitude { Countries = ipdetails.countryCode, UserQuery = log.UserQuery });
                             }
+                            catch(Exception e)
+                            {
+                                string errmsg = e.Message;
+                                response.Message = errmsg;
+                            } 
                         }
                         response.IsSuccess = true;
-                        response.Data = logs;
                     }
                 }
                 var dupcountries = countries.GroupBy(x => new { x.Countries }).Select(group => new { Name = group.Key, Count = group.Count() })
                              .OrderByDescending(x => x.Count);
-                var dupUserQuery= countries.GroupBy(x => new { x.UserQuery }).Select(group => new { Name = group.Key, Count = group.Count() })
-                              .OrderByDescending(x => x.Count);
-                var dupusaregion = region.GroupBy(x => new { x.hckey }).Select(group => new { Name = group.Key, Count = group.Count() });
-                foreach(var item in dupusaregion)
-                {
-                   _location.Add(new USALocation()
-                    {
-                        hckey = item.Name.hckey,
-                        value = item.Count
-                    });
-
-                }
-                string usajson = JsonConvert.SerializeObject(_location.ToArray());
-                UsaRegion(usajson);
-                foreach (var y in dupUserQuery)
-                {
-                    arraylist.Add(new ArrayList { y.Name.UserQuery, y.Count });
-                }
-                var firstTenArrivals = arraylist.Take(10);
-                response.Data = firstTenArrivals;
                 foreach (var x in dupcountries)
                 {
                     try
@@ -609,14 +851,19 @@ namespace Syra.Admin.Controllers
                             });
                         }
                     }
-                    catch(Exception e)
+                    catch (Exception e)
                     {
                         string message = e.Message;
                         response.Message = message;
                     }
                 }
+                //C:\inetpub\wwwroot\syra\AppScript\Analytics\Template
+                //\AppScript\Analytics\Template\locations.json
                 string json = JsonConvert.SerializeObject(_data.ToArray());
-                CountryCode(json);
+                //FileInfo f = new FileInfo(fileName);
+                //string fullname = f.FullName;
+                string pathname = CountryCode(json);
+               response.Data = pathname;
             }
             return response.GetResponse();
         }
@@ -665,7 +912,9 @@ namespace Syra.Admin.Controllers
                             {
                                 
                                 SessionLog log = new SessionLog();
-                                while (!reader.EndOfStream)
+                                try
+                                {
+                                    while (!reader.EndOfStream)
                                 {
                                     //string oldcontent;
                                     var line = reader.ReadLine();
@@ -680,8 +929,14 @@ namespace Syra.Admin.Controllers
                                     string tempdate = log.LogDate + log.LogTime;
                                     string dt = Convert.ToDateTime(startdt).ToString("dd-MM-yyyy");
                                     logs.Add(new SessionLog { SessionId = splitedword[0], IPAddress = splitedword[1], Region = splitedword[2], UserQuery = splitedword[3], BotAnswers = splitedword[4], LogDate = tempdate });
+                                }
+                                }
+                                catch(Exception e)
+                                {
+                                    string errmsg = e.Message;
+                                    response.Message = errmsg;
+                                }
                             }
-                        }
                             response.IsSuccess = true;
                             response.Data = logs;
                             
@@ -1016,11 +1271,24 @@ namespace Syra.Admin.Controllers
             response.Data = new
             {
                 plan.Plan.MonthlyCharge,
+                plan.Plan.Contract,
                 plan.Plan.AllowedBotLimit,
                 plan.Plan.AdvanceTraining,
                 plan.Plan.Analyticsplan,
                 plan.Plan.LogRetainingDay,
                 plan.Plan.SiteSpecification,
+                plan.Plan.InitialTraining,
+                plan.Plan.TextQuery,
+                plan.Plan.Entities,
+                plan.Plan.Intent,
+                plan.Plan.EmbedWidget,
+                plan.Plan.FBWidget,
+                plan.Plan.SlackWidget,
+                plan.Plan.SkypeWidget,
+                plan.Plan.TelegramWidget,
+                plan.Plan.KikWidget,
+                plan.Plan.SupportAvailability,
+                plan.Plan.PagesScrapping,
                 plan.Plan.KnowledgeDomain,
                 plan.Plan.Name,
                 plan.Plan.SetupFees,

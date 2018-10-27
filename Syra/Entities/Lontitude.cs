@@ -24,7 +24,6 @@ namespace Syra.Admin.Entities
         public string code3 { get; set; }
         public Int64 epochtime { get; set; }
         public Int64 counttime { get; set; }
-        
     }
     public class LowHighTime
     {

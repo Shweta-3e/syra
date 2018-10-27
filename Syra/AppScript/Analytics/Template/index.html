@@ -14,10 +14,36 @@
         <button class="btn btn-success" style="margin-left:25px;" ng-click="GetReportData()">Submit</button>
     </div>
 
+    <div>
+        Total Questions Asked To Bot : <a ng-click="ShowQuestions()">{{BotReplyData.TotalQuestions}}</a>
+        Bot replied successfully : <a ng-click="ShowQuestions(false)">{{BotReplyData.RightAnswers}}</a>
+        Bot failed to reply : <a ng-click="ShowQuestions(true)">{{BotReplyData.WrongAnswers}}</a>
+        <div id="botreply" style="min-width: 100px; height:500px; max-height:100%; margin: 0 auto;margin-top:30px;"></div>
+
+        <table datatable="ng" dt-options="vm.dtOptions" dt-columns="vm.dtColumns" class="table table-responsive table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th class="text-align-center">Session Id</th>
+                    <th class="text-align-center">IPAddress</th>
+                    <th class="text-align-center">Region</th>
+                    <th class="text-align-center">User Query</th>
+                    <th class="text-align-center">Bot Answer</th>
+                    <th class="text-align-center" style="width:50px">Log Date</th>
+                </tr>
+            </thead>
+            <tr ng-repeat="row in BotReplyData.AllQuestions" ng-if="row.IsWrongAnswer==ReportType">
+                <td class="text-align-center">{{row.SessionId}}</td>
+                <td class="text-align-center">{{row.Region}}</td>
+                <td class="text-align-center">{{row.IPAddress}}</td>
+                <td class="text-align-center">{{row.UserQuery}}</td>
+                <td class="text-align-center" ng-bind-html="row.BotAnswers1"></td>
+                <td class="text-align-center">{{row.LogDate}}</td>
+            </tr>
+        </table>
+    </div>
+    <div id="container_query" style="min-width: 100px; height: 500px; margin: 0 auto;margin-top:70px;"></div>
     <div id="goalconversion" style="min-width: 100px; height: 500px; margin: 0 auto;margin-top:30px;"></div>
-    <div id="botreply" style="min-width: 100px; height: 500px; margin: 0 auto;margin-top:30px;"></div>
     <div id="container-worldmap" style="max-width: 1000px;margin-top:30px;"></div>
     <div id="usa-container" style="min-width: 100px; height: 500px; margin: 0 auto;margin-top:30px;"></div>
-    <div id="container_query" style="min-width: 100px; height: 500px; margin: 0 auto;margin-top:30px;"></div>
     <div id="time_container" style="min-width: 100px; height: 500px; margin: 0 auto;margin-top:30px;"></div>
 </div>

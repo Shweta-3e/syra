@@ -1,5 +1,5 @@
-﻿SyraApp.controller("AnalyticsController", ["$scope", "$http", "syraservice", "$state",
-    function ($scope, $http, syraservice, $state) {
+﻿SyraApp.controller("AnalyticsController", ["$scope", "$http", "syraservice", "$sce","$state",
+    function ($scope, $http, syraservice, $sce, $state) {
 
         $scope.fromdate = new Date();
         $scope.todate = new Date();
@@ -30,47 +30,63 @@
             var enddate = $scope.todate;
             
             var url = "/Customer/GetAnalytics";
+            var userqueryurl = "/Customer/UserQuery";
             var clickedlinkurl = "/Customer/GetClickedLink";
             var botreplyurl = "/Customer/BotReply";
             var timeurl = "/Customer/LowPeakTime";
+            var usadataurl = "/Customer/GetUSAAnalytics";
 
-            //console.log(startdate);
-            //console.log(enddate);
+            //$http.post(usadataurl, { startdt: startdate, enddt: enddate }).success(function (response) {
+            //    if (response != null) {
+            //        $scope.GetUsaMap(response);
+            //    } else {
+            //        alert("Something went wrong");
+            //    }
+            //});
+
             $http.post(url, { startdt: startdate, enddt: enddate }).success(function (response) {
                 if (response != null) {
+                    console.log("Path is : ");
+                    console.log(response);
                     $scope.GetWorldMap();
-                    $scope.GetUsaMap();
-                    $scope.GetUserQuery(response);
+                    //$scope.GetUsaMap();
                 } else {
                     alert("Something went wrong");
                 }
             });
 
-            $http.post(clickedlinkurl, { startdt: startdate, enddt: enddate }).success(function (response) {
-                if (response != null) {
-                    $scope.GetClickedLink(response);
-                } else {
-                    alert("Something went wrong");
-                }
-            });
+            //$http.post(clickedlinkurl, { startdt: startdate, enddt: enddate }).success(function (response) {
+            //    if (response != null) {
+            //        $scope.GetClickedLink(response);
+            //    } else {
+            //        alert("Something went wrong");
+            //    }
+            //});
 
-            $http.post(botreplyurl, { startdt: startdate, enddt: enddate }).success(function (response) {
-                //console.log(response);
-                if (response != null) {
-                    $scope.BotResponse(response);
-                } else {
-                    alert("Something went wrong");
-                }
-            });
+            //$http.post(userqueryurl, { startdt: startdate, enddt: enddate }).success(function (response) {
+            //    if (response != null) {
+            //        $scope.GetUserQuery(response);
+            //    } else {
+            //        alert("Something went wrong");
+            //    }
+            //});
 
-            $http.post(timeurl, { }).success(function (response) {
-                //console.log("Response is : "+ response);
-                if (response != null) {
-                    $scope.TimeChart();
-                } else {
-                    alert("Something went wrong");
-                }
-            });
+            //$http.post(botreplyurl, { startdt: startdate, enddt: enddate }).success(function (response) {
+            //    if (response != null) {
+            //        $scope.BotResponse(response);
+            //    } else {
+            //        alert("Something went wrong");
+            //    }
+            //});
+
+            //$http.post(timeurl, { }).success(function (response) {
+            //    //console.log("Response is : "+ response);
+            //    if (response != null) {
+            //        $scope.TimeChart();
+            //    } else {
+            //        alert("Something went wrong");
+            //    }
+            //});
         };
 
         $scope.GetWorldMap = function () {
@@ -122,18 +138,21 @@
             });
         };
 
-        $scope.GetUsaMap = function () {
-            $.getJSON('/AppScript/Analytics/Template/UsaRegion.json', function (data) {
-                // Prevent logarithmic errors in color calulcation
-                $.each(data, function () {
-                    this.value = (this.value < 1 ? 1 : this.value);
-                });
-                // Initiate the chart
-                Highcharts.mapChart('usa-container', {
+        $scope.GetUsaMap = function (usadata) {
+           
+            var finaldata = [];
+            for (var item in usadata) {
+                finaldata.push(usadata[item]);
+            }
+            //console.log("USA Data");
+            //console.log(linkdata);
+            
+            var data = finaldata.slice(2, 3);
+            $('#usa-container').highcharts('Map', {
                     chart: {
                         map: 'countries/us/us-all',
                         borderWidth: 1,
-                        width: 1000,
+                        width: 1000
                     },
                     title: {
                         text: 'USA Based Analysis',
@@ -148,7 +167,7 @@
                         buttonOptions: {
                             verticalAlign: 'bottom'
                         }
-                    },
+                     },
                     colorAxis: {
                         min: 1,
                         max: 500,
@@ -161,7 +180,7 @@
                         mapData: Highcharts.maps['countries/us/us-all'],
                         nullColor: '#9fe079',
                         joinBy: 'hc-key',
-                        name: 'Random data',
+                        name: 'Question asked',
                         states: {
                             hover: {
                                 color: '#BADA55'
@@ -179,7 +198,6 @@
                         showInLegend: false,
                         enableMouseTracking: false
                     }]
-                });
             });
         };
 
@@ -190,19 +208,16 @@
             
             for (var item in userquerydata) {
                 linkdata.push(userquerydata[item]);
-                //for (var i = 0; i < 15; i++) {
-                //    arr.push(userquerydata[item][i]);
-                //}
             }
-            finaldata.push(linkdata.slice(1, 2));
+            finaldata.push(linkdata.slice(2, 3));
             for (var i = 0; i < finaldata.length; i++) {
                 for (var j = 0; j <= i; j++) {
                     console.log(finaldata[i][j]);
                     arr.push(finaldata[i][j]);
                 }
             }
-            console.log("User Query Response is : ");
-            console.log(arr);
+            //console.log("User Query Response is : ");
+            //console.log(arr);
             Highcharts.chart('container_query', {
                 chart: {
                     type: 'column',
@@ -363,13 +378,15 @@
             for (var item in clickedlinkdata) {
                 linkdata.push(clickedlinkdata[item]);
             }
-            finaldata.push(linkdata.slice(1, 2));
+            finaldata.push(linkdata.slice(2, 3));
+            console.log(finaldata);
             for (var i = 0; i < finaldata.length; i++) {
                 for (var j = 0; j <= i; j++) {
                     console.log(finaldata[i][j]);
                     arr.push(finaldata[i][j]);
                 }
             }
+            console.log(arr);
             Highcharts.chart('goalconversion', {
                 chart: {
                     type: 'column',
@@ -449,126 +466,64 @@
         };
 
         $scope.BotResponse = function (response) {
-            var linkdata = [];
-            var finaldata = [];
-            var arr = [];
-            var category = [];
-            var rightans = [];
-            var wrongans = [];
-            for (var item in response) {
-                linkdata.push(response[item]);
-            }
-            finaldata.push(linkdata.slice(1, 2));
-            for (var i = 0; i < finaldata.length; i++) {
-                for (var j = 0; j <= i; j++) {
-                    console.log(finaldata[i][j]);
-                    arr.push(finaldata[i][j]);
-                }
-            }
-            for (var i = 0; i < arr[0].length; i++) {
-                for (var j = 0; j < 3; j++) {
-                    if (j == 0) {
-                        category.push(arr[0][i][j])
-                    }
-                    if (j == 1) {
-                        if (arr[0][i][j] == 'right') {
-                            j++;
-                            rightans.push(arr[0][i][j]);
-                            wrongans.push(arr[0][i][j] = 0);
-                        }
-                        else {
-                            j++;
-                            wrongans.push(arr[0][i][j]);
-                            rightans.push(arr[0][i][j] = 0);
-                        }
 
-                    }
-                }
-            }
+            $scope.BotReplyData = response.Data;
+
             Highcharts.chart('botreply', {
                 chart: {
-                    type: 'areaspline',
-                    borderWidth: 1,
-                    width: 1000,
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
                 },
                 title: {
-                    text: 'Analysis of Bot Reply',
-                    style: {
-                        color: '#8d3052',
-                        fontWeight: 'bold',
-                        fontSize: '24px'
-                    }
-                },
-                legend: {
-                    layout: 'vertical',
-                    align: 'left',
-                    verticalAlign: 'top',
-                    x: 150,
-                    y: 100,
-                    floating: true,
-                    borderWidth: 1,
-                    backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'
-                },
-                xAxis: {
-                    categories: category,
-                    plotBands: [{ // visualize the weekend
-                        from: 4.5,
-                        to: 6.5,
-                        color: 'rgba(68, 170, 213, .2)'
-                    }],
-                    labels: {
-                        rotation: -45,
-                        style: {
-                            fontSize: '13px',
-                            fontFamily: 'Verdana, sans-serif'
-                        }
-                    },
-                    style: {
-                        color: '#3c1414',
-                        fontWeight: 'bold',
-                        fontSize: '16px'
-                    },
-                    title: {
-                        text: 'User Query'
-                    },
-                },
-                yAxis: {
-                    title: {
-                        text: 'Total counts of Bot reply'
-                    },
-                    style: {
-                        color: '#3c1414',
-                        fontWeight: 'bold',
-                        fontSize: '16px'
-                    }
+                    text: 'Bot response analysis'
                 },
                 tooltip: {
-                    shared: true,
-                    valueSuffix: ' units'
-                },
-                credits: {
-                    enabled: false
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
                 },
                 plotOptions: {
-                    areaspline: {
-                        fillOpacity: 0.5
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                            }
+                        }
                     }
                 },
                 series: [{
-                    name: 'Right reply',
-                    data: rightans,
-                    color: '#03a546',
-                    gapSize: 1
+                    name: 'Brands',
+                    colorByPoint: true,
+                    data: [
+                        //{
+                        //name: 'Chrome',
+                        //y: 61.41,
+                        //sliced: true,
+                        //selected: true
+                        //},
+                        {
+                            name: 'Successfull Response',
+                            y: ((response.Data.RightAnswers * 100) / response.Data.TotalQuestions),
 
-                }, {
-                    name: 'Wrong reply',
-                    data: wrongans,
-                    color: '#9b0707',
-                    gapSize: 1
-                },
-
-                ]
+                        }, {
+                            name: 'Failed to Response/understand user question',
+                            y: ((response.Data.WrongAnswers * 100) / response.Data.TotalQuestions),
+                        }]
+                }]
             });
         };
 
+        $scope.ShowData = false;
+        $scope.ShowQuestions = function (type) {
+            $scope.ShowData = !$scope.ShowData;
+            $scope.ReportType = type;
+            var questions = $scope.BotReplyData.AllQuestions;
+            angular.forEach($scope.BotReplyData.AllQuestions, function (row) {
+                row.BotAnswers1 = $sce.trustAsHtml(row.BotAnswers);
+            });
+        };
     }]);

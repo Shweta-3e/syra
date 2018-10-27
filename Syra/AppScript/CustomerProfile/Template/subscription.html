@@ -3,103 +3,247 @@
         My Subscription
     </h2>
 </div>
-<hr />
-
 <div class="row">
     <div class="form-group">
-        <label class="control-label col-sm-2" style="font-weight:normal">Plan Name :</label>
-        <div class="col-sm-10">
-            {{CustomerPlan.Name}}
+        <label class="control-label col-sm-2" for="txtName">Plan Name :</label>
+        <!--<label class="control-label col-sm-2" style="font-weight:normal">Plan Name :</label>-->
+        <div class="col-sm-6">
+            <input type="text" class="form-control" id="txtName" ng-model="CustomerPlan.Name" disabled>
         </div>
+        <!--<div class="col-sm-10">
+        {{CustomerPlan.Name}}
+    </div>-->
     </div>
 </div>
 
 <div class="row" style="padding-top:10px">
     <div class="form-group">
-        <label class="control-label col-sm-2" style="font-weight:normal" for="txtMonthlyCharge">Monthly Charge : </label>
-        <div class="col-sm-10">
+        <label class="control-label col-sm-2" for="txtMonthlyCharge">Monthly Charge </label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" id="txtMonthlyCharge" ng-model="CustomerPlan.MonthlyCharge" disabled>
+        </div>
+            <!--<div class="col-sm-10">
             {{CustomerPlan.MonthlyCharge}}
+        </div-->
         </div>
     </div>
-</div>
 
 <div class="row" style="padding-top:10px">
     <div class="form-group">
-        <label class="control-label col-sm-2" style="font-weight:normal" for="txtSetupFees">Setup Fees : </label>
-        <div class="col-sm-10">
+        <label class="control-label col-sm-2" for="txtSetupFees">Setup Fees</label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" id="txtSetupFees" ng-model="CustomerPlan.SetupFees" disabled>
+            </div>
+            <!--<div class="col-sm-10">
             {{CustomerPlan.SetupFees}}
+        </div>-->
         </div>
+    </div>
+
+<div class="row" style="padding-top:10px">
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="txtContract">Contract </label>
+        <div class="col-sm-6">
+        <input type="text" class="form-control" id="txtContract" ng-model="CustomerPlan.Contract" disabled>
+            </div>
+        <!--<div class="col-sm-10">
+        {{CustomerPlan.Contract}}
+    </div>-->
     </div>
 </div>
 
 <div class="row" style="padding-top:10px">
     <div class="form-group">
-        <label class="control-label col-sm-2" style="font-weight:normal" for="txtAllowedBotLimit">Allowed BotLimit : </label>
-        <div class="col-sm-10">
-            {{CustomerPlan.AllowedBotLimit}}
-        </div>
-    </div>
-</div>
-
-<div class="row" style="padding-top:10px">
-    <div class="form-group">
-        <label class="control-label col-sm-2" style="font-weight:normal" for="txtAdvanceTraining">Advance Training : </label>
-        <div class="col-sm-10">
-            {{CustomerPlan.AdvanceTraining}}
-        </div>
-    </div>
-</div>
-
-<div class="row" style="padding-top:10px">
-    <div class="form-group">
-        <label class="control-label col-sm-2" style="font-weight:normal" for="txtAnalyticsplan">Analytics Plan : </label>
-        <div class="col-sm-10">
-            {{CustomerPlan.Analyticsplan}}
-        </div>
-    </div>
-</div>
-
-<div class="row" style="padding-top:10px">
-    <div class="form-group">
-        <label class="control-label col-sm-2" style="font-weight:normal" for="txtLogRetainingDay">Log Retaining Day : </label>
-        <div class="col-sm-10">
-            {{CustomerPlan.LogRetainingDay}}
-        </div>
-    </div>
-</div>
-
-<div class="row" style="padding-top:10px">
-    <div class="form-group">
-        <label class="control-label col-sm-2" style="font-weight:normal" for="txtSiteSpecification">Site Specification : </label>
-        <div class="col-sm-10">
+        <label class="control-label col-sm-2" for="txtSiteSpecification">Site Specification </label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" id="txtSiteSpecification" ng-model="CustomerPlan.SiteSpecification" disabled>
+            </div>
+            <!--<div class="col-sm-10">
             {{CustomerPlan.SiteSpecification}}
+        </div>-->
+        </div>
+    </div>
+
+<div class="row" style="padding-top:10px">
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="txtKnowledgeDomain">Knowledge Domain </label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" id="txtKnowledgeDomain" ng-model="CustomerPlan.KnowledgeDomain" disabled>
+        </div>
+            <!--<div class="col-sm-10">
+        {{CustomerPlan.KnowledgeDomain}}
+    </div>-->
+        </div>
+</div>
+
+<div class="row" style="padding-top:10px">
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="txtInitialTraining">Initial Training </label>
+        <div class="col-sm-6">
+        <input type="text" class="form-control" id="txtInitialTraining" ng-model="CustomerPlan.InitialTraining" disabled>
         </div>
     </div>
 </div>
 
 <div class="row" style="padding-top:10px">
     <div class="form-group">
-        <label class="control-label col-sm-2" style="font-weight:normal" for="txtKnowledgeDomain">Knowledge Domain : </label>
-        <div class="col-sm-10">
-            {{CustomerPlan.KnowledgeDomain}}
+        <label class="control-label col-sm-2" for="txtAdvanceTraining">Advance Training </label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" id="txtAdvanceTraining" ng-model="CustomerPlan.AdvanceTraining" disabled>
         </div>
     </div>
 </div>
 
 <div class="row" style="padding-top:10px">
     <div class="form-group">
-        <label class="control-label col-sm-2" style="font-weight:normal" for="txtCompanyName">Activation Date : </label>
-        <div class="col-sm-10">
+        <label class="control-label col-sm-2" for="txtTextQuery">Text Query </label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" id="txtTextQuery" ng-model="CustomerPlan.TextQuery" disabled>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="padding-top:10px">
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="txtPagesScrapping">Pages Scrapping </label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" id="txtPagesScrapping" ng-model="CustomerPlan.PagesScrapping" disabled>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="padding-top:10px">
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="txtEntities">Entities </label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" id="txtEntities" ng-model="CustomerPlan.Entities" disabled>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="padding-top:10px">
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="txtIntent">Intent </label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" id="txtIntent" ng-model="CustomerPlan.Intent" disabled>
+        </div>
+        
+    </div>
+</div>
+
+<div class="row" style="padding-top:10px">
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="txtLogRetainingDay">Log Retaining Day : </label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" id="txtLogRetainingDay" ng-model="CustomerPlan.LogRetainingDay" disabled>
+        </div>
+        
+    </div>
+</div>
+
+<div class="row" style="padding-top:10px">
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="txtAnalyticsplan">Analytics Plan </label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" id="txtAnalyticsplan" ng-model="CustomerPlan.Analyticsplan" disabled>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="padding-top:10px">
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="txtEmbedWidget">Embed Code for Websites</label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" id="txtEmbedWidget" ng-model="CustomerPlan.EmbedWidget" disabled>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="padding-top:10px">
+    <div class="form-group">
+        <label class="control-label col-sm-2"  for="txtFBWidget">Facebook Messenger Bot </label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" id="txtFBWidget" ng-model="CustomerPlan.FBWidget" disabled>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="padding-top:10px">
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="txtSlackWidget">Slack Bot </label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" id="txtSlackWidget" ng-model="CustomerPlan.SlackWidget" disabled>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="padding-top:10px">
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="txtSkypeWidget">Skype Bot : </label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" id="txtSkypeWidget" ng-model="CustomerPlan.SkypeWidget" disabled>
+        </div>
+        
+    </div>
+</div>
+
+<div class="row" style="padding-top:10px">
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="txtTelegramWidget">Telegram Bot </label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" id="txtTelegramWidget" ng-model="CustomerPlan.TelegramWidget" disabled>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="padding-top:10px">
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="txtKikWidget">Kik Bot </label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" id="txtKikWidget" ng-model="CustomerPlan.KikWidget" disabled>
+        </div>
+        
+    </div>
+</div>
+
+<div class="row" style="padding-top:10px">
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="txtSupportAvailability">Support Availability </label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" id="txtSupportAvailability" ng-model="CustomerPlan.SupportAvailability" disabled>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="padding-top:10px">
+    <div class="form-group">
+        <label class="control-label col-sm-2"  for="txtAllowedBotLimit">Allowed BotLimit : </label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" id="txtAllowedBotLimit" ng-model="CustomerPlan.AllowedBotLimit" disabled>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="padding-top:10px">
+    <div class="form-group">
+        <label class="control-label col-sm-2" for="txtCompanyName">Activation Date : </label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" id="txtAllowedBotLimit" ng-model="CustomerPlan.ActivationDate | date : 'dd/MM/yy'" disabled>
+        </div>
+        <!--<div class="col-sm-10">
             {{CustomerPlan.ActivationDate | date : 'dd/MM/yy'}}
-        </div>
+        </div>-->
     </div>
 </div>
 
 <div class="row" style="padding-top:10px">
     <div class="form-group">
-        <label class="control-label col-sm-2" style="font-weight:normal" for="txtCompanyName">Expiry Date :</label>
-        <div class="col-sm-10">
-            {{CustomerPlan.ExpiryDate | date : 'dd/MM/yy'}}
+        <label class="control-label col-sm-2" for="txtCompanyName">Expiry Date :</label>
+        <div class="col-sm-6">
+            <input type="text" class="form-control" id="txtAllowedBotLimit" ng-model="CustomerPlan.ExpiryDate | date : 'dd/MM/yy'" disabled>
         </div>
+        <!--<div class="col-sm-10">
+            {{CustomerPlan.ExpiryDate | date : 'dd/MM/yy'}}
+        </div>-->
     </div>
 </div>

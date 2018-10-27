@@ -161,13 +161,12 @@ namespace Syra.Admin.Controllers
             string oldcontent = "";
 
             string dirpath = Directory.GetCurrentDirectory();
-            string fileName = "\\AppScript\\Analytics\\Template\\locations.json";
+            //string fileName = "~/Syra/AppScript/Analytics/Template/locations.json";
 
-            string fullname = Path.Combine(Directory.GetCurrentDirectory(), fileName);
-
+            //string fullname = Path.Combine(Directory.GetDirectoryRoot(fileName));
             //var file = "C:/inetpub/wwwroot/syra/AppScript/Analytics/Template/locations.json";
-            //var file = System.Web.HttpContext.Current.Request.MapPath("..\\AppScript\\Analytics\\Template\\locations.json");
-            using (StreamReader reader = new StreamReader(fullname))
+            var file = System.Web.HttpContext.Current.Server.MapPath(@"\Template\locations.json");
+            using (StreamReader reader = new StreamReader(file))
             {
                 oldcontent = reader.ReadToEnd();
                 if (oldcontent != null)
@@ -175,13 +174,13 @@ namespace Syra.Admin.Controllers
                     oldcontent = null;
                 }
             }
-            using (StreamWriter writer = new StreamWriter(fullname))
+            using (StreamWriter writer = new StreamWriter(file))
             {
                 //writer.Write(oldcontent);
                 writer.Write(json.ToString());
                 writer.Close();
             }
-            return fullname;
+            return file;
         }
 
         //public void UsaRegion(string usajson)
@@ -638,6 +637,7 @@ namespace Syra.Admin.Controllers
         [HttpPost]
         public string GetUSAAnalytics(DateTime startdt, DateTime enddt)
         {
+            List<USALocation> usadata = new List<USALocation>();
             List<SessionLog> logs = new List<SessionLog>();
             List<Lontitude> countries = new List<Lontitude>();
             List<USARegion> region = new List<USARegion>();
@@ -713,7 +713,7 @@ namespace Syra.Admin.Controllers
                                     countries.Add(new Lontitude { Countries = ipdetails.countryCode, UserQuery = log.UserQuery });
                                 }
                             }
-                            catch(Exception e)
+                            catch (Exception e)
                             {
                                 string errmsg = e.Message;
                                 Console.WriteLine(errmsg);
@@ -725,12 +725,13 @@ namespace Syra.Admin.Controllers
                 var dupusaregion = region.GroupBy(x => new { x.hckey }).Select(group => new { Name = group.Key, Count = group.Count() });
                 foreach (var item in dupusaregion)
                 {
-                    response.Data = new USALocation()
+                    usadata.Add(new USALocation()
                     {
                         hckey = item.Name.hckey,
                         value = item.Count
-                    };
+                    });
                 }
+                response.Data = usadata;
             }
             return response.GetResponse();
         }

@@ -36,48 +36,49 @@
             var timeurl = "/Customer/LowPeakTime";
             var usadataurl = "/Customer/GetUSAAnalytics";
 
-            //$http.post(usadataurl, { startdt: startdate, enddt: enddate }).success(function (response) {
-            //    if (response != null) {
-            //        $scope.GetUsaMap(response);
-            //    } else {
-            //        alert("Something went wrong");
-            //    }
-            //});
-
-            $http.post(url, { startdt: startdate, enddt: enddate }).success(function (response) {
+            $http.post(usadataurl, { startdt: startdate, enddt: enddate }).success(function (response) {
                 if (response != null) {
-                    console.log("Path is : ");
                     console.log(response);
-                    $scope.GetWorldMap();
-                    //$scope.GetUsaMap();
+                    $scope.GetUsaMap(response);
                 } else {
                     alert("Something went wrong");
                 }
             });
 
-            //$http.post(clickedlinkurl, { startdt: startdate, enddt: enddate }).success(function (response) {
+            //$http.post(url, { startdt: startdate, enddt: enddate }).success(function (response) {
             //    if (response != null) {
-            //        $scope.GetClickedLink(response);
+            //        console.log("Path is : ");
+            //        console.log(response);
+            //        $scope.GetWorldMap();
+            //        //$scope.GetUsaMap();
             //    } else {
             //        alert("Something went wrong");
             //    }
             //});
 
-            //$http.post(userqueryurl, { startdt: startdate, enddt: enddate }).success(function (response) {
-            //    if (response != null) {
-            //        $scope.GetUserQuery(response);
-            //    } else {
-            //        alert("Something went wrong");
-            //    }
-            //});
+            $http.post(clickedlinkurl, { startdt: startdate, enddt: enddate }).success(function (response) {
+                if (response != null) {
+                    $scope.GetClickedLink(response);
+                } else {
+                    alert("Something went wrong");
+                }
+            });
 
-            //$http.post(botreplyurl, { startdt: startdate, enddt: enddate }).success(function (response) {
-            //    if (response != null) {
-            //        $scope.BotResponse(response);
-            //    } else {
-            //        alert("Something went wrong");
-            //    }
-            //});
+            $http.post(userqueryurl, { startdt: startdate, enddt: enddate }).success(function (response) {
+                if (response != null) {
+                    $scope.GetUserQuery(response);
+                } else {
+                    alert("Something went wrong");
+                }
+            });
+
+            $http.post(botreplyurl, { startdt: startdate, enddt: enddate }).success(function (response) {
+                if (response != null) {
+                    $scope.BotResponse(response);
+                } else {
+                    alert("Something went wrong");
+                }
+            });
 
             //$http.post(timeurl, { }).success(function (response) {
             //    //console.log("Response is : "+ response);
@@ -139,15 +140,8 @@
         };
 
         $scope.GetUsaMap = function (usadata) {
-           
-            var finaldata = [];
-            for (var item in usadata) {
-                finaldata.push(usadata[item]);
-            }
-            //console.log("USA Data");
-            //console.log(linkdata);
-            
-            var data = finaldata.slice(2, 3);
+            console.log(usadata);
+            var data = usadata.Data;
             $('#usa-container').highcharts('Map', {
                     chart: {
                         map: 'countries/us/us-all',
@@ -172,13 +166,13 @@
                         min: 1,
                         max: 500,
                         type: 'logarithmic',
-                        minColor: '#b1c9ef',
+                        minColor: '#bf1515',
                         maxColor: '#4286f4',
                     },
                     series: [{
                         data: data,
                         mapData: Highcharts.maps['countries/us/us-all'],
-                        nullColor: '#9fe079',
+                        nullColor: '#98d187',
                         joinBy: 'hc-key',
                         name: 'Question asked',
                         states: {
@@ -212,12 +206,9 @@
             finaldata.push(linkdata.slice(2, 3));
             for (var i = 0; i < finaldata.length; i++) {
                 for (var j = 0; j <= i; j++) {
-                    console.log(finaldata[i][j]);
                     arr.push(finaldata[i][j]);
                 }
             }
-            //console.log("User Query Response is : ");
-            //console.log(arr);
             Highcharts.chart('container_query', {
                 chart: {
                     type: 'column',
@@ -379,14 +370,11 @@
                 linkdata.push(clickedlinkdata[item]);
             }
             finaldata.push(linkdata.slice(2, 3));
-            console.log(finaldata);
             for (var i = 0; i < finaldata.length; i++) {
                 for (var j = 0; j <= i; j++) {
-                    console.log(finaldata[i][j]);
                     arr.push(finaldata[i][j]);
                 }
             }
-            console.log(arr);
             Highcharts.chart('goalconversion', {
                 chart: {
                     type: 'column',

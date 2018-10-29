@@ -380,18 +380,23 @@ namespace Syra.Admin.Controllers
         {
             if(model!=null)
             {
-                var userStore = new UserStore<ApplicationUser>(db);
-                var manager = new UserManager<ApplicationUser>(userStore);
+                _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+                _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                var useremail = HttpContext.User.Identity.Name;
+                var aspnetuser = _userManager.FindByEmailAsync(useremail).Result;
 
-                var user = new ApplicationUser { UserName = model.Email };
-                var existingUser = UserManager.FindByEmail(model.Email);
+                //var userStore = new UserStore<ApplicationUser>(db);
+                //var manager = new UserManager<ApplicationUser>(userStore);
+
+                //var user = new ApplicationUser { UserName = aspnetuser.Email };
+                //var existingUser = UserManager.FindByEmail(model.Email);
                 //if(existingUser==null || !(UserManager.IsEmailConfirmed(existingUser.Id)))
                 //{
                 //    response.Message = "Email not found";
                 //}
-                string resetToken = UserManager.GeneratePasswordResetToken(existingUser.Id);
+                string resetToken = UserManager.GeneratePasswordResetToken(aspnetuser.Id);
                 model.Code = resetToken;
-                var result = UserManager.ResetPassword(existingUser.Id, model.Code, model.Password);
+                var result = UserManager.ResetPassword(aspnetuser.Id, model.Code, model.Password);
                 if(result.Succeeded)
                 {
                     response.IsSuccess = true;

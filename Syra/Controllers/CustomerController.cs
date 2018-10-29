@@ -701,7 +701,6 @@ namespace Syra.Admin.Controllers
             SyraDbContext db = new SyraDbContext();
             var ipdetails = new GetIPAddress();
             var geolocatoin = new GeoLocation();
-            //var query = new Lontitude();
             _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var useremail = HttpContext.User.Identity.Name;
@@ -994,7 +993,6 @@ namespace Syra.Admin.Controllers
             return response.GetResponse();
         }
 
-
         [HttpPost]
         public string GetMyBots(int pagesize=10, int pageno=0)
         {
@@ -1135,6 +1133,24 @@ namespace Syra.Admin.Controllers
         }
 
         [HttpPost]
+        public string UpdateCustomerPlan(CustomerPlan CustomerPlan)
+        {
+            try
+            {
+                var customerplan = db.CustomerPlans.FirstOrDefault(c => c.CustomerId == CustomerPlan.CustomerId);
+                if(customerplan!=null)
+                {
+                   
+                }
+            }
+            catch
+            {
+
+            }
+            return response.GetResponse();
+        }
+
+        [HttpPost]
         public string Delete(Int64 Id)
         {
             try
@@ -1154,6 +1170,29 @@ namespace Syra.Admin.Controllers
                 response.IsSuccess = false;
                 response.Message = "Unable to delete record";
                 return response.GetResponse(); 
+            }
+        }
+
+        [HttpPost]
+        public string BotDeploymentDelete(Int64 Id)
+        {
+            try
+            {
+                var botdeployment = db.CustomerPlans.FirstOrDefault(c=>c.CustomerId==Id);
+                if (botdeployment != null)
+                {
+                    db.CustomerPlans.Remove(botdeployment);
+                    db.SaveChanges();
+                    response.IsSuccess = true;
+                    response.Message = "Record deleted successfully";
+                }
+                return response.GetResponse();
+            }
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                response.Message = "Unable to delete record";
+                return response.GetResponse();
             }
         }
 

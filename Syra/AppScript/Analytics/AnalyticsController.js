@@ -467,7 +467,12 @@
                     type: 'pie'
                 },
                 title: {
-                    text: 'Bot response analysis'
+                    text: 'Bot response analysis',
+                    style: {
+                        color: '#8d3052',
+                        fontWeight: 'bold',
+                        fontSize: '24px'
+                    }
                 },
                 tooltip: {
                     pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -489,12 +494,6 @@
                     name: 'Brands',
                     colorByPoint: true,
                     data: [
-                        //{
-                        //name: 'Chrome',
-                        //y: 61.41,
-                        //sliced: true,
-                        //selected: true
-                        //},
                         {
                             name: 'Successfull Response',
                             y: ((response.Data.RightAnswers * 100) / response.Data.TotalQuestions),

@@ -7,13 +7,6 @@
             </a>
         </span>
     </h3>
-    <!--<h3>My BotDomains</h3>
-    <span class="pull-right">
-        <a ui-sref="newluisdomain" style="height: 33px;border: 0px;font-size:15px;background-color: transparent;">
-            Create New
-        </a>
-    </span>-->
-    <!--<p><a ui-sref="newluisdomain" style="height: 33px;border: 0px;font-size:15px;background-color: transparent;">Create New</a> </p>-->
     <table class="table">
         <thead>
             <tr>
@@ -32,8 +25,8 @@
                 <td style="text-align:center">{{luis.Category}}</td>
                 <td style="text-align:center">{{luis.LuisAppId}}</td>
                 <td style="text-align:center">{{luis.LuisAppKey}}</td>
-                <td style="text-align:center">
-                    <a href="/#/alldata/{{luis.Id}}" class="btn btn-default">
+                <td style="text-align:center;width:250px;">
+                    <a href="/#/luisdomain/{{luis.Id}}" class="btn btn-default">
                         Edit
                     </a>
                     <a class="btn btn-danger" ng-click="Delete(luis.Id)">

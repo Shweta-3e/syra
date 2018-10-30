@@ -35,46 +35,7 @@
         $scope.GetBotReply = function () {
             var startdate = $scope.fromdate;
             var enddate = $scope.todate;
-            
-            //var url = "/Customer/GetAnalytics";
-            //var userqueryurl = "/Customer/UserQuery";
-            //var clickedlinkurl = "/Customer/GetClickedLink";
             var botreplyurl = "/Customer/BotReply";
-            //var timeurl = "/Customer/LowPeakTime";
-            //var usadataurl = "/Customer/GetUSAAnalytics";
-
-            //$http.post(usadataurl, { startdt: startdate, enddt: enddate }).success(function (response) {
-            //    if (response != null) {
-            //        $scope.GetUsaMap(response);
-            //    } else {
-            //        alert("Something went wrong");
-            //    }
-            //});
-
-            //$http.post(url, { startdt: startdate, enddt: enddate }).success(function (response) {
-            //    if (response != null) {
-            //        $scope.GetWorldAnalysis(response);
-            //    } else {
-            //        alert("Something went wrong");
-            //    }
-            //});
-
-            //$http.post(clickedlinkurl, { startdt: startdate, enddt: enddate }).success(function (response) {
-            //    if (response != null) {
-            //        $scope.GetClickedLink(response);
-            //    } else {
-            //        alert("Something went wrong");
-            //    }
-            //});
-
-            //$http.post(userqueryurl, { startdt: startdate, enddt: enddate }).success(function (response) {
-            //    if (response != null) {
-            //        $scope.GetUserQuery(response);
-            //    } else {
-            //        alert("Something went wrong");
-            //    }
-            //});
-
             $http.post(botreplyurl, { startdt: startdate, enddt: enddate }).success(function (response) {
                 if (response != null) {
                     $scope.BotResponse(response);
@@ -134,12 +95,15 @@
 
         //functions to call api
         $scope.GetWorldAnalysis = function (worlddata) {
-            var data = worlddata.Data;
+            var data = worlddata.Data._data;
+            $scope.WorldResult = worlddata.Data.WorldResult;
+            $scope.WorldResponse = worlddata.Data.AllResponse;
             $('#container').highcharts('Map', {
                 chart: {
                     map: 'custom/world',
                     borderWidth: 1,
-                    width: 1000
+                    width: 1000,
+                    height:700
                 },
                 title: {
                     text: 'World Analysis',
@@ -182,7 +146,7 @@
                     name: 'Separators',
                     type: 'mapline',
                     data: Highcharts.geojson(Highcharts.maps['custom/world'], 'mapline'),
-                    color: '#6d5a59',
+                    color: '#1c2638',
                     showInLegend: false,
                     enableMouseTracking: false
                 }]
@@ -256,6 +220,7 @@
         $scope.GetUserQuery = function (userquerydata) {
             $scope.UserQueries = userquerydata.Data.AllResponse;
             var data = userquerydata.Data.firstTenArrivals;
+            $scope.ResultData = userquerydata.Data;
             Highcharts.chart('container_query', {
                 chart: {
                     type: 'column',
@@ -483,8 +448,17 @@
                 row.BotAnswers1 = $sce.trustAsHtml(row.BotAnswers);
             });
         };
-        $scope.ShowQuery = function () {
+
+        $scope.ShowQuery = function (query) {
+            $scope.ResultQuery = query;
             angular.forEach($scope.UserQueries, function (query) {
+                query.BotAnswers1 = $sce.trustAsHtml(query.BotAnswers);
+            });
+        };
+
+        $scope.ShowWorldData = function (region) {
+            $scope.CountryRegion = region;
+            angular.forEach($scope.WorldResponse, function (query) {
                 query.BotAnswers1 = $sce.trustAsHtml(query.BotAnswers);
             });
         };

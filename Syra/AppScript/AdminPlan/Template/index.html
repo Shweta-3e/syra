@@ -1,0 +1,39 @@
+﻿<div class="container">
+    <h3>
+        My Plans <span class="badge"></span>
+        <span class="pull-right">
+            <a ui-sref="newplancreate" style="height: 33px;border: 0px;font-size:15px;background-color: transparent;">
+                Create New
+            </a>
+        </span>
+    </h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th style="text-align:center">Name</th>
+                <th style="text-align:center">Types</th>
+                <th style="text-align:center">Monthly Charged</th>
+                <th style="text-align:center">Setup Fees</th>
+                <th style="text-align:center">Site Specification</th>
+                <th style="text-align:center">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="plan in Plans">
+                <td style="text-align:center">{{plan.Name}}</td>
+                <td style="text-align:center">{{plan.Types}}</td>
+                <td style="text-align:center">{{plan.MonthlyCharge}}</td>
+                <td style="text-align:center">{{plan.SetupFees}}</td>
+                <td style="text-align:center">{{plan.SiteSpecification}}</td>
+                <td style="text-align:center">
+                    <a href="/#/adminplan/{{plan.Id}}" class="btn btn-default">
+                        <b>Edit</b>
+                    </a>
+                    <a class="btn btn-danger" ng-click="Delete(plan.Id)">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

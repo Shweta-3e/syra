@@ -1,0 +1,98 @@
+﻿@model Syra.Admin.Entities.BotDeployment
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>BotDeployment</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CustomerId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CustomerId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LuisId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LuisId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeploymentDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeploymentDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ResourceGroupName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ResourceGroupName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BlobStorageName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BlobStorageName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.WebSiteUrl)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.WebSiteUrl)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeleteDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeleteDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsDeleted)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsDeleted)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IsPlanActive)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IsPlanActive)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeploymentScript)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeploymentScript)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,39 @@
+﻿<div class="container">
+    <h3>
+        My BotDomains <span class="badge"></span>
+        <span class="pull-right">
+            <a ui-sref="newluisdomain" style="height: 33px;border: 0px;font-size:15px;background-color: transparent;">
+                Create New
+            </a>
+        </span>
+    </h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th style="text-align:center">Name</th>
+                <th style="text-align:center">Details</th>
+                <th style="text-align:center">Category</th>
+                <th style="text-align:center">LuisApp Id</th>
+                <th style="text-align:center">LuisApp Key</th>
+                <th style="text-align:center">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="luis in luisdomain">
+                <td style="text-align:center">{{luis.Name}}</td>
+                <td style="text-align:center">{{luis.Details}}</td>
+                <td style="text-align:center">{{luis.Category}}</td>
+                <td style="text-align:center">{{luis.LuisAppId}}</td>
+                <td style="text-align:center">{{luis.LuisAppKey}}</td>
+                <td style="text-align:center;width:250px;">
+                    <a href="/#/luisdomain/{{luis.Id}}" class="btn btn-default">
+                        Edit
+                    </a>
+                    <a class="btn btn-danger" ng-click="Delete(luis.Id)">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

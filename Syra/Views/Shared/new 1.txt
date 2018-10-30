@@ -1,0 +1,49 @@
+https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/136e3019-5e1e-487e-a086-d1541f89c47b?subscription-key=e6d3d39c8364452baec720946d038b6f&timezoneOffset=-360&q=
+
+
+We will write an application 
+using c#. net , SignalR, EF
+
+1) Web application - We job -
+	This api will be called from Javascript - using signalR mechanism
+	After receiving request from Client --> API will call Luis api and Based on intent/entities, prepare response for client
+	Using signalR, send response to the respsctive client only
+	On clinet side - when Server push message - Display that in chat bot window
+	
+	
+
+	
+	Lets consider this scene
+	
+	1 Santosh - Tax related bot with standard available response
+	2 Partha - Tax related bot i need my response as per my requirement
+	3 Shweta - Tax related bot with your standard response with few more additional responses
+	4 Agamoni - Tax related bot with your standard response with some q&A to be not answered 
+	
+	HasAdditionalResponse = false 
+	
+	A - A
+	B - B
+//  C - C -- 20000
+	
+	10 = 20000*10 = custom
+	
+	
+	1 A - A
+	1 B - B 
+	1 C - C
+	
+	Very first - all standard insert into mapped table for that customer 
+	
+	2 A - AB  -- ParentId
+	2 B - Based -- ParentId
+	2 D -DDD     -- NULL
+	2 C -- C   ---ParentId -  DontUse 
+	
+	
+	
+	
+	
+	
+	
+	

@@ -1,0 +1,194 @@
+﻿@model Syra.Admin.Entities.Plan
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Plan</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Types)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Types)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MonthlyCharge)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MonthlyCharge)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SetupFees)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SetupFees)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Contract)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Contract)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SiteSpecification)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SiteSpecification)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.KnowledgeDomain)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KnowledgeDomain)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.InitialTraining)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.InitialTraining)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AdvanceTraining)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AdvanceTraining)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TextQuery)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TextQuery)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PagesScrapping)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PagesScrapping)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Entities)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Entities)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Intent)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Intent)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LogRetainingDay)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LogRetainingDay)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Analyticsplan)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Analyticsplan)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmbedWidget)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmbedWidget)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FBWidget)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FBWidget)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SlackWidget)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SlackWidget)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SkypeWidget)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SkypeWidget)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TelegramWidget)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TelegramWidget)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.KikWidget)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.KikWidget)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SupportAvailability)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SupportAvailability)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

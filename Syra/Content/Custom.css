@@ -1,0 +1,27 @@
+﻿/*body {
+    background-color:white
+}*/
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+    color: white !important;
+    background-color: #8d3052 !important;
+    border: 1px solid #16eded;
+}
+
+.text-align-center{
+    text-align:center
+}
+.errormessage { font-size: 16px; }
+
+div.fusion-header.fusion-sticky-shadow{
+     height: 126px !important;
+     position:fixed !important
+}
+
+.required:after {
+     content:" *";
+     color: red;
+}
+
+
+

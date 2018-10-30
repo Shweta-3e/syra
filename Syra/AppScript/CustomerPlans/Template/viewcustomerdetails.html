@@ -1,0 +1,832 @@
+﻿<div class="container" ng-hide="IsEditMode">
+    <ul class="nav nav-tabs">
+        <li class="active" ng-class="{'active': isActiveTab(1)}">
+            <a role="tab" data-toggle="tab" ng-click="tab=1">Customer Profile</a>
+        </li>
+        <li ng-class="{'active': isActiveTab(2)}"><a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(2)}" ng-click="tab=2">Bot Deployments</a></li>
+        
+        <li class="active" ng-class="{'active': isActiveTab(3)}">
+            <a role="tab" data-toggle="tab" ng-click="tab=3">Plan Details</a>
+        </li>
+    </ul>
+
+    <div class="tab-content" style="padding-top:10px">
+
+        <div ng-show="isActiveTab(1)" ng-class="tab==1?'tab-pane fade in active':'tab-pane fade in'">
+            <form class="form-horizontal" style="padding-top:10px">
+                <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtName">Name</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="txtName" ng-model="Customer.Name">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtEmail">Email</label>
+                        <div class="col-sm-6">
+                            <input type="email" class="form-control" id="txtEmail" ng-model="Customer.Email" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtJobTitle">Job Title</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="txtJobTitle" ng-model="Customer.JobTitle">
+                        </div>
+                    </div>
+                </div>
+
+                <!--<div class="row" style="padding-top:10px">
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="txtPricingPlan">Pricing Plan</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control" ng-model="Customer.PricingPlan" id="txtPricingPlan">
+                    </div>
+                </div>
+            </div>-->
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtBusinessRequirement">Business Requirements</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" ng-model="Customer.BusinessRequirement" id="txtBusinessRequirement">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtAddress1">Address 1</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" ng-model="Customer.Address1" id="txtAddress1">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtAddress2">Address 2</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" ng-model="Customer.Address2" id="txtAddress2">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtAddress3">Address 3</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" ng-model="Customer.Address3" id="txtAddress3">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtCity">City</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" ng-model="Customer.City" id="txtCity">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtCountry">Country</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" ng-model="Customer.Country" id="txtCountry">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtZipCode">ZipCode</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" ng-model="Customer.ZipCode" id="txtZipCode">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="button" class="btn btn-primary" value="Update" ng-click="Update()"
+                                   style="border-radius:5px;height:39px;width:150px;font-weight:bold" />
+
+                            <input type="button" class="btn btn-danger" value="Cancel"
+                                   style="border-radius:5px;height:39px;width:150px;font-weight:bold;"
+                                   ng-click="Cancel()" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div ng-show="isActiveTab(2)" ng-class="tab==2?'tab-pane fade in active':'tab-pane fade in'">
+            <table class="table" ng-hide="BotDetail">
+                <thead>
+                    <tr>
+                        <th class="text-align-center">Sr.no</th>
+                        <th class="text-align-center">Name</th>
+                        <th class="text-align-center">Luis Domain Name</th>
+                        <th class="text-align-center">Deployment Date</th>
+                        <th class="text-align-center">Status</th>
+                        <th class="text-align-center">Plan Active</th>
+                        <th class="text-align-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="chatbot in Customer.BotDeployments">
+                        <td class="text-align-center"><span>{{($index+1)}}</span></td>
+                        <td class="text-align-center">{{chatbot.Name}}</td>
+                        <td class="text-align-center">{{chatbot.LuisDomainName}}</td>
+                        <td class="text-align-center">{{chatbot.DeploymentDate | date:'dd/MM/yy'}}</td>
+                        <td class="text-align-center">
+                            <span ng-show="chatbot.Status == 0">In Progress</span>
+                            <span ng-show="chatbot.Status == 1">Success</span>
+                            <span ng-show="chatbot.Status == 2">Failed</span>
+                        </td>
+                        <td class="text-align-center">
+                            <span ng-show="chatbot.IsPlanActive == true">Active</span>
+                            <span ng-show="chatbot.IsPlanActive == false">Inactive</span>
+                        </td>
+                        <td class="text-align-center">
+                            <a ng-click="EditChatbot(chatbot.Id)" class="btn btn-default">
+                                Edit
+                            </a>
+                            <a class="btn btn-primary" ng-click="ViewBotDetails(chatbot)">
+                                View Details
+                            </a>
+                            <a class="btn btn-danger" ng-click="Delete(chatbot.Id)">
+                                Delete
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div ng-show="BotDetail">
+                <h4>Bot Deployment Details</h4>
+
+                <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" style="font-weight:normal">Deployment Date</label>
+                        <div class="col-sm-10">
+                            {{BotDeployment.DeploymentDate | date:'dd/MM/yyyy'}}
+                            <!--<input type="text" class="form-control" id="txtCompanyName" ng-model="BotDeployment.CompanyName">-->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" style="font-weight:normal" for="txtBotSecret">Bot Secret</label>
+                        <div class="col-sm-10">
+                            {{BotDeployment.BotSecret}}
+                            <!--<input type="text" class="form-control" id="txtCompanyName" ng-model="BotDeployment.CompanyName" required>-->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" style="font-weight:normal" for="txtBotURI">Bot URI</label>
+                        <div class="col-sm-10">
+                            {{BotDeployment.BotURI}}
+                            <!--<input type="text" class="form-control" id="txtCompanyName" ng-model="BotDeployment.CompanyName" required>-->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" style="font-weight:normal" for="txtWebSiteURI">WebSite URI</label>
+                        <div class="col-sm-10">
+                            {{BotDeployment.WebSiteURI}}
+                            <!--<input type="text" class="form-control" id="txtCompanyName" ng-model="BotDeployment.CompanyName" required>-->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" style="font-weight:normal" for="txtDomainName">Domain Name</label>
+                        <div class="col-sm-10">
+                            {{BotDeployment.DomainName}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" style="font-weight:normal" for="txtClientId">Client Id</label>
+                        <div class="col-sm-10">
+                            {{BotDeployment.T_BotClientId}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" style="font-weight:normal" for="txtEmbeddedScript">Embedded Script</label>
+                        <div class="input-group col-sm-8">
+                            <input type="text" class="form-control" id="txtEmbeddedScript" ng-model="BotDeployment.EmbeddedScript" readonly />
+                            <div class="input-group-addon">
+                                <a ng-click="CopyToClipBoard()">Copy</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="button" class="btn btn-default" value="Cancel"
+                                   style="border-radius:5px;height:39px;width:150px;font-weight:bold;background-color: gainsboro;"
+                                   ng-click="BotDetail=false" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div ng-show="isActiveTab(3)" ng-class="tab==3?'tab-pane fade in active':'tab-pane fade in'">
+            <form class="form-horizontal" style="padding-top:10px">
+                <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtName">Plan Name</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="txtName" ng-model="CustomerPlan.Name" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtMonthlyCharge">Monthly Charge</label>
+                        <div class="col-sm-6">
+                            <input type="email" class="form-control" id="txtMonthlyCharge" ng-model="CustomerPlan.MonthlyCharge" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtSetupFees">Setup Fees</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" id="txtSetupFees" ng-model="CustomerPlan.SetupFees" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtContract">Contract</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" ng-model="CustomerPlan.Contract" id="txtContract" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtSiteSpecification">Site Specification</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" ng-model="CustomerPlan.SiteSpecification" id="txtSiteSpecification" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtKnowledgeDomain">Knowledge Domain</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" ng-model="CustomerPlan.KnowledgeDomain" id="txtKnowledgeDomain" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtInitialTraining">Initial Training</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" ng-model="CustomerPlan.InitialTraining" id="txtInitialTraining" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtAdvanceTraining">Advance Training</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" ng-model="CustomerPlan.AdvanceTraining" id="txtAdvanceTraining" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtTextQuery">Text Query</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" ng-model="CustomerPlan.TextQuery" id="txtTextQuery" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtPagesScrapping">Pages Srapping</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" ng-model="CustomerPlan.PagesScrapping" id="txtPagesScrapping" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtEntities">Entities</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" ng-model="CustomerPlan.Entities" id="txtEntities" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtIntent">Intent</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" ng-model="CustomerPlan.Intent" id="txtIntent" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtLogRetainingDay">Log Retaining Day</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" ng-model="CustomerPlan.LogRetainingDay" id="txtLogRetainingDay" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtAnalyticsplan">Analyticsplan</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" ng-model="CustomerPlan.Analyticsplan" id="txtAnalyticsplan" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtEmbedWidget">Embed Code for Websites</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" ng-model="CustomerPlan.EmbedWidget" id="txtEmbedWidget" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtFBWidget">Facebook Messenger Bot</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" ng-model="CustomerPlan.FBWidget" id="txtFBWidget" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtSlackWidget">Slack Bot</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" ng-model="CustomerPlan.SlackWidget" id="txtSlackWidget" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtSkypeWidget">Skype Bot</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" ng-model="CustomerPlan.SkypeWidget" id="txtSkypeWidget" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtTelegramWidget">Telegram Bot</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" ng-model="CustomerPlan.TelegramWidget" id="txtTelegramWidget" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtKikWidget">Kik Bot</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" ng-model="CustomerPlan.KikWidget" id="txtKikWidget" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtSupportAvailability">Support Availability</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" ng-model="CustomerPlan.SupportAvailability" id="txtSupportAvailability" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <label class="control-label col-sm-2" for="txtAllowedBotLimit">Allowed Bot Limit</label>
+                        <div class="col-sm-6">
+                            <input type="text" class="form-control" ng-model="CustomerPlan.AllowedBotLimit" id="txtAllowedBotLimit" disabled>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" style="padding-top:10px">
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <!--<input type="button" class="btn btn-primary" value="Update" ng-click="Update()"
+                                   style="border-radius:5px;height:39px;width:150px;font-weight:bold" />-->
+
+                            <input type="button" class="btn btn-danger" value="Cancel"
+                                   style="border-radius:5px;height:39px;width:150px;font-weight:bold;"
+                                   ng-click="Cancel()" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="Container" ng-show="IsEditMode">
+    <ul class="nav nav-tabs">
+        <li class="active" ng-class="{'active': isActiveChatTab(1)}">
+            <a role="tab" data-toggle="tab" ng-click="Chattab=1">Company Details</a>
+        </li>
+        <li ng-class="{'active': isActiveChatTab(2)}"><a role="tab" data-toggle="tab" ng-class="{active:isActiveChatTab(2)}" ng-click="Chattab=2">Chatbot Details</a></li>
+        <li ng-class="{'active': isActiveChatTab(3)}"><a role="tab" data-toggle="tab" ng-class="{active:isActiveChatTab(3)}" ng-click="Chattab=3">Quations and Answers for Chatbots</a></li>
+        <li ng-class="{'active': isActiveChatTab(4)}"><a role="tab" data-toggle="tab" ng-class="{active:isActiveChatTab(4)}" ng-click="Chattab=4">Goal Defination</a></li>
+        <li ng-class="{'active': isActiveChatTab(5)}"><a role="tab" data-toggle="tab" ng-class="{active:isActiveChatTab(5)}" ng-click="Chattab=5">Blob Details</a></li>
+    </ul>
+
+    <div class="tab-content" style="padding-top:10px">
+        <div ng-show="isActiveChatTab(1)" ng-class="Chattab==1?'tab-pane fade in active':'tab-pane fade in'">
+            <div class="row">
+                <div class="form-group">
+                    <label class="control-label col-sm-2 mandatory required" style="font-weight:normal" for="txtCompanyName">Company Name</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="txtCompanyName" ng-model="BotDeployment.CompanyName" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="padding-top:10px">
+                <div class="form-group">
+                    <label class="control-label col-sm-2 mandatory required" for="txtWebsite" style="font-weight:normal">Website</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="txtWebsite" ng-model="BotDeployment.Website" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="padding-top:10px">
+                <div class="form-group">
+                    <label class="control-label col-sm-2 mandatory required" for="txtFacebookPage" style="font-weight:normal">Facebook Page</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="txtFacebookPage" ng-model="BotDeployment.FacebookPage" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="padding-top:10px">
+                <div class="form-group">
+                    <label class="control-label col-sm-2 mandatory required" for="txtContactPage" style="font-weight:normal">Contact Page</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="txtContactPage" ng-model="BotDeployment.ContactPage" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="padding-top:10px">
+                <div class="form-group">
+                    <label class="control-label col-sm-2 mandatory required" for="txtContactNo" style="font-weight:normal">Phone No</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="txtContactNo" ng-model="BotDeployment.ContactNo" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="padding-top:10px">
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="button" class="btn btn-default" value="Cancel"
+                               style="border-radius:5px;height:39px;width:150px;font-weight:bold;background-color: gainsboro;"
+                               ng-click="IsEditMode=false" />
+                    </div>
+                </div>
+            </div>
+
+            <nav>
+                <ul class="pager">
+                    <li class="next">
+                        <a href="" ng-click="NextTab(Chattab)">Next<span aria-hidden="true">&rarr;</span></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <div ng-show="isActiveChatTab(2)" ng-class="Chattab==2?'tab-pane fade in active':'tab-pane fade in'">
+            <div class="row" style="padding-top:10px">
+                <div class="form-group">
+                    <label class="control-label col-sm-2 mandatory required" for="txtName" style="font-weight:normal">Chatbot Name</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="txtName" ng-model="BotDeployment.Name" required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="padding-top:10px">
+                <div class="form-group">
+                    <label class="control-label col-sm-2 mandatory required" for="txtPassword" style="font-weight:normal">Knowledge Domain</label>
+                    <div class="col-sm-6">
+                        <select class="custom-select"
+                                id="ddlLuis" ng-model="BotDeployment.LuisId">
+                            <option>Choose...</option>
+                            <option ng-repeat="domain in LuisDomains"
+                                    value="{{domain.Id}}" ng-selected="domain.Id== BotDeployment.LuisId">
+                                {{domain.Name}}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-sm-2" style="width:10%">
+                        Domain Key
+                    </div>
+                    <div class="col-sm-2">
+                        <input type="text" class="form-control " id="txtDomainKey" ng-model="BotDeployment.DomainKey" required />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="padding-top:10px">
+                <div class="form-group">
+                    <label class="control-label col-sm-2 mandatory required" for="txtWelcomeMessage" style="font-weight:normal">Introductory Message</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="txtWelcomeMessage" ng-model="BotDeployment.WelcomeMessage">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="padding-top:10px">
+                <div class="form-group">
+                    <label class="control-label col-sm-2 mandatory required" for="txtFirstMessage" style="font-weight:normal">First Message</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="txtFirstMessage" ng-model="BotDeployment.FirstMessage">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="padding-top:10px">
+                <div class="form-group">
+                    <label class="control-label col-sm-2 mandatory required" for="txtSecondMessage" style="font-weight:normal">Second Message</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="txtSecondMessage" ng-model="BotDeployment.SecondMessage">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="padding-top:10px">
+                <div class="form-group">
+                    <label class="control-label col-sm-2 mandatory required" for="txtBackGroundColor" style="font-weight:normal">Background Color</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="txtBackGroundColor" ng-model="BotDeployment.BackGroundColor">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="padding-top:10px">
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="button" class="btn btn-default" value="Cancel"
+                               style="border-radius:5px;height:39px;width:150px;font-weight:bold;background-color: gainsboro;"
+                               ng-click="IsEditMode=false" />
+                    </div>
+                </div>
+            </div>
+
+            <nav>
+                <ul class="pager">
+                    <li class="previous">
+                        <a href="" ng-click="PreviousTab(Chattab)"><span aria-hidden="true">&larr;</span> Previous</a>
+                    </li>
+                    <li class="next">
+                        <a href="" ng-click="NextTab(Chattab)">Next<span aria-hidden="true">&rarr;</span></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <div ng-show="isActiveChatTab(3)" ng-class="Chattab==3?'tab-pane fade in active':'tab-pane fade in'">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Question</th>
+                        <th>Answer</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <input type="text" ng-model="BotQuestionAnswer.Question" />
+                        </td>
+                        <td>
+                            <input type="text" ng-model="BotQuestionAnswer.Answer" />
+                        </td>
+                        <td>
+                            <a class="btn" ng-click="AddMore(BotQuestionAnswer)" ng-show="!BotQuestionAnswer.IsEditMode">
+                                Add
+                            </a>
+                            <a class="btn" ng-click="UpdateBotQuestionAnswer(BotQuestionAnswer)" ng-show="BotQuestionAnswer.IsEditMode">
+                                Update
+                            </a>
+                        </td>
+                    </tr>
+                    <tr ng-repeat="item in BotDeployment.BotQuestionAnswers">
+                        <td>{{item.Question}}</td>
+                        <td>{{item.Answer}}</td>
+                        <td>
+                            <a class="btn" ng-click="Edit(item)">
+                                Edit
+                            </a>
+
+                            <a class="btn" ng-click="Remove($index)">
+                                Remove
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="row" style="padding-top:10px">
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="button" class="btn btn-default" value="Cancel"
+                               style="border-radius:5px;height:39px;width:150px;font-weight:bold;background-color: gainsboro;"
+                               ng-click="IsEditMode=false" />
+                    </div>
+                </div>
+            </div>
+
+            <nav>
+                <ul class="pager">
+                    <li class="previous">
+                        <a href="" ng-click="PreviousTab(Chattab)"><span aria-hidden="true">&larr;</span> Previous</a>
+                    </li>
+                    <li class="next">
+                        <a href="" ng-click="NextTab(Chattab)">Next<span aria-hidden="true">&rarr;</span></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <div ng-show="isActiveChatTab(4)" ng-class="Chattab==4?'tab-pane fade in active':'tab-pane fade in'">
+            <div class="row" style="padding-top:10px">
+                <div class="form-group">
+                    <label class="control-label col-sm-2 mandatory required" for="txtChatBotSecret" style="font-weight:normal">Bot Secret</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="txtChatBotGoal" ng-model="BotDeployment.BotSecret">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="padding-top:10px">
+                <div class="form-group">
+                    <label class="control-label col-sm-2 mandatory required" for="txtBotURI" style="font-weight:normal">Bot URI</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="txtBotURI" ng-model="BotDeployment.BotURI">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="padding-top:10px">
+                <div class="form-group">
+                    <label class="control-label col-sm-2 mandatory required" for="txtWebSiteURI" style="font-weight:normal">WebSiteURI</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="txtWebSiteURI" ng-model="BotDeployment.WebSiteURI">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="padding-top:10px">
+                <div class="form-group">
+                    <label class="control-label col-sm-2 mandatory required" for="txtDomainName" style="font-weight:normal">Domain Name</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="txtDomainName" ng-model="BotDeployment.DomainName">
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="padding-top:10px">
+                <div class="form-group">
+                    <label class="control-label col-sm-2 mandatory required" for="txtChatBotGoal" style="font-weight:normal">Define the goal of Chatbot</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="txtChatBotGoal" ng-model="BotDeployment.ChatBotGoal">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="padding-top:10px">
+                <div class="form-group">
+                    <label class="control-label col-sm-2 mandatory required" for="txtStatus" style="font-weight:normal">Status</label>
+                    <label class="radio-inline">
+                        <input type="radio" name="optradio" ng-model="BotDeployment.Status" value="0" checked>In Progress
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="optradio" ng-model="BotDeployment.Status" value="1">Successful
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="optradio" ng-model="BotDeployment.Status" value="2">Failed
+                    </label>
+                </div>
+            </div>
+
+            <div class="row" style="padding-top:10px">
+                <div class="form-group">
+                    <label class="control-label col-sm-2 mandatory required" for="txtPlanActive" style="font-weight:normal">Is Plan Active</label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" ng-checked="BotDeployment.IsPlanActive=='True'" ng-true-value="'True'" ng-model="BotDeployment.IsPlanActive">Active
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" ng-checked="BotDeployment.IsPlanActive=='False'" ng-true-value="'False'" ng-model="BotDeployment.IsPlanActive">InActive
+                    </label>
+                </div>
+            </div>
+
+            <nav>
+                <ul class="pager">
+                    <li class="previous">
+                        <a href="" ng-click="PreviousTab(Chattab)"><span aria-hidden="true">&larr;</span> Previous</a>
+                    </li>
+                    <li class="next">
+                        <a href="" ng-click="NextTab(Chattab)">Next<span aria-hidden="true">&rarr;</span></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <div ng-show="isActiveChatTab(5)" ng-class="Chattab==5?'tab-pane fade in active':'tab-pane fade in'">
+            <div class="row" style="padding-top:10px">
+                <div class="form-group">
+                    <label class="control-label col-sm-2 mandatory required" for="txtBlobConnectionString" style="font-weight:normal">Blob ConnectionString</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="txtBlobConnectionString" ng-model="BotDeployment.BlobConnectionString">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="padding-top:10px">
+                <div class="form-group">
+                    <label class="control-label col-sm-2 mandatory required" for="txtContainerName" style="font-weight:normal">Blob Conatiner</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="txtContainerName" ng-model="BotDeployment.ContainerName">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="padding-top:10px">
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="button" class="btn btn-default" value="Save" ng-click="UpdateChatBot()"
+                               style="border-radius:5px;height:39px;width:150px;font-weight:bold;background-color: gainsboro;" />
+
+                        <input type="button" class="btn btn-default" value="Cancel"
+                               style="border-radius:5px;height:39px;width:150px;font-weight:bold;background-color: gainsboro;"
+                               ng-click="IsEditMode=false" />
+                    </div>
+                </div>
+            </div>
+
+            <nav>
+                <ul class="pager">
+                    <li class="previous">
+                        <a href="" ng-click="PreviousTab(Chattab)"><span aria-hidden="true">&larr;</span> Previous</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+

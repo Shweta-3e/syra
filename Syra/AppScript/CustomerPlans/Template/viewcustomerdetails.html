@@ -3,10 +3,11 @@
         <li class="active" ng-class="{'active': isActiveTab(1)}">
             <a role="tab" data-toggle="tab" ng-click="tab=1">Customer Profile</a>
         </li>
-        <li ng-class="{'active': isActiveTab(2)}"><a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(2)}" ng-click="tab=2">Bot Deployments</a></li>
-        
+        <li ng-class="{'active': isActiveTab(2)}">
+            <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(2)}" ng-click="tab=2">Bot Deployments</a>
+        </li>
         <li class="active" ng-class="{'active': isActiveTab(3)}">
-            <a role="tab" data-toggle="tab" ng-click="tab=3">Plan Details</a>
+            <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(3)}" ng-click="tab=3">Plan Details</a>
         </li>
     </ul>
 
@@ -39,15 +40,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!--<div class="row" style="padding-top:10px">
-                <div class="form-group">
-                    <label class="control-label col-sm-2" for="txtPricingPlan">Pricing Plan</label>
-                    <div class="col-sm-6">
-                        <input type="text" class="form-control" ng-model="Customer.PricingPlan" id="txtPricingPlan">
-                    </div>
-                </div>
-            </div>-->
 
                 <div class="row" style="padding-top:10px">
                     <div class="form-group">

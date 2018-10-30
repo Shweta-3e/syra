@@ -4,6 +4,7 @@
         <span class="pull-right">
         </span>
     </h3>
+    <!-- div for datetime picker-->
     <div class='input-group date' id='datetimepicker1' style="padding-bottom:50px; width:400px;">
 
         <md-datepicker ng-model="fromdate" md-placeholder="Start Date" md-min-date="minstartDate" md-max-date="maxstartDate" style="margin-right:20px"
@@ -11,39 +12,102 @@
 
         <md-datepicker ng-model="todate" md-placeholder="End Date" md-min-date="minendDate" md-max-date="maxendDate"
                        md-open-on-focus></md-datepicker>
-        <button class="btn btn-success" style="margin-left:25px;" ng-click="GetReportData()">Submit</button>
+        <!--<button class="btn btn-success" style="margin-left:25px;">Submit</button>-->
     </div>
-
-    <div>
-        <div>
-            <label class="control-label col-sm-3" for="txtMonthlyCharge">Total Questions Asked To Bot : <a ng-click="ShowQuestions()">{{BotReplyData.TotalQuestions}}</a></label>
-            <label class="control-label col-sm-3" for="txtMonthlyCharge">Bot replied successfully : <a ng-click="ShowQuestions(false)">{{BotReplyData.RightAnswers}}</a> </label>
-            <label class="control-label col-sm-3" for="txtMonthlyCharge">Bot failed to reply : <a ng-click="ShowQuestions(true)">{{BotReplyData.WrongAnswers}}</a></label>
-        </div>
-        <div id="botreply" style="min-width: 100px; height:500px; max-height:100%; margin: 0 auto;margin-top:40px;"></div>
-        <table ng-hide="LogView" datatable="ng" dt-options="vm.dtOptions" dt-columns="vm.dtColumns" class="table table-responsive table-bordered table-striped" style="margin-top:30px;">
-            <!--<tr>
-             <th class="text-align-center" style="width:150px">Log Date</th>
-             <th class="text-align-center">Session Id</th>
-             <th class="text-align-center">IP Address</th>
-             <th class="text-align-center">Region</th>
-             <th class="text-align-center">User Query</th>
-             <th class="text-align-center">Bot Answer</th>
-        </tr>-->
-            <tbody>
-                <tr ng-repeat="row in BotReplyData.AllQuestions" ng-if="row.IsWrongAnswer==ReportType">
-                    <td class="text-align-center" style="width:150px">{{row.LogDate}}</td>
-                    <td class="text-align-center" style="width:250px">{{row.SessionId}}</td>
-                    <td class="text-align-center" style="width:100px">{{row.Region}}</td>
-                    <td class="text-align-center" style="width:150px">{{row.IPAddress}}</td>
-                    <td class="text-align-center" style="width:100px">{{row.UserQuery}}</td>
-                    <td class="text-align-center" ng-bind-html="row.BotAnswers1"></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div id="container_query" style="min-width: 100px; height: 500px; margin: 0 auto;margin-top:70px;"></div>
-    <div id="goalconversion" style="min-width: 100px; height: 500px; margin: 0 auto;margin-top:30px;"></div>
-    <div id="container" style="max-width: 1000px;margin-top:30px;height: 500px;"></div>
-    <div id="usa-container" style="min-width: 100px; height: 500px; margin: 0 auto;margin-top:30px;"></div>
 </div>
+<div class="container" ng-hide="IsEditMode">
+    <ul class="nav nav-tabs">
+        <li class="active" ng-class="{'active': isActiveTab(1)}" ng-click="GetBotReply()">
+            <a role="tab" data-toggle="tab" ng-click="tab=1">Bot Response Analysis</a>
+        </li>
+        <li class="active" ng-class="{'active': isActiveTab(2)}" ng-click="GetQuestionsAsked()">
+            <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(2)}" ng-click="tab=2">Most Common Questions Asked</a>
+        </li>
+        <li class="active" ng-class="{'active': isActiveTab(3)}" ng-click="GetLinks()">
+            <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(3)}" ng-click="tab=3">Goal Conversions</a>
+        </li>
+        <li class="active" ng-class="{'active': isActiveTab(4)}" ng-click="GetWorld()">
+            <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(4)}" ng-click="tab=4">World Based Analysis</a>
+        </li>
+        <li class="active" ng-class="{'active': isActiveTab(5)}" ng-click="GetUSAAnalysis()">
+            <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(5)}" ng-click="tab=5">USA Based Analysis</a>
+        </li>
+    </ul>
+    
+    <div class="tab-content" style="padding-top:10px">
+        <div ng-show="isActiveTab(1)" ng-class="tab==1?'tab-pane fade in active':'tab-pane fade in'">
+            <div>
+                <div>
+                    <label class="control-label col-sm-3" for="txtMonthlyCharge">Total Questions Asked To Bot : <a ng-click="ShowQuestions()">{{BotReplyData.TotalQuestions}}</a></label>
+                    <label class="control-label col-sm-3" for="txtMonthlyCharge">Bot replied successfully : <a ng-click="ShowQuestions(false)">{{BotReplyData.RightAnswers}}</a> </label>
+                    <label class="control-label col-sm-3" for="txtMonthlyCharge">Bot failed to reply : <a ng-click="ShowQuestions(true)">{{BotReplyData.WrongAnswers}}</a></label>
+                </div>
+                <div id="botreply" style="min-width: 100px; height:500px; max-height:100%; margin: 0 auto;margin-top:40px;"></div>
+                <table ng-hide="LogView" datatable="ng" dt-options="vm.dtOptions" dt-columns="vm.dtColumns" class="table table-responsive table-bordered table-striped" style="margin-top:30px;">
+                    <tr>
+                        <th class="text-align-center" style="width:150px">Log Date</th>
+                        <th class="text-align-center">Session Id</th>
+                        <th class="text-align-center">IP Address</th>
+                        <th class="text-align-center">Region</th>
+                        <th class="text-align-center">User Query</th>
+                        <th class="text-align-center">Bot Answer</th>
+                    </tr>
+                    <tbody>
+                        <tr ng-repeat="row in BotReplyData.AllQuestions" ng-if="row.IsWrongAnswer==ReportType">
+                            <td class="text-align-center" style="width:150px">{{row.LogDate}}</td>
+                            <td class="text-align-center" style="width:250px">{{row.SessionId}}</td>
+                            <td class="text-align-center" style="width:100px">{{row.Region}}</td>
+                            <td class="text-align-center" style="width:150px">{{row.IPAddress}}</td>
+                            <td class="text-align-center" style="width:100px">{{row.UserQuery}}</td>
+                            <td class="text-align-center" ng-bind-html="row.BotAnswers1"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div ng-show="isActiveTab(2)" ng-class="tab==2?'tab-pane fade in active':'tab-pane fade in'">
+            <div>
+                <div>
+                    <label class="control-label col-sm-3" for="txtMonthlyCharge"><a ng-click="ShowQuery()">{{"Questions Asked To Bot "}}</a></label>
+                </div>
+            </div>
+            <div id="container_query" style="min-width: 100px; height: 500px; margin: 0 auto;margin-top:70px;"></div>
+            <table ng-hide="LogView" datatable="ng" dt-options="vm.dtOptions" dt-columns="vm.dtColumns" class="table table-responsive table-bordered table-striped" style="margin-top:30px;">
+                <thead>
+                    <tr>
+                        <th class="text-align-center" style="width:250px">Log Date</th>
+                        <th class="text-align-center">Session Id</th>
+                        <th class="text-align-center">IP Address</th>
+                        <th class="text-align-center">Region</th>
+                        <th class="text-align-center">User Query</th>
+                        <th class="text-align-center">Bot Answer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="query in UserQueries">
+                        <td class="text-align-center" style="width:150px">{{query.LogDate}}</td>
+                        <td class="text-align-center" style="width:250px">{{query.SessionId}}</td>
+                        <td class="text-align-center" style="width:150px">{{query.IPAddress}}</td>
+                        <td class="text-align-center" style="width:100px">{{query.Region}}</td>
+                        <td class="text-align-center" style="width:100px">{{query.UserQuery}}</td>
+                        <td class="text-align-center" ng-bind-html="query.BotAnswers1"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div ng-show="isActiveTab(3)" ng-class="tab==3?'tab-pane fade in active':'tab-pane fade in'">
+            <div id="goalconversion" style="min-width: 100px; height: 500px; margin: 0 auto;margin-top:30px;"></div>
+        </div>
+
+        <div ng-show="isActiveTab(4)" ng-class="tab==4?'tab-pane fade in active':'tab-pane fade in'">
+            <div id="container" style="max-width: 1000px;margin-top:30px;height: 500px;"></div>
+        </div>
+
+        <div ng-show="isActiveTab(5)" ng-class="tab==5?'tab-pane fade in active':'tab-pane fade in'">
+            <div id="usa-container" style="min-width: 100px; height: 500px; margin: 0 auto;margin-top:30px;"></div>
+        </div>
+
+    </div>
+    </div>

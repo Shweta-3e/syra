@@ -481,8 +481,30 @@ namespace Syra.Admin.Controllers
                 {
                     arraylist.Add(new ArrayList { y.Name.UserQuery, y.Count });
                 }
+                var result = (from c in logs
+                              group c by new { c.UserQuery} into g
+                              select new
+                              {
+                                  g.Key.UserQuery,
+                                  Total=g.Count()
+                              });
                 var firstTenArrivals = arraylist.Take(10);
-                response.Data = firstTenArrivals;
+                var allresponse = (from c in logs
+                                   group c by new { c.UserQuery,c.LogDate,c.IPAddress,c.SessionId,c.BotAnswers,c.Region } into g
+                                   select new
+                                   {
+                                       g.Key.LogDate,
+                                       g.Key.SessionId,
+                                       g.Key.IPAddress,
+                                       g.Key.Region,
+                                       g.Key.UserQuery,
+                                       g.Key.BotAnswers
+                                   });
+                response.Data = new {
+                    firstTenArrivals,
+                    Result=result.OrderByDescending(c=>c.Total).Take(10),
+                    AllResponse = allresponse
+                };
                 
             }
             return response.GetResponse();

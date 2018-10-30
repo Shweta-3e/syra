@@ -4,6 +4,9 @@
         $scope.fromdate = new Date();
         $scope.todate = new Date();
 
+        $scope.IsEditMode = false;
+        $scope.tab = 1;
+
         $scope.minstartDate = new Date(
             $scope.fromdate.getFullYear(),
             $scope.fromdate.getMonth() - 2,
@@ -24,49 +27,53 @@
             $scope.todate.getMonth(),
             $scope.todate.getDate());
 
-        $scope.GetReportData = function () {
-            
+        $scope.isActiveTab = function (tab) {
+            return $scope.tab == tab;
+        };
+
+        //functions to call active tabs
+        $scope.GetBotReply = function () {
             var startdate = $scope.fromdate;
             var enddate = $scope.todate;
             
-            var url = "/Customer/GetAnalytics";
-            var userqueryurl = "/Customer/UserQuery";
-            var clickedlinkurl = "/Customer/GetClickedLink";
+            //var url = "/Customer/GetAnalytics";
+            //var userqueryurl = "/Customer/UserQuery";
+            //var clickedlinkurl = "/Customer/GetClickedLink";
             var botreplyurl = "/Customer/BotReply";
-            var timeurl = "/Customer/LowPeakTime";
-            var usadataurl = "/Customer/GetUSAAnalytics";
+            //var timeurl = "/Customer/LowPeakTime";
+            //var usadataurl = "/Customer/GetUSAAnalytics";
 
-            $http.post(usadataurl, { startdt: startdate, enddt: enddate }).success(function (response) {
-                if (response != null) {
-                    $scope.GetUsaMap(response);
-                } else {
-                    alert("Something went wrong");
-                }
-            });
+            //$http.post(usadataurl, { startdt: startdate, enddt: enddate }).success(function (response) {
+            //    if (response != null) {
+            //        $scope.GetUsaMap(response);
+            //    } else {
+            //        alert("Something went wrong");
+            //    }
+            //});
 
-            $http.post(url, { startdt: startdate, enddt: enddate }).success(function (response) {
-                if (response != null) {
-                    $scope.GetWorldAnalysis(response);
-                } else {
-                    alert("Something went wrong");
-                }
-            });
+            //$http.post(url, { startdt: startdate, enddt: enddate }).success(function (response) {
+            //    if (response != null) {
+            //        $scope.GetWorldAnalysis(response);
+            //    } else {
+            //        alert("Something went wrong");
+            //    }
+            //});
 
-            $http.post(clickedlinkurl, { startdt: startdate, enddt: enddate }).success(function (response) {
-                if (response != null) {
-                    $scope.GetClickedLink(response);
-                } else {
-                    alert("Something went wrong");
-                }
-            });
+            //$http.post(clickedlinkurl, { startdt: startdate, enddt: enddate }).success(function (response) {
+            //    if (response != null) {
+            //        $scope.GetClickedLink(response);
+            //    } else {
+            //        alert("Something went wrong");
+            //    }
+            //});
 
-            $http.post(userqueryurl, { startdt: startdate, enddt: enddate }).success(function (response) {
-                if (response != null) {
-                    $scope.GetUserQuery(response);
-                } else {
-                    alert("Something went wrong");
-                }
-            });
+            //$http.post(userqueryurl, { startdt: startdate, enddt: enddate }).success(function (response) {
+            //    if (response != null) {
+            //        $scope.GetUserQuery(response);
+            //    } else {
+            //        alert("Something went wrong");
+            //    }
+            //});
 
             $http.post(botreplyurl, { startdt: startdate, enddt: enddate }).success(function (response) {
                 if (response != null) {
@@ -75,17 +82,57 @@
                     alert("Something went wrong");
                 }
             });
-
-            //$http.post(timeurl, { }).success(function (response) {
-            //    //console.log("Response is : "+ response);
-            //    if (response != null) {
-            //        $scope.TimeChart();
-            //    } else {
-            //        alert("Something went wrong");
-            //    }
-            //});
+        };
+        $scope.GetQuestionsAsked = function () {
+            var startdate = $scope.fromdate;
+            var enddate = $scope.todate;
+            var userqueryurl = "/Customer/UserQuery";
+            $http.post(userqueryurl, { startdt: startdate, enddt: enddate }).success(function (response) {
+                if (response != null) {
+                    $scope.GetUserQuery(response);
+                } else {
+                    alert("Something went wrong");
+                }
+            });
+        };
+        $scope.GetLinks = function () {
+            var startdate = $scope.fromdate;
+            var enddate = $scope.todate;
+            var clickedlinkurl = "/Customer/GetClickedLink";
+            $http.post(clickedlinkurl, { startdt: startdate, enddt: enddate }).success(function (response) {
+                if (response != null) {
+                    $scope.GetClickedLink(response);
+                } else {
+                    alert("Something went wrong");
+                }
+            });
+        };
+        $scope.GetUSAAnalysis = function () {
+            var startdate = $scope.fromdate;
+            var enddate = $scope.todate;
+            var usadataurl = "/Customer/GetUSAAnalytics";
+            $http.post(usadataurl, { startdt: startdate, enddt: enddate }).success(function (response) {
+                if (response != null) {
+                    $scope.GetUsaMap(response);
+                } else {
+                    alert("Something went wrong");
+                }
+            });
+        };
+        $scope.GetWorld = function () {
+            var startdate = $scope.fromdate;
+            var enddate = $scope.todate;
+            var url = "/Customer/GetAnalytics";
+            $http.post(url, { startdt: startdate, enddt: enddate }).success(function (response) {
+                if (response != null) {
+                    $scope.GetWorldAnalysis(response);
+                } else {
+                    alert("Something went wrong");
+                }
+            });
         };
 
+        //functions to call api
         $scope.GetWorldAnalysis = function (worlddata) {
             var data = worlddata.Data;
             $('#container').highcharts('Map', {
@@ -95,7 +142,7 @@
                     width: 1000
                 },
                 title: {
-                    text: 'World Based Analysis',
+                    text: 'World Analysis',
                     style: {
                         color: '#8d3052',
                         fontWeight: 'bold',
@@ -141,9 +188,9 @@
                 }]
             });
         };
-
         $scope.GetUsaMap = function (usadata) {
-            var data = usadata.Data;
+            var data = usadata.Data,
+                separators = Highcharts.geojson(Highcharts.maps['countries/us/us-all'], 'mapline')
             $('#usa-container').highcharts('Map', {
                     chart: {
                         map: 'countries/us/us-all',
@@ -151,7 +198,7 @@
                         width: 1000
                     },
                     title: {
-                        text: 'USA Based Analysis',
+                        text: 'USA Analysis',
                         style: {
                             color: '#8d3052',
                             fontWeight: 'bold',
@@ -186,7 +233,17 @@
                             enabled: true,
                             format: '{point.name}'
                         }
-                    }, {
+                    },
+                    {
+                        type: 'mapline',
+                        data: separators,
+                        color: 'silver',
+                        enableMouseTracking: false,
+                        animation: {
+                            duration: 500
+                        }
+                    },
+                    {
                         name: 'Separators',
                         type: 'mapline',
                         data: Highcharts.geojson(Highcharts.maps['countries/us/us-all'], 'mapline'),
@@ -196,21 +253,9 @@
                     }]
             });
         };
-
         $scope.GetUserQuery = function (userquerydata) {
-            var linkdata = [];
-            var finaldata = [];
-            var arr = [];
-            
-            for (var item in userquerydata) {
-                linkdata.push(userquerydata[item]);
-            }
-            finaldata.push(linkdata.slice(2, 3));
-            for (var i = 0; i < finaldata.length; i++) {
-                for (var j = 0; j <= i; j++) {
-                    arr.push(finaldata[i][j]);
-                }
-            }
+            $scope.UserQueries = userquerydata.Data.AllResponse;
+            var data = userquerydata.Data.firstTenArrivals;
             Highcharts.chart('container_query', {
                 chart: {
                     type: 'column',
@@ -218,7 +263,7 @@
                     width: 1000
                 },
                 title: {
-                    text: 'Most Common Questions Asked',
+                    text: 'Questions Analysis',
                     style: {
                         color: '#8d3052',
                         fontWeight: 'bold',
@@ -271,7 +316,7 @@
                 },
                 series: [{
                     name: 'Population',
-                    data: arr[0],
+                    data: data,
                     color: '#4195f4',
                     dataLabels: {
                         enabled: true,
@@ -288,82 +333,6 @@
                 }]
             });
         };
-
-        $scope.TimeChart = function () {
-            $.getJSON('/AppScript/Analytics/Template/Epochtime.json', function (data) {
-                    Highcharts.chart('time_container', {
-                        chart: {
-                            zoomType: 'x',
-                            borderWidth: 1,
-                            width: 1000,
-                        },
-                        title: {
-                            text: 'Peak and Low Time',
-                            style: {
-                                color: '#8d3052',
-                                fontWeight: 'bold',
-                                fontSize: '24px'
-                            }
-                        },
-                        xAxis: {
-                            type: 'datetime',
-                            title: {
-                                text: 'Dates for Query',
-                                style: {
-                                    color: '#3c1414',
-                                    fontWeight: 'bold',
-                                    fontSize: '16px'
-                                }
-                            },
-                        },
-                        yAxis: {
-                            title: {
-                                text: 'Count of questions asked',
-                                style: {
-                                    color: '#3c1414',
-                                    fontWeight: 'bold',
-                                    fontSize: '16px'
-                                }
-                            }
-                        },
-                        legend: {
-                            enabled: false
-                        },
-                        plotOptions: {
-                            area: {
-                                fillColor: {
-                                    linearGradient: {
-                                        x1: 0,
-                                        y1: 0,
-                                        x2: 0,
-                                        y2: 1
-                                    },
-                                    stops: [
-                                        [0, Highcharts.getOptions().colors[0]],
-                                        [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-                                    ]
-                                },
-                                marker: {
-                                    radius: 2
-                                },
-                                lineWidth: 1,
-                                states: {
-                                    hover: {
-                                        lineWidth: 1
-                                    }
-                                },
-                                threshold: null
-                            }
-                        },
-                        series: [{
-                            type: 'area',
-                            data: data
-                        }]
-                    });
-                }
-            );
-        };
-
         $scope.GetClickedLink = function (clickedlinkdata) {
             var linkdata = [];
             var finaldata = [];
@@ -384,7 +353,7 @@
                     width: 1000
                 },
                 title: {
-                    text: 'Goal Conversions',
+                    text: 'Clicked Links',
                     style: {
                         color: '#8d3052',
                         fontWeight: 'bold',
@@ -454,7 +423,6 @@
                 }]
             });
         };
-
         $scope.BotResponse = function (response) {
 
             $scope.BotReplyData = response.Data;
@@ -467,7 +435,7 @@
                     type: 'pie'
                 },
                 title: {
-                    text: 'Bot response analysis',
+                    text: 'Bot Response',
                     style: {
                         color: '#8d3052',
                         fontWeight: 'bold',
@@ -513,6 +481,11 @@
             var questions = $scope.BotReplyData.AllQuestions;
             angular.forEach($scope.BotReplyData.AllQuestions, function (row) {
                 row.BotAnswers1 = $sce.trustAsHtml(row.BotAnswers);
+            });
+        };
+        $scope.ShowQuery = function () {
+            angular.forEach($scope.UserQueries, function (query) {
+                query.BotAnswers1 = $sce.trustAsHtml(query.BotAnswers);
             });
         };
     }]);

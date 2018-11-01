@@ -96,14 +96,13 @@
         //functions to call api
         $scope.GetWorldAnalysis = function (worlddata) {
             var data = worlddata.Data._data;
-            $scope.WorldResult = worlddata.Data.WorldResult;
-            $scope.WorldResponse = worlddata.Data.AllResponse;
+            var country = "";
             $('#container').highcharts('Map', {
                 chart: {
                     map: 'custom/world',
                     borderWidth: 1,
                     width: 1000,
-                    height:700
+                    height:600
                 },
                 title: {
                     text: 'World Analysis',
@@ -126,6 +125,50 @@
                     minColor: '#8c0c09',
                     maxColor: '#11e056',
                     
+                },
+                plotOptions: {
+                    series: {
+                        pointWidth: 30,
+                        cursor: 'pointer',
+                        point: {
+                            events: {
+                                click: function (e) {
+                                    var tablerow = "<tbody>";
+                                    var usa = " of America";
+                                    //console.log(worlddata.Data.AllResponse);
+                                    for (var i = 0; i < worlddata.Data.AllResponse.length; i++) {
+                                        if (worlddata.Data.AllResponse[i].Country == "United States") {
+                                            country = worlddata.Data.AllResponse[i].Country + usa;
+                                        }
+                                        else {
+                                            country = worlddata.Data.AllResponse[i].Country;
+                                        }
+                                        if (country == e.point.name) {
+                                            tablerow += "<tr>" + "<td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + worlddata.Data.AllResponse[i].LogDate + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + worlddata.Data.AllResponse[i].SessionId + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + worlddata.Data.AllResponse[i].IPAddress + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + worlddata.Data.AllResponse[i].Region + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + worlddata.Data.AllResponse[i].UserQuery + "</td><td class='text-align-left' style='width:400px;border-left:solid 1px #adbbd1;border-right:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + worlddata.Data.AllResponse[i].BotAnswers + "</td>" + "</tr>";
+                                        }
+                                    }
+                                    tablerow += "</tbody>";
+                                    //console.log(tablerow)
+                                    var tabledata = "<br><br><table dt-options='vm.dtOptions' dt-columns='vm.dtColumns' class='table table-responsive table - bordered table - striped' data-pagination='true'><thead>" + "<tr style='border-top: solid 1px #adbbd1;'>" +
+                                        "<th class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1'>Log Date</th>" +
+                                        "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>Session Id</th>" +
+                                        "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>Region</th>" +
+                                        "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>IP Address</th>" +
+                                        "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>User Query</th>" +
+                                        "<th class='text-align-center'style='width:400px;border-left:solid 1px #adbbd1;border-right:solid 1px #adbbd1'>Bot Answer</th></tr></thead>" +
+                                        tablerow + "</table>";
+                                    var table = tabledata;
+                                    var worldTable = document.getElementById("worldTable");
+                                    worldTable.innerHTML = table;
+
+                                }
+                            }
+                        }
+                    },
+                    column: {
+                        pointPadding: 0,
+                        borderWidth: 0
+                    }
                 },
                 series: [{
                     data: data,
@@ -218,9 +261,12 @@
             });
         };
         $scope.GetUserQuery = function (userquerydata) {
-            $scope.UserQueries = userquerydata.Data.AllResponse;
-            var data = userquerydata.Data.firstTenArrivals;
-            $scope.ResultData = userquerydata.Data;
+            var data = userquerydata.Data.firstTenArrivals,
+                category = [];
+            for (var item = 0; item < data.length; item++) {
+                for (query = 0; query < 1; query++)
+                    category.push(data[item][query]);
+            }
             Highcharts.chart('container_query', {
                 chart: {
                     type: 'column',
@@ -237,6 +283,7 @@
                 },
                 xAxis: {
                     type: 'category',
+                    categories: category,
                     title: {
                         text: 'Questions asked',
                         style: {
@@ -272,7 +319,33 @@
                 },
                 plotOptions: {
                     series: {
-                        pointWidth: 30
+                        pointWidth: 30,
+                        cursor: 'pointer',
+                        point: {
+                            events: {
+                                click: function () {
+                                    var tabelrow = "<tbody>";
+                                    for (var i = 0; i < userquerydata.Data.AllResponse.length; i++) {
+                                        if (userquerydata.Data.AllResponse[i].UserQuery == this.category) {
+                                            tabelrow += "<tr>" + "<td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + userquerydata.Data.AllResponse[i].LogDate + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + userquerydata.Data.AllResponse[i].SessionId + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + userquerydata.Data.AllResponse[i].IPAddress + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + userquerydata.Data.AllResponse[i].Region + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + userquerydata.Data.AllResponse[i].UserQuery + "</td><td class='text-align-left' style='width:400px;border-left:solid 1px #adbbd1;border-right:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + userquerydata.Data.AllResponse[i].BotAnswers + "</td>" + "</tr>";
+                                        }
+                                    }
+                                    tabelrow += "</tbody>";
+                                    console.log(tabelrow);
+                                    var tabeldata = "<br><br><table dt-options='vm.dtOptions' dt-columns='vm.dtColumns' class='table table-responsive table - bordered table - striped' data-pagination='true'><thead>" + "<tr style='border-top: solid 1px #adbbd1;'>" +
+                                        "<th class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1'>Log Date</th>" +
+                                        "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>Session Id</th>" +
+                                        "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>IP Address</th>" +
+                                        "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>Region</th>" +
+                                        "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>User Query</th>" +
+                                        "<th class='text-align-center'style='width:400px;border-left:solid 1px #adbbd1;border-right:solid 1px #adbbd1'>Bot Answer</th></tr></thead>" +
+                                        tabelrow +"</table>";
+                                    var tabel = tabeldata;
+                                    var dvTable = document.getElementById("dvTable");
+                                    dvTable.innerHTML = tabel;
+                                }
+                            }
+                        }
                     },
                     column: {
                         pointPadding: 0,
@@ -446,20 +519,6 @@
             var questions = $scope.BotReplyData.AllQuestions;
             angular.forEach($scope.BotReplyData.AllQuestions, function (row) {
                 row.BotAnswers1 = $sce.trustAsHtml(row.BotAnswers);
-            });
-        };
-
-        $scope.ShowQuery = function (query) {
-            $scope.ResultQuery = query;
-            angular.forEach($scope.UserQueries, function (query) {
-                query.BotAnswers1 = $sce.trustAsHtml(query.BotAnswers);
-            });
-        };
-
-        $scope.ShowWorldData = function (region) {
-            $scope.CountryRegion = region;
-            angular.forEach($scope.WorldResponse, function (query) {
-                query.BotAnswers1 = $sce.trustAsHtml(query.BotAnswers);
             });
         };
     }]);

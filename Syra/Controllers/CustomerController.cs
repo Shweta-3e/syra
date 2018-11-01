@@ -472,7 +472,6 @@ namespace Syra.Admin.Controllers
                             }
                         }
                         response.IsSuccess = true;
-                        response.Data = logs;
                     }
                 }
                 var dupUserQuery = countries.GroupBy(x => new { x.UserQuery }).Select(group => new { Name = group.Key, Count = group.Count() })
@@ -486,7 +485,7 @@ namespace Syra.Admin.Controllers
                               select new
                               {
                                   g.Key.UserQuery,
-                                  Total=g.Count()
+                                  Total =g.Count()
                               });
                 var firstTenArrivals = arraylist.Take(10);
                 var allresponse = (from c in logs
@@ -781,18 +780,20 @@ namespace Syra.Admin.Controllers
                                     log.LogTime = splitedword[6];
                                     string tempdate = log.LogDate + log.LogTime;
                                     string dt = Convert.ToDateTime(startdt).ToString("dd-MM-yyyy");
-                                    logs.Add(new SessionLog { SessionId = splitedword[0], IPAddress = splitedword[1], Region = splitedword[2], UserQuery = splitedword[3], BotAnswers = splitedword[4], LogDate = tempdate });
+                                    
                                     if (log.Region == " Virginia ")
                                     {
                                         string jsondeatil = GetUsaCode(log.IPAddress);
                                         geolocatoin = JsonConvert.DeserializeObject<GeoLocation>(jsondeatil);
                                         countries.Add(new Longtitude { Countries = geolocatoin.Region });
+                                        logs.Add(new SessionLog { SessionId = splitedword[0], IPAddress = splitedword[1], Region = splitedword[2], UserQuery = splitedword[3], BotAnswers = splitedword[4], LogDate = tempdate,Country= geolocatoin .Country});
                                     }
                                     else
                                     {
                                         string jsonresponse = GetIPDetails(log.IPAddress);
                                         ipdetails = JsonConvert.DeserializeObject<GetIPAddress>(jsonresponse);
                                         countries.Add(new Longtitude { Countries = ipdetails.countryCode });
+                                        logs.Add(new SessionLog { SessionId = splitedword[0], IPAddress = splitedword[1], Region = splitedword[2], UserQuery = splitedword[3], BotAnswers = splitedword[4], LogDate = tempdate,Country= ipdetails .country});
                                     }
                                 }
                             }
@@ -837,10 +838,10 @@ namespace Syra.Admin.Controllers
                     }
                 }
                 var worldresult= (from c in logs
-                                  group c by new { c.Region } into g
+                                  group c by new { c.IPAddress } into g
                                   select new
                                   {
-                                      g.Key.Region,
+                                      Region=g.Key.IPAddress,
                                       Total = g.Count(),
                                   });
 

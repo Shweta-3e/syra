@@ -20,6 +20,7 @@ namespace Syra.Admin.Entities
         public string BotAnswers { get; set; }
         public bool IsWrongAnswer { get; set; }
         public string LogDate { get; set; }
+        public string Country { get; set; }
         public DateTime Log_Date { get; set; }
         public string LogTime { get; set; }
     }

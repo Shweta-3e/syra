@@ -7,7 +7,7 @@
 
         $scope.minstartDate = new Date(
             $scope.myDate.getFullYear(),
-            $scope.myDate.getMonth() - 1,
+            $scope.myDate.getMonth() - 3,
             $scope.myDate.getDate());
 
         $scope.maxstartDate = new Date(
@@ -17,7 +17,7 @@
 
         $scope.minendDate = new Date(
             $scope.myDate.getFullYear(),
-            $scope.myDate.getMonth() - 1,
+            $scope.myDate.getMonth() - 3,
             $scope.myDate.getDate());
 
         $scope.maxendDate = new Date(

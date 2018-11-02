@@ -40,12 +40,12 @@
         <div ng-show="isActiveTab(1)" ng-class="tab==1?'tab-pane fade in active':'tab-pane fade in'">
             <div>
                 <div>
-                    <label class="control-label col-sm-3" for="txtMonthlyCharge" style="font-family:'Times New Roman', Times, serif; font-size:large;">Total questions asked to Bot : <a ng-click="ShowQuestions()">{{BotReplyData.TotalQuestions}}</a></label>
+                    <label class="control-label col-sm-4" for="txtMonthlyCharge" style="font-family:'Times New Roman', Times, serif; font-size:large;">Total questions asked to Bot : <a ng-click="ShowQuestions()">{{BotReplyData.TotalQuestions}}</a></label>
                     <label class="control-label col-sm-3" for="txtMonthlyCharge" style="font-family:'Times New Roman', Times, serif; font-size:large;">Bot replied successfully : <a ng-click="ShowQuestions(false)">{{BotReplyData.RightAnswers}}</a> </label>
                     <label class="control-label col-sm-3" for="txtMonthlyCharge" style="font-family:'Times New Roman', Times, serif; font-size:large;">Bot failed to reply : <a ng-click="ShowQuestions(true)">{{BotReplyData.WrongAnswers}}</a></label>
                 </div>
-                <div id="botreply" style="min-width: 100px; height:500px; max-height:100%; margin: 0 auto;margin-top:40px;"></div>
-                <table ng-hide="LogView" datatable="ng" dt-options="vm.dtOptions" dt-columns="vm.dtColumns" class="table table-responsive table-bordered table-striped" style="margin-top:30px;">
+                <div id="botreply" style="min-width: 100px; height:500px; margin: 0 auto;margin-top:40px;"></div>
+                <table ng-hide="LogView" datatable="ng" dt-options="vm.dtOptions" dt-columns="vm.dtColumns" class="table table-responsive table-bordered table-striped" style="margin-top:60px;">
                     <tr>
                         <th class="text-align-center" style="width:150px">Log Date</th>
                         <th class="text-align-center">Session Id</th>
@@ -70,9 +70,6 @@
 
         <div ng-show="isActiveTab(2)" ng-class="tab==2?'tab-pane fade in active':'tab-pane fade in'">
             <div>
-                <!--<div ng-repeat="querydata in ResultData.result" >
-                    <label class="control-label col-sm-5" for="txtMonthlyCharge">{{querydata.UserQuery}} : <a ng-click="ShowQuery(querydata.UserQuery)">{{querydata.Total}}</a></label>
-                </div>-->
                 <div id="container_query" style="min-width: 100px; height: 100%; margin: 0 auto;margin-top:70px;"></div>
                 <div id="dvTable">
                 </div>
@@ -81,6 +78,8 @@
 
         <div ng-show="isActiveTab(3)" ng-class="tab==3?'tab-pane fade in active':'tab-pane fade in'">
             <div id="goalconversion" style="min-width: 100px; height: 500px; margin: 0 auto;margin-top:30px;"></div>
+            <div id="linkTable" style="padding-top:80px;">
+            </div>
         </div>
 
         <div ng-show="isActiveTab(4)" ng-class="tab==4?'tab-pane fade in active':'tab-pane fade in'">
@@ -88,13 +87,14 @@
                 <div id="container" style="max-width: 1000px;margin-top:30px;height: 100%;"></div>
                 <div id="worldTable">
                 </div>
-               
             </div>
             
         </div>
 
         <div ng-show="isActiveTab(5)" ng-class="tab==5?'tab-pane fade in active':'tab-pane fade in'">
             <div id="usa-container" style="min-width: 100px; height: 100%; margin: 0 auto;margin-top:30px;"></div>
+            <div id="usaTable">
+            </div>
         </div>
     </div>
     </div>

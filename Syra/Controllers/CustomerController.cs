@@ -480,13 +480,13 @@ namespace Syra.Admin.Controllers
                 {
                     arraylist.Add(new ArrayList { y.Name.UserQuery, y.Count });
                 }
-                var result = (from c in logs
-                              group c by new { c.UserQuery} into g
-                              select new
-                              {
-                                  g.Key.UserQuery,
-                                  Total =g.Count()
-                              });
+                //var result = (from c in logs
+                //              group c by new { c.UserQuery} into g
+                //              select new
+                //              {
+                //                  g.Key.UserQuery,
+                //                  Total =g.Count()
+                //              });
                 var firstTenArrivals = arraylist.Take(10);
                 var allresponse = (from c in logs
                                    group c by new { c.UserQuery, c.LogDate, c.IPAddress, c.SessionId, c.BotAnswers, c.Region } into g
@@ -501,8 +501,8 @@ namespace Syra.Admin.Controllers
                                    });
                 response.Data = new {
                     firstTenArrivals,
-                    AllResponse = allresponse,
-                    result = result.OrderByDescending(c => c.Total).Take(10)
+                    AllResponse = allresponse
+                    //result = result.OrderByDescending(c => c.Total).Take(10)
                 };
                 
             }
@@ -558,11 +558,13 @@ namespace Syra.Admin.Controllers
                                     var line = reader.ReadLine();
                                     string[] splitedword = line.Split('|');
                                     log.SessionId = splitedword[0];
+                                    log.Region = splitedword[1];
+                                    log.IPAddress = splitedword[2];
                                     log.ClickedLink = splitedword[3];
-                                    int index = log.ClickedLink.IndexOf(".com/");
-                                    int length = "./com".Length;
-                                    int substringindex = index + length;
-                                    log.ClickedLink = log.ClickedLink.Substring(substringindex);
+                                    log.LogDate = splitedword[4];
+                                    log.LogTime = splitedword[5];
+                                    string tempdate = log.LogDate + log.LogTime;
+                                    logs.Add(new SessionLog { SessionId=log.SessionId,Region=log.Region,IPAddress=log.IPAddress,ClickedLink=log.ClickedLink,LogDate=tempdate });
                                     countries.Add(new Longtitude { Links = log.ClickedLink, UserId = log.SessionId });
                                 }
                             }
@@ -574,7 +576,7 @@ namespace Syra.Admin.Controllers
                             
                         }
                         response.IsSuccess = true;
-                        response.Data = logs;
+                        //response.Data = logs;
                     }
                 }
                 var duplinks = countries.GroupBy(x => new { x.Links }).Select(group => new { Name = group.Key, Count = group.Count() })
@@ -583,8 +585,12 @@ namespace Syra.Admin.Controllers
                 {
                     arraylist.Add(new ArrayList { y.Name.Links, y.Count });
                 }
-                var firstFiveArrivals = arraylist.Take(10);
-                response.Data = firstFiveArrivals;
+                var firstTenArrivals = arraylist.Take(10);
+                response.Data = new
+                {
+                    firstTenArrivals,
+                    AllResponse=logs  
+                };
             }
             return response.GetResponse();
         }
@@ -660,8 +666,8 @@ namespace Syra.Admin.Controllers
                                     var line = reader.ReadLine();
                                     string[] splitedword = line.Split('|');
                                     log.SessionId = splitedword[0];
-                                    log.IPAddress = splitedword[1];
-                                    log.Region = splitedword[2];
+                                    log.IPAddress = splitedword[2];
+                                    log.Region = splitedword[1].TrimStart().TrimEnd();
                                     if (log.Region.Contains('.'))
                                     {
                                         string temp = log.IPAddress;
@@ -674,7 +680,7 @@ namespace Syra.Admin.Controllers
                                     log.LogTime = splitedword[6];
                                     string tempdate = log.LogDate + log.LogTime;
                                     string dt = Convert.ToDateTime(startdt).ToString("dd-MM-yyyy");
-                                    logs.Add(new SessionLog { SessionId = splitedword[0], IPAddress = splitedword[1], Region = splitedword[2], UserQuery = splitedword[3], BotAnswers = splitedword[4], LogDate = tempdate });
+                                    logs.Add(new SessionLog { SessionId = splitedword[0], IPAddress = splitedword[2], Region = log.Region, UserQuery = splitedword[3], BotAnswers = splitedword[4], LogDate = tempdate });
 
                                     string jsonresponse = GetIPDetails(log.IPAddress);
                                     ipdetails = JsonConvert.DeserializeObject<GetIPAddress>(jsonresponse);
@@ -705,7 +711,11 @@ namespace Syra.Admin.Controllers
                         value = item.Count
                     });
                 }
-                response.Data = usadata;
+                response.Data = new
+                {
+                    usadata,
+                    AllResponse = logs
+                };
             }
             return response.GetResponse();
         }

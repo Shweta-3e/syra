@@ -9,7 +9,7 @@
 
         $scope.minstartDate = new Date(
             $scope.fromdate.getFullYear(),
-            $scope.fromdate.getMonth() - 2,
+            $scope.fromdate.getMonth() - 3,
             $scope.fromdate.getDate());
 
         $scope.maxstartDate = new Date(
@@ -19,7 +19,7 @@
 
         $scope.minendDate = new Date(
             $scope.fromdate.getFullYear(),
-            $scope.fromdate.getMonth() - 2,
+            $scope.fromdate.getMonth() - 3,
             $scope.fromdate.getDate());
 
         $scope.maxendDate = new Date(
@@ -100,7 +100,6 @@
             $('#container').highcharts('Map', {
                 chart: {
                     map: 'custom/world',
-                    borderWidth: 1,
                     width: 1000,
                     height:600
                 },
@@ -195,14 +194,16 @@
                 }]
             });
         };
+
         $scope.GetUsaMap = function (usadata) {
-            var data = usadata.Data,
-                separators = Highcharts.geojson(Highcharts.maps['countries/us/us-all'], 'mapline')
-            $('#usa-container').highcharts('Map', {
+            var data = usadata.Data.usadata,
+                separators = Highcharts.geojson(Highcharts.maps['countries/us/us-all'], 'mapline'),
+                allresponse = usadata.Data.AllResponse;
+                $('#usa-container').highcharts('Map', {
                     chart: {
                         map: 'countries/us/us-all',
-                        borderWidth: 1,
-                        width: 1000
+                        width: 1000,
+                        height: 600
                     },
                     title: {
                         text: 'USA Analysis',
@@ -217,13 +218,50 @@
                         buttonOptions: {
                             verticalAlign: 'bottom'
                         }
-                     },
+                    },
                     colorAxis: {
                         min: 1,
                         max: 500,
                         type: 'logarithmic',
                         minColor: '#bf1515',
                         maxColor: '#4286f4',
+                    },
+                    plotOptions: {
+                        series: {
+                            pointWidth: 30,
+                            cursor: 'pointer',
+                            point: {
+                                events: {
+                                    click: function (e) {
+                                        var country = "";
+                                        var tablerow = "<tbody>";
+                                        for (var i = 0; i < usadata.Data.AllResponse.length; i++) {
+                                            console.log(usadata.Data.AllResponse[i].Region);
+                                            if (usadata.Data.AllResponse[i].Region == e.point.name) {
+                                                tablerow += "<tr>" + "<td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + usadata.Data.AllResponse[i].LogDate + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + usadata.Data.AllResponse[i].SessionId + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + usadata.Data.AllResponse[i].IPAddress + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + usadata.Data.AllResponse[i].Region + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + usadata.Data.AllResponse[i].UserQuery + "</td><td class='text-align-left' style='width:400px;border-left:solid 1px #adbbd1;border-right:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + usadata.Data.AllResponse[i].BotAnswers + "</td>" + "</tr>";
+                                            }
+                                        }
+                                        tablerow += "</tbody>";
+                                        console.log(tablerow)
+                                        var tabledata = "<br><br><table dt-options='vm.dtOptions' dt-columns='vm.dtColumns' class='table table-responsive table - bordered table - striped' data-pagination='true'><thead>" + "<tr style='border-top: solid 1px #adbbd1;'>" +
+                                            "<th class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1'>Log Date</th>" +
+                                            "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>Session Id</th>" +
+                                            "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>IP Address</th>" +
+                                            "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>Region</th>" +
+                                            "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>User Query</th>" +
+                                            "<th class='text-align-center'style='width:400px;border-left:solid 1px #adbbd1;border-right:solid 1px #adbbd1'>Bot Answer</th></tr></thead>" +
+                                            tablerow + "</table>";
+                                        var table = tabledata;
+                                        var usaTable = document.getElementById("usaTable");
+                                        usaTable.innerHTML = table;
+                                    }
+                                }
+                            }
+                        },
+                        column: {
+                            pointPadding: 0,
+                            borderWidth: 0
+                        }
                     },
                     series: [{
                         data: data,
@@ -258,20 +296,21 @@
                         showInLegend: false,
                         enableMouseTracking: false
                     }]
-            });
+                });
         };
+
         $scope.GetUserQuery = function (userquerydata) {
             var data = userquerydata.Data.firstTenArrivals,
                 category = [];
             for (var item = 0; item < data.length; item++) {
-                for (query = 0; query < 1; query++)
+                for (var query = 0; query < 1; query++)
                     category.push(data[item][query]);
             }
             Highcharts.chart('container_query', {
                 chart: {
                     type: 'column',
-                    borderWidth: 1,
-                    width: 1000
+                    width: 1000,
+                    height:600
                 },
                 title: {
                     text: 'Questions Analysis',
@@ -327,16 +366,16 @@
                                     var tabelrow = "<tbody>";
                                     for (var i = 0; i < userquerydata.Data.AllResponse.length; i++) {
                                         if (userquerydata.Data.AllResponse[i].UserQuery == this.category) {
-                                            tabelrow += "<tr>" + "<td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + userquerydata.Data.AllResponse[i].LogDate + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + userquerydata.Data.AllResponse[i].SessionId + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + userquerydata.Data.AllResponse[i].IPAddress + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + userquerydata.Data.AllResponse[i].Region + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + userquerydata.Data.AllResponse[i].UserQuery + "</td><td class='text-align-left' style='width:400px;border-left:solid 1px #adbbd1;border-right:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + userquerydata.Data.AllResponse[i].BotAnswers + "</td>" + "</tr>";
+                                            tabelrow += "<tr>" + "<td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + userquerydata.Data.AllResponse[i].LogDate + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + userquerydata.Data.AllResponse[i].SessionId + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + userquerydata.Data.AllResponse[i].IPAddress + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + userquerydata.Data.AllResponse[i].Region + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + userquerydata.Data.AllResponse[i].UserQuery + "</td><td class='text-align-left' style='width:650px;border-left:solid 1px #adbbd1;border-right:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + userquerydata.Data.AllResponse[i].BotAnswers + "</td>" + "</tr>";
                                         }
                                     }
                                     tabelrow += "</tbody>";
                                     console.log(tabelrow);
-                                    var tabeldata = "<br><br><table dt-options='vm.dtOptions' dt-columns='vm.dtColumns' class='table table-responsive table - bordered table - striped' data-pagination='true'><thead>" + "<tr style='border-top: solid 1px #adbbd1;'>" +
+                                    var tabeldata = "<br><br><table datatable='ng' dt-options='vm.dtOptions' dt-columns='vm.dtColumns' class='table table-responsive table - bordered table - striped' data-pagination='true'><thead>" + "<tr style='border-top: solid 1px #adbbd1;'>" +
                                         "<th class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1'>Log Date</th>" +
                                         "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>Session Id</th>" +
-                                        "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>IP Address</th>" +
                                         "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>Region</th>" +
+                                        "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>IP Address</th>" +
                                         "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>User Query</th>" +
                                         "<th class='text-align-center'style='width:400px;border-left:solid 1px #adbbd1;border-right:solid 1px #adbbd1'>Bot Answer</th></tr></thead>" +
                                         tabelrow +"</table>";
@@ -371,24 +410,20 @@
                 }]
             });
         };
+
         $scope.GetClickedLink = function (clickedlinkdata) {
-            var linkdata = [];
-            var finaldata = [];
-            var arr = [];
-            for (var item in clickedlinkdata) {
-                linkdata.push(clickedlinkdata[item]);
-            }
-            finaldata.push(linkdata.slice(2, 3));
-            for (var i = 0; i < finaldata.length; i++) {
-                for (var j = 0; j <= i; j++) {
-                    arr.push(finaldata[i][j]);
-                }
+            var data = clickedlinkdata.Data.firstTenArrivals,
+                category = [];
+            console.log(data);
+            for (var item = 0; item < data.length; item++) {
+                for (var link = 0; link < 1; link++)
+                    category.push(data[item][link]);
             }
             Highcharts.chart('goalconversion', {
                 chart: {
                     type: 'column',
-                    borderWidth: 1,
-                    width: 1000
+                    width: 1000,
+                    height:600
                 },
                 title: {
                     text: 'Clicked Links',
@@ -400,6 +435,7 @@
                 },
                 xAxis: {
                     type: 'category',
+                    categories: category,
                     title: {
                         text: 'Links Clicked',
                         style: {
@@ -435,7 +471,32 @@
                 },
                 plotOptions: {
                     series: {
-                        pointWidth: 30
+                        pointWidth: 30,
+                        cursor: 'pointer',
+                        point: {
+                            events: {
+                                click: function () {
+                                    var tablerow = "<tbody>";
+                                    for (var i = 0; i < clickedlinkdata.Data.AllResponse.length; i++) {
+                                        if (clickedlinkdata.Data.AllResponse[i].ClickedLink == this.category) {
+                                            tablerow += "<tr>" + "<td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + clickedlinkdata.Data.AllResponse[i].LogDate + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + clickedlinkdata.Data.AllResponse[i].SessionId + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + clickedlinkdata.Data.AllResponse[i].IPAddress + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + clickedlinkdata.Data.AllResponse[i].Region  +  "</td><td class='text-align-left' style='width:400px;border-left:solid 1px #adbbd1;border-right:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + clickedlinkdata.Data.AllResponse[i].ClickedLink + "</td>" + "</tr>";
+                                        }
+                                    }
+                                    tablerow += "</tbody>";
+                                    console.log(tablerow);
+                                    var tabledata = "<br><br><table dt-options='vm.dtOptions' dt-columns='vm.dtColumns' class='table table-responsive table - bordered table - striped' data-pagination='true'><thead>" + "<tr style='border-top: solid 1px #adbbd1;'>" +
+                                        "<th class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1'>Log Date</th>" +
+                                        "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>Session Id</th>" +
+                                        "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>IP Address</th>" +
+                                        "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>Region</th>" +
+                                        "<th class='text-align-center'style='width:400px;border-left:solid 1px #adbbd1;border-right:solid 1px #adbbd1'>Clicked Link</th></tr></thead>"+
+                                        tablerow + "</table>";
+                                    var table = tabledata;
+                                    var dvTable = document.getElementById("linkTable");
+                                    dvTable.innerHTML = table;
+                                }
+                            }
+                        }
                     },
                     column: {
                         pointPadding: 0,
@@ -444,7 +505,7 @@
                 },
                 series: [{
                     name: 'Population',
-                    data: arr[0],
+                    data: data,
                     color: '#f4a742',
                     dataLabels: {
                         enabled: true,
@@ -461,6 +522,7 @@
                 }]
             });
         };
+
         $scope.BotResponse = function (response) {
 
             $scope.BotReplyData = response.Data;

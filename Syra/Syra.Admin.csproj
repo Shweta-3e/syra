@@ -466,6 +466,7 @@
     <Content Include="syra_assets\78181eebe3e5741dbd62663ed6c8c6f0bbda84a4.js" />
     <Content Include="syra_assets\admin-ajax.php.html" />
     <Content Include="syra_assets\avada-style.min.css" />
+    <Content Include="syra_assets\circle-loading-animation.gif" />
     <Content Include="syra_assets\ColumnFilterWidgets.min.css" />
     <Content Include="syra_assets\comment-reply.min.js" />
     <Content Include="syra_assets\contact-form-styles.css" />
@@ -474,8 +475,10 @@
     <Content Include="syra_assets\default-calendar-grid.min.css" />
     <Content Include="syra_assets\default-calendar-list.min.css" />
     <Content Include="syra_assets\default-calendar.min.js" />
+    <Content Include="syra_assets\footer-logo.png" />
     <Content Include="syra_assets\front.min.css" />
     <Content Include="syra_assets\fusion-1293.css" />
+    <Content Include="syra_assets\hourglass.gif" />
     <Content Include="syra_assets\hustle_front.min.js" />
     <Content Include="syra_assets\imagesloaded.pkgd.min.js" />
     <Content Include="syra_assets\jquery-migrate.min.js" />
@@ -496,6 +499,7 @@
     <Content Include="syra_assets\wlwmanifest.xml" />
     <Content Include="syra_assets\wp-embed.min.js" />
     <Content Include="syra_assets\xmlrpc.xml" />
+    <Content Include="syra_assets\XVo6.gif" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

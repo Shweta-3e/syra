@@ -169,14 +169,13 @@ namespace Syra.Admin.Controllers
             }
             using (StreamWriter writer = new StreamWriter(file))
             {
-                //writer.Write(oldcontent);
                 writer.Write(json.ToString());
                 writer.Close();
             }
         }
   
         [HttpPost]
-        public string LowPeakTime()
+        public string LowPeakTime(DateTime startdt, DateTime enddt)
         {  
             SyraDbContext db = new SyraDbContext();
             List<ArrayList> arraylist = new List<ArrayList>();
@@ -203,8 +202,6 @@ namespace Syra.Admin.Controllers
                 ArrayList array=new ArrayList();
                 
                 bool blob_check = false;
-                DateTime startdt= DateTime.ParseExact("23-08-2018", "dd-MM-yyyy", null);
-                DateTime enddt = DateTime.ParseExact("23-12-2018", "dd-MM-yyyy", null);
                 try
                 {
                     for (DateTime date = startdt; date <= enddt; date = date.AddDays(1))
@@ -281,7 +278,10 @@ namespace Syra.Admin.Controllers
                 }
                 string json = JsonConvert.SerializeObject(arraylist);
                 //EpochTime(json);
-                response.Data = arraylist;
+                response.Data = new
+                {
+                    Epochtime=arraylist
+                };
                 response.IsSuccess = true;
             }
             return response.GetResponse();
@@ -347,6 +347,7 @@ namespace Syra.Admin.Controllers
                                     log.LogDate = splitedword[5];
                                     if (log.BotAnswers.Contains("Hmmm...I didn’t quite get that"))
                                     {
+                                        log.BotResponse = "Failed to Response/understand user question";
                                         log.IsWrongAnswer = true;
                                     }
                                     logs.Add(log);
@@ -398,6 +399,7 @@ namespace Syra.Admin.Controllers
         public string UserQuery(DateTime startdt, DateTime enddt)
         {
             List<ArrayList> arraylist = new List<ArrayList>();
+            List<ArrayList> alldata = new List<ArrayList>();
             List<ArrayList> anslist = new List<ArrayList>();
             List<SessionLog> logs = new List<SessionLog>();
             List<Longtitude> countries = new List<Longtitude>();
@@ -461,6 +463,7 @@ namespace Syra.Admin.Controllers
                                     string tempdate = log.LogDate + log.LogTime;
                                     string dt = Convert.ToDateTime(startdt).ToString("dd-MM-yyyy");
                                     logs.Add(new SessionLog { SessionId = splitedword[0], IPAddress = splitedword[1], Region = splitedword[2], UserQuery = splitedword[3], BotAnswers = splitedword[4], LogDate = tempdate });
+                                    alldata.Add(new ArrayList { splitedword[0], splitedword[1] , splitedword[2], splitedword[3], splitedword[4], tempdate });
 
                                     countries.Add(new Longtitude { UserQuery = log.UserQuery });
                                 }
@@ -480,13 +483,6 @@ namespace Syra.Admin.Controllers
                 {
                     arraylist.Add(new ArrayList { y.Name.UserQuery, y.Count });
                 }
-                //var result = (from c in logs
-                //              group c by new { c.UserQuery} into g
-                //              select new
-                //              {
-                //                  g.Key.UserQuery,
-                //                  Total =g.Count()
-                //              });
                 var firstTenArrivals = arraylist.Take(10);
                 var allresponse = (from c in logs
                                    group c by new { c.UserQuery, c.LogDate, c.IPAddress, c.SessionId, c.BotAnswers, c.Region } into g
@@ -502,7 +498,6 @@ namespace Syra.Admin.Controllers
                 response.Data = new {
                     firstTenArrivals,
                     AllResponse = allresponse
-                    //result = result.OrderByDescending(c => c.Total).Take(10)
                 };
                 
             }
@@ -731,7 +726,7 @@ namespace Syra.Admin.Controllers
             List<USALocation> _location = new List<USALocation>();
             SyraDbContext db = new SyraDbContext();
             var ipdetails = new GetIPAddress();
-            var geolocatoin = new GeoLocation();
+            var geolocation = new GeoLocation();
             _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var useremail = HttpContext.User.Identity.Name;
@@ -776,8 +771,8 @@ namespace Syra.Admin.Controllers
                                     var line = reader.ReadLine();
                                     string[] splitedword = line.Split('|');
                                     log.SessionId = splitedword[0];
-                                    log.IPAddress = splitedword[1];
-                                    log.Region = splitedword[2];
+                                    log.IPAddress = splitedword[2];
+                                    log.Region = splitedword[1];
                                     if (log.Region.Contains('.'))
                                     {
                                         string temp = log.IPAddress;
@@ -790,20 +785,20 @@ namespace Syra.Admin.Controllers
                                     log.LogTime = splitedword[6];
                                     string tempdate = log.LogDate + log.LogTime;
                                     string dt = Convert.ToDateTime(startdt).ToString("dd-MM-yyyy");
-                                    
+
                                     if (log.Region == " Virginia ")
                                     {
                                         string jsondeatil = GetUsaCode(log.IPAddress);
-                                        geolocatoin = JsonConvert.DeserializeObject<GeoLocation>(jsondeatil);
-                                        countries.Add(new Longtitude { Countries = geolocatoin.Region });
-                                        logs.Add(new SessionLog { SessionId = splitedword[0], IPAddress = splitedword[1], Region = splitedword[2], UserQuery = splitedword[3], BotAnswers = splitedword[4], LogDate = tempdate,Country= geolocatoin .Country});
+                                        geolocation = JsonConvert.DeserializeObject<GeoLocation>(jsondeatil);
+                                        countries.Add(new Longtitude { Countries = geolocation.Countrycode });
+                                        logs.Add(new SessionLog { SessionId = splitedword[0], IPAddress = splitedword[2], Region = splitedword[1], UserQuery = splitedword[3], BotAnswers = splitedword[4], LogDate = tempdate, Country = geolocation.Country });
                                     }
                                     else
                                     {
                                         string jsonresponse = GetIPDetails(log.IPAddress);
                                         ipdetails = JsonConvert.DeserializeObject<GetIPAddress>(jsonresponse);
                                         countries.Add(new Longtitude { Countries = ipdetails.countryCode });
-                                        logs.Add(new SessionLog { SessionId = splitedword[0], IPAddress = splitedword[1], Region = splitedword[2], UserQuery = splitedword[3], BotAnswers = splitedword[4], LogDate = tempdate,Country= ipdetails .country});
+                                        logs.Add(new SessionLog { SessionId = splitedword[0], IPAddress = splitedword[2], Region = splitedword[1], UserQuery = splitedword[3], BotAnswers = splitedword[4], LogDate = tempdate, Country = ipdetails.country });
                                     }
                                 }
                             }
@@ -848,10 +843,10 @@ namespace Syra.Admin.Controllers
                     }
                 }
                 var worldresult= (from c in logs
-                                  group c by new { c.IPAddress } into g
+                                  group c by new { c.Region } into g
                                   select new
                                   {
-                                      Region=g.Key.IPAddress,
+                                      Region=g.Key.Region,
                                       Total = g.Count(),
                                   });
 

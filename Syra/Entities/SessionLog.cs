@@ -10,6 +10,7 @@ namespace Syra.Admin.Entities
         public SessionLog()
         {
             IsWrongAnswer=false;
+            BotResponse = "Successful Response";
         }
 
         public string SessionId { get; set; }
@@ -21,6 +22,7 @@ namespace Syra.Admin.Entities
         public bool IsWrongAnswer { get; set; }
         public string LogDate { get; set; }
         public string Country { get; set; }
+        public string BotResponse { get; set; }
         public DateTime Log_Date { get; set; }
         public string LogTime { get; set; }
     }

@@ -8,19 +8,19 @@
         $scope.BotDetail = false;
         $scope.CustomerPlan = {};
 
-        console.log("Fixed this issue");
+        //console.log("Fixed this issue");
 
         $scope.GetCurrentUser = function () {
             $http.post('/Customer/GetCurrentUser'
             ).success(function (data) {
-                console.log(data);
+                //console.log(data);
                 $scope.Customer = data.Data;
 
                 $http.post('/Customer/GetCustomerActivePlan',
                     {
                         customerId: $scope.Customer.Id
                     }).success(function (data) {
-                        console.log(data.Data);
+                        //console.log(data.Data);
                         $scope.CustomerPlan = data.Data;
                     });
             });
@@ -35,7 +35,7 @@
                     pagesize: $scope.pageSize,
                     pageno: $scope.pageNumber
                 }).success(function (data) {
-                    console.log(data);
+                    //console.log(data);
                     if (data.IsSuccess == true) {
                         $scope.MyChatBots = data.Entities;
                         $scope.HasNext = data.HasNext;
@@ -67,7 +67,7 @@
         $scope.ViewBotDetails = function (chatbot) {
             $scope.BotDetail = true;
             $scope.BotDeployment = chatbot;
-            console.log(chatbot);
+            //console.log(chatbot);
         };
 
         $scope.CopyToClipBoard = function () {
@@ -80,7 +80,7 @@
             if (confirm('Are you sure ? You want to delete chatbot')) {
                 $http.post("/Customer/Delete/", { id: id }).success(function (data) {
                     if (data.IsSuccess) {
-                        console.log("Called")
+                        //console.log("Called")
                         syraservice.RecordStatusMessage("success", data.Message);
                         $scope.GetChatBots();
                         $scope.GetCurrentUser();

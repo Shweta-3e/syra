@@ -14,7 +14,6 @@
             <md-datepicker ng-model="todate" md-placeholder="End Date" md-min-date="minendDate" md-max-date="maxendDate"
                            md-open-on-focus></md-datepicker>
         </div>
-        <!--<button class="btn btn-success" style="margin-left:25px;">Submit</button>-->
     </div>
 </div>
 <div class="container" ng-hide="IsEditMode">
@@ -34,26 +33,114 @@
         <li ng-class="{'active': isActiveTab(5)}" ng-click="GetUSAAnalysis()">
             <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(5)}" ng-click="tab=5">USA Based Analysis</a>
         </li>
+        <li ng-class="{'active': isActiveTab(6)}" ng-click="GetLowPeakTime()">
+            <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(6)}" ng-click="tab=6">Peak and Low Timings</a>
+        </li>
     </ul>
-    
-    <div class="tab-content" style="padding-top:10px">
+
+    <div class="tab-content" style="">
         <div ng-show="isActiveTab(1)" ng-class="tab==1?'tab-pane fade in active':'tab-pane fade in'">
             <div>
-                <div>
+                <!--<div>
                     <label class="control-label col-sm-4" for="txtMonthlyCharge" style="font-family:'Times New Roman', Times, serif; font-size:large;">Total questions asked to Bot : <a ng-click="ShowQuestions()">{{BotReplyData.TotalQuestions}}</a></label>
                     <label class="control-label col-sm-3" for="txtMonthlyCharge" style="font-family:'Times New Roman', Times, serif; font-size:large;">Bot replied successfully : <a ng-click="ShowQuestions(false)">{{BotReplyData.RightAnswers}}</a> </label>
                     <label class="control-label col-sm-3" for="txtMonthlyCharge" style="font-family:'Times New Roman', Times, serif; font-size:large;">Bot failed to reply : <a ng-click="ShowQuestions(true)">{{BotReplyData.WrongAnswers}}</a></label>
+                </div>-->
+                <div id="botreply" style="min-width: 100px; height:100%; margin: 0 auto;margin-top:40px;"></div>
+                <div id="botresponse">
+                    <div>
+                        <img id="botresponsespinner" ng-src="/syra_assets/circle-loading-animation.gif" style="display:none; height:100px;width:100px;margin-left:500px;margin-bottom:60px;">
+                    </div>
+                    <script type="text/javascript">
+                        function disableButton(btn) {
+                            document.getElementById(btn.id).style.display = 'none';
+                        }
+                        function getBotResponsePagination(table) {
+                            var lastPage = 1;
+                            $('#botresponsemaxRows').on('change', function (evt) {
+                                lastPage = 1;
+                                $('#botresponsepagination').find("li").slice(1, -1).remove();
+                                var trnum = 0;									// reset tr counter
+                                var maxRows = parseInt($(this).val());
+                                if (maxRows == 5000) {
+                                    $('#botresponsepagination').hide();
+                                } else {
+                                    $('#botresponsepagination').show();
+                                }
+                                var totalRows = $(table + ' tbody tr').length;		// numbers of rows
+                                $(table + ' tr:gt(0)').each(function () {			// each TR in  table and not the header
+                                    trnum++;									// Start Counter
+                                    if (trnum > maxRows) {
+                                        $(this).hide();							// fade it out
+                                    } if (trnum <= maxRows) { $(this).show(); }// else fade in Important in case if it ..
+                                });											//  was fade out to fade it in
+                                if (totalRows > maxRows) {						// if tr total rows gt max rows option
+                                    var pagenum = Math.ceil(totalRows / maxRows);	// ceil total(rows/maxrows) to get ..
+                                    //	numbers of pages
+                                    for (var i = 1; i <= pagenum;) {			// for each page append pagination li
+                                        $('#botresponsepagination #prev').before('<li data-page="' + i + '">\
+                                                                                                                          <span>'+ i++ + '<span class="sr-only">(current)</span></span>\
+                                                                                                                        </li>').show();
+                                    }											// end for i
+                                } 												// end if row count > max rows
+                                $('#botresponsepagination [data-page="1"]').addClass('active'); // add active class to the first li
+                                $('#botresponsepagination li').on('click', function (evt) {		// on click each page
+                                    evt.stopImmediatePropagation();
+                                    evt.preventDefault();
+                                    var pageNum = $(this).attr('data-page');	// get it's number
+
+                                    var maxRows = parseInt($('#botresponsemaxRows').val());			// get Max Rows from select option
+
+                                    if (pageNum == "prev") {
+                                        if (lastPage == 1) { return; }
+                                        pageNum = --lastPage;
+                                    }
+                                    if (pageNum == "next") {
+                                        if (lastPage == ($('#botresponsepagination li').length - 2)) { return; }
+                                        pageNum = ++lastPage;
+                                    }
+                                    lastPage = pageNum;
+                                    var trIndex = 0;							// reset tr counter
+                                    $('#botresponsepagination li').removeClass('active');	// remove active class from all li
+                                    $('#botresponsepagination [data-page="' + lastPage + '"]').addClass('active');// add active class to the clicked
+                                    // $(this).addClass('active');					// add active class to the clicked
+                                    $(table + ' tr:gt(0)').each(function () {		// each tr in table not the header
+                                        trIndex++;								// tr index counter
+                                        // if tr index gt maxRows*pageNum or lt maxRows*pageNum-maxRows fade if out
+                                        if (trIndex > (maxRows * pageNum) || trIndex <= ((maxRows * pageNum) - maxRows)) {
+                                            $(this).hide();
+                                        } else { $(this).show(); } 				//else fade in
+                                    }); 										// end of for each tr in table
+                                });										// end of on click pagination list
+
+                            }).val(5).change();
+                        }
+                        $(function () {
+                            // Just to append id number for each row
+                            $('table tr:eq(0)').prepend('<th> ID </th>')
+
+                            var id = 0;
+
+                            $('table tr:gt(0)').each(function () {
+                                id++
+                                $(this).prepend('<td>' + id + '</td>');
+                            });
+                        });
+                    </script>
                 </div>
-                <div id="botreply" style="min-width: 100px; height:500px; margin: 0 auto;margin-top:40px;"></div>
-                <table ng-hide="LogView" datatable="ng" dt-options="vm.dtOptions" dt-columns="vm.dtColumns" class="table table-responsive table-bordered table-striped" style="margin-top:60px;">
-                    <tr>
-                        <th class="text-align-center" style="width:150px">Log Date</th>
-                        <th class="text-align-center">Session Id</th>
-                        <th class="text-align-center">IP Address</th>
-                        <th class="text-align-center">Region</th>
-                        <th class="text-align-center">User Query</th>
-                        <th class="text-align-center">Bot Answer</th>
-                    </tr>
+                <!--<table datatable="ng" dt-options="vm.dtOptions" dt-columns="vm.dtColumns" class="table table-responsive table-bordered table-striped" style="margin-top:60px;">
+                    <thead>
+                        <tr>
+                            <th class="text-align-center" style="width:150px">Log Date</th>
+                            <th class="text-align-center">Session Id</th>
+                            <th class="text-align-center">IP Address</th>
+                            <th class="text-align-center">Region</th>
+                            <th class="text-align-center">User Query</th>
+                            <th class="text-align-center">Bot Answer</th>
+
+                        </tr>
+                    </thead>
+                    
                     <tbody>
                         <tr ng-repeat="row in BotReplyData.AllQuestions" ng-if="row.IsWrongAnswer==ReportType">
                             <td class="text-align-center" style="width:150px">{{row.LogDate}}</td>
@@ -62,23 +149,182 @@
                             <td class="text-align-center" style="width:150px">{{row.IPAddress}}</td>
                             <td class="text-align-center" style="width:100px">{{row.UserQuery}}</td>
                             <td class="text-align-center" ng-bind-html="row.BotAnswers1"></td>
+
                         </tr>
                     </tbody>
-                </table>
+                </table>-->
             </div>
         </div>
 
         <div ng-show="isActiveTab(2)" ng-class="tab==2?'tab-pane fade in active':'tab-pane fade in'">
             <div>
-                <div id="container_query" style="min-width: 100px; height: 100%; margin: 0 auto;margin-top:70px;"></div>
+                <div id="container_query" style="min-width: 100px; height: 100%; margin: 0 auto;margin-top:10px;"></div>
                 <div id="dvTable">
+                    <div>
+                        <img id="spinner" ng-src="/syra_assets/circle-loading-animation.gif" style="display:none; height:100px;width:100px;margin-left:500px;margin-bottom:60px;">
+                    </div>
+                    <script type="text/javascript">
+                        function disableButton(btn) {
+                            document.getElementById(btn.id).style.display = 'none';
+                        }
+                        function getUserQueryPagination(table) {
+                            var lastPage = 1;
+                            $('#querymaxRows').on('change', function (evt) {
+                                lastPage = 1;
+                                $('#pagemark').find("li").slice(1, -1).remove();
+                                var trnum = 0;									// reset tr counter
+                                var maxRows = parseInt($(this).val());
+                                if (maxRows == 5000) {
+                                    $('#pagemark').hide();
+                                } else {
+                                    $('#pagemark').show();
+                                }
+                                var totalRows = $(table + ' tbody tr').length;		// numbers of rows
+                                $(table + ' tr:gt(0)').each(function () {			// each TR in  table and not the header
+                                    trnum++;									// Start Counter
+                                    if (trnum > maxRows) {
+                                        $(this).hide();							// fade it out
+                                    } if (trnum <= maxRows) { $(this).show(); }// else fade in Important in case if it ..
+                                });											//  was fade out to fade it in
+                                if (totalRows > maxRows) {						// if tr total rows gt max rows option
+                                    var pagenum = Math.ceil(totalRows / maxRows);	// ceil total(rows/maxrows) to get ..
+                                    //	numbers of pages
+                                    for (var i = 1; i <= pagenum;) {			// for each page append pagination li
+                                        $('#pagemark #prev').before('<li data-page="' + i + '">\
+                                                                                                      <span>'+ i++ + '<span class="sr-only">(current)</span></span>\
+                                                                                                    </li>').show();
+                                    }											// end for i
+                                } 												// end if row count > max rows
+                                $('#pagemark [data-page="1"]').addClass('active'); // add active class to the first li
+                                $('#pagemark li').on('click', function (evt) {		// on click each page
+                                    evt.stopImmediatePropagation();
+                                    evt.preventDefault();
+                                    var pageNum = $(this).attr('data-page');	// get it's number
+
+                                    var maxRows = parseInt($('#querymaxRows').val());			// get Max Rows from select option
+
+                                    if (pageNum == "prev") {
+                                        if (lastPage == 1) { return; }
+                                        pageNum = --lastPage;
+                                    }
+                                    if (pageNum == "next") {
+                                        if (lastPage == ($('#pagemark li').length - 2)) { return; }
+                                        pageNum = ++lastPage;
+                                    }
+                                    lastPage = pageNum;
+                                    var trIndex = 0;							// reset tr counter
+                                    $('#pagemark li').removeClass('active');	// remove active class from all li
+                                    $('#pagemark [data-page="' + lastPage + '"]').addClass('active');// add active class to the clicked
+                                    // $(this).addClass('active');					// add active class to the clicked
+                                    $(table + ' tr:gt(0)').each(function () {		// each tr in table not the header
+                                        trIndex++;								// tr index counter
+                                        // if tr index gt maxRows*pageNum or lt maxRows*pageNum-maxRows fade if out
+                                        if (trIndex > (maxRows * pageNum) || trIndex <= ((maxRows * pageNum) - maxRows)) {
+                                            $(this).hide();
+                                        } else { $(this).show(); } 				//else fade in
+                                    }); 										// end of for each tr in table
+                                });										// end of on click pagination list
+
+                            }).val(5).change();
+                        }
+                        $(function () {
+                            // Just to append id number for each row
+                            $('table tr:eq(0)').prepend('<th> ID </th>')
+
+                            var id = 0;
+
+                            $('table tr:gt(0)').each(function () {
+                                id++
+                                $(this).prepend('<td>' + id + '</td>');
+                            });
+                        });
+                    </script>
                 </div>
             </div>
         </div>
 
         <div ng-show="isActiveTab(3)" ng-class="tab==3?'tab-pane fade in active':'tab-pane fade in'">
-            <div id="goalconversion" style="min-width: 100px; height: 500px; margin: 0 auto;margin-top:30px;"></div>
-            <div id="linkTable" style="padding-top:80px;">
+            <div id="goalconversion" style="min-width: 100px; height: 100%; margin: 0 auto;margin-top:30px;"></div>
+            <div id="linkTable">
+                <div>
+                    <img id="goalconversionspinner" ng-src="/syra_assets/circle-loading-animation.gif" style="display:none; height:100px;width:100px;margin-left:500px;margin-bottom:200px;">
+                </div>
+                <script type="text/javascript">
+                    function disableButton(btn) {
+                        document.getElementById(btn.id).style.display = 'none';
+                    }
+                    function getGoalConversionPagination(table) {
+                        var lastPage = 1;
+                        $('#maxRows').on('change', function (evt) {
+                            lastPage = 1;
+                            $('#linkpagination').find("li").slice(1, -1).remove();
+                            var trnum = 0;									// reset tr counter
+                            var maxRows = parseInt($(this).val());
+                            if (maxRows == 5000) {
+                                $('#linkpagination').hide();
+                            } else {
+                                $('#linkpagination').show();
+                            }
+                            var totalRows = $(table + ' tbody tr').length;		// numbers of rows
+                            $(table + ' tr:gt(0)').each(function () {			// each TR in  table and not the header
+                                trnum++;									// Start Counter
+                                if (trnum > maxRows) {
+                                    $(this).hide();							// fade it out
+                                } if (trnum <= maxRows) { $(this).show(); }// else fade in Important in case if it ..
+                            });											//  was fade out to fade it in
+                            if (totalRows > maxRows) {						// if tr total rows gt max rows option
+                                var pagenum = Math.ceil(totalRows / maxRows);	// ceil total(rows/maxrows) to get ..
+                                //	numbers of pages
+                                for (var i = 1; i <= pagenum;) {			// for each page append pagination li
+                                    $('#linkpagination #prev').before('<li data-page="' + i + '">\
+                                                                                              <span>'+ i++ + '<span class="sr-only">(current)</span></span>\
+                                                                                            </li>').show();
+                                }											// end for i
+                            } 												// end if row count > max rows
+                            $('#linkpagination [data-page="1"]').addClass('active'); // add active class to the first li
+                            $('#linkpagination li').on('click', function (evt) {		// on click each page
+                                evt.stopImmediatePropagation();
+                                evt.preventDefault();
+                                var pageNum = $(this).attr('data-page');	// get it's number
+
+                                var maxRows = parseInt($('#maxRows').val());			// get Max Rows from select option
+
+                                if (pageNum == "prev") {
+                                    if (lastPage == 1) { return; }
+                                    pageNum = --lastPage;
+                                }
+                                if (pageNum == "next") {
+                                    if (lastPage == ($('.pagination li').length - 2)) { return; }
+                                    pageNum = ++lastPage;
+                                }
+                                lastPage = pageNum;
+                                var trIndex = 0;							// reset tr counter
+                                $('#linkpagination li').removeClass('active');	// remove active class from all li
+                                $('#linkpagination [data-page="' + lastPage + '"]').addClass('active');// add active class to the clicked
+                                // $(this).addClass('active');					// add active class to the clicked
+                                $(table + ' tr:gt(0)').each(function () {		// each tr in table not the header
+                                    trIndex++;								// tr index counter
+                                    // if tr index gt maxRows*pageNum or lt maxRows*pageNum-maxRows fade if out
+                                    if (trIndex > (maxRows * pageNum) || trIndex <= ((maxRows * pageNum) - maxRows)) {
+                                        $(this).hide();
+                                    } else { $(this).show(); } 				//else fade in
+                                }); 										// end of for each tr in table
+                            });										// end of on click pagination list
+
+                        }).val(5).change();
+                    }
+                    $(function () {
+                        // Just to append id number for each row
+                        $('table tr:eq(0)').prepend('<th> ID </th>')
+
+                        var id = 0;
+
+                        $('table tr:gt(0)').each(function () {
+                            id++
+                            $(this).prepend('<td>' + id + '</td>');
+                        });
+                    });
+                </script>
             </div>
         </div>
 
@@ -86,15 +332,180 @@
             <div>
                 <div id="container" style="max-width: 1000px;margin-top:30px;height: 100%;"></div>
                 <div id="worldTable">
+                    <div>
+                        <img id="worldspinner" ng-src="/syra_assets/circle-loading-animation.gif" style="display:none; height:80px;width:80px;margin-left:500px;">
+                    </div>
+                    <script type="text/javascript">
+                        function disableButton(btn) {
+                            document.getElementById(btn.id).style.display = 'none';
+                        }
+                        function getWorldAnalysisPagination(table) {
+                            var lastPage = 1;
+                            $('#worldmaxRows').on('change', function (evt) {
+                                lastPage = 1;
+                                $('#worldpagination').find("li").slice(1, -1).remove();
+                                var trnum = 0;									// reset tr counter
+                                var maxRows = parseInt($(this).val());
+                                if (maxRows == 5000) {
+                                    $('#worldpagination').hide();
+                                } else {
+                                    $('#worldpagination').show();
+                                }
+                                var totalRows = $(table + ' tbody tr').length;		// numbers of rows
+                                $(table + ' tr:gt(0)').each(function () {			// each TR in  table and not the header
+                                    trnum++;									// Start Counter
+                                    if (trnum > maxRows) {
+                                        $(this).hide();							// fade it out
+                                    } if (trnum <= maxRows) { $(this).show(); }// else fade in Important in case if it ..
+                                });											//  was fade out to fade it in
+                                if (totalRows > maxRows) {						// if tr total rows gt max rows option
+                                    var pagenum = Math.ceil(totalRows / maxRows);	// ceil total(rows/maxrows) to get ..
+                                    //	numbers of pages
+                                    for (var i = 1; i <= pagenum;) {			// for each page append pagination li
+                                        $('#worldpagination #prev').before('<li data-page="' + i + '">\
+                                                                                                      <span>'+ i++ + '<span class="sr-only">(current)</span></span>\
+                                                                                                    </li>').show();
+                                    }											// end for i
+                                } 												// end if row count > max rows
+                                $('#worldpagination [data-page="1"]').addClass('active'); // add active class to the first li
+                                $('#worldpagination li').on('click', function (evt) {		// on click each page
+                                    evt.stopImmediatePropagation();
+                                    evt.preventDefault();
+                                    var pageNum = $(this).attr('data-page');	// get it's number
+
+                                    var maxRows = parseInt($('#worldmaxRows').val());			// get Max Rows from select option
+
+                                    if (pageNum == "prev") {
+                                        if (lastPage == 1) { return; }
+                                        pageNum = --lastPage;
+                                    }
+                                    if (pageNum == "next") {
+                                        if (lastPage == ($('#worldpagination li').length - 2)) { return; }
+                                        pageNum = ++lastPage;
+                                    }
+                                    lastPage = pageNum;
+                                    var trIndex = 0;							// reset tr counter
+                                    $('#worldpagination li').removeClass('active');	// remove active class from all li
+                                    $('#worldpagination [data-page="' + lastPage + '"]').addClass('active');// add active class to the clicked
+                                    // $(this).addClass('active');					// add active class to the clicked
+                                    $(table + ' tr:gt(0)').each(function () {		// each tr in table not the header
+                                        trIndex++;								// tr index counter
+                                        // if tr index gt maxRows*pageNum or lt maxRows*pageNum-maxRows fade if out
+                                        if (trIndex > (maxRows * pageNum) || trIndex <= ((maxRows * pageNum) - maxRows)) {
+                                            $(this).hide();
+                                        } else { $(this).show(); } 				//else fade in
+                                    }); 										// end of for each tr in table
+                                });										// end of on click pagination list
+
+                            }).val(5).change();
+                        }
+                        $(function () {
+                            // Just to append id number for each row
+                            $('table tr:eq(0)').prepend('<th> ID </th>')
+
+                            var id = 0;
+
+                            $('table tr:gt(0)').each(function () {
+                                id++
+                                $(this).prepend('<td>' + id + '</td>');
+                            });
+                        });
+                    </script>
                 </div>
             </div>
-            
+
         </div>
 
         <div ng-show="isActiveTab(5)" ng-class="tab==5?'tab-pane fade in active':'tab-pane fade in'">
             <div id="usa-container" style="min-width: 100px; height: 100%; margin: 0 auto;margin-top:30px;"></div>
             <div id="usaTable">
+                <div>
+                    <img id="usaspinner" ng-src="/syra_assets/circle-loading-animation.gif" style="display:none; height:80px;width:80px;margin-left:500px;margin-bottom:60px;">
+                </div>
+                <script type="text/javascript">
+                    function disableButton(btn) {
+                        document.getElementById(btn.id).style.display = 'none';
+                    }
+                    function getUSAAnalysisPagination(table) {
+                        var lastPage = 1;
+                        $('#usamaxRows').on('change', function (evt) {
+                            lastPage = 1;
+                            $('#usapagination').find("li").slice(1, -1).remove();
+                            var trnum = 0;									// reset tr counter
+                            var maxRows = parseInt($(this).val());
+                            if (maxRows == 5000) {
+                                $('#usapagination').hide();
+                            } else {
+                                $('#usapagination').show();
+                            }
+                            var totalRows = $(table + ' tbody tr').length;		// numbers of rows
+                            $(table + ' tr:gt(0)').each(function () {			// each TR in  table and not the header
+                                trnum++;									// Start Counter
+                                if (trnum > maxRows) {
+                                    $(this).hide();							// fade it out
+                                } if (trnum <= maxRows) { $(this).show(); }// else fade in Important in case if it ..
+                            });											//  was fade out to fade it in
+                            if (totalRows > maxRows) {						// if tr total rows gt max rows option
+                                var pagenum = Math.ceil(totalRows / maxRows);	// ceil total(rows/maxrows) to get ..
+                                //	numbers of pages
+                                for (var i = 1; i <= pagenum;) {			// for each page append pagination li
+                                    $('#usapagination #prev').before('<li data-page="' + i + '">\
+                                                                                              <span>'+ i++ + '<span class="sr-only">(current)</span></span>\
+                                                                                            </li>').show();
+                                }											// end for i
+                            } 												// end if row count > max rows
+                            $('#usapagination [data-page="1"]').addClass('active'); // add active class to the first li
+                            $('#usapagination li').on('click', function (evt) {		// on click each page
+                                evt.stopImmediatePropagation();
+                                evt.preventDefault();
+                                var pageNum = $(this).attr('data-page');	// get it's number
+
+                                var maxRows = parseInt($('#usamaxRows').val());			// get Max Rows from select option
+
+                                if (pageNum == "prev") {
+                                    if (lastPage == 1) { return; }
+                                    pageNum = --lastPage;
+                                }
+                                if (pageNum == "next") {
+                                    if (lastPage == ($('#usapagination li').length - 2)) { return; }
+                                    pageNum = ++lastPage;
+                                }
+                                lastPage = pageNum;
+                                var trIndex = 0;							// reset tr counter
+                                $('#usapagination li').removeClass('active');	// remove active class from all li
+                                $('#usapagination [data-page="' + lastPage + '"]').addClass('active');// add active class to the clicked
+                                // $(this).addClass('active');					// add active class to the clicked
+                                $(table + ' tr:gt(0)').each(function () {		// each tr in table not the header
+                                    trIndex++;								// tr index counter
+                                    // if tr index gt maxRows*pageNum or lt maxRows*pageNum-maxRows fade if out
+                                    if (trIndex > (maxRows * pageNum) || trIndex <= ((maxRows * pageNum) - maxRows)) {
+                                        $(this).hide();
+                                    } else { $(this).show(); } 				//else fade in
+                                }); 										// end of for each tr in table
+                            });										// end of on click pagination list
+
+                        }).val(5).change();
+                    }
+                    $(function () {
+                        // Just to append id number for each row
+                        $('table tr:eq(0)').prepend('<th> ID </th>')
+
+                        var id = 0;
+
+                        $('table tr:gt(0)').each(function () {
+                            id++
+                            $(this).prepend('<td>' + id + '</td>');
+                        });
+                    });
+                </script>
+            </div>
+        </div>
+
+        <div ng-show="isActiveTab(6)" ng-class="tab==6?'tab-pane fade in active':'tab-pane fade in'">
+            <div id="timing-container" style="min-width: 100px; height: 100%; margin: 0 auto;margin-top:30px;"></div>
+            <div>
+                <img id="timespinner" ng-src="/syra_assets/circle-loading-animation.gif" style="display:none; height:80px;width:80px;margin-left:500px;margin-bottom:60px;">
             </div>
         </div>
     </div>
-    </div>
+</div>

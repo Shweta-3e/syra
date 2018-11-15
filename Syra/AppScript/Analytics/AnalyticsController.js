@@ -31,62 +31,90 @@
             return $scope.tab == tab;
         };
 
+        $scope.GetLowPeakTime = function () {
+            var startdate = $scope.fromdate;
+            var enddate = $scope.todate;
+            $("#timespinner").show();
+            var timingurl = "/Customer/LowPeakTime";
+            $http.post(timingurl, { startdt: startdate, enddt: enddate }).success(function (response) {
+                if (response != null) {
+                    $scope.TimingAnalysis(response);
+                    $("#timespinner").hide();
+                } else {
+                    alert("Something went wrong");
+                }
+            });
+        };
         //functions to call active tabs
         $scope.GetBotReply = function () {
             var startdate = $scope.fromdate;
             var enddate = $scope.todate;
+            $("#botresponsespinner").show();
             var botreplyurl = "/Customer/BotReply";
             $http.post(botreplyurl, { startdt: startdate, enddt: enddate }).success(function (response) {
                 if (response != null) {
                     $scope.BotResponse(response);
+                    $("#botresponsespinner").hide();
                 } else {
                     alert("Something went wrong");
                 }
             });
         };
+
         $scope.GetQuestionsAsked = function () {
             var startdate = $scope.fromdate;
             var enddate = $scope.todate;
+            $("#spinner").show();
             var userqueryurl = "/Customer/UserQuery";
             $http.post(userqueryurl, { startdt: startdate, enddt: enddate }).success(function (response) {
                 if (response != null) {
                     $scope.GetUserQuery(response);
+                    $("#spinner").hide();
                 } else {
                     alert("Something went wrong");
                 }
             });
         };
+
         $scope.GetLinks = function () {
             var startdate = $scope.fromdate;
             var enddate = $scope.todate;
+            $("#goalconversionspinner").show();
             var clickedlinkurl = "/Customer/GetClickedLink";
             $http.post(clickedlinkurl, { startdt: startdate, enddt: enddate }).success(function (response) {
                 if (response != null) {
                     $scope.GetClickedLink(response);
+                    $("#goalconversionspinner").hide();
                 } else {
                     alert("Something went wrong");
                 }
             });
         };
+
         $scope.GetUSAAnalysis = function () {
             var startdate = $scope.fromdate;
             var enddate = $scope.todate;
+            $("#usaspinner").show();
             var usadataurl = "/Customer/GetUSAAnalytics";
             $http.post(usadataurl, { startdt: startdate, enddt: enddate }).success(function (response) {
                 if (response != null) {
                     $scope.GetUsaMap(response);
+                    $("#usaspinner").hide();
                 } else {
                     alert("Something went wrong");
                 }
             });
         };
+
         $scope.GetWorld = function () {
             var startdate = $scope.fromdate;
             var enddate = $scope.todate;
+            $("#worldspinner").show();
             var url = "/Customer/GetAnalytics";
             $http.post(url, { startdt: startdate, enddt: enddate }).success(function (response) {
                 if (response != null) {
                     $scope.GetWorldAnalysis(response);
+                    $("#worldspinner").hide();
                 } else {
                     alert("Something went wrong");
                 }
@@ -100,8 +128,8 @@
             $('#container').highcharts('Map', {
                 chart: {
                     map: 'custom/world',
-                    width: 1000,
-                    height:600
+                    width: 1200,
+                    height:500
                 },
                 title: {
                     text: 'World Analysis',
@@ -148,18 +176,40 @@
                                     }
                                     tablerow += "</tbody>";
                                     //console.log(tablerow)
-                                    var tabledata = "<br><br><table dt-options='vm.dtOptions' dt-columns='vm.dtColumns' class='table table-responsive table - bordered table - striped' data-pagination='true'><thead>" + "<tr style='border-top: solid 1px #adbbd1;'>" +
+                                    var tabledata = "<br><br><table id='worldmap' dt-options='vm.dtOptions' dt-columns='vm.dtColumns' class='table table-responsive table - bordered table - striped' data-pagination='true'><thead>" + "<tr style='border-top: solid 1px #adbbd1;'>" +
                                         "<th class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1'>Log Date</th>" +
                                         "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>Session Id</th>" +
-                                        "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>Region</th>" +
                                         "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>IP Address</th>" +
+                                        "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>Region</th>" +
                                         "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>User Query</th>" +
                                         "<th class='text-align-center'style='width:400px;border-left:solid 1px #adbbd1;border-right:solid 1px #adbbd1'>Bot Answer</th></tr></thead>" +
                                         tablerow + "</table>";
                                     var table = tabledata;
+                                    var selectlable = "<label class='control-label col - sm - 2' style='font - family: 'Times New Roman', Times, serif; font - size: large; fo; font - weight: normal;'>Show Entries </label>"
+                                        + "<div class='form-group'><select class='form-control' name='state' id='worldmaxRows' style='width:20%'>"
+                                        + "<option value='5000'>Show All Rows</option><option value='5'>5</option><option value='10'>10</option>"
+                                        + "<option value='15'>15</option><option value='20'>20</option><option value='50'>50</option>"
+                                        + "<option value='70'>70</option><option value='100'>100</option></select></div>";
+                                    var tablestyle = "<style></style>";
+                                    var pagination = "<div class='pagination-container' ><nav><ul class='pagination' id='worldpagination'>"
+                                        + "<li data-page='prev' ><span>Previous<span class='sr-only'>(current)</span></span></li>"
+                                        + "<li data-page='next' id='prev'><span> Next <span class='sr-only'>(current)</span></span>"
+                                        + "</li></ul></nav></div>";
+                                    var modal = "<button type='button' id='showworlddetail' onclick='disableButton(this)' class='btn btn - primary' data-toggle='modal' data-target='#worldmodal'>Show Details</button >"
+                                        + "<div class='modal fade' id='worldmodal' role='dialog' aria-labelledby='exampleModalLongTitle' aria-hidden='true'>"
+                                        + "<div class='modal-dialog modal-dialog-centered' style='width:80%;padding-top:70px;position:unset' role='document'>"
+                                        + "<div class='modal-content' style='margin-left:-50px;'><div class='modal-header'>"
+                                        + "<h5 class='modal-title' id='worldmodal' style='text-align:center;font - family: Times New Roman; font - size: large; fo; font - weight: bold;'>" + "Query asked from" + " " + "country" + " " + " : " + e.point.name + "</h5>"
+                                        + "<button type='button' class='close' data-dismiss='modal' aria-label='Close'>"
+                                        + "<span aria-hidden='true'>&times;</span>"
+                                        + "</button></div><div class='modal-body'>"
+                                        + selectlable + table + pagination
+                                        + "</div><div class='modal-footer'>"
+                                        + "<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>"
+                                        + "</div></div></div></div>";
                                     var worldTable = document.getElementById("worldTable");
-                                    worldTable.innerHTML = table;
-
+                                    worldTable.innerHTML = modal;
+                                    getWorldAnalysisPagination('#worldmap');
                                 }
                             }
                         }
@@ -188,9 +238,80 @@
                     name: 'Separators',
                     type: 'mapline',
                     data: Highcharts.geojson(Highcharts.maps['custom/world'], 'mapline'),
-                    color: '#1c2638',
+                    color: '#13223a',
                     showInLegend: false,
                     enableMouseTracking: false
+                }]
+            });
+        };
+
+        $scope.TimingAnalysis = function (timedata) {
+            var data = timedata.Data.Epochtime;
+            Highcharts.chart('timing-container', {
+                chart: {
+                    zoomType: 'x'
+                },
+                title: {
+                    text: 'Time Analysis',
+                    style: {
+                        color: '#8d3052',
+                        fontWeight: 'bold',
+                        fontSize: '24px'
+                    }
+                },
+                xAxis: {
+                    type: 'datetime'
+                },
+                yAxis: {
+                    title: {
+                        text: 'No of time question asked ',
+                        style: {
+                            color: '#3c1414',
+                            fontWeight: 'bold',
+                            fontSize: '12px'
+                        }
+                    }
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    area: {
+                        fillColor: {
+                            linearGradient: {
+                                x1: 0,
+                                y1: 0,
+                                x2: 0,
+                                y2: 1
+                            },
+                            stops: [
+                                [0, Highcharts.getOptions().colors[0]],
+                                [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                            ]
+                        },
+                        marker: {
+                            radius: 2
+                        },
+                        lineWidth: 1,
+                        states: {
+                            hover: {
+                                lineWidth: 1
+                            }
+                        },
+                        cursor: 'pointer',
+                        point: {
+                            events: {
+                                click: function (event) {
+                                }
+                            }
+                        },
+                        threshold: null
+                    }
+                },
+                series: [{
+                    type: 'area',
+                    name: 'Questions asked in a day',
+                    data: data
                 }]
             });
         };
@@ -202,8 +323,8 @@
                 $('#usa-container').highcharts('Map', {
                     chart: {
                         map: 'countries/us/us-all',
-                        width: 1000,
-                        height: 600
+                        width: 1100,
+                        height: 500
                     },
                     title: {
                         text: 'USA Analysis',
@@ -236,14 +357,12 @@
                                         var country = "";
                                         var tablerow = "<tbody>";
                                         for (var i = 0; i < usadata.Data.AllResponse.length; i++) {
-                                            console.log(usadata.Data.AllResponse[i].Region);
                                             if (usadata.Data.AllResponse[i].Region == e.point.name) {
                                                 tablerow += "<tr>" + "<td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + usadata.Data.AllResponse[i].LogDate + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + usadata.Data.AllResponse[i].SessionId + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + usadata.Data.AllResponse[i].IPAddress + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + usadata.Data.AllResponse[i].Region + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + usadata.Data.AllResponse[i].UserQuery + "</td><td class='text-align-left' style='width:400px;border-left:solid 1px #adbbd1;border-right:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + usadata.Data.AllResponse[i].BotAnswers + "</td>" + "</tr>";
                                             }
                                         }
                                         tablerow += "</tbody>";
-                                        console.log(tablerow)
-                                        var tabledata = "<br><br><table dt-options='vm.dtOptions' dt-columns='vm.dtColumns' class='table table-responsive table - bordered table - striped' data-pagination='true'><thead>" + "<tr style='border-top: solid 1px #adbbd1;'>" +
+                                        var tabledata = "<br><br><table id='usamap' dt-options='vm.dtOptions' dt-columns='vm.dtColumns' class='table table-responsive table - bordered table - striped' data-pagination='true'><thead>" + "<tr style='border-top: solid 1px #adbbd1;'>" +
                                             "<th class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1'>Log Date</th>" +
                                             "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>Session Id</th>" +
                                             "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>IP Address</th>" +
@@ -252,8 +371,31 @@
                                             "<th class='text-align-center'style='width:400px;border-left:solid 1px #adbbd1;border-right:solid 1px #adbbd1'>Bot Answer</th></tr></thead>" +
                                             tablerow + "</table>";
                                         var table = tabledata;
+                                        var selectlable = "<label class='control-label col - sm - 2' style='text-align:center;font - family: 'Times New Roman', Times, serif; font - size: large; fo; font - weight: normal;'>Show Entries </label>"
+                                            + "<div class='form-group'><select class='form-control' name='state' id='usamaxRows' style='width:20%'>"
+                                            + "<option value='5000'>Show All Rows</option><option value='5'>5</option><option value='10'>10</option>"
+                                            + "<option value='15'>15</option><option value='20'>20</option><option value='50'>50</option>"
+                                            + "<option value='70'>70</option><option value='100'>100</option></select></div>";
+                                        var tablestyle = "<style></style>";
+                                        var pagination = "<div class='pagination-container' ><nav><ul class='pagination' id='usapagination'>"
+                                            + "<li data-page='prev' ><span>Previous<span class='sr-only'>(current)</span></span></li>"
+                                            + "<li data-page='next' id='prev'><span> Next <span class='sr-only'>(current)</span></span>"
+                                            + "</li></ul></nav></div>";
+                                        var modal = "<button type='button' id='showusadetail' onclick='disableButton(this)' class='btn btn - primary' data-toggle='modal' data-target='#usamodal'>Show Details</button >"
+                                            + "<div class='modal fade' id='usamodal' role='dialog' aria-labelledby='exampleModalLongTitle' aria-hidden='true'>"
+                                            + "<div class='modal-dialog modal-dialog-centered' style='width:80%;padding-top:70px;position:unset' role='document'>"
+                                            + "<div class='modal-content' style='margin-left:-50px;'><div class='modal-header'>"
+                                            + "<h5 class='modal-title' id='usamodal' style='text-align:center;font - family: Times New Roman ; font - size: large; fo; font - weight: bold;'>" + "Query asked from USA" + " " + "region" + " " + " : " + e.point.name + "</h5>"
+                                            + "<button type='button' class='close' data-dismiss='modal' aria-label='Close'>"
+                                            + "<span aria-hidden='true'>&times;</span>"
+                                            + "</button></div><div class='modal-body'>"
+                                            + selectlable + table + pagination
+                                            + "</div><div class='modal-footer'>"
+                                            + "<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>"
+                                            + "</div></div></div></div>";
                                         var usaTable = document.getElementById("usaTable");
-                                        usaTable.innerHTML = table;
+                                        usaTable.innerHTML = modal;
+                                        getUSAAnalysisPagination('#usamap');
                                     }
                                 }
                             }
@@ -310,7 +452,8 @@
                 chart: {
                     type: 'column',
                     width: 1000,
-                    height:600
+                    height: 450,
+                    spacingLeft: 100,
                 },
                 title: {
                     text: 'Questions Analysis',
@@ -364,24 +507,47 @@
                             events: {
                                 click: function () {
                                     var tabelrow = "<tbody>";
+                                    var dataset = [];
                                     for (var i = 0; i < userquerydata.Data.AllResponse.length; i++) {
                                         if (userquerydata.Data.AllResponse[i].UserQuery == this.category) {
+                                            //dataset.push(userquerydata.Data.AllResponse);
                                             tabelrow += "<tr>" + "<td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + userquerydata.Data.AllResponse[i].LogDate + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + userquerydata.Data.AllResponse[i].SessionId + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + userquerydata.Data.AllResponse[i].IPAddress + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + userquerydata.Data.AllResponse[i].Region + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + userquerydata.Data.AllResponse[i].UserQuery + "</td><td class='text-align-left' style='width:650px;border-left:solid 1px #adbbd1;border-right:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + userquerydata.Data.AllResponse[i].BotAnswers + "</td>" + "</tr>";
                                         }
                                     }
                                     tabelrow += "</tbody>";
-                                    console.log(tabelrow);
-                                    var tabeldata = "<br><br><table datatable='ng' dt-options='vm.dtOptions' dt-columns='vm.dtColumns' class='table table-responsive table - bordered table - striped' data-pagination='true'><thead>" + "<tr style='border-top: solid 1px #adbbd1;'>" +
+                                    var tabeldata = "<br><br><table id='userquery' class='table table-responsive table - bordered table - striped' style='width:100%'><thead>" + "<tr style='border-top: solid 1px #adbbd1;'>" +
                                         "<th class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1'>Log Date</th>" +
                                         "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>Session Id</th>" +
                                         "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>Region</th>" +
                                         "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>IP Address</th>" +
                                         "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>User Query</th>" +
                                         "<th class='text-align-center'style='width:400px;border-left:solid 1px #adbbd1;border-right:solid 1px #adbbd1'>Bot Answer</th></tr></thead>" +
-                                        tabelrow +"</table>";
+                                        tabelrow + "</table>";
                                     var tabel = tabeldata;
+                                    var selectlable = "<label class='control-label col - sm - 2' style='text-align:center;font - family: 'Times New Roman', Times, serif; font - size: large; fo; font - weight: normal;'>Show Entries </label>"
+                                        +"<div class='form-group'><select class='form-control' name='state' id='querymaxRows' style='width:15%'>"
+                                        +"<option value='5000'>Show All Rows</option><option value='5'>5</option><option value='10'>10</option>"
+                                        +"<option value='15'>15</option><option value='20'>20</option><option value='50'>50</option>"
+                                        + "<option value='70'>70</option><option value='100'>100</option></select></div>";
+                                    var pagination = "<div class='pagination-container' style='margin-bottom:5%;'><nav><ul class='pagination' id='pagemark'>"
+                                        + "<li data-page='prev' ><span>Previous<span class='sr-only'>(current)</span></span></li>"
+                                        + "<li data-page='next' id='prev'><span> Next <span class='sr-only'>(current)</span></span>"
+                                        + "</li></ul></nav></div>";
                                     var dvTable = document.getElementById("dvTable");
-                                    dvTable.innerHTML = tabel;
+                                    var modal = "<button type='button' id='showdetail' onclick='disableButton(this)' class='btn btn - primary' data-toggle='modal' data-target='#exampleModalLong'>Show Details</button >"
+                                        +"<div class='modal fade' id='exampleModalLong' role='dialog' aria-labelledby='exampleModalLongTitle' aria-hidden='true'>"
+                                        + "<div class='modal-dialog modal-dialog-centered' style='width:80%;padding-top:70px;position:unset' role='document'>"
+                                        + "<div class='modal-content' style='margin-left:-50px;'><div class='modal-header'>"
+                                        + "<h5 class='modal-title' id='exampleModalLongTitle' style='text-align:center;font - family: Times New Roman ; font - size: large; fo; font - weight: bold;'>" +"User"+" "+"Query"+" "+" : " + this.category + "</h5>"
+                                        + "<button type='button' class='close' data-dismiss='modal' aria-label='Close'>"
+                                        + "<span aria-hidden='true'>&times;</span>"
+                                        + "</button></div><div class='modal-body'>"
+                                        + selectlable + tabel + pagination
+                                        + "</div><div class='modal-footer'>"
+                                        + "<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>"
+                                        + "</div></div></div></div>";
+                                    dvTable.innerHTML = modal;
+                                    getUserQueryPagination('#userquery');
                                 }
                             }
                         }
@@ -414,7 +580,6 @@
         $scope.GetClickedLink = function (clickedlinkdata) {
             var data = clickedlinkdata.Data.firstTenArrivals,
                 category = [];
-            console.log(data);
             for (var item = 0; item < data.length; item++) {
                 for (var link = 0; link < 1; link++)
                     category.push(data[item][link]);
@@ -423,7 +588,8 @@
                 chart: {
                     type: 'column',
                     width: 1000,
-                    height:600
+                    height: 450,
+                    spacingLeft: 100,
                 },
                 title: {
                     text: 'Clicked Links',
@@ -483,8 +649,7 @@
                                         }
                                     }
                                     tablerow += "</tbody>";
-                                    console.log(tablerow);
-                                    var tabledata = "<br><br><table dt-options='vm.dtOptions' dt-columns='vm.dtColumns' class='table table-responsive table - bordered table - striped' data-pagination='true'><thead>" + "<tr style='border-top: solid 1px #adbbd1;'>" +
+                                    var tabledata = "<br><br><table id='goalconversiontable' dt-options='vm.dtOptions' dt-columns='vm.dtColumns' class='table table-responsive table - bordered table - striped' data-pagination='true'><thead>" + "<tr style='border-top: solid 1px #adbbd1;'>" +
                                         "<th class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1'>Log Date</th>" +
                                         "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>Session Id</th>" +
                                         "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>IP Address</th>" +
@@ -492,8 +657,30 @@
                                         "<th class='text-align-center'style='width:400px;border-left:solid 1px #adbbd1;border-right:solid 1px #adbbd1'>Clicked Link</th></tr></thead>"+
                                         tablerow + "</table>";
                                     var table = tabledata;
+                                    var selectlable = "<label class='control-label col - sm - 2' style='text-align:center;font - family: 'Times New Roman', Times, serif; font - size: large; fo; font - weight: normal;'>Show Entries </label>"
+                                        + "<div class='form-group'><select class='form-control' name='state' id='maxRows' style='width:15%'>"
+                                        + "<option value='5000'>Show All Rows</option><option value='5'>5</option><option value='10'>10</option>"
+                                        + "<option value='15'>15</option><option value='20'>20</option><option value='50'>50</option>"
+                                        + "<option value='70'>70</option><option value='100'>100</option></select></div>";
+                                    var pagination = "<div class='pagination-container' ><nav><ul class='pagination' id='linkpagination'>"
+                                        + "<li data-page='prev' ><span>Previous<span class='sr-only'>(current)</span></span></li>"
+                                        + "<li data-page='next' id='prev'><span> Next <span class='sr-only'>(current)</span></span>"
+                                        + "</li></ul></nav></div>";
+                                    var modal = "<button type='button' id='showlinkdetail' onclick='disableButton(this)' class='btn btn - primary' data-toggle='modal' data-target='#linkmodal'>Show Details</button >"
+                                        + "<div class='modal fade' id='linkmodal' role='dialog' aria-labelledby='linkmodal' aria-hidden='true'>"
+                                        + "<div class='modal-dialog modal-dialog-centered' style='width:80%;padding-top:70px;position:unset' role='document'>"
+                                        + "<div class='modal-content' style='margin-left:-50px;'><div class='modal-header'>"
+                                        + "<h5 class='modal-title' id='linkmodal' style='text-align:center;font - family: Times New Roman; font - size: large; fo; font - weight: bold;'>" + "User clicked" + " " + "link" + " " + " : " + this.category + "</h5>"
+                                        + "<button type='button' class='close' data-dismiss='modal' aria-label='Close'>"
+                                        + "<span aria-hidden='true'>&times;</span>"
+                                        + "</button></div><div class='modal-body'>"
+                                        + selectlable + table + pagination
+                                        + "</div><div class='modal-footer'>"
+                                        + "<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>"
+                                        + "</div></div></div></div>";
                                     var dvTable = document.getElementById("linkTable");
-                                    dvTable.innerHTML = table;
+                                    dvTable.innerHTML = modal;
+                                    getGoalConversionPagination('#goalconversiontable');
                                 }
                             }
                         }
@@ -549,6 +736,60 @@
                     pie: {
                         allowPointSelect: true,
                         cursor: 'pointer',
+                        point: {
+                            events: {
+                                click: function () {
+                                    var tabelrow = "<tbody>";
+                                    var botreplyflag = 'Bot failed to reply';
+                                    for (var i = 0; i < response.Data.AllQuestions.length; i++) {
+                                        if (response.Data.AllQuestions[i].BotResponse == this.name) {
+                                            if (this.name == 'Successful Response') {
+                                                botreplyflag = 'Bot replied successfully';
+                                            }
+                                            else {
+                                                botreplyflag = 'Bot failed to reply';
+                                            }
+                                            tabelrow += "<tr>" + "<td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + response.Data.AllQuestions[i].LogDate + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + response.Data.AllQuestions[i].SessionId + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + response.Data.AllQuestions[i].IPAddress + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + response.Data.AllQuestions[i].Region + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + response.Data.AllQuestions[i].UserQuery + "</td><td class='text-align-left' style='width:650px;border-left:solid 1px #adbbd1;border-right:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + response.Data.AllQuestions[i].BotAnswers + "</td>" + "</tr>";
+                                            }
+                                        }
+                                    tabelrow += "</tbody>";
+                                    console.log(tabelrow);
+                                        var tabeldata = "<br><br><table id='botreplytable' class='table table-responsive table - bordered table - striped' style='width:100%'><thead>" + "<tr style='border-top: solid 1px #adbbd1;'>" +
+                                            "<th class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1'>Log Date</th>" +
+                                            "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>Session Id</th>" +
+                                            "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>Region</th>" +
+                                            "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>IP Address</th>" +
+                                            "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>User Query</th>" +
+                                            "<th class='text-align-center'style='width:400px;border-left:solid 1px #adbbd1;border-right:solid 1px #adbbd1'>Bot Answer</th></tr></thead>" +
+                                            tabelrow + "</table>";
+                                        var tabel = tabeldata;
+                                        var selectlable = "<label class='control-label col - sm - 2' style='font - family: 'Times New Roman', Times, serif; font - size: large; fo; font - weight: normal;'>Show Entries </label>"
+                                            + "<div class='form-group'><select class='form-control' name='state' id='botresponsemaxRows' style='width:15%'>"
+                                            + "<option value='5000'>Show All Rows</option><option value='5'>5</option><option value='10'>10</option>"
+                                            + "<option value='15'>15</option><option value='20'>20</option><option value='50'>50</option>"
+                                            + "<option value='70'>70</option><option value='100'>100</option></select></div>";
+                                        var pagination = "<div class='pagination-container' style='margin-bottom:5%;'><nav><ul class='pagination' id='botresponsepagination'>"
+                                            + "<li data-page='prev' ><span>Previous<span class='sr-only'>(current)</span></span></li>"
+                                            + "<li data-page='next' id='prev'><span> Next <span class='sr-only'>(current)</span></span>"
+                                            + "</li></ul></nav></div>";
+                                        var dvTable = document.getElementById("botresponse");
+                                        var modal = "<button type='button' id='showdetail' onclick='disableButton(this)' class='btn btn - primary' data-toggle='modal' data-target='#botresponsemodal'>Show Details</button >"
+                                            + "<div class='modal fade' id='botresponsemodal' role='dialog' aria-labelledby='botresponsemodal' aria-hidden='true'>"
+                                            + "<div class='modal-dialog modal-dialog-centered' style='width:80%;padding-top:70px;position:unset' role='document'>"
+                                            + "<div class='modal-content' style='margin-left:-50px;'><div class='modal-header'>"
+                                            + "<h5 class='modal-title' id='botresponsemodal' style='text-align:center;text-align:center;font - family: Times New Roman; font - size: large; font-weight: bold;'>" + botreplyflag + "</h5>"
+                                            + "<button type='button' class='close' data-dismiss='modal' aria-label='Close'>"
+                                            + "<span aria-hidden='true'>&times;</span>"
+                                            + "</button></div><div class='modal-body'>"
+                                            + selectlable + tabel + pagination
+                                            + "</div><div class='modal-footer'>"
+                                            + "<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>"
+                                            + "</div></div></div></div>";
+                                        dvTable.innerHTML = modal;
+                                    getBotResponsePagination('#botreplytable');
+                                }
+                            }
+                        },
                         dataLabels: {
                             enabled: true,
                             format: '<b>{point.name}</b>: {point.percentage:.1f} %',
@@ -563,7 +804,7 @@
                     colorByPoint: true,
                     data: [
                         {
-                            name: 'Successfull Response',
+                            name: 'Successful Response',
                             y: ((response.Data.RightAnswers * 100) / response.Data.TotalQuestions),
 
                         }, {

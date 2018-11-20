@@ -7,7 +7,7 @@ using System.Web.Http;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Connector;
 
-namespace MikeHabibChatBot
+namespace Syra.Web
 {
     [BotAuthentication]
     public class MessagesController : ApiController

@@ -8,7 +8,7 @@ using System.Web;
 using System.Web.Http;
 using System.Web.Http.Cors;
 
-namespace MikeHabibChatBot.Controllers
+namespace Syra.Web.Controllers
 {
     static class State
     {

@@ -1,4 +1,4 @@
-﻿using MikeHabibChatBot.Dialogs;
+﻿using Syra.Web.Dialogs;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,7 +15,7 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using System.Web.Configuration;
 
-namespace MikeHabibChatBot.Controllers
+namespace Syra.Web.Controllers
 {
 
     //[EnableCors(origins: "http://whichbigdata.com", headers: "*", methods: "*", exposedHeaders: "X-Custom-Header")]

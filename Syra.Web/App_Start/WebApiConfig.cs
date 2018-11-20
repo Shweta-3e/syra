@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Web.Http.Cors;
-namespace MikeHabibChatBot
+namespace Syra.Web
 {
     public static class WebApiConfig
     {

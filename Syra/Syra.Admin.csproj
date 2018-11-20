@@ -251,6 +251,7 @@
     <Compile Include="Helper\AutoMapperConfig.cs" />
     <Compile Include="Helper\PaginatedResponse.cs" />
     <Compile Include="Helper\Response.cs" />
+    <Compile Include="LuisReply.cs" />
     <Compile Include="Migrations\201810251759362_New ConnString.cs" />
     <Compile Include="Migrations\201810251759362_New ConnString.Designer.cs">
       <DependentUpon>201810251759362_New ConnString.cs</DependentUpon>

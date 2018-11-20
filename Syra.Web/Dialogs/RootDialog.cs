@@ -11,14 +11,14 @@ using System.IO;
 using System.Net;
 using System.Data.SqlClient;
 using System.Collections.Generic;
-using MikeHabibChatBot.Controllers;
+using Syra.Web.Controllers;
 using System.Configuration;
 using Microsoft.Azure;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using System.Web.Configuration;
 
-namespace MikeHabibChatBot.Dialogs
+namespace Syra.Web.Dialogs
 {
     [LuisModel("99576d42-c581-42a7-9c70-b1697e16e2d1", "f06c44f9c07d48858cf5327c8bf8b859")]
     [Serializable]

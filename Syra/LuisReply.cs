@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Syra.Web
+namespace Syra.Admin
 {
     public class LuisReply
     {

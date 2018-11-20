@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace MikeHabibChatBot
+namespace Syra.Web
 {
     public class BundleConfig
     {

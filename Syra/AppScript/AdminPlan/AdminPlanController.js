@@ -33,9 +33,9 @@
                 });
             }
         };
-        $scope.Cancel = function () {
+        $scope.PlanCancel = function () {
             $scope.PlanDetails = false;
-            $state.go("newplan");
+            $state.go("adminplan");
         };
 
     }

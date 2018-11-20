@@ -75,7 +75,6 @@ SyraApp.controller("DomainAddController", ["$scope", "$http", "syraservice", "$s
                 });
             }
         }
-
         $scope.Cancel = function () {
             $state.go("luisdomain");
         };

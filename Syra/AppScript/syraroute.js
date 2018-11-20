@@ -57,7 +57,7 @@
     var register = {
         url: '/Account/Register',
         title: 'Register',
-        name: 'Register',
+        name: 'register',
         controller: 'RegistrationController',
         templateUrl: "/Appscript/Register/Template/register.html?VER=" + SOFT_VER,
     };

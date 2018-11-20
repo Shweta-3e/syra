@@ -263,7 +263,7 @@ namespace Syra.Admin.Controllers
                         customer.UserId = user.Id;
                         customer.JobTitle = model.JobTitle;
                         customerPlan.ActivationDate = DateTime.Now;
-                        customerPlan.ExpiryDate = DateTime.Now;
+                        customerPlan.ExpiryDate = customerPlan.ActivationDate.AddYears(1);
                         customer.Email = model.Email;
                         customer.RegisterDate = DateTime.Now;
                         customer.BusinessRequirement = model.BusinessRequirement;

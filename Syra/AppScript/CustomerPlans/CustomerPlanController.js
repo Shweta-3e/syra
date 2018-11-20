@@ -166,7 +166,8 @@ SyraApp.controller("CustomerDetailController", ["$scope", "$http", "syraservice"
 
         $scope.CustomerDelete = function (id) {
             if (confirm('Are you sure ? You want to delete Customer BotDeployment')) {
-                $http.post("/Customer/BotDeploymentDelete/", { id: id }).success(function (data) {
+                console.log(id);
+                $http.post("/Customer/BotDeploymentDelete", { id: id }).success(function (data) {
                     if (data.IsSuccess) {
                         syraservice.RecordStatusMessage("success", data.Message);
                         $scope.LoadCustomer();

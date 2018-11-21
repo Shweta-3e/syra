@@ -198,14 +198,14 @@
                                         + "<li data-page='prev' ><span>Previous<span class='sr-only'>(current)</span></span></li>"
                                         + "<li data-page='next' id='prev'><span> Next <span class='sr-only'>(current)</span></span>"
                                         + "</li></ul></nav></div>";
-                                    var modal = "<button type='button' id='showworlddetail' onclick='disableButton(this)' class='btn btn - primary' data-toggle='modal' data-target='#worldmodal'>Show Details</button >"
+                                    var modal = "<button type='button' id='showworlddetail' onclick='disableButton(this)' class='btn btn - primary' data-toggle='modal' data-target='#worldmodal'style='margin-left: 10%;color: white;background-color: #3e8e41;'>Show Details</button >"
                                         + "<div class='modal fade' id='worldmodal' role='dialog' aria-labelledby='exampleModalLongTitle' aria-hidden='true'>"
                                         + "<div class='modal-dialog modal-dialog-centered' style='width:80%;padding-top:70px;position:unset' role='document'>"
                                         + "<div class='modal-content' style='margin-left:-50px;'><div class='modal-header'>"
                                         + "<h5 class='modal-title' id='worldmodal' style='text-align:center;font - family: Times New Roman; font - size: large; fo; font - weight: bold;'>" + "Query asked from" + " " + "country" + " " + " : " + e.point.name + "</h5>"
                                         + "<button type='button' class='close' data-dismiss='modal' aria-label='Close'>"
                                         + "<span aria-hidden='true'>&times;</span>"
-                                        + "</button></div><div class='modal-body'>"
+                                        + "</button></div><div class='modal-body' style='margin-bottom: 5%;'>"
                                         + selectlable + table + pagination
                                         + "</div><div class='modal-footer'>"
                                         + "<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>"
@@ -387,14 +387,14 @@
                                             + "<li data-page='prev' ><span>Previous<span class='sr-only'>(current)</span></span></li>"
                                             + "<li data-page='next' id='prev'><span> Next <span class='sr-only'>(current)</span></span>"
                                             + "</li></ul></nav></div>";
-                                        var modal = "<button type='button' id='showusadetail' onclick='disableButton(this)' class='btn btn - primary' data-toggle='modal' data-target='#usamodal'>Show Details</button >"
+                                        var modal = "<button type='button' id='showusadetail' onclick='disableButton(this)' class='btn btn - primary' data-toggle='modal' data-target='#usamodal' style='margin-left: 10%;color: white;background-color: #3e8e41;'>Show Details</button >"
                                             + "<div class='modal fade' id='usamodal' role='dialog' aria-labelledby='exampleModalLongTitle' aria-hidden='true'>"
                                             + "<div class='modal-dialog modal-dialog-centered' style='width:80%;padding-top:70px;position:unset' role='document'>"
                                             + "<div class='modal-content' style='margin-left:-50px;'><div class='modal-header'>"
                                             + "<h5 class='modal-title' id='usamodal' style='text-align:center;font - family: Times New Roman ; font - size: large; fo; font - weight: bold;'>" + "Query asked from USA" + " " + "region" + " " + " : " + e.point.name + "</h5>"
                                             + "<button type='button' class='close' data-dismiss='modal' aria-label='Close'>"
                                             + "<span aria-hidden='true'>&times;</span>"
-                                            + "</button></div><div class='modal-body'>"
+                                            + "</button></div><div class='modal-body' style='margin-bottom: 5%;'>"
                                             + selectlable + table + pagination
                                             + "</div><div class='modal-footer'>"
                                             + "<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>"
@@ -517,7 +517,6 @@
                                     var srno = 1;
                                     for (var i = 0; i < userquerydata.Data.AllResponse.length; i++) {
                                         if (userquerydata.Data.AllResponse[i].UserQuery == this.category) {
-                                            //dataset.push(userquerydata.Data.AllResponse);
                                             tabelrow += "<tr>" + "<td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + srno + "<td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + userquerydata.Data.AllResponse[i].LogDate + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + userquerydata.Data.AllResponse[i].SessionId + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + userquerydata.Data.AllResponse[i].IPAddress + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + userquerydata.Data.AllResponse[i].Region + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + userquerydata.Data.AllResponse[i].UserQuery + "</td><td class='text-align-left' style='width:650px;border-left:solid 1px #adbbd1;border-right:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + userquerydata.Data.AllResponse[i].BotAnswers + "</td>" + "</tr>";
                                             srno++;
                                         }
@@ -543,14 +542,14 @@
                                         + "<li data-page='next' id='prev'><span> Next <span class='sr-only'>(current)</span></span>"
                                         + "</li></ul></nav></div>";
                                     var dvTable = document.getElementById("dvTable");
-                                    var modal = "<button type='button' id='showdetail' onclick='disableButton(this)' class='btn btn - primary' data-toggle='modal' data-target='#exampleModalLong'>Show Details</button >"
-                                        +"<div class='modal fade' id='exampleModalLong' role='dialog' aria-labelledby='exampleModalLongTitle' aria-hidden='true'>"
+                                    var modal = "<button type='button' id='showdetail' onclick='disableButton(this)' class='btn btn - primary' data-toggle='modal' data-target='#exampleModalLong' style='margin-left: 10%;color: white;background-color: #3e8e41;'>Show Details</button >"
+                                        +"<div class='modal fade' id='exampleModalLong' role='dialog' aria-labelledby='exampleModalLong' aria-hidden='true'>"
                                         + "<div class='modal-dialog modal-dialog-centered' style='width:80%;padding-top:70px;position:unset' role='document'>"
                                         + "<div class='modal-content' style='margin-left:-50px;'><div class='modal-header'>"
-                                        + "<h5 class='modal-title' id='exampleModalLongTitle' style='text-align:center;font - family: Times New Roman ; font - size: large; fo; font - weight: bold;'>" +"User"+" "+"Query"+" "+" : " + this.category + "</h5>"
+                                        + "<h5 class='modal-title' id='exampleModalLong' style='text-align:center;font - family: Times New Roman ; font - size: large; fo; font - weight: bold;'>" +"User"+" "+"Query"+" "+" : " + this.category + "</h5>"
                                         + "<button type='button' class='close' data-dismiss='modal' aria-label='Close'>"
                                         + "<span aria-hidden='true'>&times;</span>"
-                                        + "</button></div><div class='modal-body'>"
+                                        + "</button></div><div class='modal-body' style='margin-bottom: 5%;'>"
                                         + selectlable + tabel + pagination
                                         + "</div><div class='modal-footer'>"
                                         + "<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>"
@@ -678,14 +677,14 @@
                                         + "<li data-page='prev' ><span>Previous<span class='sr-only'>(current)</span></span></li>"
                                         + "<li data-page='next' id='prev'><span> Next <span class='sr-only'>(current)</span></span>"
                                         + "</li></ul></nav></div>";
-                                    var modal = "<button type='button' id='showlinkdetail' onclick='disableButton(this)' class='btn btn - primary' data-toggle='modal' data-target='#linkmodal'>Show Details</button >"
+                                    var modal = "<button type='button' id='showlinkdetail' onclick='disableButton(this)' class='btn btn - primary' data-toggle='modal' data-target='#linkmodal'style='margin-left: 10%;color: white;background-color: #3e8e41;'>Show Details</button >"
                                         + "<div class='modal fade' id='linkmodal' role='dialog' aria-labelledby='linkmodal' aria-hidden='true'>"
                                         + "<div class='modal-dialog modal-dialog-centered' style='width:80%;padding-top:70px;position:unset' role='document'>"
                                         + "<div class='modal-content' style='margin-left:-50px;'><div class='modal-header'>"
                                         + "<h5 class='modal-title' id='linkmodal' style='text-align:center;font - family: Times New Roman; font - size: large; fo; font - weight: bold;'>" + "User clicked" + " " + "link" + " " + " : " + this.category + "</h5>"
                                         + "<button type='button' class='close' data-dismiss='modal' aria-label='Close'>"
                                         + "<span aria-hidden='true'>&times;</span>"
-                                        + "</button></div><div class='modal-body'>"
+                                        + "</button></div><div class='modal-body' style='margin-bottom: 5%;'>"
                                         + selectlable + table + pagination
                                         + "</div><div class='modal-footer'>"
                                         + "<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>"
@@ -789,7 +788,7 @@
                                             + "<li data-page='next' id='prev'><span> Next <span class='sr-only'>(current)</span></span>"
                                             + "</li></ul></nav></div>";
                                         var dvTable = document.getElementById("botresponse");
-                                        var modal = "<button type='button' id='showdetail' onclick='disableButton(this)' class='btn btn - primary' data-toggle='modal' data-target='#botresponsemodal'>Show Details</button >"
+                                    var modal = "<button type='button' id='showdetail' onclick='disableButton(this)' class='btn btn - primary' data-toggle='modal' data-target='#botresponsemodal' style='margin-left: 10%;color: white;background-color: #3e8e41;'>Show Details</button >"
                                             + "<div class='modal fade' id='botresponsemodal' role='dialog' aria-labelledby='botresponsemodal' aria-hidden='true'>"
                                             + "<div class='modal-dialog modal-dialog-centered' style='width:80%;padding-top:70px;position:unset' role='document'>"
                                             + "<div class='modal-content' style='margin-left:-50px;'><div class='modal-header'>"
@@ -810,7 +809,8 @@
                             enabled: true,
                             format: '<b>{point.name}</b>: {point.percentage:.1f} %',
                             style: {
-                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black',
+                                fontSize: '13px'
                             }
                         }
                     }

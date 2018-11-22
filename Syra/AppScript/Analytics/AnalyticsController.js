@@ -31,6 +31,8 @@
             return $scope.tab == tab;
         };
 
+        
+        //functions to call active tabs
         $scope.GetLowPeakTime = function () {
             var startdate = $scope.fromdate;
             var enddate = $scope.todate;
@@ -45,7 +47,7 @@
                 }
             });
         };
-        //functions to call active tabs
+
         $scope.GetBotReply = function () {
             var startdate = $scope.fromdate;
             var enddate = $scope.todate;

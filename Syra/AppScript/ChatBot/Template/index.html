@@ -68,52 +68,37 @@
 
     <div class="row">
         <div class="form-group">
-            <label class="control-label col-sm-2" style="font-weight:normal">Deployment Date</label>
-            <div class="col-sm-10">
-                {{BotDeployment.DeploymentDate | date:'dd/MM/yyyy'}}
-            </div>
-        </div>
-    </div>
-
-    <!--<div class="row" style="padding-top:10px">
-        <div class="form-group">
-            <label class="control-label col-sm-2" style="font-weight:normal" for="txtBotSecret">Bot Secret</label>
-            <div class="col-sm-10">
-                {{BotDeployment.BotSecret}}
+            <label class="control-label col-sm-2" >Deployment Date</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" id="txtName" ng-model="BotDeployment.DeploymentDate | date:'dd/MM/yyyy'" disabled>
+                <!--{{BotDeployment.DeploymentDate | date:'dd/MM/yyyy'}}-->
             </div>
         </div>
     </div>
 
     <div class="row" style="padding-top:10px">
         <div class="form-group">
-            <label class="control-label col-sm-2" style="font-weight:normal" for="txtBotURI">Bot URI</label>
-            <div class="col-sm-10">
-                {{BotDeployment.BotURI}}
-            </div>
-        </div>
-    </div>-->
-
-    <div class="row" style="padding-top:10px">
-        <div class="form-group">
-            <label class="control-label col-sm-2" style="font-weight:normal" for="txtWebSiteURI">WebSite URI</label>
-            <div class="col-sm-10">
-                {{BotDeployment.WebSiteURI}}
+            <label class="control-label col-sm-2" for="txtWebSiteURI">WebSite URI</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" id="txtName" ng-model="BotDeployment.WebSiteURI" disabled>
+                <!--{{BotDeployment.WebSiteURI}}-->
             </div>
         </div>
     </div>
 
     <div class="row" style="padding-top:10px">
         <div class="form-group">
-            <label class="control-label col-sm-2" style="font-weight:normal" for="txtDomainName">Domain Name</label>
-            <div class="col-sm-10">
-                {{BotDeployment.DomainName}}
+            <label class="control-label col-sm-2" for="txtDomainName">Domain Name</label>
+            <div class="col-sm-6">
+                <input type="text" class="form-control" id="txtName" ng-model="BotDeployment.DomainName" disabled>
+                <!--{{BotDeployment.DomainName}}-->
             </div>
         </div>
     </div>
 
     <div class="row" style="padding-top:10px">
         <div class="form-group">
-            <label class="control-label col-sm-2" style="font-weight:normal" for="txtEmbeddedScript">Embedded Script</label>
+            <label class="control-label col-sm-2" for="txtEmbeddedScript">Embedded Script</label>
             <div class="input-group col-sm-8">
                 <input type="text" class="form-control" id="txtEmbeddedScript" ng-model="BotDeployment.EmbeddedScript" readonly />
                 <div class="input-group-addon">
@@ -126,8 +111,8 @@
     <div class="row" style="padding-top:10px">
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="button" class="btn btn-default" value="Cancel"
-                       style="border-radius:5px;height:39px;width:150px;font-weight:bold;background-color: gainsboro;"
+                <input type="button" class="btn btn-danger" value="Cancel"
+                       style="border-radius:5px;height:39px;width:150px;font-weight:bold;"
                        ng-click="Cancel()" />
             </div>
         </div>

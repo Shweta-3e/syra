@@ -1,16 +1,16 @@
 ﻿<div class="container" ng-hide="LogView">
-    <h3 style="margin-top:20px;">
-        Preview Analytics
+    <h2 style="margin-top:20px;">
+        Analytical View
         <span class="pull-right">
         </span>
-    </h3>
+    </h2>
     <!-- div for datetime picker-->
-    <div class='input-group date' id='datetimepicker1' style="padding-bottom:50px; width:400px;">
+    <div class='input-group date' id='datetimepicker1' style="padding-bottom:50px; padding-top:3%;width:400px;">
         <div class="col-md-12">
-            <label class="col-sm-4" style="font-weight:normal;font-family:'Times New Roman', Times, serif; font-size:large">Start Date </label>
+            <label class="col-sm-4" style="font-weight:bold;font-family:'Times New Roman', Times, serif; font-size:large">Start Date </label>
             <md-datepicker ng-model="fromdate" md-placeholder="Start Date" md-min-date="minstartDate" md-max-date="maxstartDate" style="margin-right:20px"
                            md-open-on-focus></md-datepicker>
-            <label class="col-sm-4" style="font-weight:normal;font-family:'Times New Roman', Times, serif;font-size:large">End Date </label>
+            <label class="col-sm-4" style="font-weight:bold;font-family:'Times New Roman', Times, serif;font-size:large">End Date </label>
             <md-datepicker ng-model="todate" md-placeholder="End Date" md-min-date="minendDate" md-max-date="maxendDate"
                            md-open-on-focus></md-datepicker>
         </div>
@@ -18,7 +18,7 @@
 </div>
 <div class="container" ng-hide="IsEditMode">
     <ul class="nav nav-tabs">
-        <li class="active" ng-class="{'active': isActiveTab(1)}" ng-click="GetBotReply()">
+        <li ng-class="{'active': isActiveTab(1)}" ng-click="GetBotReply()">
             <a role="tab" data-toggle="tab" ng-click="tab=1">Bot Response Analysis</a>
         </li>
         <li ng-class="{'active': isActiveTab(2)}" ng-click="GetQuestionsAsked()">

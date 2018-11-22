@@ -6,17 +6,17 @@
     <script src="~/Scripts/bootstrap-datetimepicker.js"></script>
 </head>
 <div class="container" ng-hide="LogView">
-    <h3>
+    <h2>
         Log View
         <span class="pull-right">
         </span>
-    </h3>
-    <div class='input-group date' id='datetimepicker1' style="padding-bottom:50px; width:400px;">
+    </h2>
+    <div class='input-group date' id='datetimepicker1' style="padding-bottom:50px; padding-top:3%; width:400px;">
         <div class="col-md-12">
-            <label class="col-sm-4" style="font-weight:normal;font-family:'Times New Roman', Times, serif; font-size:large">Start Date </label>
+            <label class="col-sm-4" style="font-weight:bold;font-family:'Times New Roman', Times, serif; font-size:large;margin-left: -2.5%;">Start Date </label>
             <md-datepicker ng-model="myDate" md-placeholder="Start Date" md-min-date="minstartDate" md-max-date="maxstartDate" style="margin-right:20px" md-open-on-focus></md-datepicker>
             <div>
-                <label class="col-sm-4" style="font-weight:normal;font-family:'Times New Roman', Times, serif;font-size:large">End Date </label>
+                <label class="col-sm-4" style="font-weight:bold;font-family:'Times New Roman', Times, serif;font-size:large;margin-left: -2.5%;">End Date </label>
                 <md-datepicker ng-model="endDate" md-placeholder="End Date" md-min-date="minendDate" md-max-date="maxendDate" md-open-on-focus></md-datepicker>
                 <button class="btn btn-success" style="margin-left:10px;" ng-click="showDate()">Show Logs</button>
             </div>

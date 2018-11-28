@@ -124,18 +124,18 @@ SyraApp.controller("CustomerDetailController", ["$scope", "$http", "syraservice"
             });
         };
 
-        $scope.UpdateChatBot = function () {
-            $http.post('/Customer/UpdateCustomerPlan', { customerplanview: $scope.CustomerPlan }).success(function (data) {
-                if (data.IsSuccess) {
-                    $scope.CustomerPlan = {};
-                    syraservice.RecordStatusMessage("success", data.Message);
-                    $scope.IsEditMode = false;
-                    $scope.LoadCustomerPlan();
-                } else {
-                    syraservice.RecordStatusMessage("error", data.Message);
-                }
-            });
-        };
+        //$scope.UpdateChatBot = function () {
+        //    $http.post('/Customer/UpdateCustomerPlan', { customerplanview: $scope.CustomerPlan }).success(function (data) {
+        //        if (data.IsSuccess) {
+        //            $scope.CustomerPlan = {};
+        //            syraservice.RecordStatusMessage("success", data.Message);
+        //            $scope.IsEditMode = false;
+        //            $scope.LoadCustomerPlan();
+        //        } else {
+        //            syraservice.RecordStatusMessage("error", data.Message);
+        //        }
+        //    });
+        //};
 
         $scope.Edit = function (item) {
             $scope.BotQuestionAnswer = item;
@@ -152,21 +152,6 @@ SyraApp.controller("CustomerDetailController", ["$scope", "$http", "syraservice"
 
         $scope.Delete = function (id) {
             if (confirm('Are you sure ? You want to delete Bot Deployment')) {
-                $http.post("/Customer/Delete/", { id: id }).success(function (data) {
-                    if (data.IsSuccess) {
-                        syraservice.RecordStatusMessage("success", data.Message);
-                        $scope.LoadCustomer();
-                    }
-                    else {
-                        syraservice.RecordStatusMessage("error", data.Message);
-                    }
-                });
-            }
-        };
-
-        $scope.CustomerDelete = function (id) {
-            if (confirm('Are you sure ? You want to delete Customer BotDeployment')) {
-                console.log(id);
                 $http.post("/Customer/BotDeploymentDelete", { id: id }).success(function (data) {
                     if (data.IsSuccess) {
                         syraservice.RecordStatusMessage("success", data.Message);
@@ -178,6 +163,21 @@ SyraApp.controller("CustomerDetailController", ["$scope", "$http", "syraservice"
                 });
             }
         };
+
+        //$scope.CustomerDelete = function (id) {
+        //    if (confirm('Are you sure ? You want to delete Customer BotDeployment')) {
+        //        console.log(id);
+        //        $http.post("/Customer/BotDeploymentDelete", { id: id }).success(function (data) {
+        //            if (data.IsSuccess) {
+        //                syraservice.RecordStatusMessage("success", data.Message);
+        //                $scope.LoadCustomer();
+        //            }
+        //            else {
+        //                syraservice.RecordStatusMessage("error", data.Message);
+        //            }
+        //        });
+        //    }
+        //};
 
         $scope.CopyToClipBoard = function () {
             var copyText = document.getElementById("txtEmbeddedScript");

@@ -297,7 +297,7 @@
     <Content Include="AppScript\ManageDb\Template\index.html" />
     <Content Include="AppScript\ManageDb\Template\view.html" />
     <Content Include="AppScript\Register\RegisterController.js" />
-    <Content Include="AppScript\Register\Template\register.html" />
+    <Content Include="AppScript\Register\Template\registration.html" />
     <Content Include="AppScript\syraapp.js" />
     <Content Include="AppScript\syraroute.js" />
     <Content Include="AppScript\SyraService.js" />

@@ -42,6 +42,8 @@ using c#. net , SignalR, EF
 	
 	color: #FFFFFF;
     background-color: #4CAF50;
+	color: #8d3052;
+	
 	
 	
 	

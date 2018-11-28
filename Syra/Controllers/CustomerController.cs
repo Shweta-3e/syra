@@ -1283,14 +1283,22 @@ namespace Syra.Admin.Controllers
         [HttpPost]
         public string GetCurrentUser()
         {
-            _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-            _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            var useremail = HttpContext.User.Identity.Name;
-            var aspnetuser = _userManager.FindByEmailAsync(useremail).Result;
-            var customer = db.Customer.FirstOrDefault(c => c.UserId == aspnetuser.Id);
-            var botdeployments = db.BotDeployments.Where(c => c.CustomerId == customer.Id).ToList();
-            customer.BotDeployments = botdeployments;
-            response.Data = Mapper.Map<CustomerView>(customer);
+            try
+            {
+                _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+                _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                var useremail = HttpContext.User.Identity.Name;
+                var aspnetuser = _userManager.FindByEmailAsync(useremail).Result;
+                var customer = db.Customer.FirstOrDefault(c => c.UserId == aspnetuser.Id);
+                var botdeployments = db.BotDeployments.Where(c => c.CustomerId == customer.Id).ToList();
+                customer.BotDeployments = botdeployments;
+                response.Data = Mapper.Map<CustomerView>(customer);
+            }
+            catch(Exception e)
+            {
+                response.Message = e.Message;
+            }
+            
             return response.GetResponse();
         }
 

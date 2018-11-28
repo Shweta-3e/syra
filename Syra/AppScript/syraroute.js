@@ -55,11 +55,11 @@
     $stateProvider.state(analytics);
 
     var register = {
-        url: '/Account/Register',
+        url: '/register',
         title: 'Register',
         name: 'register',
-        controller: 'RegistrationController',
-        templateUrl: "/Appscript/Register/Template/register.html?VER=" + SOFT_VER,
+        controller: 'RegisterController',
+        templateUrl: "/Appscript/Register/Template/registration.html?VER=" + SOFT_VER,
     };
     $stateProvider.state(register);
 

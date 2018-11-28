@@ -11,13 +11,12 @@
     <table class="table">
         <thead>
             <tr>
-                <th class="text-align-center">Sr.no</th>
-                <th class="text-align-center">Name</th>
+                <th class="text-align-center">Sr.No</th>
+                <th class="text-align-center" style="width:15%">Name</th>
                 <th class="text-align-center">Email</th>
-                <!--<th class="text-align-center">Pricing Plan</th>-->
-                <th class="text-align-center">Register Date</th>
-                <th class="text-align-center">Expiary Date</th>
-                <th class="text-align-center">Active Plan</th>
+                <th class="text-align-center" style="width:13%">Register Date</th>
+                <th class="text-align-center" style="width:12%">Expiary Date</th>
+                <th class="text-align-center" style="width:11%">Active Plan</th>
                 <th class="text-align-center">Bot Limit</th>
                 <th class="text-align-center">Actions</th>
             </tr>
@@ -27,7 +26,6 @@
                 <td class="text-align-center"><span>{{(pageSize *pageNumber)+($index+1)}}</span></td>
                 <td class="text-align-center">{{customer.Name}}</td>
                 <td class="text-align-center">{{customer.Email}}</td>
-                <!--<td class="text-align-center">{{customer.PricingPlan}}</td>-->
                 <td class="text-align-center">{{customer.RegisterDate | date:'dd/MM/yy'}}</td>
                 <td class="text-align-center">{{customer.ExpiaryDate | date:'dd/MM/yy'}}</td>
                 <td class="text-align-center">{{customer.ActivePlan}}</td>
@@ -36,7 +34,7 @@
                     <a href="/#/customerdetails/{{customer.Id}}" class="btn btn-default">
                         <b>View</b>
                     </a>
-                    <a class="btn btn-danger" ng-click="CustomerDelete(customer.Id)">
+                    <a class="btn btn-danger" ng-click="Delete(customer.Id)">
                         Delete
                     </a>
                 </td>

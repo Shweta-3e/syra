@@ -125,6 +125,7 @@
 
         //functions to call api
         $scope.GetWorldAnalysis = function (worlddata) {
+            $("#goalconversion").load(" #goalconversion > *");
             var data = worlddata.Data._data;
             var country = "";
             $('#container').highcharts('Map', {
@@ -251,6 +252,7 @@
         };
 
         $scope.TimingAnalysis = function (timedata) {
+            $("#usa-container").load(" #usa-container > *");
             var data = timedata.Data.Epochtime;
             Highcharts.chart('timing-container', {
                 chart: {
@@ -322,6 +324,7 @@
         };
 
         $scope.GetUsaMap = function (usadata) {
+            $("#container").load(" #container > *");
             var data = usadata.Data.usadata,
                 separators = Highcharts.geojson(Highcharts.maps['countries/us/us-all'], 'mapline'),
                 allresponse = usadata.Data.AllResponse;
@@ -450,6 +453,7 @@
         };
 
         $scope.GetUserQuery = function (userquerydata) {
+            $("#botreply").load(" #botreply > *");
             var data = userquerydata.Data.firstTenArrivals,
                 category = [];
             for (var item = 0; item < data.length; item++) {
@@ -588,6 +592,7 @@
         };
 
         $scope.GetClickedLink = function (clickedlinkdata) {
+            $("#container_query").load(" #container_query > *");
             var data = clickedlinkdata.Data.firstTenArrivals,
                 category = [];
             for (var item = 0; item < data.length; item++) {
@@ -724,9 +729,7 @@
         };
 
         $scope.BotResponse = function (response) {
-
             $scope.BotReplyData = response.Data;
-
             Highcharts.chart('botreply', {
                 chart: {
                     plotBackgroundColor: null,
@@ -831,6 +834,7 @@
                         }]
                 }]
             });
+            $("#timing-container").load(" #timing-container > *");
         };
 
         $scope.ShowData = false;

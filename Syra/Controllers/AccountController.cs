@@ -181,79 +181,21 @@ namespace Syra.Admin.Controllers
 
         //
         // POST: /Account/Register
-        //[HttpPost]
-        //[AllowAnonymous]
-        ////[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> Register(RegisterViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-        //        var customer = new Customer();
-        //        var existingUser = UserManager.FindByEmail(model.Email);
-        //        if(existingUser==null)
-        //        {
-        //            var result = await UserManager.CreateAsync(user, model.Password);
-        //            if (result.Succeeded)
-        //            {
-        //                var customerPlan = new CustomerPlan();
-        //                customerPlan.PlanId = model.PlanId;
-        //                customerPlan.IsActive = true;
-        //                customerPlan.CustomerId = customer.Id;
-        //                customer.UserId = user.Id;
-        //                customer.JobTitle = model.JobTitle;
-        //                customerPlan.ActivationDate = DateTime.Now;
-        //                customerPlan.ExpiryDate = DateTime.Now;
-        //                customer.Email = model.Email;
-        //                customer.RegisterDate = DateTime.Now;
-        //                customer.BusinessRequirement = model.BusinessRequirement;
-        //                var check_duplicate = db.Customer.Where(x => x.Email == customer.Email).FirstOrDefault();
-        //                if (check_duplicate == null)
-        //                {
-        //                    customer.CustomerPlans.Add(customerPlan);
-        //                    db.Customer.Add(customer);
-        //                    db.SaveChanges();
-        //                }
-        //                await UserManager.AddToRoleAsync(user.Id, "Customer");
-
-        //                await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
-        //                // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-        //                // Send an email with this link
-        //                //string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-        //                //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-        //                //await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
-
-        //                //return RedirectToAction("AccountConfirmation", "Account");
-        //            }
-        //            AddErrors(result);
-        //        }
-        //        else
-        //        {
-        //            ModelState.AddModelError("", "Email already exists.");
-        //        }
-        //    }
-
-        //    // If we got this far, something failed, redisplay form
-        //    return View(model);
-        //}
-
         [HttpPost]
         [AllowAnonymous]
         //[ValidateAntiForgeryToken]
-        public string Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            if (model != null)
+            if(model!=null)
             {
                 var userStore = new UserStore<ApplicationUser>(db);
                 var manager = new UserManager<ApplicationUser>(userStore);
-
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var customer = new Customer();
                 var existingUser = UserManager.FindByEmail(model.Email);
                 if (existingUser == null)
                 {
-                    var result = manager.Create(user, model.Password);
+                    var result = await UserManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {
                         var customerPlan = new CustomerPlan();
@@ -263,49 +205,116 @@ namespace Syra.Admin.Controllers
                         customer.UserId = user.Id;
                         customer.JobTitle = model.JobTitle;
                         customerPlan.ActivationDate = DateTime.Now;
-                        customerPlan.ExpiryDate = customerPlan.ActivationDate.AddYears(1);
+                        customerPlan.ExpiryDate = DateTime.Now;
                         customer.Email = model.Email;
                         customer.RegisterDate = DateTime.Now;
                         customer.BusinessRequirement = model.BusinessRequirement;
-                        //var check_duplicate = db.Customer.Where(x => x.Email == customer.Email).FirstOrDefault();
-                        if (existingUser == null)
+                        var check_duplicate = db.Customer.Where(x => x.Email == customer.Email).FirstOrDefault();
+                        if (check_duplicate == null)
                         {
                             customer.CustomerPlans.Add(customerPlan);
                             db.Customer.Add(customer);
                             db.SaveChanges();
                         }
-                        manager.AddToRoleAsync(user.Id, "Customer");
+                        await UserManager.AddToRoleAsync(user.Id, "Customer");
 
-                        var task1=SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false).Status;
+                        //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
-                        //For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                        //Send an email with this link
+                        // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                        // Send an email with this link
+                        string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking this link: \"" + callbackUrl + "\"");
 
-                        //string code = UserManager.GenerateEmailConfirmationToken(user.Id);
-                        //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                        //UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
-
-                        //return RedirectToAction("AccountConfirmation", "Account");
-
-                        response.IsSuccess = true;
-                        response.Message = "Your account is registered successfully. Please check your email";
+                        return RedirectToAction("AccountConfirmation", "Account");
                     }
-                    else
-                    {
-                        response.IsSuccess = false;
-                        response.Message = "Customer does not exist";
-                    }
+                    AddErrors(result);
                 }
                 else
                 {
-                    response.IsSuccess = false;
-                    response.Message = "Email already exists.";
+                    ModelState.AddModelError("", "Email already exists.");
                 }
             }
+            //if (ModelState.IsValid)
+            //{
+            //    //var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+            //    //var customer = new Customer();
+            //    //var existingUser = UserManager.FindByEmail(model.Email);
+                
+            //}
 
             // If we got this far, something failed, redisplay form
-            return response.GetResponse();
+            return View(model);
         }
+
+        //[HttpPost]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        //public string Register(RegisterViewModel model)
+        //{
+        //    if (model != null)
+        //    {
+        //        var userStore = new UserStore<ApplicationUser>(db);
+        //        var manager = new UserManager<ApplicationUser>(userStore);
+
+        //        var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+        //        var customer = new Customer();
+        //        var existingUser = UserManager.FindByEmail(model.Email);
+        //        if (existingUser == null)
+        //        {
+        //            var result = manager.Create(user, model.Password);
+        //            if (result.Succeeded)
+        //            {
+        //                var customerPlan = new CustomerPlan();
+        //                customerPlan.PlanId = model.PlanId;
+        //                customerPlan.IsActive = true;
+        //                customerPlan.CustomerId = customer.Id;
+        //                customer.UserId = user.Id;
+        //                customer.JobTitle = model.JobTitle;
+        //                customerPlan.ActivationDate = DateTime.Now;
+        //                customerPlan.ExpiryDate = customerPlan.ActivationDate.AddYears(1);
+        //                customer.Email = model.Email;
+        //                customer.RegisterDate = DateTime.Now;
+        //                customer.BusinessRequirement = model.BusinessRequirement;
+        //                //var check_duplicate = db.Customer.Where(x => x.Email == customer.Email).FirstOrDefault();
+        //                if (existingUser == null)
+        //                {
+        //                    customer.CustomerPlans.Add(customerPlan);
+        //                    db.Customer.Add(customer);
+        //                    db.SaveChanges();
+        //                }
+        //                manager.AddToRoleAsync(user.Id, "Customer");
+
+        //                var task1=SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false).Status;
+
+        //                //For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+        //                //Send an email with this link
+
+        //                //string code = UserManager.GenerateEmailConfirmationToken(user.Id);
+        //                //var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+        //                //UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
+
+        //                //return RedirectToAction("AccountConfirmation", "Account");
+
+        //                response.IsSuccess = true;
+        //                response.Message = "Your account is registered successfully. Please check your email";
+        //            }
+        //            else
+        //            {
+        //                response.IsSuccess = false;
+        //                response.Message = "Customer does not exist";
+        //            }
+        //        }
+        //        else
+        //        {
+        //            response.IsSuccess = false;
+        //            response.Message = "Email already exists.";
+        //        }
+        //    }
+
+        //    // If we got this far, something failed, redisplay form
+        //    return response.GetResponse();
+        //}
 
 
         //

@@ -4,60 +4,61 @@
         <li ng-class="{'active': isActiveTab(2)}"><a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(2)}" ng-click="tab=2">Training and Query Details for Bot</a></li>
         <li ng-class="{'active': isActiveTab(3)}"><a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(3)}" ng-click="tab=3">Intent and Entity Details</a></li>
         <li ng-class="{'active': isActiveTab(4)}"><a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(4)}" ng-click="tab=4">Bot Widget Details</a></li>
+        <li style="padding-left:30%;padding-bottom:1%; font-weight:bold;font-size:medium"onMouseOver="this.style.color='#8d3052'" onMouseOut="this.style.color='#1e1f21'">{{CreatePlan.Name}}</li>
     </ul>
 
-    <div class="tab-content" style="padding-top:10px">
+    <div class="tab-content" style="padding-top:20px">
         <div ng-show="isActiveTab(1)" ng-class="tab==1?'tab-pane fade in active':'tab-pane fade in'">
             <div class="row">
                 <div class="form-group">
                     <label class="control-label col-sm-2 mandatory required" style="font-weight:normal" for="txtPlanName"><b>Plan Name</b></label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="txtPlanName" ng-model="CreatePlan.Name" required>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" id="txtPlanName" ng-model="CreatePlan.Name" required>
                     </div>
                 </div>
             </div>
 
-            <div class="row" style="padding-top:10px">
+            <div class="row" style="padding-top:20px">
                 <div class="form-group">
                     <label class="control-label col-sm-2 mandatory required" for="txtTypes" style="font-weight:normal"><b>Types</b></label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="txtTypes" ng-model="CreatePlan.Types" required>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" id="txtTypes" ng-model="CreatePlan.Types" required>
                     </div>
                 </div>
             </div>
 
-            <div class="row" style="padding-top:10px">
+            <div class="row" style="padding-top:20px">
                 <div class="form-group">
                     <label class="control-label col-sm-2 mandatory required" for="txtMonthlyCharge" style="font-weight:normal"><b>Monthly Charge</b></label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="txtMonthlyCharge" ng-model="CreatePlan.MonthlyCharge" required>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" id="txtMonthlyCharge" ng-model="CreatePlan.MonthlyCharge" required>
                     </div>
                 </div>
             </div>
 
-            <div class="row" style="padding-top:10px">
+            <div class="row" style="padding-top:20px">
                 <div class="form-group">
                     <label class="control-label col-sm-2" for="txtSetupFees" style="font-weight:normal"><b>Setup Fees</b></label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="txtSetupFees" ng-model="CreatePlan.SetupFees" required>
+                    <div class="col-sm-7">
+                        <input type="text" class="form-control" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" id="txtSetupFees" ng-model="CreatePlan.SetupFees" required>
                     </div>
                 </div>
             </div>
 
-                <div class="row" style="padding-top:10px">
+                <div class="row" style="padding-top:20px">
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="txtContract" style="font-weight:normal"><b>Contract</b></label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="txtContract" ng-model="CreatePlan.Contract" required>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" id="txtContract" ng-model="CreatePlan.Contract" required>
                         </div>
                     </div>
                 </div>
 
-                <div class="row" style="padding-top:10px">
+                <div class="row" style="padding-top:20px">
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="txtSiteSpecification" style="font-weight:normal"><b>Site Specification</b></label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="txtSiteSpecification" ng-model="CreatePlan.SiteSpecification" required>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" id="txtSiteSpecification" ng-model="CreatePlan.SiteSpecification" required>
                         </div>
                     </div>
                 </div>
@@ -72,56 +73,56 @@
             </div>
 
             <div ng-show="isActiveTab(2)" ng-class="tab==2?'tab-pane fade in active':'tab-pane fade in'">
-                <div class="row" style="padding-top:10px">
+                <div class="row" style="padding-top:20px">
                     <div class="form-group">
                         <label class="control-label col-sm-2 mandatory required" for="txtKnowledgeDomain" style="font-weight:normal"><b>Knowledge Domain</b></label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="txtKnowledgeDomain" ng-model="CreatePlan.KnowledgeDomain" required>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" id="txtKnowledgeDomain" ng-model="CreatePlan.KnowledgeDomain" required>
                         </div>
                     </div>
                 </div>
 
-                <div class="row" style="padding-top:10px">
+                <div class="row" style="padding-top:20px">
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="txtAllowedBotLimit" style="font-weight:normal"><b>Allowed Bot Limit</b></label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="txtAllowedBotLimit" ng-model="CreatePlan.AllowedBotLimit">
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" id="txtAllowedBotLimit" ng-model="CreatePlan.AllowedBotLimit">
                         </div>
                     </div>
                 </div>
 
-                <div class="row" style="padding-top:10px">
+                <div class="row" style="padding-top:20px">
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="txtInitialTraining" style="font-weight:normal"><b>Initial Training</b></label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="txtInitialTraining" ng-model="CreatePlan.InitialTraining">
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" id="txtInitialTraining" ng-model="CreatePlan.InitialTraining">
                         </div>
                     </div>
                 </div>
 
-                <div class="row" style="padding-top:10px">
+                <div class="row" style="padding-top:20px">
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="txtAdvanceTraining" style="font-weight:normal"><b>Advance Training</b></label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="txtAdvanceTraining" ng-model="CreatePlan.AdvanceTraining">
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" id="txtAdvanceTraining" ng-model="CreatePlan.AdvanceTraining">
                         </div>
                     </div>
                 </div>
 
-                <div class="row" style="padding-top:10px">
+                <div class="row" style="padding-top:20px">
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="txtTextQuery" style="font-weight:normal"><b>TextQuery</b></label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="txtTextQuery" ng-model="CreatePlan.TextQuery">
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" id="txtTextQuery" ng-model="CreatePlan.TextQuery">
                         </div>
                     </div>
                 </div>
 
-                <div class="row" style="padding-top:10px">
+                <div class="row" style="padding-top:20px">
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="txtPagesScrapping" style="font-weight:normal"><b>Pages Scrapping</b></label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="txtPagesScrapping" ng-model="CreatePlan.PagesScrapping">
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" id="txtPagesScrapping" ng-model="CreatePlan.PagesScrapping">
                         </div>
                     </div>
                 </div>
@@ -139,38 +140,38 @@
             </div>
 
             <div ng-show="isActiveTab(3)" ng-class="tab==?'tab-pane fade in active':'tab-pane fade in'">
-                <div class="row" style="padding-top:10px">
+                <div class="row" style="padding-top:20px">
                     <div class="form-group">
                         <label class="control-label col-sm-2 mandatory required" for="txtEntities" style="font-weight:normal"><b>Entities</b></label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="txtEntities" ng-model="CreatePlan.Entities" required>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" id="txtEntities" ng-model="CreatePlan.Entities" required>
                         </div>
                     </div>
                 </div>
 
-                <div class="row" style="padding-top:10px">
+                <div class="row" style="padding-top:20px">
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="txtIntent" style="font-weight:normal"><b>Intent</b></label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="txtIntent" ng-model="CreatePlan.Intent">
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" id="txtIntent" ng-model="CreatePlan.Intent">
                         </div>
                     </div>
                 </div>
 
-                <div class="row" style="padding-top:10px">
+                <div class="row" style="padding-top:20px">
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="txtLogRetainingDay" style="font-weight:normal"><b>Log Retaining Day</b></label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="txtLogRetainingDay" ng-model="CreatePlan.LogRetainingDay">
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" id="txtLogRetainingDay" ng-model="CreatePlan.LogRetainingDay">
                         </div>
                     </div>
                 </div>
 
-                <div class="row" style="padding-top:10px">
+                <div class="row" style="padding-top:20px">
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="txtAnalyticsplan" style="font-weight:normal"><b>Analytics Retaining Day</b></label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="txtAnalyticsplan" ng-model="CreatePlan.Analyticsplan">
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" id="txtAnalyticsplan" ng-model="CreatePlan.Analyticsplan">
                         </div>
                     </div>
                 </div>
@@ -191,8 +192,8 @@
                 <div class="row" style="padding-top:10px">
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="txtEmbedWidget" style="font-weight:normal"><b>Websites for Embed Widget</b></label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="txtEmbedWidget" ng-model="CreatePlan.EmbedWidget">
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" id="txtEmbedWidget" ng-model="CreatePlan.EmbedWidget">
                         </div>
                     </div>
                 </div>
@@ -200,8 +201,8 @@
                 <div class="row" style="padding-top:10px">
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="txtFBWidget" style="font-weight:normal"><b>Facebook Pages for Embed Widget</b></label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="txtFBWidget" ng-model="CreatePlan.FBWidget">
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" id="txtFBWidget" ng-model="CreatePlan.FBWidget">
                         </div>
                     </div>
                 </div>
@@ -209,8 +210,8 @@
                 <div class="row" style="padding-top:10px">
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="txtSlackWidget" style="font-weight:normal"><b>Slack Pages for Embed Widget</b></label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="txtSlackWidget" ng-model="CreatePlan.SlackWidget">
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" id="txtSlackWidget" ng-model="CreatePlan.SlackWidget">
                         </div>
                     </div>
                 </div>
@@ -218,17 +219,17 @@
                 <div class="row" style="padding-top:10px">
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="txtSkypeWidget" style="font-weight:normal"><b>Skype for Embed Widget</b></label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="txtSkypeWidget" ng-model="CreatePlan.SkypeWidget">
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" id="txtSkypeWidget" ng-model="CreatePlan.SkypeWidget">
                         </div>
                     </div>
                 </div>
 
-                <div class="row" style="padding-top:10px">
+                <div class="row" style="padding-top:25px">
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="txtTelegramWidget" style="font-weight:normal"><b>Telegram Pages for Embed Widget</b></label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="txtTelegramWidget" ng-model="CreatePlan.TelegramWidget">
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" id="txtTelegramWidget" ng-model="CreatePlan.TelegramWidget">
                         </div>
                     </div>
                 </div>
@@ -236,8 +237,8 @@
                 <div class="row" style="padding-top:10px">
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="txtKikWidget" style="font-weight:normal"><b>Kik Pages for Embed Widget</b></label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="txtKikWidget" ng-model="CreatePlan.KikWidget">
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" id="txtKikWidget" ng-model="CreatePlan.KikWidget">
                         </div>
                     </div>
                 </div>
@@ -245,8 +246,8 @@
                 <div class="row" style="padding-top:10px">
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="txtSupportAvailability" style="font-weight:normal"><b>Support Availability for Chatbot</b></label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="txtSupportAvailability" ng-model="CreatePlan.SupportAvailability">
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" id="txtSupportAvailability" ng-model="CreatePlan.SupportAvailability">
                         </div>
                     </div>
                 </div>

@@ -9,6 +9,7 @@
         <li ng-class="{'active': isActiveTab(3)}">
             <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(3)}" ng-click="tab=3">Plan Details</a>
         </li>
+        <li style="padding-left:50%;margin-bottom:1%;font-weight:bold;font-size:medium"onMouseOver="this.style.color='#8d3052'" onMouseOut="this.style.color='#1e1f21'">{{Customer.Name}}</li>
     </ul>
 
     <div class="tab-content" style="padding-top:10px">
@@ -19,7 +20,7 @@
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="txtName">Name</label>
                         <div class="col-sm-6">
-                            <input type="text" class="form-control" id="txtName" ng-model="Customer.Name">
+                            <input type="text" style="border-radius:5px;" class="form-control" id="txtName" ng-model="Customer.Name">
                         </div>
                     </div>
                 </div>
@@ -27,7 +28,7 @@
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="txtEmail">Email</label>
                         <div class="col-sm-6">
-                            <input type="email" class="form-control" id="txtEmail" ng-model="Customer.Email" disabled>
+                            <input type="email" style="border-radius:5px;" class="form-control" id="txtEmail" ng-model="Customer.Email" disabled>
                         </div>
                     </div>
                 </div>
@@ -36,7 +37,7 @@
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="txtJobTitle">Job Title</label>
                         <div class="col-sm-6">
-                            <input type="text" class="form-control" id="txtJobTitle" ng-model="Customer.JobTitle">
+                            <input type="text" style="border-radius:5px;" class="form-control" id="txtJobTitle" ng-model="Customer.JobTitle">
                         </div>
                     </div>
                 </div>
@@ -45,7 +46,7 @@
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="txtBusinessRequirement">Business Requirements</label>
                         <div class="col-sm-6">
-                            <input type="text" class="form-control" ng-model="Customer.BusinessRequirement" id="txtBusinessRequirement">
+                            <input type="text" style="border-radius:5px;" class="form-control" ng-model="Customer.BusinessRequirement" id="txtBusinessRequirement">
                         </div>
                     </div>
                 </div>
@@ -54,7 +55,7 @@
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="txtAddress1">Address 1</label>
                         <div class="col-sm-6">
-                            <input type="text" class="form-control" ng-model="Customer.Address1" id="txtAddress1">
+                            <input type="text" style="border-radius:5px;" class="form-control" ng-model="Customer.Address1" id="txtAddress1">
                         </div>
                     </div>
                 </div>
@@ -63,7 +64,7 @@
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="txtAddress2">Address 2</label>
                         <div class="col-sm-6">
-                            <input type="text" class="form-control" ng-model="Customer.Address2" id="txtAddress2">
+                            <input type="text" style="border-radius:5px;" class="form-control" ng-model="Customer.Address2" id="txtAddress2">
                         </div>
                     </div>
                 </div>
@@ -72,7 +73,7 @@
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="txtAddress3">Address 3</label>
                         <div class="col-sm-6">
-                            <input type="text" class="form-control" ng-model="Customer.Address3" id="txtAddress3">
+                            <input type="text" style="border-radius:5px;" class="form-control" ng-model="Customer.Address3" id="txtAddress3">
                         </div>
                     </div>
                 </div>
@@ -90,7 +91,7 @@
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="txtCountry">Country</label>
                         <div class="col-sm-6">
-                            <input type="text" class="form-control" ng-model="Customer.Country" id="txtCountry">
+                            <input type="text" style="border-radius:5px;" class="form-control" ng-model="Customer.Country" id="txtCountry">
                         </div>
                     </div>
                 </div>
@@ -99,7 +100,7 @@
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="txtZipCode">ZipCode</label>
                         <div class="col-sm-6">
-                            <input type="text" class="form-control" ng-model="Customer.ZipCode" id="txtZipCode">
+                            <input type="text" style="border-radius:5px;" class="form-control" ng-model="Customer.ZipCode" id="txtZipCode">
                         </div>
                     </div>
                 </div>
@@ -480,8 +481,8 @@
             <div class="row">
                 <div class="form-group">
                     <label class="control-label col-sm-2 mandatory required" style="font-weight:normal" for="txtCompanyName">Company Name</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="txtCompanyName" ng-model="BotDeployment.CompanyName" required>
+                    <div class="col-sm-7">
+                        <input type="text" style="border-radius:5px;" class="form-control" id="txtCompanyName" ng-model="BotDeployment.CompanyName" required>
                     </div>
                 </div>
             </div>
@@ -489,8 +490,8 @@
             <div class="row" style="padding-top:10px">
                 <div class="form-group">
                     <label class="control-label col-sm-2 mandatory required" for="txtWebsite" style="font-weight:normal">Website</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="txtWebsite" ng-model="BotDeployment.Website" required>
+                    <div class="col-sm-7">
+                        <input type="text" style="border-radius:5px;" class="form-control" id="txtWebsite" ng-model="BotDeployment.Website" required>
                     </div>
                 </div>
             </div>
@@ -498,8 +499,8 @@
             <div class="row" style="padding-top:10px">
                 <div class="form-group">
                     <label class="control-label col-sm-2 mandatory required" for="txtFacebookPage" style="font-weight:normal">Facebook Page</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="txtFacebookPage" ng-model="BotDeployment.FacebookPage" required>
+                    <div class="col-sm-7">
+                        <input type="text" style="border-radius:5px;" class="form-control" id="txtFacebookPage" ng-model="BotDeployment.FacebookPage" required>
                     </div>
                 </div>
             </div>
@@ -507,8 +508,8 @@
             <div class="row" style="padding-top:10px">
                 <div class="form-group">
                     <label class="control-label col-sm-2 mandatory required" for="txtContactPage" style="font-weight:normal">Contact Page</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="txtContactPage" ng-model="BotDeployment.ContactPage" required>
+                    <div class="col-sm-7">
+                        <input type="text" style="border-radius:5px;" class="form-control" id="txtContactPage" ng-model="BotDeployment.ContactPage" required>
                     </div>
                 </div>
             </div>
@@ -516,8 +517,8 @@
             <div class="row" style="padding-top:10px">
                 <div class="form-group">
                     <label class="control-label col-sm-2 mandatory required" for="txtContactNo" style="font-weight:normal">Phone No</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="txtContactNo" ng-model="BotDeployment.ContactNo" required>
+                    <div class="col-sm-7">
+                        <input type="text" style="border-radius:5px;" class="form-control" id="txtContactNo" ng-model="BotDeployment.ContactNo" required>
                     </div>
                 </div>
             </div>
@@ -545,8 +546,8 @@
             <div class="row" style="padding-top:10px">
                 <div class="form-group">
                     <label class="control-label col-sm-2 mandatory required" for="txtName" style="font-weight:normal">Chatbot Name</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="txtName" ng-model="BotDeployment.Name" required>
+                    <div class="col-sm-7">
+                        <input type="text" style="border-radius:5px;" class="form-control" id="txtName" ng-model="BotDeployment.Name" required>
                     </div>
                 </div>
             </div>
@@ -576,8 +577,8 @@
             <div class="row" style="padding-top:10px">
                 <div class="form-group">
                     <label class="control-label col-sm-2 mandatory required" for="txtWelcomeMessage" style="font-weight:normal">Introductory Message</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="txtWelcomeMessage" ng-model="BotDeployment.WelcomeMessage">
+                    <div class="col-sm-7">
+                        <input type="text" style="border-radius:5px;" class="form-control" id="txtWelcomeMessage" ng-model="BotDeployment.WelcomeMessage">
                     </div>
                 </div>
             </div>
@@ -585,8 +586,8 @@
             <div class="row" style="padding-top:10px">
                 <div class="form-group">
                     <label class="control-label col-sm-2 mandatory required" for="txtFirstMessage" style="font-weight:normal">First Message</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="txtFirstMessage" ng-model="BotDeployment.FirstMessage">
+                    <div class="col-sm-7">
+                        <input type="text" style="border-radius:5px;" class="form-control" id="txtFirstMessage" ng-model="BotDeployment.FirstMessage">
                     </div>
                 </div>
             </div>
@@ -594,8 +595,8 @@
             <div class="row" style="padding-top:10px">
                 <div class="form-group">
                     <label class="control-label col-sm-2 mandatory required" for="txtSecondMessage" style="font-weight:normal">Second Message</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="txtSecondMessage" ng-model="BotDeployment.SecondMessage">
+                    <div class="col-sm-7">
+                        <input type="text" style="border-radius:5px;" class="form-control" id="txtSecondMessage" ng-model="BotDeployment.SecondMessage">
                     </div>
                 </div>
             </div>
@@ -603,8 +604,8 @@
             <div class="row" style="padding-top:10px">
                 <div class="form-group">
                     <label class="control-label col-sm-2 mandatory required" for="txtBackGroundColor" style="font-weight:normal">Background Color</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="txtBackGroundColor" ng-model="BotDeployment.BackGroundColor">
+                    <div class="col-sm-7">
+                        <input type="text" style="border-radius:5px;" class="form-control" id="txtBackGroundColor" ng-model="BotDeployment.BackGroundColor">
                     </div>
                 </div>
             </div>
@@ -699,8 +700,8 @@
             <div class="row" style="padding-top:10px">
                 <div class="form-group">
                     <label class="control-label col-sm-2 mandatory required" for="txtChatBotSecret" style="font-weight:normal">Bot Secret</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="txtChatBotGoal" ng-model="BotDeployment.BotSecret">
+                    <div class="col-sm-7">
+                        <input type="text" style="border-radius:5px;" class="form-control" id="txtChatBotGoal" ng-model="BotDeployment.BotSecret">
                     </div>
                 </div>
             </div>
@@ -708,8 +709,8 @@
             <div class="row" style="padding-top:10px">
                 <div class="form-group">
                     <label class="control-label col-sm-2 mandatory required" for="txtBotURI" style="font-weight:normal">Bot URI</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="txtBotURI" ng-model="BotDeployment.BotURI">
+                    <div class="col-sm-7">
+                        <input type="text" style="border-radius:5px;" class="form-control" id="txtBotURI" ng-model="BotDeployment.BotURI">
                     </div>
                 </div>
             </div>
@@ -717,8 +718,8 @@
             <div class="row" style="padding-top:10px">
                 <div class="form-group">
                     <label class="control-label col-sm-2 mandatory required" for="txtWebSiteURI" style="font-weight:normal">WebSiteURI</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="txtWebSiteURI" ng-model="BotDeployment.WebSiteURI">
+                    <div class="col-sm-7">
+                        <input type="text" style="border-radius:5px;" class="form-control" id="txtWebSiteURI" ng-model="BotDeployment.WebSiteURI">
                     </div>
                 </div>
             </div>
@@ -726,16 +727,16 @@
             <div class="row" style="padding-top:10px">
                 <div class="form-group">
                     <label class="control-label col-sm-2 mandatory required" for="txtDomainName" style="font-weight:normal">Domain Name</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="txtDomainName" ng-model="BotDeployment.DomainName">
+                    <div class="col-sm-7">
+                        <input type="text" style="border-radius:5px;" class="form-control" id="txtDomainName" ng-model="BotDeployment.DomainName">
                     </div>
                 </div>
             </div>
             <div class="row" style="padding-top:10px">
                 <div class="form-group">
                     <label class="control-label col-sm-2 mandatory required" for="txtChatBotGoal" style="font-weight:normal">Define the goal of Chatbot</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="txtChatBotGoal" ng-model="BotDeployment.ChatBotGoal">
+                    <div class="col-sm-7">
+                        <input type="text" style="border-radius:5px;" class="form-control" id="txtChatBotGoal" ng-model="BotDeployment.ChatBotGoal">
                     </div>
                 </div>
             </div>
@@ -783,8 +784,8 @@
             <div class="row" style="padding-top:10px">
                 <div class="form-group">
                     <label class="control-label col-sm-2 mandatory required" for="txtBlobConnectionString" style="font-weight:normal">Blob ConnectionString</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="txtBlobConnectionString" ng-model="BotDeployment.BlobConnectionString">
+                    <div class="col-sm-7">
+                        <input type="text" style="border-radius:5px;" class="form-control" id="txtBlobConnectionString" ng-model="BotDeployment.BlobConnectionString">
                     </div>
                 </div>
             </div>
@@ -792,8 +793,8 @@
             <div class="row" style="padding-top:10px">
                 <div class="form-group">
                     <label class="control-label col-sm-2 mandatory required" for="txtContainerName" style="font-weight:normal">Blob Conatiner</label>
-                    <div class="col-sm-10">
-                        <input type="text" class="form-control" id="txtContainerName" ng-model="BotDeployment.ContainerName">
+                    <div class="col-sm-7">
+                        <input type="text" style="border-radius:5px;" class="form-control" id="txtContainerName" ng-model="BotDeployment.ContainerName">
                     </div>
                 </div>
             </div>

@@ -33,10 +33,10 @@
                 });
             }
         };
-        $scope.PlanCancel = function () {
-            $scope.PlanDetails = false;
-            $state.go("adminplan");
-        };
+        //$scope.PlanCancel = function () {
+        //    $scope.PlanDetails = false;
+        //    $state.go("adminplan");
+        //};
 
     }
 ]);

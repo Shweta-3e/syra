@@ -12,17 +12,13 @@
         </span>
     </h2>
     <div class='input-group date' id='datetimepicker1' style="padding-bottom:50px; padding-top:3%; width:400px;">
-        <div class="col-md-12">
-            <label class="col-sm-4" style="font-weight:bold;font-family:'Times New Roman', Times, serif; font-size:large;margin-left: -2.5%;">Start Date </label>
-            <md-datepicker ng-model="myDate" md-placeholder="Start Date" md-min-date="minstartDate" md-max-date="maxstartDate" style="margin-right:20px" md-open-on-focus></md-datepicker>
-            <div>
-                <label class="col-sm-4" style="font-weight:bold;font-family:'Times New Roman', Times, serif;font-size:large;margin-left: -2.5%;">End Date </label>
-                <md-datepicker ng-model="endDate" md-placeholder="End Date" md-min-date="minendDate" md-max-date="maxendDate" md-open-on-focus></md-datepicker>
-                <button class="btn btn-success" style="margin-left:10px;" ng-click="showDate()">Show Logs</button>
-            </div>
-        </div>
+        <label class="col-sm-4" style="font-family:'Times New Roman', Times, serif; font-size:medium; margin-left: 2.5%;">Start Date </label>
+        <md-datepicker ng-model="myDate" md-placeholder="Start Date" md-min-date="minstartDate" md-max-date="maxstartDate" style="margin-right:20px" md-open-on-focus></md-datepicker>
+        <label class="col-sm-4" style="font-family:'Times New Roman', Times, serif;font-size:medium;margin-left: 17%;">End Date </label>
+        <md-datepicker ng-model="endDate" md-placeholder="End Date" md-min-date="minendDate" md-max-date="maxendDate" md-open-on-focus></md-datepicker>
+        <button class="btn btn-success" style="padding-top:2%;margin-left:10px;" ng-click="showDate()">Show Logs</button>
     </div>
-    <table datatable="ng" dt-options="vm.dtOptions" dt-columns="vm.dtColumns" class="table table-responsive table-bordered table-striped">
+    <table datatable="ng" style="padding-top:3%" dt-options="vm.dtOptions" dt-columns="vm.dtColumns" class="table table-responsive table-bordered table-striped">
         <thead>
             <tr>
                 <th class="text-align-center" style="width:250px">DateTime</th>

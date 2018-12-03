@@ -1,4 +1,5 @@
-﻿<div class="container" ng-hide="IsEditMode">
+﻿<script type='text/javascript' src="~/Scripts/jscolor.js"></script>
+<div class="container" ng-hide="IsEditMode">
     <ul class="nav nav-tabs">
         <li class="active" ng-class="{'active': isActiveTab(1)}">
             <a role="tab" data-toggle="tab" ng-click="tab=1">Customer Profile</a>
@@ -601,8 +602,7 @@
                 <div class="form-group">
                     <label class="control-label col-sm-2 mandatory required" for="txtBackGroundColor">Background Color</label>
                     <div class="col-sm-7">
-                        <input class="jscolor" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;">
-                        <!--<input type="text" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" class="form-control" id="txtBackGroundColor" ng-model="BotDeployment.BackGroundColor">-->
+                        <input type="text" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" class="form-control" id="txtBackGroundColor" ng-model="BotDeployment.BackGroundColor">
                     </div>
                 </div>
             </div>

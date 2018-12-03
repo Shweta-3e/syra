@@ -1,5 +1,5 @@
 ﻿<div class="container" ng-hide="BotDetail">
-    <h3>
+    <h2>
         My Bots <span class="badge">{{Customer.BotDeployments.length}}/{{CustomerPlan.AllowedBotLimit}}</span>
         <span class="pull-right" ng-hide="Customer.BotDeployments.length == CustomerPlan.AllowedBotLimit">
             <a ui-sref="newchatbot" style="height: 33px;border: 0px;font-size:15px;background-color: transparent;">
@@ -11,7 +11,7 @@
                 Upgrade
             </a>
         </span>
-    </h3>
+    </h2>
 
     <table class="table" >
         <thead>
@@ -70,37 +70,37 @@
         <div class="form-group">
             <label class="control-label col-sm-2" >Deployment Date</label>
             <div class="col-sm-6">
-                <input type="text" class="form-control" id="txtName" ng-model="BotDeployment.DeploymentDate | date:'dd/MM/yyyy'" disabled>
-                <!--{{BotDeployment.DeploymentDate | date:'dd/MM/yyyy'}}-->
+                <input type="text" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" class="form-control" id="txtName" ng-model="BotDeployment.DeploymentDate | date:'dd/MM/yyyy'" disabled>
+               
             </div>
         </div>
     </div>
 
-    <div class="row" style="padding-top:10px">
+    <div class="row" style="padding-top:2%">
         <div class="form-group">
             <label class="control-label col-sm-2" for="txtWebSiteURI">WebSite URI</label>
             <div class="col-sm-6">
-                <input type="text" class="form-control" id="txtName" ng-model="BotDeployment.WebSiteURI" disabled>
+                <input type="text" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" class="form-control" id="txtName" ng-model="BotDeployment.WebSiteURI" disabled>
                 <!--{{BotDeployment.WebSiteURI}}-->
             </div>
         </div>
     </div>
 
-    <div class="row" style="padding-top:10px">
+    <div class="row" style="padding-top:2%">
         <div class="form-group">
             <label class="control-label col-sm-2" for="txtDomainName">Domain Name</label>
             <div class="col-sm-6">
-                <input type="text" class="form-control" id="txtName" ng-model="BotDeployment.DomainName" disabled>
+                <input type="text" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" class="form-control" id="txtName" ng-model="BotDeployment.DomainName" disabled>
                 <!--{{BotDeployment.DomainName}}-->
             </div>
         </div>
     </div>
 
-    <div class="row" style="padding-top:10px">
+    <div class="row" style="padding-top:2%">
         <div class="form-group">
             <label class="control-label col-sm-2" for="txtEmbeddedScript">Embedded Script</label>
             <div class="input-group col-sm-8">
-                <input type="text" class="form-control" id="txtEmbeddedScript" ng-model="BotDeployment.EmbeddedScript" readonly />
+                <input type="text" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" class="form-control" id="txtEmbeddedScript" ng-model="BotDeployment.EmbeddedScript" readonly />
                 <div class="input-group-addon">
                     <a ng-click="CopyToClipBoard()">Copy</a>
                 </div>
@@ -108,7 +108,7 @@
         </div>
     </div>
 
-    <div class="row" style="padding-top:10px">
+    <div class="row" style="padding-top:2%">
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="button" class="btn btn-danger" value="Cancel"

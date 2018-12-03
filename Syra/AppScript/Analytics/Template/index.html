@@ -4,16 +4,11 @@
         <span class="pull-right">
         </span>
     </h2>
-    <!-- div for datetime picker-->
-    <div class='input-group date' id='datetimepicker1' style="padding-bottom:50px; padding-top:3%;width:400px;">
-        <div class="col-md-12">
-            <label class="col-sm-4" style="font-weight:bold;font-family:'Times New Roman', Times, serif; font-size:large">Start Date </label>
-            <md-datepicker ng-model="fromdate" md-placeholder="Start Date" md-min-date="minstartDate" md-max-date="maxstartDate" style="margin-right:20px"
-                           md-open-on-focus></md-datepicker>
-            <label class="col-sm-4" style="font-weight:bold;font-family:'Times New Roman', Times, serif;font-size:large">End Date </label>
-            <md-datepicker ng-model="todate" md-placeholder="End Date" md-min-date="minendDate" md-max-date="maxendDate"
-                           md-open-on-focus></md-datepicker>
-        </div>
+    <div class='input-group date' id='datetimepicker1' style="padding-bottom:50px; padding-top:3%; width:400px;">
+        <label class="col-sm-4" style="font-family:'Times New Roman', Times, serif; font-size:medium; margin-left: 2.5%;">Start Date </label>
+        <md-datepicker ng-model="fromdate" md-placeholder="Start Date" md-min-date="minstartDate" md-max-date="maxstartDate" style="margin-right:20px" md-open-on-focus></md-datepicker>
+        <label class="col-sm-4" style="font-family:'Times New Roman', Times, serif;font-size:medium;margin-left: 25%;">End Date </label>
+        <md-datepicker ng-model="todate" md-placeholder="End Date" md-min-date="minendDate" md-max-date="maxendDate" md-open-on-focus></md-datepicker>
     </div>
 </div>
 <div class="container" ng-hide="IsEditMode">

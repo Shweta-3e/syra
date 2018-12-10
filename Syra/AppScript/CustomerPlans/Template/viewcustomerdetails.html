@@ -1,4 +1,4 @@
-﻿<script type='text/javascript' src="~/Scripts/jscolor.js"></script>
+﻿<script type='text/javascript' src="http://jscolor.com/release/2.0/jscolor-2.0.5/jscolor.js"></script>
 <div class="container" ng-hide="IsEditMode">
     <ul class="nav nav-tabs">
         <li class="active" ng-class="{'active': isActiveTab(1)}">
@@ -16,8 +16,9 @@
     <div class="tab-content" style="padding-top:10px">
 
         <div ng-show="isActiveTab(1)" ng-class="tab==1?'tab-pane fade in active':'tab-pane fade in'">
-            <form class="form-horizontal" style="padding-top:10px">
-                <div class="row" style="">
+            <h2 style="padding-top:1%">Customer Details</h2>
+            <form class="form-horizontal" style="padding-top:2%">
+                <div class="row">
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="txtName">Name</label>
                         <div class="col-sm-6">
@@ -25,6 +26,7 @@
                         </div>
                     </div>
                 </div>
+               
                 <div class="row" style="padding-top:10px">
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="txtEmail">Email</label>
@@ -246,7 +248,8 @@
         </div>
 
         <div ng-show="isActiveTab(3)" ng-class="tab==3?'tab-pane fade in active':'tab-pane fade in'">
-            <form class="form-horizontal" style="padding-top:10px">
+            <h2 style="padding-top:1%">Plan Details</h2>
+            <form class="form-horizontal" style="padding-top:2%">
                 <div class="row">
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="txtName">Plan Name</label>
@@ -601,8 +604,9 @@
             <div class="row" style="padding-top:2%">
                 <div class="form-group">
                     <label class="control-label col-sm-2 mandatory required" for="txtBackGroundColor">Background Color</label>
+                    <!--<input class="jscolor">-->
                     <div class="col-sm-7">
-                        <input type="text" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" class="form-control" id="txtBackGroundColor" ng-model="BotDeployment.BackGroundColor">
+                        <input type="text" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" class="jscolor" id="txtBackGroundColor" ng-model="BotDeployment.BackGroundColor">
                     </div>
                 </div>
             </div>

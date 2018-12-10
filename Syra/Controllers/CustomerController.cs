@@ -38,7 +38,6 @@ namespace Syra.Admin.Controllers
             return View();
         }
 
-
         public ActionResult MyBots()
         {
             var useremail = HttpContext.User.Identity.Name;
@@ -62,7 +61,6 @@ namespace Syra.Admin.Controllers
             }
             return View(ViewBag.Bots);
         }
-
 
         // GET: Plans/Create
         public ActionResult CreateBot()

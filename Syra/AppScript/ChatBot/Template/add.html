@@ -1,4 +1,5 @@
-﻿<div class="Container">
+﻿<script type='text/javascript' src="http://jscolor.com/release/2.0/jscolor-2.0.5/jscolor.js"></script>
+<div class="Container">
     <ul class="nav nav-tabs">
         <li class="active" ng-class="{'active': isActiveTab(1)}">
         <a role="tab" data-toggle="tab"  ng-click="tab=1">Company Details</a></li>
@@ -121,7 +122,7 @@
                 <div class="form-group">
                     <label class="control-label col-sm-2 mandatory required" for="txtBackGroundColor">Background Color</label>
                     <div class="col-sm-7">
-                        <input type="text" class="form-control" id="txtBackGroundColor" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" ng-model="BotDeployment.BackGroundColor">
+                        <input type="text" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" class="jscolor" id="txtBackGroundColor" ng-model="BotDeployment.BackGroundColor">
                     </div>
                 </div>
             </div>

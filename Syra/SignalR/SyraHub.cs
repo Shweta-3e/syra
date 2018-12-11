@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Web.Mvc;
 using Microsoft.AspNet.SignalR;
 using Newtonsoft.Json;
 using Syra.Admin.DbContexts;
@@ -18,38 +19,40 @@ namespace Syra.Admin.SignalR
         {
             Clients.All.hello();
         }
-        public void Send(string name, string message, string clientid)
-        {
-            // Call the broadcastMessage method to update clients.
+        //[HttpPost]
+        //public string Send(string message, string clientid)
+        //{
+        //    // Call the broadcastMessage method to update clients.
 
-            //Call LUIS API // GET ITS INTENT / DECIDE WHAT TO BE SENT OUT
-            var detailsUri = "http://147.75.71.162:8585/customer/getcustomerdetails?clientid=" + clientid;
-            HttpWebRequest detailsrequest = WebRequest.Create(detailsUri) as System.Net.HttpWebRequest;
-            detailsrequest.Method = "GET";
-            HttpWebResponse detailsresponse = (HttpWebResponse)detailsrequest.GetResponse();
-            var detailsreader = new StreamReader(detailsresponse.GetResponseStream()).ReadToEnd();
-            LuisDomain domain=JsonConvert.DeserializeObject<LuisDomain>(detailsreader);
-            //https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/136e3019-5e1e-487e-a086-d1541f89c47b?subscription-key=e6d3d39c8364452baec720946d038b6f&timezoneOffset=-360&q=
+        //    //Call LUIS API // GET ITS INTENT / DECIDE WHAT TO BE SENT OUT
+        //    var detailsUri = "http://147.75.71.162:8585/customer/getcustomerdetails?clientid=" + clientid;
+        //    HttpWebRequest detailsrequest = WebRequest.Create(detailsUri) as System.Net.HttpWebRequest;
+        //    detailsrequest.Method = "GET";
+        //    HttpWebResponse detailsresponse = (HttpWebResponse)detailsrequest.GetResponse();
+        //    var detailsreader = new StreamReader(detailsresponse.GetResponseStream()).ReadToEnd();
+        //    LuisDomain domain=JsonConvert.DeserializeObject<LuisDomain>(detailsreader);
+        //    //https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/136e3019-5e1e-487e-a086-d1541f89c47b?subscription-key=e6d3d39c8364452baec720946d038b6f&timezoneOffset=-360&q=
 
-            var Uri = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/" + domain.LuisAppId + "?subscription-key=" + domain.LuisAppKey + "&q=" + message;
-            HttpWebRequest request = WebRequest.Create(Uri) as System.Net.HttpWebRequest;
-            Encoding encoding = new UTF8Encoding();
-            request.Method = "GET";
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            var reader = new StreamReader(response.GetResponseStream());
-            String jsonresponse = "";
-            String temp = null;
-            while (!reader.EndOfStream)
-            {
-                temp = reader.ReadLine();
-                jsonresponse += temp;
-            }
-            LuisReply Data = JsonConvert.DeserializeObject<LuisReply>(jsonresponse);
-            List<string> LUISresponse=FetchFromDB(Data.topScoringIntent.intent,Data.entities[0].entity);
-            Clients.Caller.broadcastMessage(name, LUISresponse);
+        //    var Uri = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/" + domain.LuisAppId + "?subscription-key=" + domain.LuisAppKey + "&q=" + message;
+        //    HttpWebRequest request = WebRequest.Create(Uri) as System.Net.HttpWebRequest;
+        //    Encoding encoding = new UTF8Encoding();
+        //    request.Method = "GET";
+        //    HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+        //    var reader = new StreamReader(response.GetResponseStream());
+        //    String jsonresponse = "";
+        //    String temp = null;
+        //    while (!reader.EndOfStream)
+        //    {
+        //        temp = reader.ReadLine();
+        //        jsonresponse += temp;
+        //    }
+        //    LuisReply Data = JsonConvert.DeserializeObject<LuisReply>(jsonresponse);
+        //    List<string> LUISresponse=FetchFromDB(Data.topScoringIntent.intent,Data.entities[0].entity);
+        //    return jsonresponse;
+        //    //Clients.Caller.broadcastMessage(name, LUISresponse);
 
 
-        }
+        //}
 
         public List<string> FetchFromDB(string Intent, string Entity)
         {

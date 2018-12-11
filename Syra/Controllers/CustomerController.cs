@@ -14,11 +14,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
@@ -1353,7 +1356,8 @@ namespace Syra.Admin.Controllers
                         BotURI = botdeployment.BotURI,
                         WebsiteURL = botdeployment.WebSiteUrl,
                         DomainName = botdeployment.DomainName,
-                        Botchatname = botdeployment.DomainKey
+                        Botchatname = botdeployment.DomainKey,
+                        LuisAppId=botdeployment.LuisId
                     };
                     response.IsSuccess = true;
                     response.Data = customerDetails;
@@ -1371,7 +1375,8 @@ namespace Syra.Admin.Controllers
                         BotURI = botdeployment.BotURI,
                         WebsiteURL = botdeployment.WebSiteUrl,
                         DomainName = botdeployment.DomainName,
-                        Botchatname = botdeployment.DomainKey
+                        Botchatname = botdeployment.DomainKey,
+                        LuisAppId = botdeployment.LuisId
                     };
                     response.IsSuccess = false;
                     response.Data = customerDetails;
@@ -1417,6 +1422,83 @@ namespace Syra.Admin.Controllers
                 response.Data = Mapper.Map<CustomerView>(customer);
             }
             return response.GetResponse();
+        }
+
+        [HttpGet]
+        public string Send(string message, string clientid)
+        {
+            // Call the broadcastMessage method to update clients.
+
+            //Call LUIS API // GET ITS INTENT / DECIDE WHAT TO BE SENT OUT
+            //try
+            //{
+                var detailsUri = "http://147.75.71.162:8585/customer/getcustomerdetails?clientid=" + clientid;
+                HttpWebRequest detailsrequest = WebRequest.Create(detailsUri) as System.Net.HttpWebRequest;
+                detailsrequest.Method = "GET";
+                HttpWebResponse detailsresponse = (HttpWebResponse)detailsrequest.GetResponse();
+                var detailsreader = new StreamReader(detailsresponse.GetResponseStream()).ReadToEnd();
+                var userdetail = db.BotDeployments.FirstOrDefault(c => c.T_BotClientId == clientid);
+                var userluis = db.LuisDomains.FirstOrDefault(c => c.Id == userdetail.LuisId);
+                //LuisDomain domain = JsonConvert.DeserializeObject<LuisDomain>(detailsreader);
+                //https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/136e3019-5e1e-487e-a086-d1541f89c47b?subscription-key=e6d3d39c8364452baec720946d038b6f&timezoneOffset=-360&q=
+
+                var Uri = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/" + userluis.LuisAppId + "?subscription-key=" + userluis.LuisAppKey + "&q=" + message;
+                HttpWebRequest request = WebRequest.Create(Uri) as System.Net.HttpWebRequest;
+                Encoding encoding = new UTF8Encoding();
+                request.Method = "GET";
+                HttpWebResponse webresponse = (HttpWebResponse)request.GetResponse();
+                var reader = new StreamReader(webresponse.GetResponseStream());
+                String jsonresponse = "";
+                String temp = null;
+                while (!reader.EndOfStream)
+                {
+                    temp = reader.ReadLine();
+                    jsonresponse += temp;
+                }
+                LuisReply Data = JsonConvert.DeserializeObject<LuisReply>(jsonresponse);
+                List<string> LUISresponse = FetchFromDB(Data.topScoringIntent.intent, Data.entities[0].type);
+                response.Data = LUISresponse;
+                response.Message = "Success";
+                response.IsSuccess = true;
+            //}
+            //catch(Exception e)
+            //{
+            //    response.Message = e.Message;
+            //    //return response.GetResponse();
+            //}
+            return response.GetResponse();
+        }
+        public List<string> FetchFromDB(string Intent, string Entity)
+        {
+            List<string> data = new List<string>();
+            string response_without_html = "";
+            const string HTML_TAG_PATTERN = "<.*?>";
+            string cs = ConfigurationManager.ConnectionStrings["SyraDbContext"].ToString();
+            string sql = "Select * from dbo.BotContents where Intent='" + Intent + "' and Entity='" + Entity + "'";
+            SqlConnection connection = new SqlConnection(cs);
+            try
+            {
+                SqlCommand command = new SqlCommand(sql, connection);
+                connection.Open();
+                //SqlDataReader dataReader = command.ExecuteReader();
+                using (SqlDataReader dataReader = command.ExecuteReader())
+                {
+                    while (dataReader.Read())
+                    {
+                        response_without_html = Regex.Replace(dataReader["BotReply"].ToString(), HTML_TAG_PATTERN, String.Empty);
+                        data.Add(response_without_html);
+                    }
+                }
+                command.Dispose();
+                connection.Close();
+                return data;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Can not open connection ! ");
+                data.Add(e.Message);
+                return data;
+            }
         }
 
         //[HttpGet]

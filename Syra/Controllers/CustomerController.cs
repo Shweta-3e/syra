@@ -1424,14 +1424,14 @@ namespace Syra.Admin.Controllers
             return response.GetResponse();
         }
 
-        [HttpGet]
+        [HttpPost]
         public string Send(string message, string clientid)
         {
             // Call the broadcastMessage method to update clients.
 
             //Call LUIS API // GET ITS INTENT / DECIDE WHAT TO BE SENT OUT
-            //try
-            //{
+            try
+            {
                 var detailsUri = "http://147.75.71.162:8585/customer/getcustomerdetails?clientid=" + clientid;
                 HttpWebRequest detailsrequest = WebRequest.Create(detailsUri) as System.Net.HttpWebRequest;
                 detailsrequest.Method = "GET";
@@ -1456,37 +1456,33 @@ namespace Syra.Admin.Controllers
                     jsonresponse += temp;
                 }
                 LuisReply Data = JsonConvert.DeserializeObject<LuisReply>(jsonresponse);
-                List<string> LUISresponse = FetchFromDB(Data.topScoringIntent.intent, Data.entities[0].type);
+                List<string> LUISresponse = FetchFromDB(Data.topScoringIntent.intent, Data.entities[0].type,userdetail.DomainKey);
                 response.Data = LUISresponse;
                 response.Message = "Success";
                 response.IsSuccess = true;
-            //}
-            //catch(Exception e)
-            //{
-            //    response.Message = e.Message;
-            //    //return response.GetResponse();
-            //}
+            }
+            catch (Exception e)
+            {
+                response.Message = e.Message;
+            }
             return response.GetResponse();
         }
-        public List<string> FetchFromDB(string Intent, string Entity)
+
+        public List<string> FetchFromDB(string Intent, string Entity,string DomainKey)
         {
             List<string> data = new List<string>();
-            string response_without_html = "";
-            const string HTML_TAG_PATTERN = "<.*?>";
             string cs = ConfigurationManager.ConnectionStrings["SyraDbContext"].ToString();
-            string sql = "Select * from dbo.BotContents where Intent='" + Intent + "' and Entity='" + Entity + "'";
+            string sql = "Select * from dbo.BotContents where Intent='" + Intent + "' and Entity='" + Entity + "' and DomainKey='" + DomainKey + "'";
             SqlConnection connection = new SqlConnection(cs);
             try
             {
                 SqlCommand command = new SqlCommand(sql, connection);
                 connection.Open();
-                //SqlDataReader dataReader = command.ExecuteReader();
                 using (SqlDataReader dataReader = command.ExecuteReader())
                 {
                     while (dataReader.Read())
-                    {
-                        response_without_html = Regex.Replace(dataReader["BotReply"].ToString(), HTML_TAG_PATTERN, String.Empty);
-                        data.Add(response_without_html);
+                    { 
+                        data.Add(dataReader["BotReply"].ToString());
                     }
                 }
                 command.Dispose();
@@ -1500,19 +1496,6 @@ namespace Syra.Admin.Controllers
                 return data;
             }
         }
-
-        //[HttpGet]
-        //public string UpdateGUID()
-        //{
-        //    var botdeployments = db.BotDeployments.ToList();
-
-        //    foreach (var bot in botdeployments)
-        //    {
-        //        bot.T_BotClientId = Guid.NewGuid().ToString();
-        //    }
-        //    db.SaveChanges();
-        //    return "";
-        //}
         #endregion
 
     }

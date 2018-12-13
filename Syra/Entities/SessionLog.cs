@@ -25,5 +25,20 @@ namespace Syra.Admin.Entities
         public string BotResponse { get; set; }
         public DateTime Log_Date { get; set; }
         public string LogTime { get; set; }
+
+        static public class State
+        {
+            public static string region;
+            public static string ip;
+            public static string uuid;
+        }
+        public class Demo
+        {
+            public static string region;
+            public static string ip;
+            public static string uuid;
+            public static string response;
+        }
+
     }
 }

@@ -21,10 +21,11 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Mvc;
+using static Syra.Admin.Entities.SessionLog;
+
 
 namespace Syra.Admin.Controllers
 {
@@ -121,7 +122,7 @@ namespace Syra.Admin.Controllers
                         bot.DeploymentDate = DateTime.Now;
                         bot.DeleteDate = DateTime.Now;
                         bot.LuisId = botdeployment.LuisId;
-                      
+
                         customer.BotDeployments.Add(bot);
                         db.SaveChanges();
                         return RedirectToAction("MyBots");
@@ -174,10 +175,10 @@ namespace Syra.Admin.Controllers
                 writer.Close();
             }
         }
-  
+
         [HttpPost]
         public string LowPeakTime(DateTime startdt, DateTime enddt)
-        {  
+        {
             SyraDbContext db = new SyraDbContext();
             List<ArrayList> arraylist = new List<ArrayList>();
             List<LowHighTime> dataline = new List<LowHighTime>();
@@ -187,7 +188,7 @@ namespace Syra.Admin.Controllers
             _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var useremail = HttpContext.User.Identity.Name;
             var aspnetuser = _userManager.FindByEmailAsync(useremail).Result;
-           
+
             if (aspnetuser != null)
             {
                 var customer = db.Customer.FirstOrDefault(c => c.UserId == aspnetuser.Id);
@@ -200,8 +201,8 @@ namespace Syra.Admin.Controllers
                 CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
                 CloudBlobContainer container = blobClient.GetContainerReference(containername);
                 var count = container.ListBlobs().Count();
-                ArrayList array=new ArrayList();
-                
+                ArrayList array = new ArrayList();
+
                 bool blob_check = false;
                 try
                 {
@@ -259,29 +260,29 @@ namespace Syra.Admin.Controllers
                         }
                     }
                 }
-                catch(Exception e)
+                catch (Exception e)
                 {
                     string errmsg = e.Message;
                     response.Message = errmsg;
                 }
-                var dupepochtime= dataline.GroupBy(x => new { x.epochtime,x.status,x.timecount }).Select(group => new { Name = group.Key, Count = group.Count() });
-                foreach(var item in dupepochtime)
+                var dupepochtime = dataline.GroupBy(x => new { x.epochtime, x.status, x.timecount }).Select(group => new { Name = group.Key, Count = group.Count() });
+                foreach (var item in dupepochtime)
                 {
-                    if(item.Name.status=="no data")
+                    if (item.Name.status == "no data")
                     {
-                        
-                        arraylist.Add(new ArrayList { item.Name.epochtime, 0});
+
+                        arraylist.Add(new ArrayList { item.Name.epochtime, 0 });
                     }
                     else
                     {
-                        arraylist.Add(new ArrayList { item.Name.epochtime, item.Count});
+                        arraylist.Add(new ArrayList { item.Name.epochtime, item.Count });
                     }
                 }
                 string json = JsonConvert.SerializeObject(arraylist);
                 //EpochTime(json);
                 response.Data = new
                 {
-                    Epochtime=arraylist
+                    Epochtime = arraylist
                 };
                 response.IsSuccess = true;
             }
@@ -289,7 +290,7 @@ namespace Syra.Admin.Controllers
         }
 
         [HttpPost]
-        public string BotReply(DateTime startdt,DateTime enddt)
+        public string BotReply(DateTime startdt, DateTime enddt)
         {
             SyraDbContext db = new SyraDbContext();
             _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
@@ -314,7 +315,7 @@ namespace Syra.Admin.Controllers
                 CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
                 CloudBlobContainer container = blobClient.GetContainerReference(containername);
 
-               
+
                 bool blob_check = false;
                 for (DateTime date = startdt; date <= enddt; date = date.AddDays(1))
                 {
@@ -354,7 +355,7 @@ namespace Syra.Admin.Controllers
                                     logs.Add(log);
                                 }
                             }
-                            catch(Exception e)
+                            catch (Exception e)
                             {
                                 string errmsg = e.Message;
                                 response.Message = errmsg;
@@ -367,15 +368,15 @@ namespace Syra.Admin.Controllers
                 catagories = logs.Select(c => c.UserQuery).Distinct().ToList();
 
                 var result = (from c in logs
-                               group c by new { c.UserQuery, c.IsWrongAnswer } into g
-                               select new
-                               {
-                                   g.Key.UserQuery,
-                                   g.Key.IsWrongAnswer,
-                                   Total = g.Count(),
-                               });
+                              group c by new { c.UserQuery, c.IsWrongAnswer } into g
+                              select new
+                              {
+                                  g.Key.UserQuery,
+                                  g.Key.IsWrongAnswer,
+                                  Total = g.Count(),
+                              });
                 var totalQuestions = result.Sum(c => c.Total);
-                var rightAnswers = result.Where(c=>c.IsWrongAnswer==false).Sum(c => c.Total);
+                var rightAnswers = result.Where(c => c.IsWrongAnswer == false).Sum(c => c.Total);
                 var wrongAnswers = totalQuestions - rightAnswers;
 
 
@@ -386,12 +387,12 @@ namespace Syra.Admin.Controllers
                     TotalQuestions = totalQuestions,
                     RightAnswers = rightAnswers,
                     WrongAnswers = wrongAnswers,
-                    AllQuestions= logs,
+                    AllQuestions = logs,
                 };
 
                 if (result.Count() <= 0)
                     response.Data = false;
-               
+
             }
             return response.GetResponse();
         }
@@ -464,12 +465,12 @@ namespace Syra.Admin.Controllers
                                     string tempdate = log.LogDate + log.LogTime;
                                     string dt = Convert.ToDateTime(startdt).ToString("dd-MM-yyyy");
                                     logs.Add(new SessionLog { SessionId = splitedword[0], IPAddress = splitedword[1], Region = splitedword[2], UserQuery = splitedword[3], BotAnswers = splitedword[4], LogDate = tempdate });
-                                    alldata.Add(new ArrayList { splitedword[0], splitedword[1] , splitedword[2], splitedword[3], splitedword[4], tempdate });
+                                    alldata.Add(new ArrayList { splitedword[0], splitedword[1], splitedword[2], splitedword[3], splitedword[4], tempdate });
 
                                     countries.Add(new Longtitude { UserQuery = log.UserQuery });
                                 }
                             }
-                            catch(Exception e)
+                            catch (Exception e)
                             {
                                 string errmsg = e.Message;
                                 response.Message = errmsg;
@@ -500,13 +501,13 @@ namespace Syra.Admin.Controllers
                     firstTenArrivals,
                     AllResponse = allresponse
                 };
-                
+
             }
             return response.GetResponse();
         }
 
         [HttpPost]
-        public string GetClickedLink(DateTime startdt,DateTime enddt)
+        public string GetClickedLink(DateTime startdt, DateTime enddt)
         {
             List<ArrayList> arraylist = new List<ArrayList>();
             List<SessionLog> logs = new List<SessionLog>();
@@ -560,16 +561,16 @@ namespace Syra.Admin.Controllers
                                     log.LogDate = splitedword[4];
                                     log.LogTime = splitedword[5];
                                     string tempdate = log.LogDate + log.LogTime;
-                                    logs.Add(new SessionLog { SessionId=log.SessionId,Region=log.Region,IPAddress=log.IPAddress,ClickedLink=log.ClickedLink,LogDate=tempdate });
+                                    logs.Add(new SessionLog { SessionId = log.SessionId, Region = log.Region, IPAddress = log.IPAddress, ClickedLink = log.ClickedLink, LogDate = tempdate });
                                     countries.Add(new Longtitude { Links = log.ClickedLink, UserId = log.SessionId });
                                 }
                             }
-                            catch(Exception e)
+                            catch (Exception e)
                             {
                                 string errmsg = e.Message;
                                 response.Message = errmsg;
                             }
-                            
+
                         }
                         response.IsSuccess = true;
                         //response.Data = logs;
@@ -585,7 +586,7 @@ namespace Syra.Admin.Controllers
                 response.Data = new
                 {
                     firstTenArrivals,
-                    AllResponse=logs  
+                    AllResponse = logs
                 };
             }
             return response.GetResponse();
@@ -719,7 +720,7 @@ namespace Syra.Admin.Controllers
         [HttpPost]
         public string GetAnalytics(DateTime startdt, DateTime enddt)
         {
-            
+
             List<SessionLog> logs = new List<SessionLog>();
             List<Longtitude> countries = new List<Longtitude>();
             List<USARegion> region = new List<USARegion>();
@@ -803,11 +804,11 @@ namespace Syra.Admin.Controllers
                                     }
                                 }
                             }
-                            catch(Exception e)
+                            catch (Exception e)
                             {
                                 string errmsg = e.Message;
                                 response.Message = errmsg;
-                            } 
+                            }
                         }
                         response.IsSuccess = true;
                     }
@@ -843,70 +844,70 @@ namespace Syra.Admin.Controllers
                         response.Message = message;
                     }
                 }
-                var worldresult= (from c in logs
-                                  group c by new { c.Region } into g
-                                  select new
-                                  {
-                                      Region=g.Key.Region,
-                                      Total = g.Count(),
-                                  });
+                var worldresult = (from c in logs
+                                   group c by new { c.Region } into g
+                                   select new
+                                   {
+                                       Region = g.Key.Region,
+                                       Total = g.Count(),
+                                   });
 
                 response.Data = new {
                     _data,
-                    AllResponse=logs,
-                    WorldResult=worldresult
+                    AllResponse = logs,
+                    WorldResult = worldresult
                 };
             }
             return response.GetResponse();
         }
 
         [HttpPost]
-        public string GetLogs(DateTime startdt,DateTime enddt)
+        public string GetLogs(DateTime startdt, DateTime enddt)
         {
             //try
             //{
-                List<SessionLog> logs = new List<SessionLog>();
-                List<Longtitude> countries = new List<Longtitude>();
-                List<Location> _data = new List<Location>();
-                SyraDbContext db = new SyraDbContext();
-                var ipdetails = new GetIPAddress();
-                _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-                _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-                var useremail = HttpContext.User.Identity.Name;
-                var aspnetuser = _userManager.FindByEmailAsync(useremail).Result;
-                
-                if(aspnetuser!=null)
-                {
-                    //based on aspnetuser object, get customer details
-                    var customer = db.Customer.FirstOrDefault(c => c.UserId == aspnetuser.Id);
-                    var botdata = db.BotDeployments.Where(c => c.CustomerId == customer.Id).FirstOrDefault();
-                    var connstring = botdata.BlobConnectionString;
-                    //var blobstorage = botdata.BlobStorageName;
-                    var containername = botdata.ContainerName;
+            List<SessionLog> logs = new List<SessionLog>();
+            List<Longtitude> countries = new List<Longtitude>();
+            List<Location> _data = new List<Location>();
+            SyraDbContext db = new SyraDbContext();
+            var ipdetails = new GetIPAddress();
+            _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var useremail = HttpContext.User.Identity.Name;
+            var aspnetuser = _userManager.FindByEmailAsync(useremail).Result;
 
-                    CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connstring);
-                    CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-                    CloudBlobContainer container = blobClient.GetContainerReference(containername);
-                    bool blob_check = false;
-                    for(DateTime date = startdt; date <= enddt; date = date.AddDays(1))
+            if (aspnetuser != null)
+            {
+                //based on aspnetuser object, get customer details
+                var customer = db.Customer.FirstOrDefault(c => c.UserId == aspnetuser.Id);
+                var botdata = db.BotDeployments.Where(c => c.CustomerId == customer.Id).FirstOrDefault();
+                var connstring = botdata.BlobConnectionString;
+                //var blobstorage = botdata.BlobStorageName;
+                var containername = botdata.ContainerName;
+
+                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connstring);
+                CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+                CloudBlobContainer container = blobClient.GetContainerReference(containername);
+                bool blob_check = false;
+                for (DateTime date = startdt; date <= enddt; date = date.AddDays(1))
+                {
+                    var startdateonly = date.Date.ToString("dd-MM-yyyy");
+                    var blob_file_name = startdateonly + "" + ".csv";
+                    CloudBlockBlob blockBlob = container.GetBlockBlobReference(blob_file_name);
+                    blob_check = blockBlob.Exists();
+                    if (blob_check == false)
                     {
-                        var startdateonly = date.Date.ToString("dd-MM-yyyy");
-                        var blob_file_name = startdateonly + "" + ".csv";
-                        CloudBlockBlob blockBlob = container.GetBlockBlobReference(blob_file_name);
-                        blob_check = blockBlob.Exists();
-                        if (blob_check == false)
+                        Console.WriteLine("Blob Container doesn't exist");
+                    }
+                    else
+                    {
+                        using (StreamReader reader = new StreamReader(blockBlob.OpenRead()))
                         {
-                            Console.WriteLine("Blob Container doesn't exist");
-                        }
-                        else
-                        {
-                            using (StreamReader reader = new StreamReader(blockBlob.OpenRead()))
+
+                            SessionLog log = new SessionLog();
+                            try
                             {
-                                
-                                SessionLog log = new SessionLog();
-                                try
-                                {
-                                    while (!reader.EndOfStream)
+                                while (!reader.EndOfStream)
                                 {
                                     //string oldcontent;
                                     var line = reader.ReadLine();
@@ -922,19 +923,19 @@ namespace Syra.Admin.Controllers
                                     string dt = Convert.ToDateTime(startdt).ToString("dd-MM-yyyy");
                                     logs.Add(new SessionLog { SessionId = splitedword[0], IPAddress = splitedword[1], Region = splitedword[2], UserQuery = splitedword[3], BotAnswers = splitedword[4], LogDate = tempdate });
                                 }
-                                }
-                                catch(Exception e)
-                                {
-                                    string errmsg = e.Message;
-                                    response.Message = errmsg;
-                                }
                             }
-                            response.IsSuccess = true;
-                            response.Data = logs;
-                            
+                            catch (Exception e)
+                            {
+                                string errmsg = e.Message;
+                                response.Message = errmsg;
+                            }
+                        }
+                        response.IsSuccess = true;
+                        response.Data = logs;
+
                         //return response.GetResponse();
                     }
-                    }
+                }
             }
             return response.GetResponse();
         }
@@ -1043,7 +1044,7 @@ namespace Syra.Admin.Controllers
         }
 
         [HttpPost]
-        public string GetMyBots(int pagesize=10, int pageno=0)
+        public string GetMyBots(int pagesize = 10, int pageno = 0)
         {
             try
             {
@@ -1078,7 +1079,7 @@ namespace Syra.Admin.Controllers
                 }
 
                 return response.GetResponse();
-            }catch(Exception ex)
+            } catch (Exception ex)
             {
                 response.IsSuccess = false;
                 response.Message = ex.Message;
@@ -1139,7 +1140,7 @@ namespace Syra.Admin.Controllers
                     chatbot.DomainKey = botdeploymentview.DomainKey;
                     chatbot.BlobConnectionString = botdeploymentview.BlobConnectionString;
                     chatbot.ContainerName = botdeploymentview.ContainerName;
-                    if(botdeploymentview.BotQuestionAnswers != null)
+                    if (botdeploymentview.BotQuestionAnswers != null)
                     {
                         if (botdeploymentview.BotQuestionAnswers.Any())
                         {
@@ -1187,9 +1188,9 @@ namespace Syra.Admin.Controllers
             try
             {
                 var customerplan = db.CustomerPlans.FirstOrDefault(c => c.CustomerId == CustomerPlan.CustomerId);
-                if(customerplan!=null)
+                if (customerplan != null)
                 {
-                   
+
                 }
             }
             catch
@@ -1218,7 +1219,7 @@ namespace Syra.Admin.Controllers
             {
                 response.IsSuccess = false;
                 response.Message = "Unable to delete record";
-                return response.GetResponse(); 
+                return response.GetResponse();
             }
         }
 
@@ -1227,7 +1228,7 @@ namespace Syra.Admin.Controllers
         {
             try
             {
-                var botdeployment = db.CustomerPlans.FirstOrDefault(c=>c.CustomerId==Id);
+                var botdeployment = db.CustomerPlans.FirstOrDefault(c => c.CustomerId == Id);
                 if (botdeployment != null)
                 {
                     db.CustomerPlans.Remove(botdeployment);
@@ -1252,7 +1253,7 @@ namespace Syra.Admin.Controllers
             {
                 var customer = db.Customer.Find(customerView.Id);
 
-                if(customer != null)
+                if (customer != null)
                 {
                     customer.Name = customerView.Name;
                     customer.JobTitle = customerView.JobTitle;
@@ -1273,7 +1274,7 @@ namespace Syra.Admin.Controllers
                     return response.GetResponse();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 response.IsSuccess = true;
                 response.Message = "Unable to update profile";
@@ -1295,11 +1296,11 @@ namespace Syra.Admin.Controllers
                 customer.BotDeployments = botdeployments;
                 response.Data = Mapper.Map<CustomerView>(customer);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 response.Message = e.Message;
             }
-            
+
             return response.GetResponse();
         }
 
@@ -1342,7 +1343,7 @@ namespace Syra.Admin.Controllers
         public string GetCustomerDetails(string clientId)
         {
             var botdeployment = db.BotDeployments.FirstOrDefault(c => c.T_BotClientId == clientId);
-            if(botdeployment != null)
+            if (botdeployment != null)
             {
                 if (botdeployment.IsPlanActive)
                 {
@@ -1357,7 +1358,7 @@ namespace Syra.Admin.Controllers
                         WebsiteURL = botdeployment.WebSiteUrl,
                         DomainName = botdeployment.DomainName,
                         Botchatname = botdeployment.DomainKey,
-                        LuisAppId=botdeployment.LuisId
+                        LuisAppId = botdeployment.LuisId
                     };
                     response.IsSuccess = true;
                     response.Data = customerDetails;
@@ -1383,7 +1384,7 @@ namespace Syra.Admin.Controllers
                     response.Message = "Your plan has been disabled, please contact administrator";
                     return response.GetResponse();
                 }
-               
+
             }
             else
             {
@@ -1417,7 +1418,7 @@ namespace Syra.Admin.Controllers
         public string GetCustomerById(Int64 customerId)
         {
             var customer = db.Customer.Include("BotDeployments").FirstOrDefault(c => c.Id == customerId);
-            if(customer != null)
+            if (customer != null)
             {
                 response.Data = Mapper.Map<CustomerView>(customer);
             }
@@ -1438,37 +1439,51 @@ namespace Syra.Admin.Controllers
                 HttpWebResponse detailsresponse = (HttpWebResponse)detailsrequest.GetResponse();
                 var detailsreader = new StreamReader(detailsresponse.GetResponseStream()).ReadToEnd();
                 var userdetail = db.BotDeployments.FirstOrDefault(c => c.T_BotClientId == clientid);
-                var userluis = db.LuisDomains.FirstOrDefault(c => c.Id == userdetail.LuisId);
-                //LuisDomain domain = JsonConvert.DeserializeObject<LuisDomain>(detailsreader);
-                //https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/136e3019-5e1e-487e-a086-d1541f89c47b?subscription-key=e6d3d39c8364452baec720946d038b6f&timezoneOffset=-360&q=
-
-                var Uri = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/" + userluis.LuisAppId + "?subscription-key=" + userluis.LuisAppKey + "&q=" + message;
-                HttpWebRequest request = WebRequest.Create(Uri) as System.Net.HttpWebRequest;
-                Encoding encoding = new UTF8Encoding();
-                request.Method = "GET";
-                HttpWebResponse webresponse = (HttpWebResponse)request.GetResponse();
-                var reader = new StreamReader(webresponse.GetResponseStream());
-                String jsonresponse = "";
-                String temp = null;
-                while (!reader.EndOfStream)
+                if(userdetail!=null)
                 {
-                    temp = reader.ReadLine();
-                    jsonresponse += temp;
+                    var userluis = db.LuisDomains.FirstOrDefault(c => c.Id == userdetail.LuisId);
+                    //LuisDomain domain = JsonConvert.DeserializeObject<LuisDomain>(detailsreader);
+                    //https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/136e3019-5e1e-487e-a086-d1541f89c47b?subscription-key=e6d3d39c8364452baec720946d038b6f&timezoneOffset=-360&q=
+                    
+                    var Uri = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/" + userluis.LuisAppId + "?subscription-key=" + userluis.LuisAppKey + "&q=" + message;
+                    HttpWebRequest request = WebRequest.Create(Uri) as System.Net.HttpWebRequest;
+                    Encoding encoding = new UTF8Encoding();
+                    request.Method = "GET";
+                    HttpWebResponse webresponse = (HttpWebResponse)request.GetResponse();
+                    var reader = new StreamReader(webresponse.GetResponseStream());
+                    String jsonresponse = "";
+                    String temp = null;
+                    while (!reader.EndOfStream)
+                    {
+                        temp = reader.ReadLine();
+                        jsonresponse += temp;
+                    }
+                    LuisReply Data = JsonConvert.DeserializeObject<LuisReply>(jsonresponse);
+                    List<string> LUISresponse = FetchFromDB(Data.topScoringIntent.intent, Data.entities[0].type, userdetail.DomainKey);
+                    
+                    if (Demo.response == "thirdeye_demo")
+                    {
+                        keeplog_demo(message, LUISresponse, clientid);
+                    }
+                    if(Demo.response==null)
+                    {
+                        string logfile_content = keeplog(message, LUISresponse, clientid);
+                    }
+                    response.Data = LUISresponse;
+                    response.Message = "Success";
+                    response.IsSuccess = true;
                 }
-                LuisReply Data = JsonConvert.DeserializeObject<LuisReply>(jsonresponse);
-                List<string> LUISresponse = FetchFromDB(Data.topScoringIntent.intent, Data.entities[0].type,userdetail.DomainKey);
-                response.Data = LUISresponse;
-                response.Message = "Success";
-                response.IsSuccess = true;
             }
             catch (Exception e)
             {
                 response.Message = e.Message;
+                response.IsSuccess = false;
+                response.Data = null;
             }
             return response.GetResponse();
         }
 
-        public List<string> FetchFromDB(string Intent, string Entity,string DomainKey)
+        public List<string> FetchFromDB(string Intent, string Entity, string DomainKey)
         {
             List<string> data = new List<string>();
             string cs = ConfigurationManager.ConnectionStrings["SyraDbContext"].ToString();
@@ -1481,7 +1496,7 @@ namespace Syra.Admin.Controllers
                 using (SqlDataReader dataReader = command.ExecuteReader())
                 {
                     while (dataReader.Read())
-                    { 
+                    {
                         data.Add(dataReader["BotReply"].ToString());
                     }
                 }
@@ -1498,5 +1513,168 @@ namespace Syra.Admin.Controllers
         }
         #endregion
 
+        public string keeplog(string question, List<string> listanswer, string clientId)
+        {
+            var userdetail = db.BotDeployments.FirstOrDefault(c => c.T_BotClientId == clientId);
+            string contents = null;
+            if (userdetail != null)
+            {
+                try
+                {
+                    CloudStorageAccount storageAccount = CloudStorageAccount.Parse(userdetail.BlobConnectionString);
+                    CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+                    CloudBlobContainer container = blobClient.GetContainerReference(userdetail.ContainerName);
+                    string ipaddr = State.ip;
+                    string reg = State.region;
+                    string session_id = State.uuid;
+                    DateTime datetime = DateTime.Now;
+                    var date = datetime.ToString("dd-MM-yyyy");
+                    var time = datetime.ToString("HH:mm:ss");
+                    var blob_file_name = date + "" + ".csv";
+                    CloudBlockBlob blockBlob = container.GetBlockBlobReference(blob_file_name);
+                    string answer = string.Join(",", listanswer.ToArray());
+                    contents = session_id + " | " + reg + " | " + ipaddr + " | " + question + " | " + answer + " | " + date + " | " + time + "\n";
+                    string oldcontent;
+                    bool blob_check = blockBlob.Exists();
+                    if (blob_check == false)
+                    {
+                        oldcontent = null;
+                    }
+                    else
+                    {
+                        using (StreamReader reader = new StreamReader(blockBlob.OpenRead()))
+                        {
+                            oldcontent = reader.ReadToEnd();
+                        }
+                    }
+                    using (StreamWriter writer = new StreamWriter(blockBlob.OpenWrite()))
+                    {
+                        writer.Write(oldcontent);
+                        writer.Write(contents);
+                    }
+                }
+                catch (Exception e)
+                {
+                    response.Message = e.Message;
+                }
+            }
+            return contents;
+        }
+
+        [HttpPost]
+        public void SendMail(string Name, string IPAddress, string UniqueId)
+        {
+            State.region = Name;
+            State.ip = IPAddress;
+            State.uuid = UniqueId;
+            Demo.response = null;
+            //keeplog(message, answer, clientid);
+        }
+
+        [HttpPost]
+        public void SendResponse(string Name, string IPAddress, string UniqueId, string Response)
+        {
+            Demo.region = Name;
+            Demo.ip = IPAddress;
+            Demo.uuid = UniqueId;
+            Demo.response = Response;
+        }
+
+        [HttpPost]
+        public string SendLink(string Name, string IPAddress, string UniqueId, string Url ,string clientid)
+        {
+            try
+            {
+                var userdetails = db.BotDeployments.FirstOrDefault(c => c.T_BotClientId == clientid);
+                if(userdetails!=null)
+                {
+                    CloudStorageAccount storageAccount = CloudStorageAccount.Parse(userdetails.BlobConnectionString);
+                    CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+                    CloudBlobContainer container = blobClient.GetContainerReference(WebConfigurationManager.AppSettings["clickedlink_container"]);
+                    DateTime datetime = DateTime.Now;
+                    var date = datetime.ToString("dd-MM-yyyy");
+                    var time = datetime.ToString("HH:mm:ss");
+                    var blob_file_name = date + "" + ".csv";
+                    CloudBlockBlob blockBlob = container.GetBlockBlobReference(blob_file_name);
+                    string contents = UniqueId + " | " + Name + " | " + IPAddress + " | " + Url + " | " + date + " | " + time + "\n";
+                    string oldcontent;
+                    bool blob_check = blockBlob.Exists();
+                    if (blob_check == false)
+                    {
+                        oldcontent = null;
+                    }
+                    else
+                    {
+                        using (StreamReader reader = new StreamReader(blockBlob.OpenRead()))
+                        {
+                            oldcontent = reader.ReadToEnd();
+                        }
+                    }
+                    using (StreamWriter writer = new StreamWriter(blockBlob.OpenWrite()))
+                    {
+                        writer.Write(oldcontent);
+                        writer.Write(contents);
+                    }
+                    response.Message = "Success";
+                    response.IsSuccess = true;
+                    response.Data = contents;
+                }
+            }
+            catch (Exception e)
+            {
+                response.Message = e.Message;
+                response.IsSuccess = false;
+            }
+            return response.GetResponse();
+        }
+
+        public void keeplog_demo(string question, List<string> answer, string clientid)
+        {
+            var userdetails = db.BotDeployments.FirstOrDefault(c=>c.T_BotClientId==clientid);
+            string listanswer = "";
+            if(userdetails!=null)
+            {
+                try
+                {
+                    CloudStorageAccount storageAccount = CloudStorageAccount.Parse(userdetails.BlobConnectionString);
+                    CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+                    CloudBlobContainer container = blobClient.GetContainerReference(WebConfigurationManager.AppSettings["demolog_container"]);
+                    string response_demo = Demo.response;
+                    string ipaddr = State.ip;
+                    string reg = State.region;
+                    string session_id = State.uuid;
+                    DateTime datetime = DateTime.Now;
+                    var date = datetime.ToString("dd-MM-yyyy");
+                    var time = datetime.ToString("HH:mm:ss");
+                    var blob_file_name = date + "" + ".csv";
+                    CloudBlockBlob blockBlob = container.GetBlockBlobReference(blob_file_name);
+                    listanswer = string.Join(",", answer.ToArray());
+                    string contents = response_demo + " | " + session_id + " | " + reg + " | " + ipaddr + " | " + question + " | " + listanswer + " | " + date + " | " + time + "\n";
+                    string oldcontent;
+                    bool blob_check = blockBlob.Exists();
+                    if (blob_check == false)
+                    {
+                        oldcontent = null;
+                    }
+                    else
+                    {
+                        using (StreamReader reader = new StreamReader(blockBlob.OpenRead()))
+                        {
+                            oldcontent = reader.ReadToEnd();
+                        }
+                    }
+                    using (StreamWriter writer = new StreamWriter(blockBlob.OpenWrite()))
+                    {
+                        writer.Write(oldcontent);
+                        writer.Write(contents);
+                    }
+                }
+                catch (Exception e)
+                {
+                    response.Message = e.StackTrace;
+                }
+            }
+            
+        }
     }
 }

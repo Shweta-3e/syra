@@ -8,6 +8,7 @@
             $http.get("/Customer/GetCustomers").success(function (response) {
                 console.log(response.Data);
                 $scope.Customers = response.Data;
+                console.log()
             });
         }
         $scope.GetCustomers();

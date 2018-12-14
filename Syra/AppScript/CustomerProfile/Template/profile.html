@@ -1,110 +1,110 @@
 ﻿<div class="row">
-    <h2> My Profile <span class="pull-right">
-        <a class="btn btn-primary" style="height: 33px;border: 0px;font-size:15px;" 
+    <h2> My Profile <span class="pull-right" >
+        <a class="btn btn-primary" style="height: 10%;border: 0px;font-size:15px;" 
            ng-show="!IsEditMode" ng-click="Edit()">
         Edit</a> </span></h2>
 </div>
-<hr />
-<form class="form-horizontal" style="padding-top:10px">
+<hr style="height:5%;margin-top: -20px;" />
+<form class="form-horizontal" style="padding-top:1%">
     <div class="row">
         <div class="form-group">
             <label class="control-label col-sm-2" for="txtName">Name</label>
-            <div class="col-sm-6">
-                <input type="text" class="form-control" style="border-radius:5px;" id="txtName" ng-model="Customer.Name" ng-disabled="!IsEditMode">
+            <div class="col-sm-8">
+                <input type="text" class="form-control" style = "width:50%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" id="txtName" ng-model="Customer.Name" ng-disabled="!IsEditMode">
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row" style="padding-top:1%">
         <div class="form-group">
             <label class="control-label col-sm-2" for="txtEmail">Email</label>
-            <div class="col-sm-6">
-                <input type="email" class="form-control" style="border-radius:5px;" id="txtEmail" ng-model="Customer.Email" disabled>
+            <div class="col-sm-8">
+                <input type="email" class="form-control" style = "width:50%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" id="txtEmail" ng-model="Customer.Email" disabled>
             </div>
         </div>
     </div>
 
-    <div class="row" style="padding-top:10px">
+    <div class="row" style="padding-top:1%">
         <div class="form-group">
             <label class="control-label col-sm-2" for="txtJobTitle">Job Title</label>
-            <div class="col-sm-6">
-                <input type="text" class="form-control" style="border-radius:5px;" id="txtJobTitle" ng-model="Customer.JobTitle" ng-disabled="!IsEditMode">
+            <div class="col-sm-8">
+                <input type="text" class="form-control" style = "width:50%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" id="txtJobTitle" ng-model="Customer.JobTitle" ng-disabled="!IsEditMode">
             </div>
         </div>
     </div>
 
-    <div class="row" style="padding-top:10px">
+    <div class="row" style="padding-top:1%">
         <div class="form-group">
             <label class="control-label col-sm-2" for="txtPricingPlan">Pricing Plan</label>
-            <div class="col-sm-6">
-                <input type="text" ng-disabled="!IsEditMode" class="form-control" style="border-radius:5px;" ng-model="CustomerPlan.Name" id="txtPricingPlan">
+            <div class="col-sm-8">
+                <input type="text" ng-disabled="!IsEditMode" class="form-control" style = "width:50%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" ng-model="CustomerPlan.Name" id="txtPricingPlan">
             </div>
         </div>
     </div>
 
-    <div class="row" style="padding-top:10px">
+    <div class="row" style="padding-top:1%">
         <div class="form-group">
             <label class="control-label col-sm-2" for="txtBusinessRequirement">Business Requirements</label>
-            <div class="col-sm-6">
-                <input type="text" ng-disabled="!IsEditMode" style="border-radius:5px;" class="form-control" ng-model="Customer.BusinessRequirement" id="txtBusinessRequirement">
+            <div class="col-sm-8">
+                <input type="text" ng-disabled="!IsEditMode" style = "width:50%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" class="form-control" ng-model="Customer.BusinessRequirement" id="txtBusinessRequirement">
             </div>
         </div>
     </div>
 
-    <div class="row" style="padding-top:10px">
+    <div class="row" style="padding-top:1%">
         <div class="form-group">
             <label class="control-label col-sm-2" for="txtAddress1">Address 1</label>
-            <div class="col-sm-6">
-                <input type="text" ng-disabled="!IsEditMode" style="border-radius:5px;" class="form-control" ng-model="Customer.Address1" id="txtAddress1">
+            <div class="col-sm-8">
+                <input type="text" ng-disabled="!IsEditMode" style = "width:50%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" class="form-control" ng-model="Customer.Address1" id="txtAddress1">
             </div>
         </div>
     </div>
 
-    <div class="row" style="padding-top:10px">
+    <div class="row" style="padding-top:1%">
         <div class="form-group">
             <label class="control-label col-sm-2" for="txtAddress2">Address 2</label>
-            <div class="col-sm-6">
-                <input type="text" ng-disabled="!IsEditMode" style="border-radius:5px;" class="form-control" ng-model="Customer.Address2" id="txtAddress2">
+            <div class="col-sm-8">
+                <input type="text" ng-disabled="!IsEditMode" style = "width:50%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" class="form-control" ng-model="Customer.Address2" id="txtAddress2">
             </div>
         </div>
     </div>
 
-    <div class="row" style="padding-top:10px">
+    <div class="row" style="padding-top:1%">
         <div class="form-group">
             <label class="control-label col-sm-2" for="txtAddress3">Address 3</label>
-            <div class="col-sm-6">
-                <input type="text" ng-disabled="!IsEditMode" style="border-radius:5px;" class="form-control" ng-model="Customer.Address3" id="txtAddress3">
+            <div class="col-sm-8">
+                <input type="text" ng-disabled="!IsEditMode" style = "width:50%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" class="form-control" ng-model="Customer.Address3" id="txtAddress3">
             </div>
         </div>
     </div>
 
-    <div class="row" style="padding-top:10px">
+    <div class="row" style="padding-top:1%">
         <div class="form-group">
             <label class="control-label col-sm-2" for="txtCity">City</label>
-            <div class="col-sm-6">
-                <input type="text" ng-disabled="!IsEditMode" style="border-radius:5px;" class="form-control" ng-model="Customer.City" id="txtCity">
+            <div class="col-sm-8">
+                <input type="text" ng-disabled="!IsEditMode" style = "width:50%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" class="form-control" ng-model="Customer.City" id="txtCity">
             </div>
         </div>
     </div>
 
-    <div class="row" style="padding-top:10px">
+    <div class="row" style="padding-top:1%">
         <div class="form-group">
             <label class="control-label col-sm-2" for="txtCountry">Country</label>
-            <div class="col-sm-6">
-                <input type="text" ng-disabled="!IsEditMode" style="border-radius:5px;" class="form-control" ng-model="Customer.Country" id="txtCountry">
+            <div class="col-sm-8">
+                <input type="text" ng-disabled="!IsEditMode" style = "width:50%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" class="form-control" ng-model="Customer.Country" id="txtCountry">
             </div>
         </div>
     </div>
 
-    <div class="row" style="padding-top:10px">
+    <div class="row" style="padding-top:1%">
         <div class="form-group">
             <label class="control-label col-sm-2" for="txtZipCode">ZipCode</label>
-            <div class="col-sm-6">
-                <input type="text" ng-disabled="!IsEditMode" style="border-radius:5px;" class="form-control" ng-model="Customer.ZipCode" id="txtZipCode">
+            <div class="col-sm-8">
+                <input type="text" ng-disabled="!IsEditMode" style = "width:50%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" class="form-control" ng-model="Customer.ZipCode" id="txtZipCode">
             </div>
         </div>
     </div>
 
-    <div class="row" style="padding-top:10px" ng-show="IsEditMode">
+    <div class="row" style="padding-top:1%" ng-show="IsEditMode">
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="button" class="btn btn-primary" value="Update" ng-click="Update()"

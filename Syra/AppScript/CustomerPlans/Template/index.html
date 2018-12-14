@@ -1,4 +1,9 @@
-﻿<div class="container" ng-hide="BotDetail">
+﻿<script>
+    function showcustomer(id) {
+        alert(id);
+    }
+</script>
+<div class="container" ng-hide="BotDetail">
     <h2>
         Manage Customers
         <span class="pull-right">
@@ -17,7 +22,7 @@
                 <th class="text-align-center" style="width:13%">Register Date</th>
                 <th class="text-align-center" style="width:12%">Expiary Date</th>
                 <th class="text-align-center" style="width:11%">Active Plan</th>
-                <th class="text-align-center">Bot Limit</th>
+                <th class="text-align-center" style="width:10%">Bot Limit</th>
                 <th class="text-align-center">Actions</th>
             </tr>
         </thead>
@@ -31,12 +36,12 @@
                 <td class="text-align-center">{{customer.ActivePlan}}</td>
                 <td class="text-align-center">{{customer.BotLimit}}</td>
                 <td class="text-align-center"style="width:450px;">
-                    <a href="/#/customerdetails/{{customer.Id}}" class="btn btn-default">
+                    <a href="/#/customerdetails/{{customer.Id}}" class="btn btn-primary">
                         <b>View</b>
                     </a>
-                    <a class="btn btn-danger" ng-click="Delete(customer.Id)">
+                    <!--<a class="btn btn-danger" ng-click="Delete(customer.Id)">
                         Delete
-                    </a>
+                    </a>-->
                 </td>
             </tr>
         </tbody>
@@ -51,6 +56,4 @@
             </li>
         </ul>
     </nav>
-
-
 </div>

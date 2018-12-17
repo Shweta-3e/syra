@@ -605,7 +605,6 @@
             <div class="row" style="padding-top:2%">
                 <div class="form-group">
                     <label class="control-label col-sm-2 mandatory required" for="txtBackGroundColor">Background Color</label>
-                    <!--<input class="jscolor">-->
                     <div class="col-sm-7">
                         <input type="text" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" class="jscolor" id="txtBackGroundColor" ng-model="BotDeployment.BackGroundColor">
                     </div>
@@ -777,7 +776,7 @@
                 <div class="form-group">
                     <label class="control-label col-sm-2 mandatory required" for="txtPlanActive">Is Plan Active</label>
                     <label class="checkbox-inline">
-                        <input type="checkbox" ng-model="BotDeployment.IsPlanActive" ng-checked="BotDeployment.IsPlanActive == 'True'" ng-true-value="True" ng-false-value="False">
+                        <input type="checkbox" ng-model="BotDeployment.IsPlanActive" ng-init="BotDeployment.IsPlanActive=true" ng-checked="BotDeployment.IsPlanActive == 'True'" ng-true-value="True" ng-false-value="False">
                     </label>
                     <!--<label class="checkbox-inline">
                         <input type="checkbox" ng-checked="BotDeployment.IsPlanActive=='False'" ng-true-value="'False'" ng-model="BotDeployment.IsPlanActive">InActive
@@ -823,7 +822,7 @@
                                style="border-radius:5px;height:39px;width:150px;font-weight:bold;" />
 
                         <input type="button" class="btn btn-danger" value="Cancel"
-                               style="border-radius:5px;height:39px;width:150px;font-weight:bold;"
+                               style="border-radius:5px;height:39px;width:150px;font-weight:bold;padding-left:10px;"
                                ng-click="IsEditMode=false" />
                     </div>
                 </div>

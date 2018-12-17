@@ -1122,7 +1122,14 @@ namespace Syra.Admin.Controllers
                     chatbot.ContactPage = botdeploymentview.ContactPage;
                     chatbot.ContactNo = botdeploymentview.ContactNo;
                     chatbot.WelcomeMessage = botdeploymentview.WelcomeMessage;
-                    chatbot.BackGroundColor = botdeploymentview.BackGroundColor;
+                    if(botdeploymentview.BackGroundColor.Contains('#')==false)
+                    {
+                        chatbot.BackGroundColor= botdeploymentview.BackGroundColor.Insert(0, "#");
+                    }
+                    else
+                    {
+                        chatbot.BackGroundColor = botdeploymentview.BackGroundColor;
+                    }
                     chatbot.WebSiteURI = botdeploymentview.WebSiteURI;
                     chatbot.DomainName = botdeploymentview.DomainName;
                     chatbot.DeploymentDate = botdeploymentview.DeploymentDate;
@@ -1428,11 +1435,13 @@ namespace Syra.Admin.Controllers
         [HttpPost]
         public string Send(string message, string clientid)
         {
+            List<string> LUISresponse = new List<string>(); ;
             // Call the broadcastMessage method to update clients.
 
             //Call LUIS API // GET ITS INTENT / DECIDE WHAT TO BE SENT OUT
             try
             {
+                string entity = null;
                 var detailsUri = "http://147.75.71.162:8585/customer/getcustomerdetails?clientid=" + clientid;
                 HttpWebRequest detailsrequest = WebRequest.Create(detailsUri) as System.Net.HttpWebRequest;
                 detailsrequest.Method = "GET";
@@ -1459,15 +1468,47 @@ namespace Syra.Admin.Controllers
                         jsonresponse += temp;
                     }
                     LuisReply Data = JsonConvert.DeserializeObject<LuisReply>(jsonresponse);
-                    List<string> LUISresponse = FetchFromDB(Data.topScoringIntent.intent, Data.entities[0].type, userdetail.DomainKey);
-                    
-                    if (Demo.response == "thirdeye_demo")
+                    if(Data.entities.Length!=0)
                     {
-                        keeplog_demo(message, LUISresponse, clientid);
+                        if(Data.entities[0].entity!=null)
+                        {
+                            entity = Data.entities[0].entity;
+                            LUISresponse = FetchFromDB(Data.topScoringIntent.intent, entity, userdetail.DomainKey);
+                            if (Demo.response == "thirdeye_demo")
+                            {
+                                keeplog_demo(message, LUISresponse, clientid);
+                            }
+                            if (Demo.response == null)
+                            {
+                                string logfile_content = keeplog(message, LUISresponse, clientid);
+                            }
+                        }
+                        if(Data.entities[0].type!=null)
+                        {
+                            entity = Data.entities[0].type;
+                            LUISresponse = FetchFromDB(Data.topScoringIntent.intent, entity, userdetail.DomainKey);
+                            if (Demo.response == "thirdeye_demo")
+                            {
+                                keeplog_demo(message, LUISresponse, clientid);
+                            }
+                            if (Demo.response == null)
+                            {
+                                string logfile_content = keeplog(message, LUISresponse, clientid);
+                            }
+                        }
+                        
                     }
-                    if(Demo.response==null)
+                    else
                     {
-                        string logfile_content = keeplog(message, LUISresponse, clientid);
+                        LUISresponse.Add("Hmmm...I didn’t quite get that. Shall we try again?");
+                        if (Demo.response == "thirdeye_demo")
+                        {
+                            keeplog_demo(message, LUISresponse, clientid);
+                        }
+                        if (Demo.response == null)
+                        {
+                            string logfile_content = keeplog(message, LUISresponse, clientid);
+                        }
                     }
                     response.Data = LUISresponse;
                     response.Message = "Success";
@@ -1476,9 +1517,10 @@ namespace Syra.Admin.Controllers
             }
             catch (Exception e)
             {
+                LUISresponse.Add("Hmmm...I didn’t quite get that. Shall we try again?");
                 response.Message = e.Message;
                 response.IsSuccess = false;
-                response.Data = null;
+                response.Data = LUISresponse;
             }
             return response.GetResponse();
         }

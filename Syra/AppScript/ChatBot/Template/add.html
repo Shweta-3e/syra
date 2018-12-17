@@ -10,7 +10,7 @@
 
     <div class="tab-content" style="padding-top:10px">
         <div ng-show="isActiveTab(1)" ng-class="tab==1?'tab-pane fade in active':'tab-pane fade in'">
-            <div class="row">
+            <div class="row" style="padding-top:2%;">
                 <div class="form-group">
                     <label class="control-label col-sm-2 mandatory required" for="txtCompanyName">Company Name</label>
                     <div class="col-sm-7">
@@ -226,7 +226,7 @@
             <div class="row" style="padding-top:2%">
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="button" class="btn btn-success" value="Save" ng-click="CreateChatBot()"
+                        <input type="button" class="btn btn-primary" value="Save" ng-click="CreateChatBot()"
                                style="border-radius:5px;height:39px;width:150px;font-weight:bold;" />
 
                         <input type="button" class="btn btn-danger" value="Cancel"

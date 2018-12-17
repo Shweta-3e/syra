@@ -211,7 +211,7 @@
                                         + "</button></div><div class='modal-body' style='margin-bottom: 5%;'>"
                                         + selectlable + table + pagination
                                         + "</div><div class='modal-footer'>"
-                                        + "<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>"
+                                        + "<button type='button' class='btn btn-danger' data-dismiss='modal'>Close</button>"
                                         + "</div></div></div></div>";
                                     var worldTable = document.getElementById("worldTable");
                                     worldTable.innerHTML = modal;
@@ -402,7 +402,7 @@
                                             + "</button></div><div class='modal-body' style='margin-bottom: 5%;'>"
                                             + selectlable + table + pagination
                                             + "</div><div class='modal-footer'>"
-                                            + "<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>"
+                                            + "<button type='button' class='btn btn-danger' data-dismiss='modal'>Close</button>"
                                             + "</div></div></div></div>";
                                         var usaTable = document.getElementById("usaTable");
                                         usaTable.innerHTML = modal;
@@ -558,7 +558,7 @@
                                         + "</button></div><div class='modal-body' style='margin-bottom: 5%;'>"
                                         + selectlable + tabel + pagination
                                         + "</div><div class='modal-footer'>"
-                                        + "<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>"
+                                        + "<button type='button' class='btn btn-danger' data-dismiss='modal'>Close</button>"
                                         + "</div></div></div></div>";
                                     dvTable.innerHTML = modal;
                                     getUserQueryPagination('#userquery');
@@ -592,7 +592,7 @@
         };
 
         $scope.GetClickedLink = function (clickedlinkdata) {
-            $("#container_query").load(" #container_query > *");
+            //$("#container_query").load(" #container_query > *");
             var data = clickedlinkdata.Data.firstTenArrivals,
                 category = [];
             for (var item = 0; item < data.length; item++) {
@@ -694,8 +694,9 @@
                                         + "</button></div><div class='modal-body' style='margin-bottom: 5%;'>"
                                         + selectlable + table + pagination
                                         + "</div><div class='modal-footer'>"
-                                        + "<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>"
+                                        + "<button type='button' class='btn btn-danger' data-dismiss='modal'>Close</button>"
                                         + "</div></div></div></div>";
+                                    document.getElementById("linkTable").innerHTML = "";
                                     var dvTable = document.getElementById("linkTable");
                                     dvTable.innerHTML = modal;
                                     getGoalConversionPagination('#goalconversiontable');
@@ -803,7 +804,7 @@
                                             + "</button></div><div class='modal-body'>"
                                             + selectlable + tabel + pagination
                                             + "</div><div class='modal-footer'>"
-                                            + "<button type='button' class='btn btn-secondary' data-dismiss='modal'>Close</button>"
+                                            + "<button type='button' class='btn btn-danger' data-dismiss='modal'>Close</button>"
                                             + "</div></div></div></div>";
                                         dvTable.innerHTML = modal;
                                     getBotResponsePagination('#botreplytable');

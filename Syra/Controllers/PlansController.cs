@@ -129,48 +129,55 @@ namespace Syra.Admin.Controllers
         {
             var planobj = new Plan();
             var removeobj = db.Plans.Find(plan.Id);
-            var plancheck = db.Plans.Find(plan.Id);
-            if (plancheck != null)
-            {
-                planobj.Name = plan.Name;
-                planobj.Types = plan.Types;
-                planobj.MonthlyCharge = plan.MonthlyCharge;
-                planobj.SetupFees = plan.SetupFees;
-                planobj.Contract = plan.Contract;
-                planobj.SiteSpecification = plan.SiteSpecification;
-                planobj.KnowledgeDomain = plan.KnowledgeDomain;
-                planobj.AllowedBotLimit = plan.AllowedBotLimit;
-                planobj.InitialTraining = plan.InitialTraining;
-                planobj.AdvanceTraining = plan.AdvanceTraining;
-                planobj.TextQuery = plan.TextQuery;
-                planobj.PagesScrapping = plan.PagesScrapping;
-                planobj.Entities = plan.Entities;
-                planobj.Intent = plan.Intent;
-                planobj.LogRetainingDay = plan.LogRetainingDay;
-                planobj.Analyticsplan = plan.Analyticsplan;
-                planobj.SupportAvailability = plan.SupportAvailability;
-                planobj.EmbedWidget = plan.EmbedWidget;
-                planobj.FBWidget = plan.FBWidget;
-                planobj.SlackWidget = plan.SlackWidget;
-                planobj.SlackWidget = plan.SlackWidget;
-                planobj.SkypeWidget = plan.SkypeWidget;
-                planobj.TelegramWidget = plan.TelegramWidget;
-                planobj.KikWidget = plan.KikWidget;
+            var plancheck = db.Plans.FirstOrDefault(c=>c.Id==plan.Id);
+            //try
+            //{
+                if (plancheck != null)
+                {
+                plancheck.Name = plan.Name;
+                plancheck.Types = plan.Types;
+                plancheck.MonthlyCharge = plan.MonthlyCharge;
+                plancheck.SetupFees = plan.SetupFees;
+                plancheck.Contract = plan.Contract;
+                plancheck.SiteSpecification = plan.SiteSpecification;
+                plancheck.KnowledgeDomain = plan.KnowledgeDomain;
+                plancheck.AllowedBotLimit = plan.AllowedBotLimit;
+                plancheck.InitialTraining = plan.InitialTraining;
+                plancheck.AdvanceTraining = plan.AdvanceTraining;
+                plancheck.TextQuery = plan.TextQuery;
+                plancheck.PagesScrapping = plan.PagesScrapping;
+                plancheck.Entities = plan.Entities;
+                plancheck.Intent = plan.Intent;
+                plancheck.LogRetainingDay = plan.LogRetainingDay;
+                plancheck.Analyticsplan = plan.Analyticsplan;
+                plancheck.SupportAvailability = plan.SupportAvailability;
+                plancheck.EmbedWidget = plan.EmbedWidget;
+                plancheck.FBWidget = plan.FBWidget;
+                plancheck.SlackWidget = plan.SlackWidget;
+                plancheck.SlackWidget = plan.SlackWidget;
+                plancheck.SkypeWidget = plan.SkypeWidget;
+                plancheck.TelegramWidget = plan.TelegramWidget;
+                plancheck.KikWidget = plan.KikWidget;
 
-                db.Plans.Add(planobj);
-                db.Plans.Remove(removeobj);
-                planobj.Id = plan.Id;
-                db.SaveChanges();
-                response.IsSuccess = true;
-                response.Message = "Plan is updated successfully";
-                return response.GetResponse();
-            }
-            else
-            {
-                response.Message = "Plan is not updated.";
-                response.IsSuccess = false;
-                //return response.GetResponse();
-            }
+                //db.Plans.Add(planobj);
+                //db.Plans.Remove(removeobj);
+                //planobj.Id = plan.Id;
+                    db.SaveChanges();
+                    response.IsSuccess = true;
+                    response.Message = "Plan is updated successfully";
+                    return response.GetResponse();
+                }
+                else
+                {
+                    response.Message = "Plan is not updated.";
+                    response.IsSuccess = false;
+                }
+            //}
+            //catch(Exception e)
+            //{
+            //    response.Message = e.StackTrace;
+            //    response.IsSuccess = false;
+            //}
             return response.GetResponse();
         }
 

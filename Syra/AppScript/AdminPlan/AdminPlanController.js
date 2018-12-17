@@ -84,11 +84,10 @@ SyraApp.controller("PlanAddController", ["$scope", "$http", "syraservice", "$sta
                     }
                 });
             }
-            
         }
 
         $scope.Cancel = function () {
-            $state.go("adminplan");
+            $state.go("Home");
         };
 
         $scope.SetActiveTab = function (tab, control) {

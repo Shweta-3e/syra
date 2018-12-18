@@ -592,23 +592,33 @@ namespace Syra.Admin.Controllers
             return response.GetResponse();
         }
 
-        public string GetUsaCode(string ipaddr)
+        public string GetUsaCode(string ipaddr,string region)
         {
-            string ipadd = ipaddr.Replace(" ", "");
-            var Uri = "http://ip-api.com/json/" + ipadd;
-            HttpWebRequest request = WebRequest.Create(Uri) as System.Net.HttpWebRequest;
-            Encoding encoding = new UTF8Encoding();
-            request.Method = "GET";
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            var reader = new StreamReader(response.GetResponseStream());
-            String jsonresponse = "";
-            String temp = null;
-            while (!reader.EndOfStream)
+            //Search from table
+            string usacode = "";
+            string cs = ConfigurationManager.ConnectionStrings["SyraDbContext"].ToString();
+            string sql = "Select * from dbo.UsaRegion where Name ='" + region + "'";
+            SqlConnection connection = new SqlConnection(cs);
+            try
             {
-                temp = reader.ReadLine();
-                jsonresponse += temp;
+                SqlCommand command = new SqlCommand(sql, connection);
+                connection.Open();
+                using (SqlDataReader dataReader = command.ExecuteReader())
+                {
+                    while (dataReader.Read())
+                    {
+                        usacode=dataReader["Code"].ToString();
+                    }
+                }
+                command.Dispose();
+                connection.Close();
             }
-            return jsonresponse;
+            catch (Exception e)
+            {
+                Console.WriteLine("Can not open connection ! ");
+                usacode = e.Message;
+            }
+            return usacode;
         }
 
         [HttpPost]
@@ -678,21 +688,15 @@ namespace Syra.Admin.Controllers
                                     string tempdate = log.LogDate + log.LogTime;
                                     string dt = Convert.ToDateTime(startdt).ToString("dd-MM-yyyy");
                                     logs.Add(new SessionLog { SessionId = splitedword[0], IPAddress = splitedword[2], Region = log.Region, UserQuery = splitedword[3], BotAnswers = splitedword[4], LogDate = tempdate });
-
-                                    string jsonresponse = GetIPDetails(log.IPAddress);
-                                    ipdetails = JsonConvert.DeserializeObject<GetIPAddress>(jsonresponse);
-                                    if (ipdetails.country == "United States")
-                                    {
-                                        string jsondeatil = GetUsaCode(ipdetails.query);
-                                        geolocatoin = JsonConvert.DeserializeObject<GeoLocation>(jsondeatil);
-                                        region.Add(new USARegion { hckey = (("US-" + geolocatoin.Region).ToLower()) });
-                                    }
+                                    string usaregion = GetUsaCode(ipdetails.query, log.Region);
+                                    region.Add(new USARegion { hckey = usaregion.ToLower() });
                                     countries.Add(new Longtitude { Countries = ipdetails.countryCode, UserQuery = log.UserQuery });
                                 }
                             }
                             catch (Exception e)
                             {
                                 string errmsg = e.Message;
+                                response.Message = errmsg;
                                 Console.WriteLine(errmsg);
                             }
                         }
@@ -790,7 +794,7 @@ namespace Syra.Admin.Controllers
 
                                     if (log.Region == " Virginia ")
                                     {
-                                        string jsondeatil = GetUsaCode(log.IPAddress);
+                                        string jsondeatil = GetUsaCode(log.IPAddress,log.Region);
                                         geolocation = JsonConvert.DeserializeObject<GeoLocation>(jsondeatil);
                                         countries.Add(new Longtitude { Countries = geolocation.Countrycode });
                                         logs.Add(new SessionLog { SessionId = splitedword[0], IPAddress = splitedword[2], Region = splitedword[1], UserQuery = splitedword[3], BotAnswers = splitedword[4], LogDate = tempdate, Country = geolocation.Country });

@@ -142,6 +142,9 @@
                         fontSize: '24px'
                     }
                 },
+                credits: {
+                    enabled: false
+                },
                 mapNavigation: {
                     enabled: true,
                     buttonOptions: {
@@ -166,7 +169,6 @@
                                     var tablerow = "<tbody>";
                                     var usa = " of America";
                                     var srno = 1;
-                                    //console.log(worlddata.Data.AllResponse);
                                     for (var i = 0; i < worlddata.Data.AllResponse.length; i++) {
                                         if (worlddata.Data.AllResponse[i].Country == "United States") {
                                             country = worlddata.Data.AllResponse[i].Country + usa;
@@ -180,7 +182,6 @@
                                         }
                                     }
                                     tablerow += "</tbody>";
-                                    //console.log(tablerow)
                                     var tabledata = "<br><br><table id='worldmap' dt-options='vm.dtOptions' dt-columns='vm.dtColumns' class='table table-responsive table - bordered table - striped' data-pagination='true'><thead>" + "<tr style='border-top: solid 1px #adbbd1;'>" +
                                         "<th class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1'>Sr. No</th>" +
                                         "<th class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1'>Log Date</th>" +
@@ -247,7 +248,8 @@
                     color: '#13223a',
                     showInLegend: false,
                     enableMouseTracking: false
-                }]
+                    }]
+               
             });
         };
 
@@ -265,6 +267,9 @@
                         fontWeight: 'bold',
                         fontSize: '24px'
                     }
+                },
+                credits: {
+                    enabled: false
                 },
                 xAxis: {
                     type: 'datetime'
@@ -341,6 +346,9 @@
                             fontWeight: 'bold',
                             fontSize: '24px'
                         }
+                    },
+                    credits: {
+                        enabled: false
                     },
                     mapNavigation: {
                         enabled: true,
@@ -474,6 +482,9 @@
                         fontWeight: 'bold',
                         fontSize: '24px'
                     }
+                },
+                credits: {
+                    enabled: false
                 },
                 xAxis: {
                     type: 'category',
@@ -614,6 +625,9 @@
                         fontSize: '24px'
                     }
                 },
+                credits: {
+                    enabled: false
+                },
                 xAxis: {
                     type: 'category',
                     categories: category,
@@ -745,6 +759,9 @@
                         fontWeight: 'bold',
                         fontSize: '24px'
                     }
+                },
+                credits: {
+                    enabled: false
                 },
                 tooltip: {
                     pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'

@@ -185,54 +185,76 @@ namespace Syra.Admin.Controllers
         //[ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            if(model!=null)
+            try
             {
-                var userStore = new UserStore<ApplicationUser>(db);
-                var manager = new UserManager<ApplicationUser>(userStore);
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var customer = new Customer();
-                var existingUser = UserManager.FindByEmail(model.Email);
-                if (existingUser == null)
+                if (model != null)
                 {
-                    var result = await UserManager.CreateAsync(user, model.Password);
-                    if (result.Succeeded)
+                    var userStore = new UserStore<ApplicationUser>(db);
+                    var manager = new UserManager<ApplicationUser>(userStore);
+                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                    var customer = new Customer();
+                    var existingUser = UserManager.FindByEmail(model.Email);
+                    if (existingUser == null)
                     {
-                        var customerPlan = new CustomerPlan();
-                        customerPlan.PlanId = model.PlanId;
-                        customerPlan.IsActive = true;
-                        customerPlan.CustomerId = customer.Id;
-                        customer.UserId = user.Id;
-                        customer.JobTitle = model.JobTitle;
-                        customerPlan.ActivationDate = DateTime.Now;
-                        customerPlan.ExpiryDate = DateTime.Now;
-                        customer.Email = model.Email;
-                        customer.RegisterDate = DateTime.Now;
-                        customer.BusinessRequirement = model.BusinessRequirement;
-                        var check_duplicate = db.Customer.Where(x => x.Email == customer.Email).FirstOrDefault();
-                        if (check_duplicate == null)
-                        {
-                            customer.CustomerPlans.Add(customerPlan);
-                            db.Customer.Add(customer);
-                            db.SaveChanges();
-                        }
-                        await UserManager.AddToRoleAsync(user.Id, "Customer");
+                        var result = await UserManager.CreateAsync(user, model.Password);
+                        //try
+                        //{
+                            if (result.Succeeded)
+                            {
+                                var customerPlan = new CustomerPlan();
+                                customerPlan.PlanId = model.PlanId;
+                                customerPlan.IsActive = true;
+                                customerPlan.CustomerId = customer.Id;
+                                customer.UserId = user.Id;
+                                customer.JobTitle = model.JobTitle;
+                                customerPlan.ActivationDate = DateTime.Now;
+                                customerPlan.ExpiryDate = DateTime.Now;
+                                customer.Email = model.Email;
+                                customer.RegisterDate = DateTime.Now;
+                                customer.BusinessRequirement = model.BusinessRequirement;
+                                //model.CategoryList = new SelectList(db.Plans, "Id", "Name");
+                                var check_duplicate = db.Customer.Where(x => x.Email == customer.Email).FirstOrDefault();
+                                if (check_duplicate == null)
+                                {
+                                    customer.CustomerPlans.Add(customerPlan);
+                                    db.Customer.Add(customer);
+                                    db.SaveChanges();
+                                }
+                                await UserManager.AddToRoleAsync(user.Id, "Customer");
 
-                        //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                                //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
-                        // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                        // Send an email with this link
-                        string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                        var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                        await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking this link: \"" + callbackUrl + "\"");
+                                // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                                // Send an email with this link
+                                string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                                var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                                await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking this link: \"" + callbackUrl + "\"");
 
-                        return RedirectToAction("AccountConfirmation", "Account");
+                                return RedirectToAction("AccountConfirmation", "Account");
+                            }
+                            else
+                            {
+                                AddErrors(result);
+                                ModelState.AddModelError("",result.ToString());
+                                model.ErrorMessage = result.Errors.ToList();
+                            }
+                        //}
+                        //catch (Exception e)
+                        //{
+                        //    AddErrors(result);
+                        //    ModelState.AddModelError("",result.ToString());
+                        //}
                     }
-                    AddErrors(result);
+                    else
+                    {
+                        ModelState.AddModelError("", "Email already exists.");
+                    }
                 }
-                else
-                {
-                    ModelState.AddModelError("", "Email already exists.");
-                }
+            }
+            catch(Exception e)
+            {
+                model.ErrorMessage.Add(e.StackTrace);
+                //return response.GetResponse();
             }
             //if (ModelState.IsValid)
             //{

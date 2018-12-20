@@ -176,6 +176,145 @@ namespace Syra.Admin.Controllers
             }
         }
 
+        //[HttpPost]
+        //public string LowPeakTime(DateTime startdt, DateTime enddt)
+        //{
+        //    SyraDbContext db = new SyraDbContext();
+        //    List<ArrayList> arraylist = new List<ArrayList>();
+        //    List<LowHighTime> dataline = new List<LowHighTime>();
+        //    ArrayList arrayList = new ArrayList();
+        //    List<Location> _data = new List<Location>();
+        //    _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+        //    _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+        //    var useremail = HttpContext.User.Identity.Name;
+        //    var aspnetuser = _userManager.FindByEmailAsync(useremail).Result;
+
+        //    if (aspnetuser != null)
+        //    {
+        //        var customer = db.Customer.FirstOrDefault(c => c.UserId == aspnetuser.Id);
+        //        var botdata = db.BotDeployments.Where(c => c.CustomerId == customer.Id).FirstOrDefault();
+        //        var connstring = botdata.BlobConnectionString;
+        //        var blobstorage = botdata.BlobStorageName;
+        //        var containername = botdata.ContainerName;
+
+        //        CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connstring);
+        //        CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+        //        CloudBlobContainer container = blobClient.GetContainerReference(containername);
+        //        var count = container.ListBlobs().Count();
+        //        ArrayList array = new ArrayList();
+
+        //        bool blob_check = false;
+        //        try
+        //        {
+        //            for (DateTime date = startdt; date <= enddt; date = date.AddDays(1))
+        //            {
+        //                var startdateonly = date.Date.ToString("dd-MM-yyyy");
+        //                var dateonly = date.Date.ToString("dd/MM/yyyy");
+        //                var blob_file_name = startdateonly + "" + ".csv";
+        //                CloudBlockBlob blockBlob = container.GetBlockBlobReference(blob_file_name);
+        //                blob_check = blockBlob.Exists();
+        //                if (blob_check == false)
+        //                {
+        //                    string timedate = startdateonly.ToString().Replace("-", "/").Replace(" ", "");
+        //                    CultureInfo culture = new CultureInfo("en-US");
+        //                    DateTime dateobj = DateTime.ParseExact(timedate, "dd/MM/yyyy", culture);
+        //                    int year = dateobj.Year;
+        //                    int month = dateobj.Month;
+        //                    int day = dateobj.Day;
+        //                    int hour = dateobj.Hour;
+        //                    int minute = dateobj.Minute;
+        //                    int second = dateobj.Second;
+        //                    var dateTime = new DateTime(year, month, day, hour, minute, second, DateTimeKind.Utc);
+        //                    var dateTimeOffset = new DateTimeOffset(dateTime);
+        //                    var unixDateTime = dateTimeOffset.ToUnixTimeSeconds();
+        //                    Int64 epochtime = Convert.ToInt64(unixDateTime) * 1000;
+        //                    dataline.Add(new LowHighTime { epochtime = epochtime, status = "no data"});
+        //                }
+        //                else
+        //                {
+        //                    using (StreamReader reader = new StreamReader(blockBlob.OpenRead()))
+        //                    {
+        //                        SessionLog log = new SessionLog();
+        //                        CultureInfo culture = new CultureInfo("en-US");
+        //                        List<Int64> logtime = new List<Int64>();
+        //                        ArrayList time_frequency = new ArrayList();
+        //                        //Object data = new Object();
+        //                    //string dateonly = startdateonly.Date.ToString("dd/MM/yyyy");
+        //                    //obtain epoch time from blob name
+        //                        DateTime dateobj = DateTime.ParseExact(dateonly,"dd/MM/yyyy",culture);
+        //                        int year = dateobj.Year;
+        //                        int month = dateobj.Month;
+        //                        int day = dateobj.Day;
+        //                        int hour = dateobj.Hour;
+        //                        int minute = dateobj.Minute;
+        //                        int second = dateobj.Second;
+        //                        var dateTime = new DateTime(year, month, day, hour, minute, second, DateTimeKind.Utc);
+        //                        var dateTimeOffset = new DateTimeOffset(dateTime);
+        //                        var unixDateTime = dateTimeOffset.ToUnixTimeSeconds();
+        //                        Int64 epochtime = Convert.ToInt64(unixDateTime) * 1000;
+        //                        while (!reader.EndOfStream)
+        //                        {
+        //                            var line = reader.ReadLine();
+        //                            string[] splitedword = line.Split('|');
+        //                            log.LogDate = splitedword[5];
+        //                            log.LogDate = log.LogDate.Replace("-", "/").Replace(" ", "");
+        //                            log.LogTime = splitedword[6].Replace(" ", "");
+        //                            //CultureInfo culture = new CultureInfo("en-US");
+        //                            //string timedate = log.LogDate;
+        //                            //DateTime dateobj = DateTime.ParseExact(timedate, "dd/MM/yyyy", culture);
+        //                            //int year = dateobj.Year;
+        //                            //int month = dateobj.Month;
+        //                            //int day = dateobj.Day;
+        //                            //int hour = dateobj.Hour;
+        //                            //int minute = dateobj.Minute;
+        //                            //int second = dateobj.Second;
+        //                            //var dateTime = new DateTime(year, month, day, hour, minute, second, DateTimeKind.Utc);
+        //                            //var dateTimeOffset = new DateTimeOffset(dateTime);
+        //                            //var unixDateTime = dateTimeOffset.ToUnixTimeSeconds();
+        //                            //Int64 epochtime = Convert.ToInt64(unixDateTime) * 1000;
+        //                            //Convert.ToDateTime(log.LogTime).ToShortTimeString()
+        //                            logtime.Add((DateTime.ParseExact(log.LogTime,"HH:mm:ss",culture).Hour));
+        //                        }
+        //                        var frequency = logtime.GroupBy(c => c);
+        //                        foreach(var item in frequency)
+        //                        {
+        //                            time_frequency.Add(new CountHour {hour=item.Key, hourcount=item.Count() });
+        //                        }
+        //                        dataline.Add(new LowHighTime { epochtime = epochtime, status = "data",dateTimes=time_frequency.ToArray() });
+        //                    }
+        //                }
+        //            }
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            string errmsg = e.StackTrace;
+        //            response.Message = errmsg;
+        //        }
+
+        //        //var dupepochtime = dataline.GroupBy(x => new { x.epochtime, x.status }).Select(group => new { Name = group.Key, Count = group.Count() });
+        //        //foreach (var item in dupepochtime)
+        //        //{
+        //        //    if (item.Name.status == "no data")
+        //        //    {
+
+        //        //        arraylist.Add(new ArrayList { item.Name.epochtime, 0 });
+        //        //    }
+        //        //    else
+        //        //    {
+        //        //        arraylist.Add(new ArrayList { item.Name.epochtime, item.Count });
+        //        //    }
+        //        //}
+        //        //string json = JsonConvert.SerializeObject(arraylist);
+        //        //EpochTime(json);
+        //        response.Data = new
+        //        {
+        //            Epochtime = dataline
+        //        };
+        //        response.IsSuccess = true;
+        //    }
+        //    return response.GetResponse();
+        //}
+
         [HttpPost]
         public string LowPeakTime(DateTime startdt, DateTime enddt)
         {
@@ -288,6 +427,7 @@ namespace Syra.Admin.Controllers
             }
             return response.GetResponse();
         }
+
 
         [HttpPost]
         public string BotReply(DateTime startdt, DateTime enddt)
@@ -1024,7 +1164,7 @@ namespace Syra.Admin.Controllers
                                 }
                             }
                         }
-                        bot.EmbeddedScript = "<script src= \"https://syra.ai/genericbot/assets/genericbot.js\" " + "clientID=\"" + bot.T_BotClientId + "\"></script>";
+                        bot.EmbeddedScript = "<script src= \"https://syra.ai/chatbots/assets/chatbots.js\" " + "clientID=\"" + bot.T_BotClientId + "\"></script>";
                         customer.BotDeployments.Add(bot);
                         db.SaveChanges();
                         response.IsSuccess = true;

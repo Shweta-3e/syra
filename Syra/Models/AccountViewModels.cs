@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Security;
+using System.Web.WebPages.Html;
 
 namespace Syra.Admin.Models
 {
@@ -79,6 +81,13 @@ namespace Syra.Admin.Models
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        //[MembershipPassword(
+        //    MinRequiredNonAlphanumericCharacters = 1,
+        //    MinNonAlphanumericCharactersError = "Your password needs to contain at least one symbol (!, @, #, etc).",
+        //    ErrorMessage = "Your password must be 6 characters long and contain at least one symbol (!, @, #, etc).",
+        //    MinRequiredPasswordLength = 6
+        //)]
+        //[RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,10}$", ErrorMessageResourceName = "PasswordNotStrongEnoughMessage")]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
@@ -107,6 +116,10 @@ namespace Syra.Admin.Models
         //[Required]
         [Display(Name = "Plan")]
         public Int64 PlanId { get; set; }
+
+        //public IEnumerable<SelectListItem> CategoryList { get; set; }
+
+        public List<string> ErrorMessage { get; set; }
     }
 
     public class ResetPasswordViewModel

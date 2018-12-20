@@ -40,6 +40,7 @@
             var timingurl = "/Customer/LowPeakTime";
             $http.post(timingurl, { startdt: startdate, enddt: enddate }).success(function (response) {
                 if (response != null) {
+                    console.log(response.Data.Epochtime);
                     $scope.TimingAnalysis(response);
                     $("#timespinner").hide();
                 } else {

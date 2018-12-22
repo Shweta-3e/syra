@@ -1,32 +1,40 @@
-﻿<!--<head>
-    <link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="~/Scripts/angular.js"></script>
-    <script src="~/Scripts/moment.js"></script>
-    <script src="~/Scripts/bootstrap-datetimepicker.js"></script>
-</head>-->
-<div class="container" ng-hide="LogView">
-    <h2>
+﻿<div class="container" ng-hide="LogView">
+    <h2 style="font-family:'Rubik'">
         Log View
         <span class="pull-right">
         </span>
     </h2>
-    <div class='input-group date' id='datetimepicker1' style="padding-bottom:50px; padding-top:3%; width:400px;">
-        <label class="col-sm-4" style="font-family:'Times New Roman', Times, serif; font-size:medium; margin-left: 2.5%;">Start Date </label>
-        <md-datepicker ng-model="myDate" md-placeholder="Start Date" md-min-date="minstartDate" md-max-date="maxstartDate" style="margin-right:20px" md-open-on-focus></md-datepicker>
-        <label class="col-sm-4" style="font-family:'Times New Roman', Times, serif;font-size:medium;margin-left: 25%;">End Date </label>
-        <md-datepicker ng-model="endDate" md-placeholder="End Date" md-min-date="minendDate" md-max-date="maxendDate" md-open-on-focus></md-datepicker>
-        <button class="btn btn-success" style="margin-left:5%;margin-top:7%" ng-click="showDate()">Show Logs</button>
+    <div class='input-group date' id='datetimepicker1' style="padding-bottom:50px; padding-top:2%; width:100%;">
+        <div id="timespan" style="width:30%;display:inline-block">
+            <div>
+                <label style="font-family:'Rubik';font-size:medium;">TimeSpan</label>
+            </div>
+            <select style="border-radius:5px;width:45%;color:black;" data-ng-model="timespan" ng-change="GetTimeSpan(timespan)">
+                <option value="" disabled selected>Select an Option</option>
+                <option data-ng-repeat="time in TimeList">{{time.type}}</option>
+            </select>
+        </div>
+        <div id="fromdate" style="width:20%;display:inline-block;margin-left:-14%;">
+            <label style="font-family:'Rubik'; font-size:medium;margin-top:1.5%;margin-left: 12%;">Start Date </label>
+            <md-datepicker ng-model="fromdate" ng-disabled="disabled" md-placeholder="Start Date" md-min-date="minstartDate" md-max-date="maxstartDate" style="margin-right:20px" md-open-on-focus></md-datepicker>
+        </div>
+        <div id="todate" style="width:20%;display:inline-block;margin-left:-1%">
+            <label style="font-family:'Rubik';font-size:medium;margin-top:1.5%;margin-left: 12%;">End Date </label>
+            <md-datepicker ng-model="todate" ng-disabled="disabled" md-placeholder="End Date" md-min-date="minendDate" md-max-date="maxendDate" md-open-on-focus></md-datepicker>
+        </div>
+        <div id="btnlogview" style="width:30%;display:inline-block;margin-left:5%;">
+            <button class="btn btn-success" style="margin-left:-25%;margin-top:-6%;font-family:'Rubik'" ng-click="showDate()">Show Logs</button>
+        </div>
     </div>
     <table datatable="ng" style="margin-top:1%" dt-options="vm.dtOptions" dt-columns="vm.dtColumns" class="table table-responsive table-bordered table-striped">
         <thead>
             <tr>
-                <th class="text-align-center" style="width:250px">DateTime</th>
-                <th class="text-align-center" style="width:200px;">Session Id</th>
-                <th class="text-align-center">IP Address</th>
-                <th class="text-align-center">Region</th>
-                <th class="text-align-center">User Query</th>
-                <th class="text-align-center">Bot Answers</th>
+                <th class="text-align-center" style="width:250px;font-family:'Rubik'">DateTime</th>
+                <th class="text-align-center" style="width:200px;font-family:'Rubik'">Session Id</th>
+                <th class="text-align-center" style="font-family:'Rubik'">IP Address</th>
+                <th class="text-align-center" style="font-family:'Rubik'">Region</th>
+                <th class="text-align-center" style="font-family:'Rubik'">User Query</th>
+                <th class="text-align-center" style="font-family:'Rubik'">Bot Answers</th>
 
             </tr>
         </thead>

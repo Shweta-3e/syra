@@ -1,37 +1,115 @@
-﻿SyraApp.controller("AnalyticsController", ["$scope", "$http", "syraservice", "$sce","$state",
+﻿SyraApp.controller("AnalyticsController", ["$scope", "$http", "syraservice", "$sce", "$state", "$filter",
     function ($scope, $http, syraservice, $sce, $state) {
-
+        $scope.disabled = true;
         $scope.fromdate = new Date();
         $scope.todate = new Date();
-
+        $scope.Botname = "";
+        $scope.TimeList = [{ type: 'Last Week' }, { type: 'Last Month' }, { type: 'Last Quarter' }, { type: 'Last Year' }];
+        $scope.select = "Select an Option";
         $scope.IsEditMode = false;
         $scope.tab = 1;
-
-        $scope.minstartDate = new Date(
-            $scope.fromdate.getFullYear(),
-            $scope.fromdate.getMonth() - 6,
-            $scope.fromdate.getDate());
-
-        $scope.maxstartDate = new Date(
-            $scope.fromdate.getFullYear(),
-            $scope.fromdate.getMonth(),
-            $scope.fromdate.getDate());
-
-        $scope.minendDate = new Date(
-            $scope.fromdate.getFullYear(),
-            $scope.fromdate.getMonth() - 6,
-            $scope.fromdate.getDate());
-
-        $scope.maxendDate = new Date(
-            $scope.todate.getFullYear(),
-            $scope.todate.getMonth(),
-            $scope.todate.getDate());
 
         $scope.isActiveTab = function (tab) {
             return $scope.tab == tab;
         };
 
-        
+        $scope.GetCurrentUser = function () {
+            $http.post('/Customer/GetCurrentUser'
+            ).success(function (data) {
+                $scope.Botname = data.Data.BotDeployments[0].Name;
+            });
+        };
+        $scope.GetCurrentUser();
+
+        $scope.GetTimeSpan = function (timespan) {
+
+            $scope.disabled = false;
+            if (timespan == 'Last Week') {
+                $scope.minstartDate = new Date(
+                    $scope.fromdate.getFullYear(),
+                    $scope.fromdate.getMonth(),
+                    $scope.fromdate.getDate()-7);
+
+                $scope.maxstartDate = new Date(
+                    $scope.fromdate.getFullYear(),
+                    $scope.fromdate.getMonth(),
+                    $scope.fromdate.getDate());
+
+                $scope.minendDate = new Date(
+                    $scope.fromdate.getFullYear(),
+                    $scope.fromdate.getMonth(),
+                    $scope.fromdate.getDate()-7);
+
+                $scope.maxendDate = new Date(
+                    $scope.todate.getFullYear(),
+                    $scope.todate.getMonth(),
+                    $scope.todate.getDate());
+            }
+            if (timespan == 'Last Month') {
+                $scope.minstartDate = new Date(
+                    $scope.fromdate.getFullYear(),
+                    $scope.fromdate.getMonth() - 1,
+                    $scope.fromdate.getDate());
+
+                $scope.maxstartDate = new Date(
+                    $scope.fromdate.getFullYear(),
+                    $scope.fromdate.getMonth(),
+                    $scope.fromdate.getDate());
+
+                $scope.minendDate = new Date(
+                    $scope.fromdate.getFullYear(),
+                    $scope.fromdate.getMonth() - 1,
+                    $scope.fromdate.getDate());
+
+                $scope.maxendDate = new Date(
+                    $scope.todate.getFullYear(),
+                    $scope.todate.getMonth(),
+                    $scope.todate.getDate());
+            }
+            if (timespan == 'Last Quarter') {
+                $scope.minstartDate = new Date(
+                    $scope.fromdate.getFullYear(),
+                    $scope.fromdate.getMonth() - 6,
+                    $scope.fromdate.getDate());
+
+                $scope.maxstartDate = new Date(
+                    $scope.fromdate.getFullYear(),
+                    $scope.fromdate.getMonth(),
+                    $scope.fromdate.getDate());
+
+                $scope.minendDate = new Date(
+                    $scope.fromdate.getFullYear(),
+                    $scope.fromdate.getMonth() - 6,
+                    $scope.fromdate.getDate());
+
+                $scope.maxendDate = new Date(
+                    $scope.todate.getFullYear(),
+                    $scope.todate.getMonth(),
+                    $scope.todate.getDate());
+            }
+            if (timespan == 'Last Year') {
+                $scope.minstartDate = new Date(
+                    $scope.fromdate.getFullYear()-1,
+                    $scope.fromdate.getMonth(),
+                    $scope.fromdate.getDate());
+
+                $scope.maxstartDate = new Date(
+                    $scope.fromdate.getFullYear(),
+                    $scope.fromdate.getMonth(),
+                    $scope.fromdate.getDate());
+
+                $scope.minendDate = new Date(
+                    $scope.fromdate.getFullYear()-1,
+                    $scope.fromdate.getMonth(),
+                    $scope.fromdate.getDate());
+
+                $scope.maxendDate = new Date(
+                    $scope.todate.getFullYear(),
+                    $scope.todate.getMonth(),
+                    $scope.todate.getDate());
+            }
+        };
+
         //functions to call active tabs
         $scope.GetLowPeakTime = function () {
             var startdate = $scope.fromdate;
@@ -56,7 +134,7 @@
             var botreplyurl = "/Customer/BotReply";
             $http.post(botreplyurl, { startdt: startdate, enddt: enddate }).success(function (response) {
                 if (response != null) {
-                    $scope.BotResponse(response);
+                    $scope.BotResponse(response, $scope.Botname);
                     $("#botresponsespinner").hide();
                 } else {
                     alert("Something went wrong");
@@ -117,6 +195,7 @@
             $http.post(url, { startdt: startdate, enddt: enddate }).success(function (response) {
                 if (response != null) {
                     $scope.GetWorldAnalysis(response);
+                    //$scope.GetUSAAnalysis();
                     $("#worldspinner").hide();
                 } else {
                     alert("Something went wrong");
@@ -126,6 +205,17 @@
 
         //functions to call api
         $scope.GetWorldAnalysis = function (worlddata) {
+            var usadataurl = "/Customer/GetUSAAnalytics";
+            var usaregions = [{ 'hc-key': 'us-ca', value:3}];
+            $http.post(usadataurl, { startdt: $scope.fromdate, enddt: $scope.todate }).success(function (response) {
+                if (response != null) {
+                    console.log(response);
+                    //usaregions = response.Data.usadata;
+                    //console.log("USA data " + usaregions);
+                } else {
+                    alert("Something went wrong");
+                }
+            });
             $("#goalconversion").load(" #goalconversion > *");
             var data = worlddata.Data._data;
             var country = "";
@@ -141,6 +231,14 @@
                         color: '#8d3052',
                         fontWeight: 'bold',
                         fontSize: '24px'
+                    }
+                },
+                subtitle: {
+                    text: 'Click chart to see details',
+                    style: {
+                        color: '#333333',
+                        fontWeight: 'normal',
+                        fontSize: '12px'
                     }
                 },
                 credits: {
@@ -227,30 +325,52 @@
                         borderWidth: 0
                     }
                 },
-                series: [{
-                    data: data,
-                    nullColor: '#c4d5f2',
-                    mapData: Highcharts.maps['custom/world'],
-                    joinBy: ['iso-a3', 'code3'],
-                    name: 'Question asked',
-                    states: {
-                        hover: {
-                            color: '#42f4aa'
+                series: [
+                    {
+                        data: data,
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        nullColor: '#c4d5f2',
+                        mapData: Highcharts.maps['custom/world'],
+                        joinBy: ['iso-a3', 'code3'],
+                        name: 'Question asked',
+                        states: {
+                            hover: {
+                                color: '#42f4aa'
+                            }
+                        },
+                        dataLabels: {
+                            enabled: true,
+                            format: '{point.name}'
                         }
                     },
-                    dataLabels: {
-                        enabled: true,
-                        format: '{point.name}'
-                    }
-                }, {
+                    {
                     name: 'Separators',
                     type: 'mapline',
                     data: Highcharts.geojson(Highcharts.maps['custom/world'], 'mapline'),
                     color: '#13223a',
                     showInLegend: false,
                     enableMouseTracking: false
-                    }]
-               
+                    }],
+                drilldown: {
+                    series: [
+                        {
+                            data: usaregions,
+                            mapData: Highcharts.maps['countries/us/us-all'],
+                            nullColor: '#98d187',
+                            joinBy: 'hc-key',
+                            name: 'USA',
+                            states: {
+                                hover: {
+                                    color: '#BADA55'
+                                }
+                            },
+                            dataLabels: {
+                                enabled: true,
+                                format: '{point.name}'
+                            }
+                        }
+                    ]}      
             });
         };
 
@@ -267,6 +387,14 @@
                         color: '#8d3052',
                         fontWeight: 'bold',
                         fontSize: '24px'
+                    }
+                },
+                subtitle: {
+                    text: 'Click chart to see details',
+                    style: {
+                        color: '#333333',
+                        fontWeight: 'normal',
+                        fontSize: '12px'
                     }
                 },
                 credits: {
@@ -346,6 +474,14 @@
                             color: '#8d3052',
                             fontWeight: 'bold',
                             fontSize: '24px'
+                        }
+                    },
+                    subtitle: {
+                        text: 'Click chart to see details',
+                        style: {
+                            color: '#333333',
+                            fontWeight: 'normal',
+                            fontSize: '12px'
                         }
                     },
                     credits: {
@@ -477,11 +613,19 @@
                     spacingLeft: 100,
                 },
                 title: {
-                    text: 'Questions Analysis',
+                    text: 'Top 10 Questions Asked',
                     style: {
                         color: '#8d3052',
                         fontWeight: 'bold',
-                        fontSize: '24px'
+                        fontSize: '20px'
+                    }
+                },
+                subtitle: {
+                    text: 'Click chart to see details',
+                    style: {
+                        color: '#333333',
+                        fontWeight: 'normal',
+                        fontSize: '12px'
                     }
                 },
                 credits: {
@@ -491,7 +635,7 @@
                     type: 'category',
                     categories: category,
                     title: {
-                        text: 'Questions asked',
+                        text: 'Top 10 Questions Asked',
                         style: {
                             color: '#3c1414',
                             fontWeight: 'bold',
@@ -509,7 +653,7 @@
                 yAxis: {
                     min: 0,
                     title: {
-                        text: 'Count of asked Questions',
+                        text: 'Count',
                         style: {
                             color: '#3c1414',
                             fontWeight: 'bold',
@@ -624,6 +768,14 @@
                         color: '#8d3052',
                         fontWeight: 'bold',
                         fontSize: '24px'
+                    }
+                },
+                subtitle: {
+                    text: 'Click chart to see details',
+                    style: {
+                        color: '#333333',
+                        fontWeight: 'normal',
+                        fontSize: '12px'
                     }
                 },
                 credits: {
@@ -744,7 +896,16 @@
             });
         };
 
-        $scope.BotResponse = function (response) {
+        $scope.BotResponse = function (response, botname) {
+            botname = $scope.Botname;
+            var from_date = $scope.fromdate.getDate();
+            var to_date = $scope.todate.getDate();
+            var from_month = $scope.fromdate.getMonth()+1;
+            var to_month = $scope.todate.getMonth()+1;
+            var from_year = $scope.fromdate.getFullYear();
+            var to_year = $scope.todate.getFullYear();
+            var fromdate = from_date + "/" + from_month + "/" + from_year;
+            var todate = to_date + "/" + to_month + "/" + to_year;
             $scope.BotReplyData = response.Data;
             Highcharts.chart('botreply', {
                 chart: {
@@ -754,11 +915,19 @@
                     type: 'pie'
                 },
                 title: {
-                    text: 'Bot Response',
+                    text: "Analysis of " + botname + "’s" + " Responses for questions asked from " + fromdate + " till " + todate,
                     style: {
                         color: '#8d3052',
                         fontWeight: 'bold',
-                        fontSize: '24px'
+                        fontSize: '19px'
+                    }
+                },
+                subtitle: {
+                    text: 'Click chart to see details',
+                    style: {
+                        color: '#333333',
+                        fontWeight: 'normal',
+                        fontSize: '12px'
                     }
                 },
                 credits: {
@@ -775,15 +944,15 @@
                             events: {
                                 click: function () {
                                     var tabelrow = "<tbody>";
-                                    var botreplyflag = 'Bot failed to reply';
+                                    var botreplyflag = 'Listing of ' + botname + "'s" + ' Correct Responses.';
                                     var srno = 1;
                                     for (var i = 0; i < response.Data.AllQuestions.length; i++) {
                                         if (response.Data.AllQuestions[i].BotResponse == this.name) {
-                                            if (this.name == 'Successful Response') {
-                                                botreplyflag = 'Bot replied successfully';
+                                            if (this.name == 'Responded Correctly') {
+                                                botreplyflag = 'Listing of ' + botname + "'s" + ' Correct Responses.';
                                             }
                                             else {
-                                                botreplyflag = 'Bot failed to reply';
+                                                botreplyflag = 'Listing of ' + botname + "'s"+' Incorrect Responses.';
                                             }
                                             tabelrow += "<tr>" + "<td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + srno + "<td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + response.Data.AllQuestions[i].LogDate + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + response.Data.AllQuestions[i].SessionId + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + response.Data.AllQuestions[i].IPAddress + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + response.Data.AllQuestions[i].Region + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + response.Data.AllQuestions[i].UserQuery + "</td><td class='text-align-left' style='width:650px;border-left:solid 1px #adbbd1;border-right:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + response.Data.AllQuestions[i].BotAnswers + "</td>" + "</tr>";
                                             srno++;
@@ -791,7 +960,7 @@
                                         
                                     }
                                     tabelrow += "</tbody>";
-                                    //console.log(tabelrow);
+                                    console.log(tabelrow);
                                     var tabeldata = "<br><br><table id='botreplytable' class='table table-responsive table - bordered table - striped' style='width:100%'><thead>" + "<tr style='border-top: solid 1px #adbbd1;'>" +
                                             "<th class='text-align-center' style='width:100px;border-left:solid 1px #adbbd1'>Sr. No</th>"+
                                             "<th class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1'>Log Date</th>" +
@@ -840,15 +1009,15 @@
                     }
                 },
                 series: [{
-                    name: 'Brands',
+                    name: 'Percentage',
                     colorByPoint: true,
                     data: [
                         {
-                            name: 'Successful Response',
+                            name: 'Responded Correctly',
                             y: ((response.Data.RightAnswers * 100) / response.Data.TotalQuestions),
 
                         }, {
-                            name: 'Failed to Response/understand user question',
+                            name: 'Did Not Respond Appropriately',
                             y: ((response.Data.WrongAnswers * 100) / response.Data.TotalQuestions),
                         }]
                 }]

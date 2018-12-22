@@ -10,7 +10,7 @@ namespace Syra.Admin.Entities
         public SessionLog()
         {
             IsWrongAnswer=false;
-            BotResponse = "Successful Response";
+            BotResponse = "Responded Correctly";
         }
 
         public string SessionId { get; set; }

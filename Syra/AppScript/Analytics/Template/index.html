@@ -1,46 +1,55 @@
 ﻿<div class="container" ng-hide="LogView">
-    <h2 style="margin-top:20px;">
-        Analytical View
+    <h2 style="margin-top:20px;font-family:'Rubik'">
+        Analytics
         <span class="pull-right">
         </span>
     </h2>
-    <div class='input-group date' id='datetimepicker1' style="padding-bottom:50px; padding-top:3%; width:400px;">
-        <label class="col-sm-4" style="font-family:'Times New Roman', Times, serif; font-size:medium; margin-left: 2.5%;">Start Date </label>
-        <md-datepicker ng-model="fromdate" md-placeholder="Start Date" md-min-date="minstartDate" md-max-date="maxstartDate" style="margin-right:20px" md-open-on-focus></md-datepicker>
-        <label class="col-sm-4" style="font-family:'Times New Roman', Times, serif;font-size:medium;margin-left: 25%;">End Date </label>
-        <md-datepicker ng-model="todate" md-placeholder="End Date" md-min-date="minendDate" md-max-date="maxendDate" md-open-on-focus></md-datepicker>
+    <div class='input-group date' id='datetimepicker1' style="padding-bottom:50px; padding-top:3%; width:100%;">
+        <div></div>
+        <div id="timespan" style="width:30%;display:inline-block">
+            <div>
+                <label style="font-family:'Rubik';font-size:medium;">TimeSpan</label>
+            </div>
+            <select style="border-radius:5px;width:45%;color:black;" data-ng-model="timespan" ng-change="GetTimeSpan(timespan)">
+                <option value="" disabled selected>Select an Option</option>
+                <option data-ng-repeat="time in TimeList">{{time.type}}</option>
+            </select>
+        </div>
+        <div id="fromdate" style="width:20%;display:inline-block;margin-left:-10%">
+            <label style="font-family:'Rubik'; font-size:medium; margin-left: 12%;">Start Date </label>
+            <md-datepicker ng-model="fromdate" ng-disabled="disabled" md-placeholder="Start Date" md-min-date="minstartDate" md-max-date="maxstartDate" style="margin-right:20px" md-open-on-focus></md-datepicker>
+        </div>
+        <div id="todate" style="width:20%;display:inline-block">
+            <label style="font-family:'Rubik';font-size:medium;margin-left: 12%;">End Date </label>
+            <md-datepicker ng-model="todate" ng-disabled="disabled" md-placeholder="End Date" md-min-date="minendDate" md-max-date="maxendDate" md-open-on-focus></md-datepicker>
+        </div>
     </div>
 </div>
 <div class="container" ng-hide="IsEditMode">
     <ul class="nav nav-tabs">
         <li ng-class="{'active': isActiveTab(1)}" ng-click="GetBotReply()">
-            <a role="tab" data-toggle="tab" ng-click="tab=1">Bot Response Analysis</a>
+            <a role="tab" data-toggle="tab" ng-click="tab=1" style="font-family:'Rubik'">Chatbot’s Response Analysis</a>
         </li>
         <li ng-class="{'active': isActiveTab(2)}" ng-click="GetQuestionsAsked()">
-            <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(2)}" ng-click="tab=2">Most Common Questions Asked</a>
+            <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(2)}" ng-click="tab=2"style="font-family:'Rubik'">Top 10 Questions Asked</a>
         </li>
         <li ng-class="{'active': isActiveTab(3)}" ng-click="GetLinks()">
-            <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(3)}" ng-click="tab=3">Goal Conversions</a>
+            <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(3)}" ng-click="tab=3" style="font-family:'Rubik'">Goal Conversions</a>
         </li>
         <li ng-class="{'active': isActiveTab(4)}" ng-click="GetWorld()">
-            <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(4)}" ng-click="tab=4">World Based Analysis</a>
+            <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(4)}" ng-click="tab=4" style="font-family:'Rubik'">World Based Analysis</a>
         </li>
         <li ng-class="{'active': isActiveTab(5)}" ng-click="GetUSAAnalysis()">
-            <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(5)}" ng-click="tab=5">USA Based Analysis</a>
+            <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(5)}" ng-click="tab=5" style="font-family:'Rubik'">Chatter's Demographics</a>
         </li>
         <li ng-class="{'active': isActiveTab(6)}" ng-click="GetLowPeakTime()">
-            <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(6)}" ng-click="tab=6">Peak and Low Timings</a>
+            <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(6)}" ng-click="tab=6" style="font-family:'Rubik'">Chatter’s Timings</a>
         </li>
     </ul>
 
     <div class="tab-content" style="">
         <div ng-show="isActiveTab(1)" ng-class="tab==1?'tab-pane fade in active':'tab-pane fade in'">
             <div>
-                <!--<div>
-                    <label class="control-label col-sm-4" for="txtMonthlyCharge" style="font-family:'Times New Roman', Times, serif; font-size:large;">Total questions asked to Bot : <a ng-click="ShowQuestions()">{{BotReplyData.TotalQuestions}}</a></label>
-                    <label class="control-label col-sm-3" for="txtMonthlyCharge" style="font-family:'Times New Roman', Times, serif; font-size:large;">Bot replied successfully : <a ng-click="ShowQuestions(false)">{{BotReplyData.RightAnswers}}</a> </label>
-                    <label class="control-label col-sm-3" for="txtMonthlyCharge" style="font-family:'Times New Roman', Times, serif; font-size:large;">Bot failed to reply : <a ng-click="ShowQuestions(true)">{{BotReplyData.WrongAnswers}}</a></label>
-                </div>-->
                 <div id="botreply" style="min-width: 100px; height:100%; margin: 0 auto;margin-top:40px;"></div>
                 <div id="botresponse">
                     <div>
@@ -74,8 +83,8 @@
                                     //	numbers of pages
                                     for (var i = 1; i <= pagenum;) {			// for each page append pagination li
                                         $('#botresponsepagination #prev').before('<li data-page="' + i + '">\
-                                                                                                                          <span>'+ i++ + '<span class="sr-only">(current)</span></span>\
-                                                                                                                        </li>').show();
+                                                                                                                                              <span>'+ i++ + '<span class="sr-only">(current)</span></span>\
+                                                                                                                                            </li>').show();
                                     }											// end for i
                                 } 												// end if row count > max rows
                                 $('#botresponsepagination [data-page="1"]').addClass('active'); // add active class to the first li
@@ -124,36 +133,36 @@
                     </script>
                 </div>
                 <!--<table datatable="ng" dt-options="vm.dtOptions" dt-columns="vm.dtColumns" class="table table-responsive table-bordered table-striped" style="margin-top:60px;">
-                    <thead>
-                        <tr>
-                            <th class="text-align-center" style="width:150px">Log Date</th>
-                            <th class="text-align-center">Session Id</th>
-                            <th class="text-align-center">IP Address</th>
-                            <th class="text-align-center">Region</th>
-                            <th class="text-align-center">User Query</th>
-                            <th class="text-align-center">Bot Answer</th>
+        <thead>
+            <tr>
+                <th class="text-align-center" style="width:150px">Log Date</th>
+                <th class="text-align-center">Session Id</th>
+                <th class="text-align-center">IP Address</th>
+                <th class="text-align-center">Region</th>
+                <th class="text-align-center">User Query</th>
+                <th class="text-align-center">Bot Answer</th>
 
-                        </tr>
-                    </thead>
-                    
-                    <tbody>
-                        <tr ng-repeat="row in BotReplyData.AllQuestions" ng-if="row.IsWrongAnswer==ReportType">
-                            <td class="text-align-center" style="width:150px">{{row.LogDate}}</td>
-                            <td class="text-align-center" style="width:250px">{{row.SessionId}}</td>
-                            <td class="text-align-center" style="width:100px">{{row.Region}}</td>
-                            <td class="text-align-center" style="width:150px">{{row.IPAddress}}</td>
-                            <td class="text-align-center" style="width:100px">{{row.UserQuery}}</td>
-                            <td class="text-align-center" ng-bind-html="row.BotAnswers1"></td>
+            </tr>
+        </thead>
 
-                        </tr>
-                    </tbody>
-                </table>-->
+        <tbody>
+            <tr ng-repeat="row in BotReplyData.AllQuestions" ng-if="row.IsWrongAnswer==ReportType">
+                <td class="text-align-center" style="width:150px">{{row.LogDate}}</td>
+                <td class="text-align-center" style="width:250px">{{row.SessionId}}</td>
+                <td class="text-align-center" style="width:100px">{{row.Region}}</td>
+                <td class="text-align-center" style="width:150px">{{row.IPAddress}}</td>
+                <td class="text-align-center" style="width:100px">{{row.UserQuery}}</td>
+                <td class="text-align-center" ng-bind-html="row.BotAnswers1"></td>
+
+            </tr>
+        </tbody>
+    </table>-->
             </div>
         </div>
 
         <div ng-show="isActiveTab(2)" ng-class="tab==2?'tab-pane fade in active':'tab-pane fade in'">
             <div>
-                <div id="container_query" style="min-width: 100px; height: 100%; margin: 0 auto;margin-top:10px;"></div>
+                <div id="container_query" style="min-width: 100px; height: 100%; margin: 0 auto;margin-top:20px;"></div>
                 <div id="dvTable">
                     <div>
                         <img id="spinner" ng-src="/syra_assets/circle-loading-animation.gif" style="display:none; height:100px;width:100px;margin-left:500px;margin-bottom:60px;">

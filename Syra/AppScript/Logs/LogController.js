@@ -1,33 +1,103 @@
 ﻿SyraApp.controller("LogsController", ["$scope", "$http", "syraservice", "$state", "$sce", "$stateParams",
     function ($scope, $http, syraservice, $state, $sce, $stateParams) {
         $scope.test = "Angular Js Date time picker";
+        $scope.disabled = true;
+        $scope.TimeList = [{ type: 'Last Week' }, { type: 'Last Month' }, { type: 'Last Quarter' }, { type: 'Last Year' }];
+        $scope.fromdate = new Date();
+        $scope.todate = new Date();
 
-        $scope.myDate = new Date();
-        $scope.endDate = new Date();
+        $scope.GetTimeSpan = function (timespan) {
 
-        $scope.minstartDate = new Date(
-            $scope.myDate.getFullYear(),
-            $scope.myDate.getMonth() - 6,
-            $scope.myDate.getDate());
+            $scope.disabled = false;
+            if (timespan == 'Last Week') {
+                $scope.minstartDate = new Date(
+                    $scope.fromdate.getFullYear(),
+                    $scope.fromdate.getMonth(),
+                    $scope.fromdate.getDate() - 7);
 
-        $scope.maxstartDate = new Date(
-            $scope.myDate.getFullYear(),
-            $scope.myDate.getMonth(),
-            $scope.myDate.getDate());
+                $scope.maxstartDate = new Date(
+                    $scope.fromdate.getFullYear(),
+                    $scope.fromdate.getMonth(),
+                    $scope.fromdate.getDate());
 
-        $scope.minendDate = new Date(
-            $scope.myDate.getFullYear(),
-            $scope.myDate.getMonth() - 6,
-            $scope.myDate.getDate());
+                $scope.minendDate = new Date(
+                    $scope.fromdate.getFullYear(),
+                    $scope.fromdate.getMonth(),
+                    $scope.fromdate.getDate() - 7);
 
-        $scope.maxendDate = new Date(
-            $scope.endDate.getFullYear(),
-            $scope.endDate.getMonth(),
-            $scope.endDate.getDate());
+                $scope.maxendDate = new Date(
+                    $scope.todate.getFullYear(),
+                    $scope.todate.getMonth(),
+                    $scope.todate.getDate());
+            }
+            if (timespan == 'Last Month') {
+                $scope.minstartDate = new Date(
+                    $scope.fromdate.getFullYear(),
+                    $scope.fromdate.getMonth() - 1,
+                    $scope.fromdate.getDate());
+
+                $scope.maxstartDate = new Date(
+                    $scope.fromdate.getFullYear(),
+                    $scope.fromdate.getMonth(),
+                    $scope.fromdate.getDate());
+
+                $scope.minendDate = new Date(
+                    $scope.fromdate.getFullYear(),
+                    $scope.fromdate.getMonth() - 1,
+                    $scope.fromdate.getDate());
+
+                $scope.maxendDate = new Date(
+                    $scope.todate.getFullYear(),
+                    $scope.todate.getMonth(),
+                    $scope.todate.getDate());
+            }
+            if (timespan == 'Last Quarter') {
+                $scope.minstartDate = new Date(
+                    $scope.fromdate.getFullYear(),
+                    $scope.fromdate.getMonth() - 6,
+                    $scope.fromdate.getDate());
+
+                $scope.maxstartDate = new Date(
+                    $scope.fromdate.getFullYear(),
+                    $scope.fromdate.getMonth(),
+                    $scope.fromdate.getDate());
+
+                $scope.minendDate = new Date(
+                    $scope.fromdate.getFullYear(),
+                    $scope.fromdate.getMonth() - 6,
+                    $scope.fromdate.getDate());
+
+                $scope.maxendDate = new Date(
+                    $scope.todate.getFullYear(),
+                    $scope.todate.getMonth(),
+                    $scope.todate.getDate());
+            }
+            if (timespan == 'Last Year') {
+                $scope.minstartDate = new Date(
+                    $scope.fromdate.getFullYear() - 1,
+                    $scope.fromdate.getMonth(),
+                    $scope.fromdate.getDate());
+
+                $scope.maxstartDate = new Date(
+                    $scope.fromdate.getFullYear(),
+                    $scope.fromdate.getMonth(),
+                    $scope.fromdate.getDate());
+
+                $scope.minendDate = new Date(
+                    $scope.fromdate.getFullYear() - 1,
+                    $scope.fromdate.getMonth(),
+                    $scope.fromdate.getDate());
+
+                $scope.maxendDate = new Date(
+                    $scope.todate.getFullYear(),
+                    $scope.todate.getMonth(),
+                    $scope.todate.getDate());
+            }
+        };
 
         //this.isOpen = false;
         $scope.showDate = function () {
-            $http.post("/Customer/GetLogs", { startdt: $scope.myDate, enddt: $scope.endDate }).success(function (response) {
+            $http.post("/Customer/GetLogs", { startdt: $scope.fromdate, enddt: $scope.todate }).success(function (response) {
                 //console.log(response.Data);
                 if (response.IsSuccess) {
                     console.log("I am in success");
@@ -40,7 +110,6 @@
                     syraservice.RecordStatusMessage("error", response.Message);
                 }
             });
-            //alert($scope.selectedDt);
         }
         
     }]);

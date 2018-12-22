@@ -76,18 +76,14 @@ namespace Syra.Admin.Models
         
         [Required]
         [EmailAddress]
+        [DataType(DataType.EmailAddress,ErrorMessage="Invalid EmailId")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
-        //[MembershipPassword(
-        //    MinRequiredNonAlphanumericCharacters = 1,
-        //    MinNonAlphanumericCharactersError = "Your password needs to contain at least one symbol (!, @, #, etc).",
-        //    ErrorMessage = "Your password must be 6 characters long and contain at least one symbol (!, @, #, etc).",
-        //    MinRequiredPasswordLength = 6
-        //)]
-        //[RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,10}$", ErrorMessageResourceName = "PasswordNotStrongEnoughMessage")]
+        //[StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,15}$",ErrorMessage = "Minimum 6 and Maximum 15 characters, at least one uppercase letter, one lowercase letter, one number and one special character")]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
         public string Password { get; set; }
@@ -97,29 +93,25 @@ namespace Syra.Admin.Models
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
-        //[Required]
+        [Required(ErrorMessage ="Please provide Job ")]
         [Display(Name = "Job Title")]
         public string JobTitle { get; set; }
 
-        //[Required]
+        [Required(ErrorMessage = "Please provide Company ")]
         [Display(Name = "Company")]
         public string Company { get; set; }
 
-        //[Required]
+        [Required(ErrorMessage = "Please mention Pricing Plan ")]
         [Display(Name = "Pricing Plan")]
         public string PricingPlan { get; set; }
 
-        //[Required]
+        [Required(ErrorMessage = "Please mention Buisness Requirement ")]
         [Display(Name = "Business requirement")]
         public string BusinessRequirement { get; set; }
 
-        //[Required]
+        [Required(ErrorMessage = "Please mention Pricing Plan ")]
         [Display(Name = "Plan")]
         public Int64 PlanId { get; set; }
-
-        //public IEnumerable<SelectListItem> CategoryList { get; set; }
-
-        public List<string> ErrorMessage { get; set; }
     }
 
     public class ResetPasswordViewModel

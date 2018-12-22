@@ -228,7 +228,7 @@ namespace Syra.Admin.Controllers
         //                    var dateTimeOffset = new DateTimeOffset(dateTime);
         //                    var unixDateTime = dateTimeOffset.ToUnixTimeSeconds();
         //                    Int64 epochtime = Convert.ToInt64(unixDateTime) * 1000;
-        //                    dataline.Add(new LowHighTime { epochtime = epochtime, status = "no data"});
+        //                    dataline.Add(new LowHighTime { epochtime = epochtime, status = "no data" });
         //                }
         //                else
         //                {
@@ -237,11 +237,11 @@ namespace Syra.Admin.Controllers
         //                        SessionLog log = new SessionLog();
         //                        CultureInfo culture = new CultureInfo("en-US");
         //                        List<Int64> logtime = new List<Int64>();
-        //                        ArrayList time_frequency = new ArrayList();
+        //                        List<CountHour> time_frequency = new List<CountHour>();
         //                        //Object data = new Object();
-        //                    //string dateonly = startdateonly.Date.ToString("dd/MM/yyyy");
-        //                    //obtain epoch time from blob name
-        //                        DateTime dateobj = DateTime.ParseExact(dateonly,"dd/MM/yyyy",culture);
+        //                        //string dateonly = startdateonly.Date.ToString("dd/MM/yyyy");
+        //                        //obtain epoch time from blob name
+        //                        DateTime dateobj = DateTime.ParseExact(dateonly, "dd/MM/yyyy", culture);
         //                        int year = dateobj.Year;
         //                        int month = dateobj.Month;
         //                        int day = dateobj.Day;
@@ -273,14 +273,15 @@ namespace Syra.Admin.Controllers
         //                            //var unixDateTime = dateTimeOffset.ToUnixTimeSeconds();
         //                            //Int64 epochtime = Convert.ToInt64(unixDateTime) * 1000;
         //                            //Convert.ToDateTime(log.LogTime).ToShortTimeString()
-        //                            logtime.Add((DateTime.ParseExact(log.LogTime,"HH:mm:ss",culture).Hour));
+        //                            logtime.Add((DateTime.ParseExact(log.LogTime, "HH:mm:ss", culture).Hour));
         //                        }
         //                        var frequency = logtime.GroupBy(c => c);
-        //                        foreach(var item in frequency)
+        //                        foreach (var item in frequency)
         //                        {
-        //                            time_frequency.Add(new CountHour {hour=item.Key, hourcount=item.Count() });
+        //                            time_frequency.Add(new CountHour { hour = item.Key, hourcount = item.Count() });
         //                        }
-        //                        dataline.Add(new LowHighTime { epochtime = epochtime, status = "data",dateTimes=time_frequency.ToArray() });
+        //                        time_frequency.Max();
+        //                        dataline.Add(new LowHighTime { epochtime = epochtime, status = "data", dateTimes = time_frequency.OrderBy(x => x.hourcount).Take(2).ToArray() });
         //                    }
         //                }
         //            }
@@ -320,6 +321,7 @@ namespace Syra.Admin.Controllers
         {
             SyraDbContext db = new SyraDbContext();
             List<ArrayList> arraylist = new List<ArrayList>();
+            List<SessionLog> logs = new List<SessionLog>();
             List<LowHighTime> dataline = new List<LowHighTime>();
             ArrayList arrayList = new ArrayList();
             List<Location> _data = new List<Location>();
@@ -377,8 +379,12 @@ namespace Syra.Admin.Controllers
                                 {
                                     var line = reader.ReadLine();
                                     string[] splitedword = line.Split('|');
-                                    log.LogDate = splitedword[5];
-                                    log.LogDate = log.LogDate.Replace("-", "/").Replace(" ", "");
+                                    log.SessionId = splitedword[0];
+                                    log.UserQuery = splitedword[3];
+                                    log.BotAnswers = splitedword[4];
+                                    log.IPAddress = splitedword[1];
+                                    log.Region = splitedword[2];
+                                    log.LogDate = splitedword[5].Replace("-", "/").Replace(" ", "");
                                     log.LogTime = splitedword[6].Replace(" ", "");
                                     CultureInfo culture = new CultureInfo("en-US");
                                     string timedate = log.LogDate;
@@ -393,6 +399,7 @@ namespace Syra.Admin.Controllers
                                     var dateTimeOffset = new DateTimeOffset(dateTime);
                                     var unixDateTime = dateTimeOffset.ToUnixTimeSeconds();
                                     Int64 epochtime = Convert.ToInt64(unixDateTime) * 1000;
+                                    logs.Add(new SessionLog {SessionId= log.SessionId, IPAddress=log.IPAddress, Region=log.Region, UserQuery=log.UserQuery, BotAnswers=log.BotAnswers, LogDate=log.LogDate, LogTime=log.LogTime });
                                     dataline.Add(new LowHighTime { epochtime = epochtime, status = "data" });
                                 }
                             }
@@ -421,9 +428,11 @@ namespace Syra.Admin.Controllers
                 //EpochTime(json);
                 response.Data = new
                 {
-                    Epochtime = arraylist
+                    Epochtime = arraylist,
+                    AllResponse = logs
                 };
                 response.IsSuccess = true;
+                response.Message = "Success";
             }
             return response.GetResponse();
         }
@@ -489,7 +498,7 @@ namespace Syra.Admin.Controllers
                                     log.LogDate = splitedword[5];
                                     if (log.BotAnswers.Contains("Hmmm...I didn’t quite get that"))
                                     {
-                                        log.BotResponse = "Failed to Response/understand user question";
+                                        log.BotResponse = "Did Not Respond Appropriately";
                                         log.IsWrongAnswer = true;
                                     }
                                     logs.Add(log);
@@ -1451,7 +1460,6 @@ namespace Syra.Admin.Controllers
             {
                 response.Message = e.Message;
             }
-
             return response.GetResponse();
         }
 

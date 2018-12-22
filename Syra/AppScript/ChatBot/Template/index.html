@@ -1,6 +1,7 @@
 ﻿<div class="container" ng-hide="BotDetail">
     <h2>
-        My Bots <span class="badge">{{Customer.BotDeployments.length}}/{{CustomerPlan.AllowedBotLimit}}</span>
+        My Chatbots 
+        <span class="badge">{{Customer.BotDeployments.length}}/{{CustomerPlan.AllowedBotLimit}}</span>
         <span class="pull-right" ng-hide="Customer.BotDeployments.length == CustomerPlan.AllowedBotLimit">
             <a ui-sref="newchatbot" style="height: 33px;border: 0px;font-size:15px;background-color: transparent;">
                 Create New
@@ -12,7 +13,6 @@
             </a>
         </span>
     </h2>
-
     <table class="table" >
         <thead>
             <tr>

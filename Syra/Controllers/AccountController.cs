@@ -77,7 +77,21 @@ namespace Syra.Admin.Controllers
             {
                 return View(model);
             }
-
+            if(ModelState.IsValid)
+            {
+                var user = await UserManager.FindByNameAsync(model.Email);
+                if(user==null)
+                {
+                    ModelState.AddModelError("", "Invalid EmailId or Password");
+                    return View(model);
+                }
+                if (!await UserManager.IsEmailConfirmedAsync(user.Id))
+                {
+                    Session.Abandon();
+                    ModelState.AddModelError("", "You need to confirm your email.");
+                    return View(model);
+                }
+            }
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
@@ -236,7 +250,7 @@ namespace Syra.Admin.Controllers
                             {
                                 AddErrors(result);
                                 ModelState.AddModelError("",result.ToString());
-                                model.ErrorMessage = result.Errors.ToList();
+                                //model.ErrorMessage = result.Errors.ToList();
                             }
                         //}
                         //catch (Exception e)
@@ -253,7 +267,8 @@ namespace Syra.Admin.Controllers
             }
             catch(Exception e)
             {
-                model.ErrorMessage.Add(e.StackTrace);
+                string errmsg = e.StackTrace;
+                //model.ErrorMessage.Add(e.StackTrace);
                 //return response.GetResponse();
             }
             //if (ModelState.IsValid)
@@ -340,6 +355,7 @@ namespace Syra.Admin.Controllers
 
         //
         // POST: /Account/Register
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]

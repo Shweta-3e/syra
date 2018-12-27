@@ -37,13 +37,13 @@
             <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(3)}" ng-click="tab=3" style="font-family:'Rubik'">Goal Conversions</a>
         </li>
         <li ng-class="{'active': isActiveTab(4)}" ng-click="GetWorld()">
-            <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(4)}" ng-click="tab=4" style="font-family:'Rubik'">World Based Analysis</a>
+            <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(4)}" ng-click="tab=4" style="font-family:'Rubik'">Chatter's Demographics</a>
         </li>
-        <li ng-class="{'active': isActiveTab(5)}" ng-click="GetUSAAnalysis()">
+        <!--<li ng-class="{'active': isActiveTab(5)}" ng-click="GetUSAAnalysis()">
             <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(5)}" ng-click="tab=5" style="font-family:'Rubik'">Chatter's Demographics</a>
-        </li>
-        <li ng-class="{'active': isActiveTab(6)}" ng-click="GetLowPeakTime()">
-            <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(6)}" ng-click="tab=6" style="font-family:'Rubik'">Chatter’s Timings</a>
+        </li>-->
+        <li ng-class="{'active': isActiveTab(5)}" ng-click="GetLowPeakTime()">
+            <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(5)}" ng-click="tab=5" style="font-family:'Rubik'">Chatter’s Timings</a>
         </li>
     </ul>
 
@@ -420,7 +420,7 @@
 
         </div>
 
-        <div ng-show="isActiveTab(5)" ng-class="tab==5?'tab-pane fade in active':'tab-pane fade in'">
+        <!--<div ng-show="isActiveTab(5)" ng-class="tab==5?'tab-pane fade in active':'tab-pane fade in'">
             <div id="usa-container" style="min-width: 100px; height: 100%; margin: 0 auto;margin-top:30px;"></div>
             <div id="usaTable">
                 <div>
@@ -503,9 +503,9 @@
                     });
                 </script>
             </div>
-        </div>
+        </div>-->
 
-        <div ng-show="isActiveTab(6)" ng-class="tab==6?'tab-pane fade in active':'tab-pane fade in'">
+        <div ng-show="isActiveTab(5)" ng-class="tab==5?'tab-pane fade in active':'tab-pane fade in'">
             <div id="timing-container" style="min-width: 100px; height: 100%; margin: 0 auto;margin-top:30px;"></div>
             <div>
                 <img id="timespinner" ng-src="/syra_assets/circle-loading-animation.gif" style="display:none; height:80px;width:80px;margin-left:500px;margin-bottom:60px;">

@@ -19,10 +19,12 @@ namespace Syra.Admin.Entities
     }
     public class Location
     {
-        public string name { get; set; }
+        //public string name { get; set; }
         public float value { get; set; }
         public string code { get; set; }
-        public string code3 { get; set; }
+        public float z { get; set; }
+        //public string code3 { get; set; }
+        public string drilldown { get; set; }
     }
     public class LowHighTime
     {
@@ -43,14 +45,15 @@ namespace Syra.Admin.Entities
     public class USARegion
     {
         public string hckey { get; set; }
+        public string name { get; set; }
     }
     public class USALocation
     {
         [JsonProperty(PropertyName = "hc-key")]
         public string hckey { get; set; }
         public float value { get; set; }
-        private static char dash = '-';
-        private static string key = "key";
+        public float z { get; set; }
+        public string name { get; set; }
     }
    
 }

@@ -838,32 +838,33 @@ namespace Syra.Admin.Controllers
                                     string dt = Convert.ToDateTime(startdt).ToString("dd-MM-yyyy");
                                     logs.Add(new SessionLog { SessionId = splitedword[0], IPAddress = splitedword[2], Region = log.Region, UserQuery = splitedword[3], BotAnswers = splitedword[4], LogDate = tempdate });
                                     string usaregion = GetUsaCode(ipdetails.query, log.Region);
-                                    region.Add(new USARegion { hckey = usaregion.ToLower() });
+                                    region.Add(new USARegion { hckey = usaregion.ToLower(),name=log.Region });
                                     countries.Add(new Longtitude { Countries = ipdetails.countryCode, UserQuery = log.UserQuery });
+                                    response.IsSuccess = true;
                                 }
                             }
                             catch (Exception e)
                             {
-                                string errmsg = e.Message;
-                                response.Message = errmsg;
-                                Console.WriteLine(errmsg);
+                                response.Message =e.Message;
+                                response.IsSuccess = false;
                             }
                         }
-                        response.IsSuccess = true;
                     }
                 }
-                var dupusaregion = region.GroupBy(x => new { x.hckey }).Select(group => new { Name = group.Key, Count = group.Count() });
+                var dupusaregion = region.GroupBy(x => new { x.hckey,x.name }).Select(group => new { Name = group.Key, Count = group.Count() });
                 foreach (var item in dupusaregion)
                 {
                     usadata.Add(new USALocation()
                     {
                         hckey = item.Name.hckey,
+                        z=item.Count,
+                        name=item.Name.name,
                         value = item.Count
                     });
                 }
                 response.Data = new
                 {
-                    usadata,
+                    usadata=usadata,
                     AllResponse = logs
                 };
             }
@@ -927,7 +928,7 @@ namespace Syra.Admin.Controllers
                                     string[] splitedword = line.Split('|');
                                     log.SessionId = splitedword[0];
                                     log.IPAddress = splitedword[2];
-                                    log.Region = splitedword[1];
+                                    log.Region = splitedword[1].TrimStart().TrimEnd(); ;
                                     if (log.Region.Contains('.'))
                                     {
                                         string temp = log.IPAddress;
@@ -953,7 +954,7 @@ namespace Syra.Admin.Controllers
                                         string jsonresponse = GetIPDetails(log.IPAddress);
                                         ipdetails = JsonConvert.DeserializeObject<GetIPAddress>(jsonresponse);
                                         countries.Add(new Longtitude { Countries = ipdetails.countryCode });
-                                        logs.Add(new SessionLog { SessionId = splitedword[0], IPAddress = splitedword[2], Region = splitedword[1], UserQuery = splitedword[3], BotAnswers = splitedword[4], LogDate = tempdate, Country = ipdetails.country });
+                                        logs.Add(new SessionLog { SessionId = splitedword[0], IPAddress = splitedword[2], Region = log.Region, UserQuery = splitedword[3], BotAnswers = splitedword[4], LogDate = tempdate, Country = ipdetails.country });
                                     }
                                 }
                             }
@@ -984,8 +985,9 @@ namespace Syra.Admin.Controllers
                         {
                             _data.Add(new Location()
                             {
-                                code3 = myRI1.ThreeLetterISORegionName,
-                                name = myRI1.EnglishName,
+                                drilldown = myRI1.TwoLetterISORegionName,
+                                //name = myRI1.EnglishName,
+                                z= float.Parse(x.Count.ToString(), CultureInfo.InvariantCulture.NumberFormat),
                                 value = float.Parse(x.Count.ToString(), CultureInfo.InvariantCulture.NumberFormat),
                                 code = myRI1.TwoLetterISORegionName
                             });

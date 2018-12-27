@@ -1539,11 +1539,11 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
     </script>
 
     @*<div class="container">
-        <input type="text" id="message" />
-        <input type="button" id="sendmessage" value="Send" />
-        <input type="hidden" id="displayname" />
-        <ul id="discussion"></ul>
-    </div>*@
+            <input type="text" id="message" />
+            <input type="button" id="sendmessage" value="Send" />
+            <input type="hidden" id="displayname" />
+            <ul id="discussion"></ul>
+        </div>*@
 
     <script type="text/javascript">
         jQuery(document).ready(function () {
@@ -1586,7 +1586,7 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
     <script type='text/javascript'>
         /* <![CDATA[ */
         var simcal_default_calendar = { "ajax_url": "\/wp-admin\/admin-ajax.php", "nonce": "f27359c850", "locale": "en_US", "text_dir": "ltr", "months": { "full": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], "short": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"] }, "days": { "full": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "short": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] }, "meridiem": { "AM": "AM", "am": "am", "PM": "PM", "pm": "pm" } };
-        /* ]]> */
+                /* ]]> */
     </script>
     <script type='text/javascript' src='~/syra_assets/default-calendar.min.js'></script>
     @*<script type='text/javascript' src='~/syra_assets/d975e8eef86fa13dac350752bb833cac.js'></script>*@
@@ -1606,6 +1606,9 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
     <script src="http://code.highcharts.com/maps/modules/map.js"></script>
     <script src="https://code.highcharts.com/modules/drilldown.js"></script>
     <script src="https://code.highcharts.com/mapdata/custom/world.js"></script>
+    <script src="http://code.highcharts.com/mapdata/countries/in/custom/in-all-disputed.js"></script>
+    <script src="http://code.highcharts.com/maps/highmaps.js"></script>
+    <script src="http://code.highcharts.com/maps/modules/data.js"></script>
     <script src="http://code.highcharts.com/mapdata/countries/us/us-all.js"></script>
     <script type="text/javascript" src="~/Scripts/angular-datatables.min.js"></script>
     <script src="~/Scripts/jquery.dataTables.min.js"></script>
@@ -1620,40 +1623,40 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
     <script src="~/signalr/hubs"></script>
     <!--Add script to update the page and send messages.-->
     @*<script type="text/javascript">
-        $(function () {
-            console.log("hi");
+            $(function () {
+                console.log("hi");
 
-            // Declare a proxy to reference the hub.
-            var chat = $.connection.syraHub;
-            // Create a function that the hub can call to broadcast messages.
-            chat.client.broadcastMessage = function (name, message) {
-                console.log("Hub Message received");
-                // Html encode display name and message.
-                console.log(message);
-                console.log(name);
-                var encodedName = $('<div />').text(name).html();
-                var encodedMsg = $('<div />').text(message).html();
-                // Add the message to the page.
-                $('#discussion').append('<li><strong>' + encodedName
-                    + '</strong>:&nbsp;&nbsp;' + encodedMsg + '</li>');
-            };
-            // Get the user name and store it to prepend to messages.
-            //$('#displayname').val(prompt('Enter your name:', ''));
-            // Set initial focus to message input box.
-            $('#message').focus();
+                // Declare a proxy to reference the hub.
+                var chat = $.connection.syraHub;
+                // Create a function that the hub can call to broadcast messages.
+                chat.client.broadcastMessage = function (name, message) {
+                    console.log("Hub Message received");
+                    // Html encode display name and message.
+                    console.log(message);
+                    console.log(name);
+                    var encodedName = $('<div />').text(name).html();
+                    var encodedMsg = $('<div />').text(message).html();
+                    // Add the message to the page.
+                    $('#discussion').append('<li><strong>' + encodedName
+                        + '</strong>:&nbsp;&nbsp;' + encodedMsg + '</li>');
+                };
+                // Get the user name and store it to prepend to messages.
+                //$('#displayname').val(prompt('Enter your name:', ''));
+                // Set initial focus to message input box.
+                $('#message').focus();
 
-            // Start the connection.
-            $.connection.hub.start().done(function () {
-                $('#sendmessage').click(function () {
-                    console.log("Button Clicked");
-                    // Call the Send method on the hub.
-                    chat.server.send($('#displayname').val(), $('#message').val(), "12345");
-                    // Clear text box and reset focus for next comment.
-                    $('#message').val('').focus();
+                // Start the connection.
+                $.connection.hub.start().done(function () {
+                    $('#sendmessage').click(function () {
+                        console.log("Button Clicked");
+                        // Call the Send method on the hub.
+                        chat.server.send($('#displayname').val(), $('#message').val(), "12345");
+                        // Clear text box and reset focus for next comment.
+                        $('#message').val('').focus();
+                    });
                 });
             });
-        });
-    </script>*@
+        </script>*@
 
     @Scripts.Render("~/bundles/angularapp")
 </body>

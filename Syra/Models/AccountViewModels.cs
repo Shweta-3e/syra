@@ -56,6 +56,8 @@ namespace Syra.Admin.Models
         [EmailAddress]
         public string Email { get; set; }
 
+
+
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]

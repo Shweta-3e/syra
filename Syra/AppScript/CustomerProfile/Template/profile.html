@@ -1,8 +1,38 @@
 ﻿<div class="row">
-    <h2> My Profile <span class="pull-right" >
-        <a class="btn btn-primary" style="height: 10%;border: 0px;font-size:15px;" 
-           ng-show="!IsEditMode" ng-click="Edit()">
-        Edit</a> </span></h2>
+    <h2>
+        My Profile
+        <span class="pull-right">
+            <a class="btn btn-default" style="height: 10%;border: 0px;font-size:13px;font-weight:normal;font-family:'Rubik'" ui-sref="forgotpassword">
+                Change Password
+            </a>
+        </span>
+        <span class="pull-right">
+            <a class="btn btn-default" style="height: 10%;border: 0px;font-size:13px;font-weight:normal;font-family:'Rubik'" ui-sref="analytics">
+                Analytics
+            </a>
+        </span>
+        <span class="pull-right">
+            <a class="btn btn-default" style="height: 10%;border: 0px;font-size:13px;font-weight:normal;font-family:'Rubik'" ui-sref="logs">
+                Logs Viewer
+            </a>
+        </span>
+        <span class="pull-right">
+            <a class="btn btn-default" style="height: 10%;border: 0px;font-size:13px;font-weight:normal;font-family:'Rubik'" ui-sref="chatbot">
+                My Chatbots
+            </a>
+        </span>
+        <span class="pull-right">
+            <a class="btn btn-default" style="height: 10%;border: 0px;font-size:13px;font-weight:normal;font-family:'Rubik'" a href="/#/Subscription">
+                My Subscription
+            </a>
+        </span>
+        <span class="pull-right">
+            <a class="btn btn-default" style="height: 10%;border: 0px;font-size:13px;font-weight:normal;font-family:'Rubik'"
+               ng-show="!IsEditMode" ng-click="Edit()">
+                Edit
+            </a>
+        </span>
+    </h2>
 </div>
 <hr style="height:5%;margin-top: -20px;" />
 <form class="form-horizontal" style="padding-top:1%">
@@ -14,6 +44,7 @@
             </div>
         </div>
     </div>
+
     <div class="row" style="padding-top:1%">
         <div class="form-group">
             <label class="control-label col-sm-2" for="txtEmail">Email</label>
@@ -107,11 +138,11 @@
     <div class="row" style="padding-top:1%" ng-show="IsEditMode">
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="button" class="btn btn-primary" value="Update" ng-click="Update()"
-                       style="border-radius:5px;height:39px;width:150px;font-weight:bold" />
+                <input type="button" class="btn btn-default" value="Update" ng-click="Update()"
+                       style="border-radius:5px;height:39px;width:150px;font-weight:bold;background-color:#b296af" />
 
-                <input type="button" class="btn btn-danger" value="Cancel"
-                       style="border-radius:5px;height:39px;width:150px;font-weight:bold;"
+                <input type="button" class="btn btn-default" value="Cancel"
+                       style="border-radius:5px;height:39px;width:150px;font-weight:bold;background-color:#8e3052;color:white;"
                        ng-click="Cancel()" />
             </div>
         </div>

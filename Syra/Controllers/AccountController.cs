@@ -105,7 +105,8 @@ namespace Syra.Admin.Controllers
                     }
                     else
                     {
-                        return RedirectToLocal("/home/#/chatbot");
+                        //return RedirectToLocal("/home/#/chatbot");
+                        return RedirectToLocal("/#/Profile");
                     }
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -371,7 +372,7 @@ namespace Syra.Admin.Controllers
 
                    await UserManager.AddToRoleAsync(user.Id, "Admin");
 
-                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                     return RedirectToAction("Index", "Home");
                 }

@@ -58,8 +58,8 @@
             <div class="row" style="padding-top:2%">
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="button" class="btn btn-danger" value="Cancel"
-                               style="border-radius:5px;height:39px;width:150px;font-weight:bold;"
+                        <input type="button" class="btn btn-default" value="Cancel"
+                               style="border-radius:5px;height:39px;width:90px;font-weight:bold;background-color:#8e3052;color:white;"
                                ng-click="Cancel()" />
                     </div>
                 </div>
@@ -131,7 +131,7 @@
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
                         <input type="button" class="btn btn-danger" value="Cancel"
-                               style="border-radius:5px;height:39px;width:150px;font-weight:bold;"
+                               style="border-radius:5px;height:39px;width:90px;font-weight:bold;background-color:#8e3052;color:white;"
                                ng-click="Cancel()" />
                     </div>
                 </div>
@@ -167,10 +167,10 @@
                             <input type="text" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" ng-model="BotQuestionAnswer.Answer" />
                         </td>
                         <td>
-                            <a class="btn btn-primary" ng-click="AddMore(BotQuestionAnswer)" ng-show="!BotQuestionAnswer.IsEditMode">
+                            <a class="btn btn-default" ng-click="AddMore(BotQuestionAnswer)" ng-show="!BotQuestionAnswer.IsEditMode" style="background-color:#b296af;font-weight:bold;color:black;">
                                 Add
                             </a>
-                            <a class="btn" ng-click="Update(BotQuestionAnswer)" ng-show="BotQuestionAnswer.IsEditMode">
+                            <a class="btn" ng-click="Update(BotQuestionAnswer)" ng-show="BotQuestionAnswer.IsEditMode"style="background-color:#b296af;font-weight:bold;color:black;">
                                 Update
                             </a>
                         </td>
@@ -183,7 +183,7 @@
                                 <b>Edit</b>
                             </a>
 
-                            <a class="btn btn-danger" ng-click="Remove($index)">
+                            <a class="btn btn-danger" ng-click="Remove($index)" style="background-color:#8e3052;font-weight:bold;color:white;">
                                 Remove
                             </a>
                         </td>
@@ -195,7 +195,7 @@
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
                         <input type="button" class="btn btn-danger" value="Cancel"
-                               style="border-radius:5px;height:39px;width:150px;font-weight:bold;"
+                               style="border-radius:5px;height:39px;width:90px;font-weight:bold;background-color:#8e3052;color:white;"
                                ng-click="Cancel()" />
                     </div>
                 </div>
@@ -225,12 +225,12 @@
 
             <div class="row" style="padding-top:2%">
                 <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="button" class="btn btn-primary" value="Save" ng-click="CreateChatBot()"
-                               style="border-radius:5px;height:39px;width:150px;font-weight:bold;" />
+                    <div class="col-md-offset-2 col-md-10" style="padding-left:10%">
+                        <input type="button" class="btn btn-default" value="Save" ng-click="CreateChatBot()"
+                               style="border-radius:5px;height:39px;width:90px;font-weight:bold;background-color:#b296af;" />
 
                         <input type="button" class="btn btn-danger" value="Cancel"
-                               style="border-radius:5px;height:39px;width:150px;font-weight:bold;"
+                               style="border-radius:5px;height:39px;width:90px;font-weight:bold;background-color:#8e3052;color:white;"
                                ng-click="Cancel()" />
                     </div>
                 </div>

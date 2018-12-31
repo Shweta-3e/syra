@@ -1,13 +1,13 @@
 ﻿<div class="container" ng-hide="LogView">
     <h2 style="font-family:'Rubik'">
-        Log View
+        Logs Viewer
         <span class="pull-right">
         </span>
     </h2>
     <div class='input-group date' id='datetimepicker1' style="padding-bottom:50px; padding-top:2%; width:100%;">
         <div id="timespan" style="width:30%;display:inline-block">
             <div>
-                <label style="font-family:'Rubik';font-size:medium;">TimeSpan</label>
+                <label style="font-family:'Rubik';font-size:medium;">Filter on Days</label>
             </div>
             <select style="border-radius:5px;width:45%;color:black;" data-ng-model="timespan" ng-change="GetTimeSpan(timespan)">
                 <option value="" disabled selected>Select an Option</option>
@@ -23,18 +23,18 @@
             <md-datepicker ng-model="todate" ng-disabled="disabled" md-placeholder="End Date" md-min-date="minendDate" md-max-date="maxendDate" md-open-on-focus></md-datepicker>
         </div>
         <div id="btnlogview" style="width:30%;display:inline-block;margin-left:5%;">
-            <button class="btn btn-success" style="margin-left:-25%;margin-top:-6%;font-family:'Rubik'" ng-click="showDate()">Show Logs</button>
+            <button class="btn btn-default" style="margin-left:-25%;background-color:#b296af;margin-top:-6%;font-family:'Rubik';font-weight:bold" ng-click="showDate()">Show Logs</button>
         </div>
     </div>
     <table datatable="ng" style="margin-top:1%" dt-options="vm.dtOptions" dt-columns="vm.dtColumns" class="table table-responsive table-bordered table-striped">
         <thead>
             <tr>
-                <th class="text-align-center" style="width:250px;font-family:'Rubik'">DateTime</th>
+                <th class="text-align-center" style="width:250px;font-family:'Rubik'">Date & Time </th>
                 <th class="text-align-center" style="width:200px;font-family:'Rubik'">Session Id</th>
                 <th class="text-align-center" style="font-family:'Rubik'">IP Address</th>
                 <th class="text-align-center" style="font-family:'Rubik'">Region</th>
-                <th class="text-align-center" style="font-family:'Rubik'">User Query</th>
-                <th class="text-align-center" style="font-family:'Rubik'">Bot Answers</th>
+                <th class="text-align-center" style="font-family:'Rubik'">Questions Asked</th>
+                <th class="text-align-center" style="font-family:'Rubik'">Chatbot's Responses</th>
 
             </tr>
         </thead>

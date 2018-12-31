@@ -8,47 +8,48 @@
         <div></div>
         <div id="timespan" style="width:30%;display:inline-block">
             <div>
-                <label style="font-family:'Rubik';font-size:medium;">TimeSpan</label>
+                <label style="font-family:'Rubik';font-size:medium;">Filter on Days</label>
             </div>
             <select style="border-radius:5px;width:45%;color:black;" data-ng-model="timespan" ng-change="GetTimeSpan(timespan)">
                 <option value="" disabled selected>Select an Option</option>
                 <option data-ng-repeat="time in TimeList">{{time.type}}</option>
             </select>
         </div>
-        <div id="fromdate" style="width:20%;display:inline-block;margin-left:-10%">
+        <div id="fromdate" style="width:20%;display:inline-block;margin-left:-12%">
             <label style="font-family:'Rubik'; font-size:medium; margin-left: 12%;">Start Date </label>
             <md-datepicker ng-model="fromdate" ng-disabled="disabled" md-placeholder="Start Date" md-min-date="minstartDate" md-max-date="maxstartDate" style="margin-right:20px" md-open-on-focus></md-datepicker>
         </div>
-        <div id="todate" style="width:20%;display:inline-block">
+        <div id="todate" style="width:20%;display:inline-block;margin-left:-2% ">
             <label style="font-family:'Rubik';font-size:medium;margin-left: 12%;">End Date </label>
             <md-datepicker ng-model="todate" ng-disabled="disabled" md-placeholder="End Date" md-min-date="minendDate" md-max-date="maxendDate" md-open-on-focus></md-datepicker>
+        </div>
+        <div id="btnlogview" style="width:30%;display:inline-block;margin-left:7%;">
+            <button class="btn btn-default" style="margin-left:-25%;background-color:#b296af;margin-top:-6%;font-family:'Rubik';font-weight:bold" ng-click="GetQuestionsAsked()">Show Reports</button>
         </div>
     </div>
 </div>
 <div class="container" ng-hide="IsEditMode">
     <ul class="nav nav-tabs">
-        <li ng-class="{'active': isActiveTab(1)}" ng-click="GetBotReply()">
-            <a role="tab" data-toggle="tab" ng-click="tab=1" style="font-family:'Rubik'">Chatbot’s Response Analysis</a>
+        <li ng-class="{'active': isActiveTab(1)}" >
+            <a role="tab" data-toggle="tab" ng-click="tab=1" style="font-family:'Rubik'">Top 10 Questions Asked</a>
         </li>
-        <li ng-class="{'active': isActiveTab(2)}" ng-click="GetQuestionsAsked()">
-            <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(2)}" ng-click="tab=2"style="font-family:'Rubik'">Top 10 Questions Asked</a>
+        <li ng-class="{'active': isActiveTab(2)}" >
+            <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(2)}" ng-click="tab=2" style="font-family:'Rubik'">Chatter's Demographics</a>
         </li>
-        <li ng-class="{'active': isActiveTab(3)}" ng-click="GetLinks()">
-            <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(3)}" ng-click="tab=3" style="font-family:'Rubik'">Goal Conversions</a>
+        <li ng-class="{'active': isActiveTab(3)}" >
+            <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(3)}" ng-click="tab=3" style="font-family:'Rubik'">Date & Time of Interactions</a>
         </li>
-        <li ng-class="{'active': isActiveTab(4)}" ng-click="GetWorld()">
-            <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(4)}" ng-click="tab=4" style="font-family:'Rubik'">Chatter's Demographics</a>
+        <li ng-class="{'active': isActiveTab(4)}" >
+            <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(4)}" ng-click="tab=4" style="font-family:'Rubik'">Chatbot’s Response Analysis</a>
         </li>
-        <!--<li ng-class="{'active': isActiveTab(5)}" ng-click="GetUSAAnalysis()">
-            <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(5)}" ng-click="tab=5" style="font-family:'Rubik'">Chatter's Demographics</a>
-        </li>-->
-        <li ng-class="{'active': isActiveTab(5)}" ng-click="GetLowPeakTime()">
-            <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(5)}" ng-click="tab=5" style="font-family:'Rubik'">Chatter’s Timings</a>
+        <li ng-class="{'active': isActiveTab(5)}" >
+            <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(5)}" ng-click="tab=5" style="font-family:'Rubik'">Goal Conversions</a>
         </li>
+
     </ul>
 
     <div class="tab-content" style="">
-        <div ng-show="isActiveTab(1)" ng-class="tab==1?'tab-pane fade in active':'tab-pane fade in'">
+        <div ng-show="isActiveTab(4)" ng-class="tab==4?'tab-pane fade in active':'tab-pane fade in'">
             <div>
                 <div id="botreply" style="min-width: 100px; height:100%; margin: 0 auto;margin-top:40px;"></div>
                 <div id="botresponse">
@@ -160,7 +161,7 @@
             </div>
         </div>
 
-        <div ng-show="isActiveTab(2)" ng-class="tab==2?'tab-pane fade in active':'tab-pane fade in'">
+        <div ng-show="isActiveTab(1)" ng-class="tab==1?'tab-pane fade in active':'tab-pane fade in'">
             <div>
                 <div id="container_query" style="min-width: 100px; height: 100%; margin: 0 auto;margin-top:20px;"></div>
                 <div id="dvTable">
@@ -247,7 +248,7 @@
             </div>
         </div>
 
-        <div ng-show="isActiveTab(3)" ng-class="tab==3?'tab-pane fade in active':'tab-pane fade in'">
+        <div ng-show="isActiveTab(5)" ng-class="tab==5?'tab-pane fade in active':'tab-pane fade in'">
             <div id="goalconversion" style="min-width: 100px; height: 100%; margin: 0 auto;margin-top:30px;"></div>
             <div id="linkTable">
                 <div>
@@ -332,7 +333,7 @@
             </div>
         </div>
 
-        <div ng-show="isActiveTab(4)" ng-class="tab==4?'tab-pane fade in active':'tab-pane fade in'">
+        <div ng-show="isActiveTab(2)" ng-class="tab==2?'tab-pane fade in active':'tab-pane fade in'">
             <div>
                 <div id="container" style="max-width: 1000px;margin-top:30px;height: 100%;"></div>
                 <div id="worldTable">
@@ -420,92 +421,7 @@
 
         </div>
 
-        <!--<div ng-show="isActiveTab(5)" ng-class="tab==5?'tab-pane fade in active':'tab-pane fade in'">
-            <div id="usa-container" style="min-width: 100px; height: 100%; margin: 0 auto;margin-top:30px;"></div>
-            <div id="usaTable">
-                <div>
-                    <img id="usaspinner" ng-src="/syra_assets/circle-loading-animation.gif" style="display:none; height:80px;width:80px;margin-left:500px;margin-bottom:60px;">
-                </div>
-                <script type="text/javascript">
-                    function disableButton(btn) {
-                        document.getElementById(btn.id).style.display = 'none';
-                    }
-                    function getUSAAnalysisPagination(table) {
-                        var lastPage = 1;
-                        $('#usamaxRows').on('change', function (evt) {
-                            lastPage = 1;
-                            $('#usapagination').find("li").slice(1, -1).remove();
-                            var trnum = 0;									// reset tr counter
-                            var maxRows = parseInt($(this).val());
-                            if (maxRows == 5000) {
-                                $('#usapagination').hide();
-                            } else {
-                                $('#usapagination').show();
-                            }
-                            var totalRows = $(table + ' tbody tr').length;		// numbers of rows
-                            $(table + ' tr:gt(0)').each(function () {			// each TR in  table and not the header
-                                trnum++;									// Start Counter
-                                if (trnum > maxRows) {
-                                    $(this).hide();							// fade it out
-                                } if (trnum <= maxRows) { $(this).show(); }// else fade in Important in case if it ..
-                            });											//  was fade out to fade it in
-                            if (totalRows > maxRows) {						// if tr total rows gt max rows option
-                                var pagenum = Math.ceil(totalRows / maxRows);	// ceil total(rows/maxrows) to get ..
-                                //	numbers of pages
-                                for (var i = 1; i <= pagenum;) {			// for each page append pagination li
-                                    $('#usapagination #prev').before('<li data-page="' + i + '">\
-                                                                                              <span>'+ i++ + '<span class="sr-only">(current)</span></span>\
-                                                                                            </li>').show();
-                                }											// end for i
-                            } 												// end if row count > max rows
-                            $('#usapagination [data-page="1"]').addClass('active'); // add active class to the first li
-                            $('#usapagination li').on('click', function (evt) {		// on click each page
-                                evt.stopImmediatePropagation();
-                                evt.preventDefault();
-                                var pageNum = $(this).attr('data-page');	// get it's number
-
-                                var maxRows = parseInt($('#usamaxRows').val());			// get Max Rows from select option
-
-                                if (pageNum == "prev") {
-                                    if (lastPage == 1) { return; }
-                                    pageNum = --lastPage;
-                                }
-                                if (pageNum == "next") {
-                                    if (lastPage == ($('#usapagination li').length - 2)) { return; }
-                                    pageNum = ++lastPage;
-                                }
-                                lastPage = pageNum;
-                                var trIndex = 0;							// reset tr counter
-                                $('#usapagination li').removeClass('active');	// remove active class from all li
-                                $('#usapagination [data-page="' + lastPage + '"]').addClass('active');// add active class to the clicked
-                                // $(this).addClass('active');					// add active class to the clicked
-                                $(table + ' tr:gt(0)').each(function () {		// each tr in table not the header
-                                    trIndex++;								// tr index counter
-                                    // if tr index gt maxRows*pageNum or lt maxRows*pageNum-maxRows fade if out
-                                    if (trIndex > (maxRows * pageNum) || trIndex <= ((maxRows * pageNum) - maxRows)) {
-                                        $(this).hide();
-                                    } else { $(this).show(); } 				//else fade in
-                                }); 										// end of for each tr in table
-                            });										// end of on click pagination list
-
-                        }).val(5).change();
-                    }
-                    $(function () {
-                        // Just to append id number for each row
-                        $('table tr:eq(0)').prepend('<th> ID </th>')
-
-                        var id = 0;
-
-                        $('table tr:gt(0)').each(function () {
-                            id++
-                            $(this).prepend('<td>' + id + '</td>');
-                        });
-                    });
-                </script>
-            </div>
-        </div>-->
-
-        <div ng-show="isActiveTab(5)" ng-class="tab==5?'tab-pane fade in active':'tab-pane fade in'">
+        <div ng-show="isActiveTab(3)" ng-class="tab==3?'tab-pane fade in active':'tab-pane fade in'">
             <div id="timing-container" style="min-width: 100px; height: 100%; margin: 0 auto;margin-top:30px;"></div>
             <div>
                 <img id="timespinner" ng-src="/syra_assets/circle-loading-animation.gif" style="display:none; height:80px;width:80px;margin-left:500px;margin-bottom:60px;">

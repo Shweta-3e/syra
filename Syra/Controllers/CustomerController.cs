@@ -771,6 +771,31 @@ namespace Syra.Admin.Controllers
         }
 
         [HttpPost]
+        public string DisplaySubscription(string planname)
+        {
+            _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var useremail = HttpContext.User.Identity.Name;
+            var aspnetuser = _userManager.FindByEmailAsync(useremail).Result;
+            var customer = db.Customer.FirstOrDefault(c => c.UserId == aspnetuser.Id);
+            if (customer != null)
+            {
+                var findplan = db.Plans.FirstOrDefault(c => c.Name == planname);
+                if(findplan!=null)
+                {
+                    response.Data = findplan;
+                    response.IsSuccess = true;
+                }
+            }
+            else
+            {
+                response.Message = "Plan record not found";
+                response.IsSuccess = false;
+            }
+            return response.GetResponse();
+        }
+
+        [HttpPost]
         public string GetUSAAnalytics(DateTime startdt, DateTime enddt)
         {
             List<USALocation> usadata = new List<USALocation>();
@@ -838,9 +863,13 @@ namespace Syra.Admin.Controllers
                                     string dt = Convert.ToDateTime(startdt).ToString("dd-MM-yyyy");
                                     logs.Add(new SessionLog { SessionId = splitedword[0], IPAddress = splitedword[2], Region = log.Region, UserQuery = splitedword[3], BotAnswers = splitedword[4], LogDate = tempdate });
                                     string usaregion = GetUsaCode(ipdetails.query, log.Region);
-                                    region.Add(new USARegion { hckey = usaregion.ToLower(),name=log.Region });
-                                    countries.Add(new Longtitude { Countries = ipdetails.countryCode, UserQuery = log.UserQuery });
-                                    response.IsSuccess = true;
+                                    if(usaregion.Equals("")==false)
+                                    {
+                                        region.Add(new USARegion { hckey = usaregion.ToLower(), name = log.Region });
+                                        countries.Add(new Longtitude { Countries = ipdetails.countryCode, UserQuery = log.UserQuery });
+                                        response.IsSuccess = true;
+                                    }
+                                    
                                 }
                             }
                             catch (Exception e)

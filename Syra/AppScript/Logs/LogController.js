@@ -10,20 +10,25 @@
 
             $scope.disabled = false;
             if (timespan == 'Last Week') {
-                $scope.minstartDate = new Date(
-                    $scope.fromdate.getFullYear(),
-                    $scope.fromdate.getMonth(),
-                    $scope.fromdate.getDate() - 7);
+                $scope.fromdate = new Date(
+                    $scope.todate.getFullYear(),
+                    $scope.todate.getMonth(),
+                    $scope.todate.getDate() - 7);
 
-                $scope.maxstartDate = new Date(
+                $scope.minstartDate = new Date(
                     $scope.fromdate.getFullYear(),
                     $scope.fromdate.getMonth(),
                     $scope.fromdate.getDate());
 
+                $scope.maxstartDate = new Date(
+                    $scope.fromdate.getFullYear(),
+                    $scope.fromdate.getMonth(),
+                    $scope.fromdate.getDate() + 7);
+
                 $scope.minendDate = new Date(
                     $scope.fromdate.getFullYear(),
                     $scope.fromdate.getMonth(),
-                    $scope.fromdate.getDate() - 7);
+                    $scope.fromdate.getDate());
 
                 $scope.maxendDate = new Date(
                     $scope.todate.getFullYear(),
@@ -31,19 +36,25 @@
                     $scope.todate.getDate());
             }
             if (timespan == 'Last Month') {
-                $scope.minstartDate = new Date(
-                    $scope.fromdate.getFullYear(),
-                    $scope.fromdate.getMonth() - 1,
-                    $scope.fromdate.getDate());
 
-                $scope.maxstartDate = new Date(
+                $scope.fromdate = new Date(
+                    $scope.todate.getFullYear(),
+                    $scope.todate.getMonth() - 1,
+                    $scope.todate.getDate());
+
+                $scope.minstartDate = new Date(
                     $scope.fromdate.getFullYear(),
                     $scope.fromdate.getMonth(),
                     $scope.fromdate.getDate());
 
+                $scope.maxstartDate = new Date(
+                    $scope.fromdate.getFullYear(),
+                    $scope.fromdate.getMonth() + 1,
+                    $scope.fromdate.getDate());
+
                 $scope.minendDate = new Date(
                     $scope.fromdate.getFullYear(),
-                    $scope.fromdate.getMonth() - 1,
+                    $scope.fromdate.getMonth(),
                     $scope.fromdate.getDate());
 
                 $scope.maxendDate = new Date(
@@ -52,19 +63,24 @@
                     $scope.todate.getDate());
             }
             if (timespan == 'Last Quarter') {
-                $scope.minstartDate = new Date(
-                    $scope.fromdate.getFullYear(),
-                    $scope.fromdate.getMonth() - 6,
-                    $scope.fromdate.getDate());
+                $scope.fromdate = new Date(
+                    $scope.todate.getFullYear(),
+                    $scope.todate.getMonth() - 3,
+                    $scope.todate.getDate());
 
-                $scope.maxstartDate = new Date(
+                $scope.minstartDate = new Date(
                     $scope.fromdate.getFullYear(),
                     $scope.fromdate.getMonth(),
                     $scope.fromdate.getDate());
 
+                $scope.maxstartDate = new Date(
+                    $scope.fromdate.getFullYear(),
+                    $scope.fromdate.getMonth() + 3,
+                    $scope.fromdate.getDate());
+
                 $scope.minendDate = new Date(
                     $scope.fromdate.getFullYear(),
-                    $scope.fromdate.getMonth() - 6,
+                    $scope.fromdate.getMonth(),
                     $scope.fromdate.getDate());
 
                 $scope.maxendDate = new Date(
@@ -73,18 +89,23 @@
                     $scope.todate.getDate());
             }
             if (timespan == 'Last Year') {
-                $scope.minstartDate = new Date(
-                    $scope.fromdate.getFullYear() - 1,
-                    $scope.fromdate.getMonth(),
-                    $scope.fromdate.getDate());
+                $scope.fromdate = new Date(
+                    $scope.todate.getFullYear() - 1,
+                    $scope.todate.getMonth(),
+                    $scope.todate.getDate());
 
-                $scope.maxstartDate = new Date(
+                $scope.minstartDate = new Date(
                     $scope.fromdate.getFullYear(),
                     $scope.fromdate.getMonth(),
                     $scope.fromdate.getDate());
 
+                $scope.maxstartDate = new Date(
+                    $scope.fromdate.getFullYear() + 1,
+                    $scope.fromdate.getMonth(),
+                    $scope.fromdate.getDate());
+
                 $scope.minendDate = new Date(
-                    $scope.fromdate.getFullYear() - 1,
+                    $scope.fromdate.getFullYear(),
                     $scope.fromdate.getMonth(),
                     $scope.fromdate.getDate());
 

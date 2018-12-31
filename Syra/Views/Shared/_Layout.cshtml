@@ -137,6 +137,64 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
             background: none !important;
             padding: 0 !important;
         }
+        .navbar {
+            overflow: hidden;
+            background-color: #333;
+        }
+
+            .navbar a {
+                float: left;
+                font-size: 16px;
+                color: white;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+            }
+
+        .subnav {
+            float: left;
+            overflow: hidden;
+        }
+
+            .subnav .subnavbtn {
+                font-size: 16px;
+                border: none;
+                outline: none;
+                color: white;
+                padding: 14px 16px;
+                background-color: inherit;
+                font-family: inherit;
+                margin: 0;
+            }
+
+            .navbar a:hover, .subnav:hover .subnavbtn {
+                background-color: red;
+            }
+
+        .subnav-content {
+            display: none;
+            position: absolute;
+            left: 0;
+            background-color: red;
+            width: 100%;
+            z-index: 1;
+        }
+
+            .subnav-content a {
+                display:inline-block;
+                float: left;
+                /*color: white;*/
+                text-decoration: none;
+            }
+
+                .subnav-content a:hover {
+                    /*background-color: #eee;*/
+                    color: black;
+                }
+
+        .subnav:hover .subnav-content {
+            display: block;
+        }
     </style>
     <link rel='stylesheet' id='contact-form-7-css' href='~/syra_assets/contact-form-styles.css' type='text/css' media='all' />
     <link rel='stylesheet' id='tablepress-columnfilterwidgets-css-css' href='~/syra_assets/ColumnFilterWidgets.min.css' type='text/css' media='all' />
@@ -207,7 +265,6 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
     </script>
 
 </head>
-
 <body ng-app="syra" class="home page-template page-template-100-width page-template-100-width-php page page-id-1293 fusion-image-hovers fusion-body ltr fusion-sticky-header no-tablet-sticky-header no-mobile-sticky-header no-mobile-slidingbar no-mobile-totop mobile-logo-pos-left layout-wide-mode fusion-top-header menu-text-align-center mobile-menu-design-modern fusion-show-pagination-text fusion-header-layout-v1 avada-responsive avada-footer-fx-bg-parallax">
 
     <div id="wrapper" class="">
@@ -227,16 +284,16 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
                                 </a>
                             </div>
 
-                            <a asp-controller="Manage" style="margin-left:800px;" asp-action="Index" title="Manage">Welcome @User.Identity.Name</a>
+                            @*<a asp-controller="Manage" style="margin-left:800px;" asp-action="Index" title="Manage">Welcome @User.Identity.Name</a>*@
 
-                            <nav class="fusion-main-menu" aria-label="Main Menu" style="margin-top:-50px;">
+                            <nav class="fusion-main-menu" aria-label="Main Menu" style="margin-top: -2%;margin-right: -5%;">
                                 <ul role="menubar" id="menu-main-navigation-new" class="fusion-menu">
                                     @if (User.IsInRole("Admin"))
                                     {
+                                        <li role="menuitem" id="menu-item-1307" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a asp-controller="Manage" style="margin-left:800px;" asp-action="Index" title="Manage">Hi @User.Identity.Name</a></li>
                                         <li role="menuitem" id="menu-item-1307" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a ui-sref="newplan" class="fusion-bar-highlight"><span class="menu-text">Manage Plans</span></a></li>
                                         <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a ui-sref="luisdomain" class="fusion-bar-highlight"><span class="menu-text">Manage Bot Domain</span></a></li>
                                         <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/#/managecustomer" class="fusion-bar-highlight"><span class="menu-text">Manage Customer Plan</span></a></li>
-                                        @*<li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a ui-sref="dbdetail" class="fusion-bar-highlight"><span class="menu-text">Manage Database</span></a></li>*@
                                         <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a ui-sref="forgotpassword" class="fusion-bar-highlight"><span class="menu-text">Reset Password</span></a></li>
 
                                         <li><a href="javascript:document.getElementById('logoutForm').submit()">LogOut</a></li>
@@ -247,12 +304,16 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
                                     }
                                     else
                                     {
-                                        <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/#/Profile" class="fusion-bar-highlight"><span class="menu-text">My Profile</span></a></li>
-                                        <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a ui-sref="chatbot" class="fusion-bar-highlight"><span class="menu-text">My Chatbots</span></a></li>
+                                        <li role="menuitem" id="menu-item-1307" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a asp-controller="Manage" style="" asp-action="Index" title="Manage">Hi @User.Identity.Name</a></li>
+                                        <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525">
+                                                <a href="/#/Profile" class="fusion-bar-highlight"><span class="menu-text">My Profile</span>
+                                                </a>
+                                        </li>
+                                        @*<li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a ui-sref="chatbot" class="fusion-bar-highlight"><span class="menu-text">My Chatbots</span></a></li>
                                         <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/#/Subscription" class="fusion-bar-highlight"><span class="menu-text">My Subsription</span></a></li>
                                         <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a ui-sref="logs" class="fusion-bar-highlight"><span class="menu-text">Logs Viewer</span></a></li>
                                         <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a ui-sref="analytics" class="fusion-bar-highlight"><span class="menu-text">Analytics</span></a></li>
-                                        <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a ui-sref="forgotpassword" class="fusion-bar-highlight"><span class="menu-text">Change Password</span></a></li>
+                                        <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a ui-sref="forgotpassword" class="fusion-bar-highlight"><span class="menu-text">Change Password</span></a></li>*@
                                         <li><a href="javascript:document.getElementById('logoutForm').submit()">LogOut</a></li>
                                         using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
                                         {

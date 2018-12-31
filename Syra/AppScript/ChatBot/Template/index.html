@@ -36,13 +36,13 @@
                     <span ng-show="chatbot.Status == 2">Failed</span>
                 </td>
                 <td class="text-align-center">
-                    <a href="/#/chatbot/{{chatbot.Id}}" class="btn btn-default">
+                    <a href="/#/chatbot/{{chatbot.Id}}" class="btn btn-default" style="font-weight:bold;">
                         Edit
                     </a>
-                    <a class="btn btn-primary" ng-click="ViewBotDetails(chatbot)">
+                    <a class="btn btn-default" ng-click="ViewBotDetails(chatbot)" style="background-color:#b296af;font-weight:bold;">
                         View Details
                     </a>
-                    <a class="btn btn-danger" ng-click="Delete(chatbot.Id)">
+                    <a class="btn btn-danger" ng-click="Delete(chatbot.Id)" style="background-color:#8e3052;font-weight:bold;color:white;">
                         Delete
                     </a>
                 </td>
@@ -111,8 +111,8 @@
     <div class="row" style="padding-top:2%">
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="button" class="btn btn-danger" value="Cancel"
-                       style="border-radius:5px;height:39px;width:150px;font-weight:bold;"
+                <input type="button" class="btn btn-default" value="Cancel"
+                       style="border-radius:5px;height:39px;width:150px;font-weight:bold;background-color:#8e3052;color:white"
                        ng-click="Cancel()" />
             </div>
         </div>

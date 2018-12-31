@@ -1,6 +1,12 @@
 ﻿<div class="row">
     <h2>
         My Subscription
+        <span class="pull-right">
+            <a class="btn btn-default" style="height: 10%;border: 0px;font-size:15px;font-weight:bold;font-family:'Rubik';"
+               ng-show="!IsEditMode" ng-click="UpgradeSubscription()">
+                Upgrade
+            </a>
+        </span>
     </h2>
 </div>
 <hr style="height:5%;margin-top: -20px;" />
@@ -8,7 +14,10 @@
     <div class="form-group">
         <label class="control-label col-sm-2" for="txtName">Plan Name </label>
         <div class="col-sm-8">
-            <input type="text" class="form-control" id="txtName" style = "width:50%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" ng-model="CustomerPlan.Name" disabled>
+            <!--<select name="users" ng-options="plan.name for plan in planlist" ng-change="getdetails(planselected)" ng-model="CustomerPlan.Name" ng-disabled="disabled">
+                <option value="CustomerPlan.Name"></option>
+            </select>-->
+            <input type="text" ng-change="UpgradePlan(CustomerPlan.Name)" ng-disabled="!IsEditMode" class="form-control" id="txtName" style="width:50%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" ng-model="CustomerPlan.Name" disabled>
         </div>
     </div>
 </div>
@@ -17,7 +26,7 @@
     <div class="form-group">
         <label class="control-label col-sm-2" for="txtMonthlyCharge">Monthly Charge </label>
         <div class="col-sm-8">
-            <input type="text" class="form-control" id="txtMonthlyCharge" style = "width:50%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" ng-model="CustomerPlan.MonthlyCharge" disabled>
+            <input type="text" class="form-control" id="txtMonthlyCharge" style="width:50%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" ng-model="CustomerPlan.MonthlyCharge" disabled>
         </div>
         </div>
     </div>

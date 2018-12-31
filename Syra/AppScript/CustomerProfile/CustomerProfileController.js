@@ -2,9 +2,27 @@
     function ($scope, $http, syraservice, $state) {
 
         $scope.Customer = {};
+        $scope.disabled = true;
         $scope.CustomerPlan = {};
+        $scope.planlist = [{ "name": 'Starter!' }, { "name": 'Get Going!' }, { "name": 'Almost There!' }, { "name": 'There!' }, { "name": 'Custom There!'}];
 
         $scope.IsEditMode = false;
+        $scope.UpgradeSubscription = function () {
+            $scope.IsEditMode = true;
+            $scope.disabled = false;
+        }
+        $scope.UpgradePlan = function (planname) {
+            $http.post('/Customer/DisplaySubscription/', { planname: planname }).success(function (data) {
+                if (data.IsSuccess = true) {
+                    $scope.CustomerPlan = data.Data;
+                    console.log("New plan is " + $scope.CustomerPlan);
+                }
+                else {
+                    syraservice.RecordStatusMessage("error", data.Message);
+                }
+
+            })
+}
         $scope.GetCurrentUser = function () {
             $http.post('/Customer/GetCurrentUser'
             ).success(function (data) {
@@ -14,8 +32,8 @@
                         customerId: $scope.Customer.Id
                     }).success(function (data) {
                         $scope.CustomerPlan = data.Data;
-                        console.log("Customer plan is : ");
-                        console.log($scope.CustomerPlan);
+                        //console.log("Customer plan is : ");
+                        //console.log($scope.CustomerPlan);
                     });
             });
         }

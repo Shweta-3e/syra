@@ -136,12 +136,14 @@
             var startdate = $scope.fromdate;
             var enddate = $scope.todate;
             $("#timespinner").show();
+            $('#timing-container').hide();
             var timingurl = "/Customer/LowPeakTime";
             $http.post(timingurl, { startdt: startdate, enddt: enddate }).success(function (response) {
                 if (response != null) {
-                    console.log(response.Data.Epochtime);
+                    //console.log(response.Data.Epochtime);
                     $scope.TimingAnalysis(response);
                     $("#timespinner").hide();
+                    $('#timing-container').show();
                 } else {
                     alert("Something went wrong");
                 }
@@ -152,11 +154,13 @@
             var startdate = $scope.fromdate;
             var enddate = $scope.todate;
             $("#botresponsespinner").show();
+            $('#botreply').hide();
             var botreplyurl = "/Customer/BotReply";
             $http.post(botreplyurl, { startdt: startdate, enddt: enddate }).success(function (response) {
                 if (response != null) {
                     $scope.BotResponse(response, $scope.Botname);
                     $("#botresponsespinner").hide();
+                    $('#botreply').show();
                 } else {
                     alert("Something went wrong");
                 }
@@ -167,6 +171,7 @@
             var startdate = $scope.fromdate;
             var enddate = $scope.todate;
             $("#spinner").show();
+            $("#container_query").hide();
             $scope.GetLowPeakTime();
             $scope.GetWorld();
             $scope.GetBotReply();
@@ -176,6 +181,7 @@
                 if (response != null) {
                     $scope.GetUserQuery(response);
                     $("#spinner").hide();
+                    $("#container_query").show();
                 } else {
                     alert("Something went wrong");
                 }
@@ -186,11 +192,13 @@
             var startdate = $scope.fromdate;
             var enddate = $scope.todate;
             $("#goalconversionspinner").show();
+            $("#goalconversion").hide();
             var clickedlinkurl = "/Customer/GetClickedLink";
             $http.post(clickedlinkurl, { startdt: startdate, enddt: enddate }).success(function (response) {
                 if (response != null) {
                     $scope.GetClickedLink(response);
                     $("#goalconversionspinner").hide();
+                    $("#goalconversion").show();
                 } else {
                     alert("Something went wrong");
                 }
@@ -201,6 +209,7 @@
             var startdate = $scope.fromdate;
             var enddate = $scope.todate;
             $("#worldspinner").show();
+            $("#container").hide();
             var url = "/Customer/GetAnalytics";
             var usadataurl = "/Customer/GetUSAAnalytics";
             $http.post(url, { startdt: startdate, enddt: enddate }).success(function (worldresponse) {
@@ -209,6 +218,7 @@
                     $http.post(usadataurl, { startdt: startdate, enddt: enddate }).success(function (usaresponse) {
                         if (usaresponse != null) {
                             $("#worldspinner").hide();
+                            $("#container").show();
                             $scope.GetWorldAnalysis(worldresponse, usaresponse);
                         } else {
                             alert("Something went wrong");
@@ -381,7 +391,6 @@
                                 }
                             }
                         }
-
                     },
                     series: [{
                         data: usaregions,
@@ -397,7 +406,6 @@
 
         $scope.TimingAnalysis = function (timedata) {
             var data = timedata.Data.Epochtime;
-            var timecategory = '1543622400000';
             Highcharts.chart('timing-container', {
                 chart: {
                     zoomType: 'x'
@@ -465,8 +473,71 @@
                         point: {
                             events: {
                                 click: function (event) {
-                                    //Highcharts.dateFormat('%d.%m.%Y', this.x*1000)
-                                    alert("Category is " + Highcharts.dateFormat('%d/%m/%Y', this.category));
+                                    var dateTime = Highcharts.dateFormat('%d/%m/%Y', this.category);
+                                    var tabelrow = "<tbody>";
+                                    var dataset = [];
+                                    var srno = 1;
+                                    for (var i = 0; i < timedata.Data.AllResponse.length; i++) {
+                                        if (timedata.Data.AllResponse[i].LogDate == dateTime) {
+                                            tabelrow += "<tr>" + "<td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + timedata.Data.AllResponse[i].LogDate + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + timedata.Data.AllResponse[i].SessionId + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + timedata.Data.AllResponse[i].IPAddress + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + timedata.Data.AllResponse[i].Region + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + timedata.Data.AllResponse[i].UserQuery + "</td><td class='text-align-left' style='width:650px;border-left:solid 1px #adbbd1;border-right:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + timedata.Data.AllResponse[i].BotAnswers + "</td>" + "</tr>";
+                                        }
+                                    }
+                                    tabelrow += "</tbody>";
+                                    if (tabelrow == "<tbody></tbody>") {
+                                        var tabledata = " No data Found !!!"
+                                        var modal = "<button type='button' id='showtimedetail' onclick='disableButton(this)' class='btn btn - default' data-toggle='modal' data-target='#timeModalLong' style='margin-left: 10%;color: black;background-color: #b296af;'>Show Details</button >"
+                                            + "<div class='modal fade' id='timeModalLong' role='dialog' aria-labelledby='timeModalLong' aria-hidden='true'>"
+                                            + "<div class='modal-dialog modal-dialog-centered' style='width:80%;padding-top:70px;position:unset' role='document'>"
+                                            + "<div class='modal-content' style='margin-left:-50px;'><div class='modal-header'>"
+                                            + "<h5 class='modal-title' id='timeModalLong' style='text-align:center;font - family: Times New Roman ; font - size: large; fo; font - weight: bold;'>" + "Questions" + " " + "Asked on " + " " + " : " + dateTime + "</h5>"
+                                            + "<button type='button' class='close' data-dismiss='modal' aria-label='Close'>"
+                                            + "<span aria-hidden='true'>&times;</span>"
+                                            + "</button></div><div class='modal-body' style='margin-bottom: 5%;'>"
+                                            + tabledata
+                                            + "</div><div class='modal-footer'>"
+                                            + "<button type='button' class='btn btn-default' style='font-weight:bold;background-color:#8e3052;color:white;' data-dismiss='modal'>Close</button>"
+                                            + "</div></div></div></div>";
+                                        var dvTable = document.getElementById("timetable");
+                                        dvTable.innerHTML = modal;
+                                    }
+                                    else {
+                                        var tabeldata = "<br><br><table id='timequery' class='table table-responsive table - bordered table - striped' style='width:100%'><thead>" + "<tr style='border-top: solid 1px #adbbd1;'>" +
+                                            "<th class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1'>Log Date</th>" +
+                                            "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>Session Id</th>" +
+                                            "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>Region</th>" +
+                                            "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>IP Address</th>" +
+                                            "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>Question Asked</th>" +
+                                            "<th class='text-align-center'style='width:400px;border-left:solid 1px #adbbd1;border-right:solid 1px #adbbd1'>Chatbot's Answer</th></tr></thead>" +
+                                            tabelrow + "</table>";
+                                        var tabel = tabeldata;
+                                        var selectlable = "<label class='control-label col - sm - 2' style='text-align:center;font - family: 'Times New Roman', Times, serif; font - size: large; fo; font - weight: normal;'>Show Entries </label>"
+                                            + "<div class='form-group'><select class='form-control' name='state' id='timemaxRows' style='width:15%'>"
+                                            + "<option value='5000'>Show All Rows</option><option value='5'>5</option><option value='10'>10</option>"
+                                            + "<option value='15'>15</option><option value='20'>20</option><option value='50'>50</option>"
+                                            + "<option value='70'>70</option><option value='100'>100</option></select></div>";
+                                        var pagination = "<div class='pagination-container' style='margin-bottom:5%;'><nav><ul class='pagination' id='timepagemark'>"
+                                            + "<li data-page='prev' ><span>Previous<span class='sr-only'>(current)</span></span></li>"
+                                            + "<li data-page='next' id='prev'><span> Next <span class='sr-only'>(current)</span></span>"
+                                            + "</li></ul></nav></div>";
+                                        var dvTable = document.getElementById("timetable");
+                                        var modal = "<button type='button' id='showtimedetail' onclick='disableButton(this)' class='btn btn - default' data-toggle='modal' data-target='#timeModalLong' style='margin-left: 10%;color: black;background-color: #b296af;'>Show Details</button >"
+                                            + "<div class='modal fade' id='timeModalLong' role='dialog' aria-labelledby='timeModalLong' aria-hidden='true'>"
+                                            + "<div class='modal-dialog modal-dialog-centered' style='width:80%;padding-top:70px;position:unset' role='document'>"
+                                            + "<div class='modal-content' style='margin-left:-50px;'><div class='modal-header'>"
+                                            + "<h5 class='modal-title' id='timeModalLong' style='text-align:center;font - family: Times New Roman ; font - size: large; fo; font - weight: bold;'>" + "Questions" + " " + "Asked on " + " " + " : " + dateTime + "</h5>"
+                                            + "<button type='button' class='close' data-dismiss='modal' aria-label='Close'>"
+                                            + "<span aria-hidden='true'>&times;</span>"
+                                            + "</button></div><div class='modal-body' style='margin-bottom: 5%;'>"
+                                            + selectlable + tabel + pagination
+                                            + "</div><div class='modal-footer'>"
+                                            + "<button type='button' class='btn btn-default' style='font-weight:bold;background-color:#8e3052;color:white;' data-dismiss='modal'>Close</button>"
+                                            + "</div></div></div></div>";
+                                        dvTable.innerHTML = modal;
+                                        getUserQueryPagination('#timequery');
+                                    }
+                                    //console.log(tabelrow);
+                                    
+                                    
                                 }
                             }
                         },

@@ -62,7 +62,7 @@ namespace Syra.Admin.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            ViewBag.ReturnUrl = returnUrl;
+            ViewBag.ReturnUrl = "";
             return View();
         }
 
@@ -71,8 +71,9 @@ namespace Syra.Admin.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public async Task<ActionResult> Login(LoginViewModel model ,string returnUrl)
         {
+            //AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = model.RememberMe }, identity);
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -92,9 +93,24 @@ namespace Syra.Admin.Controllers
                     return View(model);
                 }
             }
+            //HttpCookie httpCookie = new HttpCookie("user",model.Email);
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
+            
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            if(model.RememberMe==true)
+            {
+                Response.Cookies["userid"].Value = model.Email;
+                Response.Cookies["pwd"].Value = model.Password;
+                Response.Cookies["userid"].Expires = DateTime.Now.AddDays(15);
+                Response.Cookies["pwd"].Expires = DateTime.Now.AddDays(15);
+            }
+            else
+            {
+                Response.Cookies["userid"].Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies["pwd"].Expires = DateTime.Now.AddDays(-1);
+
+            }
             switch (result)
             {
                 case SignInStatus.Success:
@@ -105,20 +121,35 @@ namespace Syra.Admin.Controllers
                     }
                     else
                     {
-                        //return RedirectToLocal("/home/#/chatbot");
                         return RedirectToLocal("/#/Profile");
                     }
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+                    return RedirectToAction("SendCode", new { RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
                     return View(model);
             }
         }
-
+        protected void Page_Load(object sender, EventArgs e)
+        {
+            if (Request.HttpMethod == "POST")
+            {
+                LoginViewModel model = new LoginViewModel();
+                if (Request.Cookies["userid"] != null)
+                {
+                    model.Email= Request.Cookies["userid"].Value;
+                }
+                if (Request.Cookies["pwd"] != null)
+                {
+                    model.Password = Request.Cookies["pwd"].Value;
+                }  
+                if (Request.Cookies["userid"] != null && Request.Cookies["pwd"] != null)
+                    model.RememberMe= true;
+            }
+        }
         //
         // GET: /Account/VerifyCode
         [AllowAnonymous]
@@ -193,14 +224,23 @@ namespace Syra.Admin.Controllers
             return View();
         }
 
+        public JsonResult IsUserExists(string Email)
+        {
+            //check if any of the UserName matches the UserName specified in the Parameter using the ANY extension method.  
+            return Json(!db.Users.Any(x => x.Email == Email), JsonRequestBehavior.AllowGet);
+        }
         //
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            try
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            if(ModelState.IsValid)
             {
                 if (model != null)
                 {
@@ -208,80 +248,61 @@ namespace Syra.Admin.Controllers
                     var manager = new UserManager<ApplicationUser>(userStore);
                     var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                     var customer = new Customer();
-                    var existingUser = UserManager.FindByEmail(model.Email);
+                    var existingUser = await UserManager.FindByNameAsync(model.Email);
                     if (existingUser == null)
                     {
                         var result = await UserManager.CreateAsync(user, model.Password);
-                        //try
-                        //{
-                            if (result.Succeeded)
+                        if (result.Succeeded)
+                        {
+                            var customerPlan = new CustomerPlan();
+                            customerPlan.PlanId = model.PlanId;
+                            customerPlan.IsActive = true;
+                            customerPlan.CustomerId = customer.Id;
+                            customer.UserId = user.Id;
+                            customer.JobTitle = model.JobTitle;
+                            customerPlan.ActivationDate = DateTime.Now;
+                            customerPlan.ExpiryDate = DateTime.Now;
+                            customer.Email = model.Email;
+                            customer.RegisterDate = DateTime.Now;
+                            customer.BusinessRequirement = model.BusinessRequirement;
+                            //model.CategoryList = new SelectList(db.Plans, "Id", "Name");
+                            var check_duplicate = db.Customer.Where(x => x.Email == customer.Email).FirstOrDefault();
+                            if (check_duplicate == null)
                             {
-                                var customerPlan = new CustomerPlan();
-                                customerPlan.PlanId = model.PlanId;
-                                customerPlan.IsActive = true;
-                                customerPlan.CustomerId = customer.Id;
-                                customer.UserId = user.Id;
-                                customer.JobTitle = model.JobTitle;
-                                customerPlan.ActivationDate = DateTime.Now;
-                                customerPlan.ExpiryDate = DateTime.Now;
-                                customer.Email = model.Email;
-                                customer.RegisterDate = DateTime.Now;
-                                customer.BusinessRequirement = model.BusinessRequirement;
-                                //model.CategoryList = new SelectList(db.Plans, "Id", "Name");
-                                var check_duplicate = db.Customer.Where(x => x.Email == customer.Email).FirstOrDefault();
-                                if (check_duplicate == null)
-                                {
-                                    customer.CustomerPlans.Add(customerPlan);
-                                    db.Customer.Add(customer);
-                                    db.SaveChanges();
-                                }
-                                await UserManager.AddToRoleAsync(user.Id, "Customer");
-
-                                //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
-                                // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                                // Send an email with this link
-                                string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                                var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                                await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking this link: \"" + callbackUrl + "\"");
-
-                                return RedirectToAction("AccountConfirmation", "Account");
+                                customer.CustomerPlans.Add(customerPlan);
+                                db.Customer.Add(customer);
+                                db.SaveChanges();
                             }
-                            else
-                            {
-                                AddErrors(result);
-                                ModelState.AddModelError("",result.ToString());
-                                //model.ErrorMessage = result.Errors.ToList();
-                            }
-                        //}
-                        //catch (Exception e)
-                        //{
-                        //    AddErrors(result);
-                        //    ModelState.AddModelError("",result.ToString());
-                        //}
+                            await UserManager.AddToRoleAsync(user.Id, "Customer");
+
+                            //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+                            // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
+                            // Send an email with this link
+                            string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                            var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                            await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking this link: \"" + callbackUrl + "\"");
+
+                            return RedirectToAction("AccountConfirmation", "Account");
+                        }
+                        else
+                        {
+                            AddErrors(result);
+                            ModelState.AddModelError("", result.ToString());
+                            //model.ErrorMessage = result.Errors.ToList();
+                        }
                     }
                     else
                     {
-                        ModelState.AddModelError("", "Email already exists.");
+                        //ViewBag.ErrorMessage("Email already exists");
+                        ModelState.AddModelError("Email", "Email already exists.");
+                        
                     }
+                    return View(model);
                 }
             }
-            catch(Exception e)
-            {
-                string errmsg = e.StackTrace;
-                //model.ErrorMessage.Add(e.StackTrace);
-                //return response.GetResponse();
-            }
-            //if (ModelState.IsValid)
-            //{
-            //    //var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-            //    //var customer = new Customer();
-            //    //var existingUser = UserManager.FindByEmail(model.Email);
-                
-            //}
-
-            // If we got this far, something failed, redisplay form
             return View(model);
+            //return View(model);
         }
 
         //[HttpPost]
@@ -709,11 +730,12 @@ namespace Syra.Admin.Controllers
 
         private ActionResult RedirectToLocal(string returnUrl)
         {
-            return Redirect(returnUrl);
-            if (Url.IsLocalUrl(returnUrl))
-            {
-                return Redirect(returnUrl);
-            }
+            //return Redirect(returnUrl);
+            //if (Url.IsLocalUrl(returnUrl))
+            //{
+            //    return Redirect(returnUrl);
+            //}
+            
             return RedirectToAction("Index", "Home");
         }
 

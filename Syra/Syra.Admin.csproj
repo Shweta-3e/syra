@@ -236,6 +236,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LuisDomainsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Entities\AES.cs" />
     <Compile Include="Entities\BotContent.cs" />
     <Compile Include="Entities\LuisResponse.cs" />
     <Compile Include="Controllers\MessagesController.cs" />

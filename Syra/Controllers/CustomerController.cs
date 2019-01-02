@@ -176,153 +176,15 @@ namespace Syra.Admin.Controllers
             }
         }
 
-        //[HttpPost]
-        //public string LowPeakTime(DateTime startdt, DateTime enddt)
-        //{
-        //    SyraDbContext db = new SyraDbContext();
-        //    List<ArrayList> arraylist = new List<ArrayList>();
-        //    List<LowHighTime> dataline = new List<LowHighTime>();
-        //    ArrayList arrayList = new ArrayList();
-        //    List<Location> _data = new List<Location>();
-        //    _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-        //    _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-        //    var useremail = HttpContext.User.Identity.Name;
-        //    var aspnetuser = _userManager.FindByEmailAsync(useremail).Result;
-
-        //    if (aspnetuser != null)
-        //    {
-        //        var customer = db.Customer.FirstOrDefault(c => c.UserId == aspnetuser.Id);
-        //        var botdata = db.BotDeployments.Where(c => c.CustomerId == customer.Id).FirstOrDefault();
-        //        var connstring = botdata.BlobConnectionString;
-        //        var blobstorage = botdata.BlobStorageName;
-        //        var containername = botdata.ContainerName;
-
-        //        CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connstring);
-        //        CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-        //        CloudBlobContainer container = blobClient.GetContainerReference(containername);
-        //        var count = container.ListBlobs().Count();
-        //        ArrayList array = new ArrayList();
-
-        //        bool blob_check = false;
-        //        try
-        //        {
-        //            for (DateTime date = startdt; date <= enddt; date = date.AddDays(1))
-        //            {
-        //                var startdateonly = date.Date.ToString("dd-MM-yyyy");
-        //                var dateonly = date.Date.ToString("dd/MM/yyyy");
-        //                var blob_file_name = startdateonly + "" + ".csv";
-        //                CloudBlockBlob blockBlob = container.GetBlockBlobReference(blob_file_name);
-        //                blob_check = blockBlob.Exists();
-        //                if (blob_check == false)
-        //                {
-        //                    string timedate = startdateonly.ToString().Replace("-", "/").Replace(" ", "");
-        //                    CultureInfo culture = new CultureInfo("en-US");
-        //                    DateTime dateobj = DateTime.ParseExact(timedate, "dd/MM/yyyy", culture);
-        //                    int year = dateobj.Year;
-        //                    int month = dateobj.Month;
-        //                    int day = dateobj.Day;
-        //                    int hour = dateobj.Hour;
-        //                    int minute = dateobj.Minute;
-        //                    int second = dateobj.Second;
-        //                    var dateTime = new DateTime(year, month, day, hour, minute, second, DateTimeKind.Utc);
-        //                    var dateTimeOffset = new DateTimeOffset(dateTime);
-        //                    var unixDateTime = dateTimeOffset.ToUnixTimeSeconds();
-        //                    Int64 epochtime = Convert.ToInt64(unixDateTime) * 1000;
-        //                    dataline.Add(new LowHighTime { epochtime = epochtime, status = "no data" });
-        //                }
-        //                else
-        //                {
-        //                    using (StreamReader reader = new StreamReader(blockBlob.OpenRead()))
-        //                    {
-        //                        SessionLog log = new SessionLog();
-        //                        CultureInfo culture = new CultureInfo("en-US");
-        //                        List<Int64> logtime = new List<Int64>();
-        //                        List<CountHour> time_frequency = new List<CountHour>();
-        //                        //Object data = new Object();
-        //                        //string dateonly = startdateonly.Date.ToString("dd/MM/yyyy");
-        //                        //obtain epoch time from blob name
-        //                        DateTime dateobj = DateTime.ParseExact(dateonly, "dd/MM/yyyy", culture);
-        //                        int year = dateobj.Year;
-        //                        int month = dateobj.Month;
-        //                        int day = dateobj.Day;
-        //                        int hour = dateobj.Hour;
-        //                        int minute = dateobj.Minute;
-        //                        int second = dateobj.Second;
-        //                        var dateTime = new DateTime(year, month, day, hour, minute, second, DateTimeKind.Utc);
-        //                        var dateTimeOffset = new DateTimeOffset(dateTime);
-        //                        var unixDateTime = dateTimeOffset.ToUnixTimeSeconds();
-        //                        Int64 epochtime = Convert.ToInt64(unixDateTime) * 1000;
-        //                        while (!reader.EndOfStream)
-        //                        {
-        //                            var line = reader.ReadLine();
-        //                            string[] splitedword = line.Split('|');
-        //                            log.LogDate = splitedword[5];
-        //                            log.LogDate = log.LogDate.Replace("-", "/").Replace(" ", "");
-        //                            log.LogTime = splitedword[6].Replace(" ", "");
-        //                            //CultureInfo culture = new CultureInfo("en-US");
-        //                            //string timedate = log.LogDate;
-        //                            //DateTime dateobj = DateTime.ParseExact(timedate, "dd/MM/yyyy", culture);
-        //                            //int year = dateobj.Year;
-        //                            //int month = dateobj.Month;
-        //                            //int day = dateobj.Day;
-        //                            //int hour = dateobj.Hour;
-        //                            //int minute = dateobj.Minute;
-        //                            //int second = dateobj.Second;
-        //                            //var dateTime = new DateTime(year, month, day, hour, minute, second, DateTimeKind.Utc);
-        //                            //var dateTimeOffset = new DateTimeOffset(dateTime);
-        //                            //var unixDateTime = dateTimeOffset.ToUnixTimeSeconds();
-        //                            //Int64 epochtime = Convert.ToInt64(unixDateTime) * 1000;
-        //                            //Convert.ToDateTime(log.LogTime).ToShortTimeString()
-        //                            logtime.Add((DateTime.ParseExact(log.LogTime, "HH:mm:ss", culture).Hour));
-        //                        }
-        //                        var frequency = logtime.GroupBy(c => c);
-        //                        foreach (var item in frequency)
-        //                        {
-        //                            time_frequency.Add(new CountHour { hour = item.Key, hourcount = item.Count() });
-        //                        }
-        //                        time_frequency.Max();
-        //                        dataline.Add(new LowHighTime { epochtime = epochtime, status = "data", dateTimes = time_frequency.OrderBy(x => x.hourcount).Take(2).ToArray() });
-        //                    }
-        //                }
-        //            }
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            string errmsg = e.StackTrace;
-        //            response.Message = errmsg;
-        //        }
-
-        //        //var dupepochtime = dataline.GroupBy(x => new { x.epochtime, x.status }).Select(group => new { Name = group.Key, Count = group.Count() });
-        //        //foreach (var item in dupepochtime)
-        //        //{
-        //        //    if (item.Name.status == "no data")
-        //        //    {
-
-        //        //        arraylist.Add(new ArrayList { item.Name.epochtime, 0 });
-        //        //    }
-        //        //    else
-        //        //    {
-        //        //        arraylist.Add(new ArrayList { item.Name.epochtime, item.Count });
-        //        //    }
-        //        //}
-        //        //string json = JsonConvert.SerializeObject(arraylist);
-        //        //EpochTime(json);
-        //        response.Data = new
-        //        {
-        //            Epochtime = dataline
-        //        };
-        //        response.IsSuccess = true;
-        //    }
-        //    return response.GetResponse();
-        //}
-
         [HttpPost]
         public string LowPeakTime(DateTime startdt, DateTime enddt)
         {
             SyraDbContext db = new SyraDbContext();
-            List<ArrayList> arraylist = new List<ArrayList>();
+            List<ArrayList> timeArrayList = new List<ArrayList>();
+            List<ArrayList> timeDateArrayList = new List<ArrayList>();
             List<SessionLog> logs = new List<SessionLog>();
             List<LowHighTime> dataline = new List<LowHighTime>();
+            List<LowHighTimedate> dataDateTimeLine = new List<LowHighTimedate>();
             ArrayList arrayList = new ArrayList();
             List<Location> _data = new List<Location>();
             _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
@@ -387,20 +249,37 @@ namespace Syra.Admin.Controllers
                                     log.LogDate = splitedword[5].Replace("-", "/").Replace(" ", "");
                                     log.LogTime = splitedword[6].Replace(" ", "");
                                     CultureInfo culture = new CultureInfo("en-US");
-                                    string timedate = log.LogDate;
-                                    DateTime dateobj = DateTime.ParseExact(timedate, "dd/MM/yyyy", culture);
+
+                                    //epoch date only
+                                    string dateOnly = log.LogDate;
+                                    DateTime dateobj = DateTime.ParseExact(dateOnly, "dd/MM/yyyy", culture);
                                     int year = dateobj.Year;
                                     int month = dateobj.Month;
                                     int day = dateobj.Day;
                                     int hour = dateobj.Hour;
                                     int minute = dateobj.Minute;
                                     int second = dateobj.Second;
-                                    var dateTime = new DateTime(year, month, day, hour, minute, second, DateTimeKind.Utc);
-                                    var dateTimeOffset = new DateTimeOffset(dateTime);
-                                    var unixDateTime = dateTimeOffset.ToUnixTimeSeconds();
-                                    Int64 epochtime = Convert.ToInt64(unixDateTime) * 1000;
+                                    var dateConvert = new DateTime(year, month, day, hour, minute, second, DateTimeKind.Utc);
+                                    var dateOffset = new DateTimeOffset(dateConvert);
+                                    var unixDate = dateOffset.ToUnixTimeSeconds();
+                                    Int64 epochdate = Convert.ToInt64(unixDate) * 1000;
+
+                                    //Epoch time date
+                                    string date_time = log.LogDate + " "+ log.LogTime;
+                                    DateTime dateTimeObj = DateTime.ParseExact(date_time, "dd/MM/yyyy HH:mm:ss", culture);
+                                    //int dateTime_year = dateTimeObj.Year;
+                                    //int dateTime_month = dateTimeObj.Month;
+                                    //int dateTime_day = dateTimeObj.Day;
+                                    int dateTime_hour = dateTimeObj.Hour;
+                                    //int dateTime_minute = dateTimeObj.Minute;
+                                    //int dateTime_second = dateTimeObj.Second;
+                                    //var dateTimeConvert= new DateTime(dateTime_year, dateTime_month, dateTime_day, dateTime_hour, dateTime_minute, dateTime_second, DateTimeKind.Utc);
+                                    //var epochDateTime= Convert.ToInt64(new DateTimeOffset(dateTimeConvert).ToUnixTimeSeconds())*1000;
+
+
                                     logs.Add(new SessionLog {SessionId= log.SessionId, IPAddress=log.IPAddress, Region=log.Region, UserQuery=log.UserQuery, BotAnswers=log.BotAnswers, LogDate=log.LogDate, LogTime=log.LogTime });
-                                    dataline.Add(new LowHighTime { epochtime = epochtime, status = "data" });
+                                    dataline.Add(new LowHighTime { epochtime = epochdate, status = "data",drilldown=log.LogDate });
+                                    dataDateTimeLine.Add(new LowHighTimedate { hour = dateTime_hour, status = "data" ,EpochDate=log.LogDate});
                                 }
                             }
                         }
@@ -411,24 +290,34 @@ namespace Syra.Admin.Controllers
                     string errmsg = e.Message;
                     response.Message = errmsg;
                 }
-                var dupepochtime = dataline.GroupBy(x => new { x.epochtime, x.status, x.timecount }).Select(group => new { Name = group.Key, Count = group.Count() });
+                var dupepochtime = dataline.GroupBy(x => new { x.epochtime, x.status,x.drilldown}).Select(group => new { Name = group.Key, Count = group.Count() });
+                var dupEpochDateTime = dataDateTimeLine.GroupBy(x => new { x.hour, x.status,x.EpochDate }).Select(group => new { Name = group.Key, Count = group.Count() });
+                foreach (var item in dupEpochDateTime)
+                {
+                    if (item.Name.status == "no data")
+                    {
+                        timeDateArrayList.Add(new ArrayList { item.Name.EpochDate,item.Name.hour, 0 });
+                    }
+                    else
+                    {
+                        timeDateArrayList.Add(new ArrayList { item.Name.EpochDate, item.Name.hour, item.Count});
+                    }
+                }
                 foreach (var item in dupepochtime)
                 {
                     if (item.Name.status == "no data")
                     {
-
-                        arraylist.Add(new ArrayList { item.Name.epochtime, 0 });
+                        timeArrayList.Add(new ArrayList { item.Name.epochtime, 0 });
                     }
                     else
                     {
-                        arraylist.Add(new ArrayList { item.Name.epochtime, item.Count });
+                        timeArrayList.Add(new ArrayList { item.Name.epochtime, item.Count,item.Name.drilldown });
                     }
                 }
-                string json = JsonConvert.SerializeObject(arraylist);
-                //EpochTime(json);
                 response.Data = new
                 {
-                    Epochtime = arraylist,
+                    Epochtime = timeArrayList,
+                    Epochdatetime=timeDateArrayList,
                     AllResponse = logs
                 };
                 response.IsSuccess = true;
@@ -436,7 +325,6 @@ namespace Syra.Admin.Controllers
             }
             return response.GetResponse();
         }
-
 
         [HttpPost]
         public string BotReply(DateTime startdt, DateTime enddt)
@@ -792,6 +680,40 @@ namespace Syra.Admin.Controllers
                 response.Message = "Plan record not found";
                 response.IsSuccess = false;
             }
+            return response.GetResponse();
+        }
+
+        [HttpPost]
+        public string UpdateSubscription(string planname)
+        {
+            try
+            {
+                _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+                _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                var useremail = HttpContext.User.Identity.Name;
+                var aspnetuser = _userManager.FindByEmailAsync(useremail).Result;
+                var customer = db.Customer.FirstOrDefault(c => c.UserId == aspnetuser.Id);
+                if (customer != null)
+                {
+                    var existPlan = db.Plans.FirstOrDefault(c => c.Name == planname);
+                    var existsUserPlan = db.CustomerPlans.FirstOrDefault(c => c.CustomerId == customer.Id && c.IsActive == true);
+                    if (existsUserPlan != null)
+                    {
+                        existsUserPlan.PlanId = existPlan.Id;
+                        existsUserPlan.ActivationDate = DateTime.Now;
+                        //existsUserPlan.ExpiryDate = existsUserPlan.ActivationDate.Year;
+                        db.SaveChanges();
+                        response.Message = "Subscription is updated";
+                        response.IsSuccess = true;
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                response.Message = e.StackTrace;
+                response.IsSuccess = false;
+            }
+            
             return response.GetResponse();
         }
 
@@ -1369,24 +1291,6 @@ namespace Syra.Admin.Controllers
             {
                 response.IsSuccess = false;
                 response.Message = ex.Message;
-            }
-            return response.GetResponse();
-        }
-
-        [HttpPost]
-        public string UpdateCustomerPlan(CustomerPlan CustomerPlan)
-        {
-            try
-            {
-                var customerplan = db.CustomerPlans.FirstOrDefault(c => c.CustomerId == CustomerPlan.CustomerId);
-                if (customerplan != null)
-                {
-
-                }
-            }
-            catch
-            {
-
             }
             return response.GetResponse();
         }

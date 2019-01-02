@@ -1,33 +1,65 @@
-﻿<div class="row">
+﻿<style>
+    #passwordhover:hover {
+        background-color: #b296af;
+        color: black;
+        font-weight: bolder;
+    }
+    #analyticshover:hover {
+        background-color: #b296af;
+        color: black;
+        font-weight: bold;
+    }
+    #logshover:hover {
+        background-color: #b296af;
+        color: black;
+        font-weight: bold;
+    }
+    #chatbothover:hover {
+        background-color: #b296af;
+        color: black;
+        font-weight: bold;
+    }
+    #subscriptionhover:hover {
+        background-color: #b296af;
+        color: black;
+        font-weight: bold;
+    }
+    #edithover:hover {
+        background-color: #b296af;
+        color: black;
+        font-weight: bold;
+    }
+</style>
+<div class="row">
     <h2>
         My Profile
         <span class="pull-right">
-            <a class="btn btn-default" style="height: 10%;border: 0px;font-size:13px;font-weight:normal;font-family:'Rubik'" ui-sref="forgotpassword">
+            <a class="btn btn-default" id="passwordhover" style="height: 10%;border: 0px;font-size:13px;font-family:'Rubik'" ui-sref="forgotpassword">
                 Change Password
             </a>
         </span>
         <span class="pull-right">
-            <a class="btn btn-default" style="height: 10%;border: 0px;font-size:13px;font-weight:normal;font-family:'Rubik'" ui-sref="analytics">
+            <a class="btn btn-default" id="analyticshover" style="height: 10%;border: 0px;font-size:13px;font-family:'Rubik'" ui-sref="analytics">
                 Analytics
             </a>
         </span>
         <span class="pull-right">
-            <a class="btn btn-default" style="height: 10%;border: 0px;font-size:13px;font-weight:normal;font-family:'Rubik'" ui-sref="logs">
+            <a class="btn btn-default" id="logshover" style="height: 10%;border: 0px;font-size:13px;font-family:'Rubik'" ui-sref="logs">
                 Logs Viewer
             </a>
         </span>
         <span class="pull-right">
-            <a class="btn btn-default" style="height: 10%;border: 0px;font-size:13px;font-weight:normal;font-family:'Rubik'" ui-sref="chatbot">
+            <a class="btn btn-default" id="chatbothover" style="height: 10%;border: 0px;font-size:13px;font-family:'Rubik'" ui-sref="chatbot">
                 My Chatbots
             </a>
         </span>
         <span class="pull-right">
-            <a class="btn btn-default" style="height: 10%;border: 0px;font-size:13px;font-weight:normal;font-family:'Rubik'" a href="/#/Subscription">
+            <a class="btn btn-default" id="subscriptionhover" style="height: 10%;border: 0px;font-size:13px;font-family:'Rubik'" a href="/#/Subscription">
                 My Subscription
             </a>
         </span>
         <span class="pull-right">
-            <a class="btn btn-default" style="height: 10%;border: 0px;font-size:13px;font-weight:normal;font-family:'Rubik'"
+            <a class="btn btn-default" id="edithover" style="height: 10%;border: 0px;font-size:13px;font-family:'Rubik'"
                ng-show="!IsEditMode" ng-click="Edit()">
                 Edit
             </a>

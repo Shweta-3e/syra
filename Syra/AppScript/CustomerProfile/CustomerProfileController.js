@@ -15,14 +15,28 @@
             $http.post('/Customer/DisplaySubscription/', { planname: planname }).success(function (data) {
                 if (data.IsSuccess = true) {
                     $scope.CustomerPlan = data.Data;
-                    console.log("New plan is " + $scope.CustomerPlan);
                 }
                 else {
                     syraservice.RecordStatusMessage("error", data.Message);
                 }
-
             })
-}
+        }
+        $scope.SubscriptionUpdate = function (planname) {
+            console.log(planname);
+            $http.post('/Customer/UpdateSubscription/', { planname: planname }).success(function (data) {
+                if (data.IsSuccess = true) {
+                    $scope.CustomerPlan = data.Data;
+                    $state.go("profile");
+                }
+                else {
+                    syraservice.RecordStatusMessage("error", data.Message);
+                }
+            })
+        }
+        $scope.CancelSubscription = function () {
+            $scope.IsEditMode = false;
+            $state.go("profile");
+        }
         $scope.GetCurrentUser = function () {
             $http.post('/Customer/GetCurrentUser'
             ).success(function (data) {
@@ -32,8 +46,6 @@
                         customerId: $scope.Customer.Id
                     }).success(function (data) {
                         $scope.CustomerPlan = data.Data;
-                        //console.log("Customer plan is : ");
-                        //console.log($scope.CustomerPlan);
                     });
             });
         }

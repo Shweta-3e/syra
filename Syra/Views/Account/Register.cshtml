@@ -2,6 +2,21 @@
 @{
     ViewBag.Title = "Register User";
 }
+<head>
+    <script>
+        $(document).ready(function () {
+            $('#registerButton').click(function () {
+                $(this).prop("disabled", true);
+                if (!$('form').valid())
+                {
+                    $(this).prop("disabled",false);
+                    return false;
+                }
+                $('form').submit();
+            });
+        });
+    </script>
+</head>
 <h2>@ViewBag.Title</h2>
 @using (Html.BeginForm("Register", "Account", FormMethod.Post, new
 {
@@ -53,7 +68,6 @@
                 opacity: 1;
             }
     </style>
-    @*<div style="height:20px;"></div>*@
     <div class="form-group">
         <div class="input-container">
             <i class="fa fa-user icon"></i>
@@ -93,19 +107,12 @@
         <div class="input-container">
             <i class="fa fa-money icon"></i>
             @Html.DropDownList("PlanId",null, "Choose Plan", htmlAttributes: new {@class = "form-control", @style = "width:50%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" })
-            @*@Html.ValidationMessageFor(model => model.PlanId, "", new { @class = "text-danger" })*@
+            
         </div>
     </div>
-    @*<div class="form-group">
-        <div class="input-container">
-            <i class="fa fa-industry icon"></i>
-            @Html.TextBoxFor(m => m.BusinessRequirement, new { placeholder = "Business Requirements", @class = "form-control", @style = "width:50%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" })
-            @Html.ValidationMessageFor(model => model.BusinessRequirement, "", new { @class = "text-danger" })
-        </div>
-    </div>*@
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Register" style="width: 12%;margin-left:-22%;border-radius:5px;font-weight:bold;color:#FFFFFF;background-color: #8d3052;box-shadow: 0 5px 10px -6px #777;" />
+            <input type="submit" id="registerButton" class="btn btn-default" value="Register" style="width: 12%;margin-left:-22%;border-radius:5px;font-weight:bold;color:#FFFFFF;background-color: #8d3052;box-shadow: 0 5px 10px -6px #777;"}/>
         </div>
     </div>
 }

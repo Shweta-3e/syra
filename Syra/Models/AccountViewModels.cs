@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 using System.Web.Security;
 using System.Web.WebPages.Html;
 
@@ -56,8 +57,6 @@ namespace Syra.Admin.Models
         [EmailAddress]
         public string Email { get; set; }
 
-
-
         [Required]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
@@ -68,17 +67,10 @@ namespace Syra.Admin.Models
     }
     public class RegisterViewModel
     {
-        //[Required]
-        //[Display(Name = "First Name")]
-        //public string FirstName { get; set; }
-
-        //[Required]
-        //[Display(Name = "Last Name")]
-        //public string LastName { get; set; }
-        
         [Required]
         [EmailAddress]
         [DataType(DataType.EmailAddress,ErrorMessage="Invalid EmailId")]
+        [Remote("IsUserExists","Account" ,ErrorMessage = "Email Id already exists")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
@@ -92,7 +84,7 @@ namespace Syra.Admin.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
         [Required(ErrorMessage ="Please provide Job ")]
@@ -131,7 +123,7 @@ namespace Syra.Admin.Models
 
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
         public string Code { get; set; }

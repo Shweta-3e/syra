@@ -28,16 +28,26 @@ namespace Syra.Admin.Entities
     }
     public class LowHighTime
     {
+        public string drilldown { get; set; }
         public Int64 epochtime { get; set; }
-        public Array dateTimes { get; set; }
-        public Int64 timecount { get; set; }
         public string status { get; set; }
     }
-    public class CountHour
-    {
+    public class LowHighTimedate {
+        public string EpochDate { get; set; }
         public Int64 hour { get; set; }
-        public Int64 hourcount { get; set; }
+        public string status { get; set; }
     }
+    public class TimeDateJson {
+        public string drilldown { get; set; }
+        public Int64 epochtime { get; set; }
+        public Int64 count { get; set; }
+    }
+
+    //public class CountHour
+    //{
+    //    public Int64 hour { get; set; }
+    //    public Int64 hourcount { get; set; }
+    //}
     public class Logtime
     {
         public DateTime time { get; set; }

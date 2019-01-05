@@ -157,25 +157,6 @@ namespace Syra.Admin.Controllers
             return jsonresponse;
         }
 
-        public void EpochTime(string json)
-        {
-            string oldcontent = "";
-            var file = System.Web.HttpContext.Current.Request.MapPath("..\\AppScript\\Analytics\\Template\\Epochtime.json");
-            using (StreamReader reader = new StreamReader(file))
-            {
-                oldcontent = reader.ReadToEnd();
-                if (oldcontent != null)
-                {
-                    oldcontent = null;
-                }
-            }
-            using (StreamWriter writer = new StreamWriter(file))
-            {
-                writer.Write(json.ToString());
-                writer.Close();
-            }
-        }
-
         [HttpPost]
         public string LowPeakTime(DateTime startdt, DateTime enddt)
         {
@@ -267,16 +248,7 @@ namespace Syra.Admin.Controllers
                                     //Epoch time date
                                     string date_time = log.LogDate + " "+ log.LogTime;
                                     DateTime dateTimeObj = DateTime.ParseExact(date_time, "dd/MM/yyyy HH:mm:ss", culture);
-                                    //int dateTime_year = dateTimeObj.Year;
-                                    //int dateTime_month = dateTimeObj.Month;
-                                    //int dateTime_day = dateTimeObj.Day;
                                     int dateTime_hour = dateTimeObj.Hour;
-                                    //int dateTime_minute = dateTimeObj.Minute;
-                                    //int dateTime_second = dateTimeObj.Second;
-                                    //var dateTimeConvert= new DateTime(dateTime_year, dateTime_month, dateTime_day, dateTime_hour, dateTime_minute, dateTime_second, DateTimeKind.Utc);
-                                    //var epochDateTime= Convert.ToInt64(new DateTimeOffset(dateTimeConvert).ToUnixTimeSeconds())*1000;
-
-
                                     logs.Add(new SessionLog {SessionId= log.SessionId, IPAddress=log.IPAddress, Region=log.Region, UserQuery=log.UserQuery, BotAnswers=log.BotAnswers, LogDate=log.LogDate, LogTime=log.LogTime });
                                     dataline.Add(new LowHighTime { epochtime = epochdate, status = "data",drilldown=log.LogDate });
                                     dataDateTimeLine.Add(new LowHighTimedate { hour = dateTime_hour, status = "data" ,EpochDate=log.LogDate});
@@ -623,6 +595,189 @@ namespace Syra.Admin.Controllers
                 {
                     firstTenArrivals,
                     AllResponse = logs
+                };
+            }
+            return response.GetResponse();
+        }
+
+        [HttpPost]
+        public string GetGoalWorldBasis(DateTime startdt, DateTime enddt)
+        {
+
+            List<SessionLog> logs = new List<SessionLog>();
+            string[] hourarray = new string[] {"01 AM", "02 AM","03 AM","04 AM","05 AM","06 AM","07 AM","08 AM","09 AM","10 AM","11 AM","12 PM","01 PM", "02 PM", "03 PM", "04 PM", "05 PM", "06 PM", "07 PM", "08 PM", "09 PM", "10 PM", "11 PM", "12 AM" };
+            List<TimeBasedGoalConversion> timeBasedGoalConversions = new List<TimeBasedGoalConversion>();
+            List<TimeSpanGoalConversion> timeSpanGoalConversions = new List<TimeSpanGoalConversion>();
+            List<ArrayList> arraylist = new List<ArrayList>();
+            List<Longtitude> countries = new List<Longtitude>();
+            //Longtitude responseData = new Longtitude();
+            List<USARegion> region = new List<USARegion>();
+            List<Location> _data = new List<Location>();
+            List<USALocation> _location = new List<USALocation>();
+            SyraDbContext db = new SyraDbContext();
+            var ipdetails = new GetIPAddress();
+            //var sortedList =new;
+            var geolocation = new GeoLocation();
+            CultureInfo culture = new CultureInfo("en-US");
+            _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+            _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var useremail = HttpContext.User.Identity.Name;
+            var aspnetuser = _userManager.FindByEmailAsync(useremail).Result;
+
+            if (aspnetuser != null)
+            {
+                //based on aspnetuser object, get customer details
+                var customer = db.Customer.FirstOrDefault(c => c.UserId == aspnetuser.Id);
+                var botdata = db.BotDeployments.Where(c => c.CustomerId == customer.Id).FirstOrDefault();
+                var connstring = botdata.BlobConnectionString;
+                var blobstorage = botdata.BlobStorageName;
+                var containername = ConfigurationManager.AppSettings["clickedlink_container"].ToString();
+                var goalConversion = db.GoalConversions.FirstOrDefault(c => c.BotDeploymentId == botdata.Id);
+                //read data from blob storage
+                CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connstring);
+                CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+                CloudBlobContainer container = blobClient.GetContainerReference(containername);
+                bool blob_check = false;
+
+                //get date based on each date of range
+                for (DateTime date = startdt; date <= enddt; date = date.AddDays(1))
+                {
+                    var startdateonly = date.Date.ToString("dd-MM-yyyy");
+                    var blob_file_name = startdateonly + "" + ".csv";
+                    CloudBlockBlob blockBlob = container.GetBlockBlobReference(blob_file_name);
+                    blob_check = blockBlob.Exists();
+                    if (blob_check == false)
+                    {
+                        Console.WriteLine("Blob Container doesn't exist");
+                    }
+                    else
+                    {
+                        using (StreamReader reader = new StreamReader(blockBlob.OpenRead()))
+                        {
+
+                            SessionLog log = new SessionLog();
+                            try
+                            {
+                                while (!reader.EndOfStream)
+                                {
+                                    var line = reader.ReadLine();
+                                    string[] splitedword = line.Split('|');
+                                    log.SessionId = splitedword[0];
+                                    log.IPAddress = splitedword[2];
+                                    log.Region = splitedword[1].TrimStart().TrimEnd(); ;
+                                    if (log.Region.Contains('.'))
+                                    {
+                                        string temp = log.IPAddress;
+                                        log.IPAddress = log.Region;
+                                        log.Region = temp;
+                                    }
+                                    log.ClickedLink = splitedword[3].TrimStart().TrimEnd();
+                                    log.LogDate = splitedword[4].Replace("-", "/").Replace(" ", ""); ;
+                                    log.LogTime = splitedword[5].TrimStart().TrimEnd();
+                                    string tempdate = log.LogDate + log.LogTime;
+                                    string dt = Convert.ToDateTime(startdt).ToString("dd-MM-yyyy");
+                                    string jsonresponse = GetIPDetails(log.IPAddress);
+                                    string timespan = DateTime.ParseExact(log.LogTime, "HH:mm:ss", CultureInfo.CurrentCulture).ToString("hh tt");
+                                    if(log.ClickedLink.Contains(goalConversion.LinkUrl))
+                                    {
+                                        ipdetails = JsonConvert.DeserializeObject<GetIPAddress>(jsonresponse);
+                                        countries.Add(new Longtitude { Countries = ipdetails.countryCode,UserId=log.SessionId,GoalDate=log.LogDate,Links=log.ClickedLink,TimeSpan=timespan });
+                                        logs.Add(new SessionLog { SessionId = log.SessionId, IPAddress = log.IPAddress, Region = log.Region, LogDate = tempdate, ClickedLink=log.ClickedLink,Country=ipdetails.country });
+                                    }
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                string errmsg = e.Message;
+                                response.Message = errmsg;
+                            }
+                        }
+                        response.IsSuccess = true;
+                    }
+                }
+                //get count of distinct countries
+                var dupcountries = countries.GroupBy(x => new { x.Countries }).Select(group => new { Name = group.Key, Count = group.Count() })
+                             .OrderByDescending(x => x.Count);
+                //get count of distinct goalconversions based on date
+                var distinctGoalDate= countries.GroupBy(x => new { x.Links,x.GoalDate }).Select(group => new { Name = group.Key, Count = group.Count() })
+                             .OrderByDescending(x => x.Count);
+
+                var distinctTimeSpan= countries.GroupBy(x => new { x.TimeSpan, x.GoalDate,x.Links }).Select(group => new { Name = group.Key, Count = group.Count() })
+                             .OrderByDescending(x => x.Count);
+                foreach (var item in distinctTimeSpan)
+                {
+                    for (int i = 0; i < hourarray.Length; i++)
+                    {
+                        if (hourarray[i].Equals(item.Name.TimeSpan))
+                        {
+                            arraylist.Add(new ArrayList { hourarray[i], item.Count });
+                        }
+                        else
+                        {
+                            arraylist.Add(new ArrayList { hourarray[i], 0 });
+                        }
+                    }
+                    timeSpanGoalConversions.Add(new TimeSpanGoalConversion
+                    {
+                        id = item.Name.GoalDate,
+                        name = item.Name.GoalDate,
+                        data = arraylist
+                    });
+                }
+                foreach (var y in distinctGoalDate)
+                {
+                    if (y.Count > 0)
+                    {
+                        timeBasedGoalConversions.Add(new TimeBasedGoalConversion {
+                            drilldown=y.Name.GoalDate,
+                            name=y.Name.GoalDate,
+                            y=y.Count
+                        });
+                        
+                    }
+                }
+                //convert data for json format of country
+                foreach (var x in dupcountries)
+                {
+                    try
+                    {
+                        RegionInfo myRI1 = new RegionInfo(x.Name.Countries);
+                        if (x.Name.Countries == "" || x.Name.Countries == null)
+                        {
+                            Console.WriteLine("Error");
+                        }
+                        else
+                        {
+                            _data.Add(new Location()
+                            {
+                                z = float.Parse(x.Count.ToString(), CultureInfo.InvariantCulture.NumberFormat),
+                                value = float.Parse(x.Count.ToString(), CultureInfo.InvariantCulture.NumberFormat),
+                                code = myRI1.TwoLetterISORegionName
+                            });
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        string message = e.Message;
+                        response.Message = message;
+                    }
+                }
+                var worldresult = (from c in logs
+                                   group c by new { c.Region } into g
+                                   select new
+                                   {
+                                       Region = g.Key.Region,
+                                       Total = g.Count(),
+                                   });
+
+                response.Data = new
+                {
+                    _data,
+                    AllResponse = logs,
+                    WorldResult = worldresult,
+                    GoalConversionTime=timeBasedGoalConversions,
+                    GoalConversionTimeSpan = timeSpanGoalConversions
+                    //TimeSpanArrayList=arraylist
                 };
             }
             return response.GetResponse();

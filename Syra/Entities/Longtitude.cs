@@ -14,16 +14,30 @@ namespace Syra.Admin.Entities
         public string Links { get; set; }
         public string UserId { get; set; }
         public string righans { get; set; }
+        public string TimeSpan { get; set; }
         public string wrongans { get; set; }
+        public string GoalDate { get; set; }
         
+    }
+    public class TimeSpanGoalConversion
+    {
+        public string name { get; set; }
+        public string id { get; set; }
+        public List<ArrayList> data { get; set; }
+        //public string[][] data;
+    }
+
+    public class TimeBasedGoalConversion
+    {
+        public string drilldown { get; set; }
+        public string name { get; set; }
+        public Int64 y { get; set; }
     }
     public class Location
     {
-        //public string name { get; set; }
         public float value { get; set; }
         public string code { get; set; }
         public float z { get; set; }
-        //public string code3 { get; set; }
         public string drilldown { get; set; }
     }
     public class LowHighTime
@@ -42,12 +56,7 @@ namespace Syra.Admin.Entities
         public Int64 epochtime { get; set; }
         public Int64 count { get; set; }
     }
-
-    //public class CountHour
-    //{
-    //    public Int64 hour { get; set; }
-    //    public Int64 hourcount { get; set; }
-    //}
+    
     public class Logtime
     {
         public DateTime time { get; set; }

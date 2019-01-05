@@ -176,6 +176,7 @@
             $scope.GetWorld();
             $scope.GetBotReply();
             $scope.GetLinks();
+            $scope.GetGoalWorldBasis();
             var userqueryurl = "/Customer/UserQuery";
             $http.post(userqueryurl, { startdt: startdate, enddt: enddate }).success(function (response) {
                 if (response != null) {
@@ -232,7 +233,279 @@
             });
         };
 
+        $scope.GetGoalWorldBasis = function () {
+            var startdate = $scope.fromdate;
+            var enddate = $scope.todate;
+            $("#goalconversion_spinner").show();
+            $("#goal-container").hide();
+            $('#timebasedgoal-container').hide();
+            var goalconversionurl = "/Customer/GetGoalWorldBasis";
+            $http.post(goalconversionurl, { startdt: startdate, enddt: enddate }).success(function (response) {
+                if (response != null) {
+                    console.log(response);
+                    $scope.GetWorldGoalConversion(response);
+                    $scope.GetTimeGoalConversion(response);
+                    $("#goalconversion_spinner").hide();
+                    $("#goal-container").show();
+                    $('#timebasedgoal-container').show();
+                } else {
+                    alert("Something went wrong");
+                }
+            });
+        };
+
         //functions to call api
+        $scope.GetWorldGoalConversion = function (worlddata) {
+            var data = worlddata.Data._data;
+            console.log(data);
+            Highcharts.setOptions({
+                plotOptions: {
+                    series: {
+                        dataLabels: {
+                            enabled: true,
+                            formatter: function () {
+                                if (this.point.value > 0)
+                                    return this.point.name
+                            }
+                        },
+                        point: {
+                            events: {
+                                click: function (e) {
+                                    var tablerow = "<tbody>";
+                                    var srno = 1;
+                                    for (var i = 0; i < worlddata.Data.AllResponse.length; i++) {
+                                        if (worlddata.Data.AllResponse[i].Country == "United States") {
+                                            worlddata.Data.AllResponse[i].Country=worlddata.Data.AllResponse[i].Country + " of America";
+                                        }
+                                        if (worlddata.Data.AllResponse[i].Region == e.point.name || worlddata.Data.AllResponse[i].Country == e.point.name) {
+                                            tablerow += "<tr>" + "<td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + worlddata.Data.AllResponse[i].LogDate + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + worlddata.Data.AllResponse[i].SessionId + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + worlddata.Data.AllResponse[i].IPAddress + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + worlddata.Data.AllResponse[i].Region + "</td><td class='text-align-left' style='width:400px;border-left:solid 1px #adbbd1;border-right:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + worlddata.Data.AllResponse[i].ClickedLink + "</td>" + "</tr>";
+                                            srno++;
+                                        }
+                                    }
+                                    tablerow += "</tbody>";
+                                    var tabledata = "<br><br><table id='goalconversion_worldmap' dt-options='vm.dtOptions' dt-columns='vm.dtColumns' class='table table-responsive table - bordered table - striped' data-pagination='true'><thead>" + "<tr style='border-top: solid 1px #adbbd1;'>" +
+                                        "<th class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1'>Log Date</th>" +
+                                        "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>Session Id</th>" +
+                                        "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>IP Address</th>" +
+                                        "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>Region</th>" +
+                                        "<th class='text-align-center'style='width:400px;border-left:solid 1px #adbbd1;border-right:solid 1px #adbbd1'>Goal Conversion</th></tr></thead>" +
+                                        tablerow + "</table>";
+                                    if (tablerow == '<tbody></tbody>') {
+                                        console.log("No data found");
+                                    }
+                                    else {
+                                        var table = tabledata;
+                                        var selectlable = "<label class='control-label col - sm - 2' style='font - family: 'Times New Roman', Times, serif; font - size: large; fo; font - weight: normal;'>Show Entries </label>"
+                                            + "<div class='form-group'><select class='form-control' name='state' id='goalconversionworldmaxRows' style='width:20%'>"
+                                            + "<option value='5000'>Show All Rows</option><option value='5'>5</option><option value='10'>10</option>"
+                                            + "<option value='15'>15</option><option value='20'>20</option><option value='50'>50</option>"
+                                            + "<option value='70'>70</option><option value='100'>100</option></select></div>";
+                                        var tablestyle = "<style></style>";
+                                        var pagination = "<div class='pagination-container' ><nav><ul class='pagination' id='goalconversion_worldpagination'>"
+                                            + "<li data-page='prev' ><span>Previous<span class='sr-only'>(current)</span></span></li>"
+                                            + "<li data-page='next' id='prev'><span> Next <span class='sr-only'>(current)</span></span>"
+                                            + "</li></ul></nav></div>";
+                                        var modal = "<button type='button' id='showgoalconversionworlddetail' onclick='disableButton(this)' class='btn btn - default' data-toggle='modal' data-target='#goalconversion_worldmodal'style='margin-left: 10%;color: black;background-color: #b296af;'>Show Details</button >"
+                                            + "<div class='modal fade' id='goalconversion_worldmodal' role='dialog' aria-labelledby='exampleModalLongTitle' aria-hidden='true'>"
+                                            + "<div class='modal-dialog modal-dialog-centered' style='width:80%;padding-top:70px;position:unset' role='document'>"
+                                            + "<div class='modal-content' style='margin-left:-50px;'><div class='modal-header'>"
+                                            + "<h5 class='modal-title' id='goalconversion_worldmodal' style='text-align:center;font - family: Times New Roman; font - size: large; fo; font - weight: bold;'>" + "Query asked from" + " " + "country" + " " + " : " + e.point.name + "</h5>"
+                                            + "<button type='button' class='close' data-dismiss='modal' aria-label='Close'>"
+                                            + "<span aria-hidden='true'>&times;</span>"
+                                            + "</button></div><div class='modal-body' style='margin-bottom: 5%;'>"
+                                            + selectlable + table + pagination
+                                            + "</div><div class='modal-footer'>"
+                                            + "<button type='button' class='btn btn-default' style='font-weight:bold;background-color:#8e3052;color:white;' data-dismiss='modal'>Close</button>"
+                                            + "</div></div></div></div>";
+                                        var worldTable = document.getElementById("goalconversion_worldTable");
+                                        worldTable.innerHTML = modal;
+                                        getWorldGoalConversionPagination('#goalconversion_worldmap');
+                                    }
+
+
+
+
+                                }
+                            }
+                        }
+                    },
+                    map: {
+                        states: {
+                            hover: {
+                                color: '#EEDD66'
+                            }
+                        }
+                    }
+                }
+            });
+            $('#goal-container').highcharts('Map', {
+                chart: {
+                    width: 900,
+                    height: 500
+                },
+                colorAxis: {
+                    min: 1,
+                    max: 500,
+                    type: 'logarithmic',
+                    minColor: '#8c0c09',
+                    maxColor: '#11e056',
+
+                },
+                title: {
+                    text: 'Goal Conversion Analysis based on Locations',
+                    style: {
+                        color: '#8d3052',
+                        fontWeight: 'bold',
+                        fontSize: '24px'
+                    }
+                },
+                subtitle: {
+                    text: 'Click chart to see details',
+                    style: {
+                        color: '#333333',
+                        fontWeight: 'normal',
+                        fontSize: '12px'
+                    }
+                },
+                credits: {
+                    enabled: false
+                },
+                series: [{
+                    name: 'Countries',
+                    mapData: Highcharts.maps['custom/world']
+                }, {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    nullColor: '#7bba77',
+                    color: '#439e65',
+                    mapData: Highcharts.maps['custom/world'],
+                    name: 'Goal Conversion from ',
+                    joinBy: ['iso-a2', 'code'],
+                    data: data,
+                    minSize: 8,
+                    maxSize: 50,
+                    tooltip: {
+                        pointFormat: '{point.code}: {point.z} times'
+                    }
+                }]
+            });
+        };
+
+        $scope.GetTimeGoalConversion = function (goalconversiondata) {
+            var data = goalconversiondata.Data.GoalConversionTime;
+            var drilldown_data = goalconversiondata.Data.GoalConversionTimeSpan;
+            console.log(drilldown_data);
+            Highcharts.chart('timebasedgoal-container', {
+                lang: {
+                    drillUpText: 'Back to Date'
+                },
+                chart: {
+                    type: 'column',
+                    width: 1000,
+                    height: 450,
+                    spacingLeft: 100,
+                },
+                title: {
+                    text: 'Goal Conversion Analysis based on Date & Time',
+                    style: {
+                        color: '#8d3052',
+                        fontWeight: 'bold',
+                        fontSize: '24px'
+                    }
+                },
+                subtitle: {
+                    text: 'Click chart to drilldown',
+                    style: {
+                        color: '#333333',
+                        fontWeight: 'normal',
+                        fontSize: '12px'
+                    }
+                },
+                credits: {
+                    enabled: false
+                }, 
+                xAxis: {
+                    type: 'category',
+                    title: {
+                        text: 'Goal Conversion on Date',
+                        style: {
+                            color: '#3c1414',
+                            fontWeight: 'bold',
+                            fontSize: '16px'
+                        }
+                    },
+                    labels: {
+                        rotation: -45,
+                        style: {
+                            fontSize: '13px',
+                            fontFamily: 'Verdana, sans-serif'
+                        }
+                    }
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Count',
+                        style: {
+                            color: '#3c1414',
+                            fontWeight: 'bold',
+                            fontSize: '16px'
+                        }
+                    }
+                },
+                legend: {
+                    enabled: false
+                },
+                plotOptions: {
+                    series: {
+                        pointWidth: 20,
+                        minPointLength: 5,
+                        borderWidth: 0,
+                        dataLabels: {
+                            enabled: true
+                        }
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}</b>times <br/>'
+                },
+
+                series: [
+                    {
+                        name: "Goal Conversion on ",
+                        colorByPoint: true,
+                        data: data
+                    }
+                ],
+                drilldown: {
+                    drillUpButton: {
+                        relativeTo: 'spacingBox',
+                        position: {
+                            y: 0,
+                            x: 0
+                        },
+                        theme: {
+                            fill: 'white',
+                            'stroke-width': 1,
+                            stroke: 'silver',
+                            r: 0,
+                            states: {
+                                hover: {
+                                    fill: '#b296af'
+                                },
+                                select: {
+                                    stroke: '#039',
+                                    fill: '#bada55'
+                                }
+                            }
+                        }
+                    },
+                    series: drilldown_data
+                }
+            });
+        };
+
         $scope.GetWorldAnalysis = function (worlddata,usa) {
             var data = worlddata.Data._data;
             var usaregions = usa.Data.usadata;

@@ -30,22 +30,24 @@
 </div>
 <div class="container" ng-hide="IsEditMode">
     <ul class="nav nav-tabs">
-        <li ng-class="{'active': isActiveTab(1)}" >
+        <li ng-class="{'active': isActiveTab(1)}">
             <a role="tab" data-toggle="tab" ng-click="tab=1" style="font-family:'Rubik'">Top 10 Questions Asked</a>
         </li>
-        <li ng-class="{'active': isActiveTab(2)}" >
+        <li ng-class="{'active': isActiveTab(2)}">
             <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(2)}" ng-click="tab=2" style="font-family:'Rubik'">Chatter's Demographics</a>
         </li>
-        <li ng-class="{'active': isActiveTab(3)}" >
+        <li ng-class="{'active': isActiveTab(3)}">
             <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(3)}" ng-click="tab=3" style="font-family:'Rubik'">Date & Time of Interactions</a>
         </li>
-        <li ng-class="{'active': isActiveTab(4)}" >
+        <li ng-class="{'active': isActiveTab(4)}">
             <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(4)}" ng-click="tab=4" style="font-family:'Rubik'">Chatbot’s Response Analysis</a>
         </li>
-        <li ng-class="{'active': isActiveTab(5)}" >
+        <li ng-class="{'active': isActiveTab(5)}">
             <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(5)}" ng-click="tab=5" style="font-family:'Rubik'">Analysis on Clicked Links</a>
         </li>
-
+        <li ng-class="{'active': isActiveTab(6)}">
+            <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(6)}" ng-click="tab=6" style="font-family:'Rubik'">Goal Conversions</a>
+        </li>
     </ul>
 
     <div class="tab-content" style="">
@@ -84,8 +86,8 @@
                                     //	numbers of pages
                                     for (var i = 1; i <= pagenum;) {			// for each page append pagination li
                                         $('#botresponsepagination #prev').before('<li data-page="' + i + '">\
-                                                                                                                                              <span>'+ i++ + '<span class="sr-only">(current)</span></span>\
-                                                                                                                                            </li>').show();
+                                                                                                                                                                  <span>'+ i++ + '<span class="sr-only">(current)</span></span>\
+                                                                                                                                                                </li>').show();
                                     }											// end for i
                                 } 												// end if row count > max rows
                                 $('#botresponsepagination [data-page="1"]').addClass('active'); // add active class to the first li
@@ -171,8 +173,8 @@
                                     //	numbers of pages
                                     for (var i = 1; i <= pagenum;) {			// for each page append pagination li
                                         $('#pagemark #prev').before('<li data-page="' + i + '">\
-                                                                                                      <span>'+ i++ + '<span class="sr-only">(current)</span></span>\
-                                                                                                    </li>').show();
+                                                                                                                          <span>'+ i++ + '<span class="sr-only">(current)</span></span>\
+                                                                                                                        </li>').show();
                                     }											// end for i
                                 } 												// end if row count > max rows
                                 $('#pagemark [data-page="1"]').addClass('active'); // add active class to the first li
@@ -227,7 +229,7 @@
             <div id="goalconversion" style="min-width: 100px; height: 100%; margin: 0 auto;margin-top:30px;"></div>
             <div id="linkTable">
                 <div>
-                    <img id="goalconversionspinner" ng-src="/syra_assets/circle-loading-animation.gif" style="display:none; height:100px;width:100px;margin-left:500px;margin-bottom:200px;margin-top:10%;"">
+                    <img id="goalconversionspinner" ng-src="/syra_assets/circle-loading-animation.gif" style="display:none; height:100px;width:100px;margin-left:500px;margin-bottom:200px;margin-top:10%;" ">
                 </div>
                 <script type="text/javascript">
                     function disableButton(btn) {
@@ -257,8 +259,8 @@
                                 //	numbers of pages
                                 for (var i = 1; i <= pagenum;) {			// for each page append pagination li
                                     $('#linkpagination #prev').before('<li data-page="' + i + '">\
-                                                                                              <span>'+ i++ + '<span class="sr-only">(current)</span></span>\
-                                                                                            </li>').show();
+                                                                                                              <span>'+ i++ + '<span class="sr-only">(current)</span></span>\
+                                                                                                            </li>').show();
                                 }											// end for i
                             } 												// end if row count > max rows
                             $('#linkpagination [data-page="1"]').addClass('active'); // add active class to the first li
@@ -343,8 +345,8 @@
                                     //	numbers of pages
                                     for (var i = 1; i <= pagenum;) {			// for each page append pagination li
                                         $('#worldpagination #prev').before('<li data-page="' + i + '">\
-                                                                                                      <span>'+ i++ + '<span class="sr-only">(current)</span></span>\
-                                                                                                    </li>').show();
+                                                                                                                          <span>'+ i++ + '<span class="sr-only">(current)</span></span>\
+                                                                                                                        </li>').show();
                                     }											// end for i
                                 } 												// end if row count > max rows
                                 $('#worldpagination [data-page="1"]').addClass('active'); // add active class to the first li
@@ -430,8 +432,8 @@
                                 //	numbers of pages
                                 for (var i = 1; i <= pagenum;) {			// for each page append pagination li
                                     $('#timepagemark #prev').before('<li data-page="' + i + '">\
-                                                                                                                      <span>'+ i++ + '<span class="sr-only">(current)</span></span>\
-                                                                                                                    </li>').show();
+                                                                                                                                      <span>'+ i++ + '<span class="sr-only">(current)</span></span>\
+                                                                                                                                    </li>').show();
                                 }											// end for i
                             } 												// end if row count > max rows
                             $('#timepagemark [data-page="1"]').addClass('active'); // add active class to the first li
@@ -480,7 +482,95 @@
                 </script>
 
             </div>
-            
+
+        </div>
+
+        <div ng-show="isActiveTab(6)" ng-class="tab==6?'tab-pane fade in active':'tab-pane fade in'">
+            <div id="goal-container" style="min-width: 100px; height: 100%; margin: 0 auto;margin-top:30px;"></div>
+            <div id="goalconversion_worldTable" style="display:inline-block">
+                <div>
+                    <img id="goalconversion_spinner" ng-src="/syra_assets/circle-loading-animation.gif" style="display:none; height:80px;width:80px;margin-left:500px;margin-bottom:60px;margin-top:10%;">
+                </div>
+                <script type="text/javascript">
+                    function disableButton(btn) {
+                        document.getElementById(btn.id).style.display = 'none';
+                    }
+                    function getWorldGoalConversionPagination(table) {
+                        var lastPage = 1;
+                        $('#goalconversionworldmaxRows').on('change', function (evt) {
+                            lastPage = 1;
+                            $('#goalconversion_worldpagination').find("li").slice(1, -1).remove();
+                            var trnum = 0;									// reset tr counter
+                            var maxRows = parseInt($(this).val());
+                            if (maxRows == 5000) {
+                                $('#goalconversion_worldpagination').hide();
+                            } else {
+                                $('#goalconversion_worldpagination').show();
+                            }
+                            var totalRows = $(table + ' tbody tr').length;		// numbers of rows
+                            $(table + ' tr:gt(0)').each(function () {			// each TR in  table and not the header
+                                trnum++;									// Start Counter
+                                if (trnum > maxRows) {
+                                    $(this).hide();							// fade it out
+                                } if (trnum <= maxRows) { $(this).show(); }// else fade in Important in case if it ..
+                            });											//  was fade out to fade it in
+                            if (totalRows > maxRows) {						// if tr total rows gt max rows option
+                                var pagenum = Math.ceil(totalRows / maxRows);	// ceil total(rows/maxrows) to get ..
+                                //	numbers of pages
+                                for (var i = 1; i <= pagenum;) {			// for each page append pagination li
+                                    $('#goalconversion_worldpagination #prev').before('<li data-page="' + i + '">\
+                                                                                                                                                                      <span>'+ i++ + '<span class="sr-only">(current)</span></span>\
+                                                                                                                                                                    </li>').show();
+                                }											// end for i
+                            } 												// end if row count > max rows
+                            $('#goalconversion_worldpagination [data-page="1"]').addClass('active'); // add active class to the first li
+                            $('#goalconversion_worldpagination li').on('click', function (evt) {		// on click each page
+                                evt.stopImmediatePropagation();
+                                evt.preventDefault();
+                                var pageNum = $(this).attr('data-page');	// get it's number
+
+                                var maxRows = parseInt($('#goalconversionworldmaxRows').val());			// get Max Rows from select option
+
+                                if (pageNum == "prev") {
+                                    if (lastPage == 1) { return; }
+                                    pageNum = --lastPage;
+                                }
+                                if (pageNum == "next") {
+                                    if (lastPage == ($('#goalconversion_worldpagination li').length - 2)) { return; }
+                                    pageNum = ++lastPage;
+                                }
+                                lastPage = pageNum;
+                                var trIndex = 0;							// reset tr counter
+                                $('#goalconversion_worldpagination li').removeClass('active');	// remove active class from all li
+                                $('#goalconversion_worldpagination [data-page="' + lastPage + '"]').addClass('active');// add active class to the clicked
+                                // $(this).addClass('active');					// add active class to the clicked
+                                $(table + ' tr:gt(0)').each(function () {		// each tr in table not the header
+                                    trIndex++;								// tr index counter
+                                    // if tr index gt maxRows*pageNum or lt maxRows*pageNum-maxRows fade if out
+                                    if (trIndex > (maxRows * pageNum) || trIndex <= ((maxRows * pageNum) - maxRows)) {
+                                        $(this).hide();
+                                    } else { $(this).show(); } 				//else fade in
+                                }); 										// end of for each tr in table
+                            });										// end of on click pagination list
+
+                        }).val(5).change();
+                    }
+                    $(function () {
+                        // Just to append id number for each row
+                        $('table tr:eq(0)').prepend('<th> ID </th>')
+
+                        var id = 0;
+
+                        $('table tr:gt(0)').each(function () {
+                            id++
+                            $(this).prepend('<td>' + id + '</td>');
+                        });
+                    });
+                </script>
+
+            </div>
+            <div id="timebasedgoal-container" style="min-width: 100px; height: 100%; margin: 0 auto;margin-top:30px;"></div>
+
         </div>
     </div>
 </div>

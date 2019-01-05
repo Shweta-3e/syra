@@ -5,15 +5,12 @@ using System.Web;
 
 namespace Syra.Admin.ViewModel
 {
-    public class BotQuestionAnswersView
+    public class BotGoalConversionsView
     {
         public Int64 Id { get; set; }
-
         public Int64 BotDeploymentId { get; set; }
+        public string LinkName { get; set; }
+        public string LinkUrl { get; set; }
 
-        public string Question { get; set; }
-        public string Answer { get; set; }
-
-        
     }
 }

@@ -1,4 +1,9 @@
-﻿<div class="row">
+﻿<style>
+    #planname{
+        display:inline-block;
+    }
+</style>
+<div class="row">
     <h2>
         My Subscription
         <span class="pull-right">
@@ -13,11 +18,13 @@
 <div class="row">
     <div class="form-group">
         <label class="control-label col-sm-2" for="txtName">Plan Name </label>
-        <div class="col-sm-8">
+        <div class="col-sm-8" id="planname">
             <select name="users" ng-options="plan.name for plan in planlist" class="form-control" style="width:50%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" ng-change="UpgradePlan(selectedPlan.name)" ng-model="selectedPlan" ng-disabled="disabled">
                 <option value="">{{CustomerPlan.Name}}</option>
             </select>
-            <!--<input type="text" ng-change="UpgradePlan(CustomerPlan.Name)" ng-disabled="!IsEditMode" class="form-control" id="txtName" style="width:50%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" ng-model="CustomerPlan.Name" disabled>-->
+        </div>
+        <div style="margin-left:-30%;font-size:12px;">
+            <a href="https://syra.ai/pricing/">Click here to see Plans</a>
         </div>
     </div>
 </div>

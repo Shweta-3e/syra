@@ -30,6 +30,7 @@ namespace Syra.Admin.DbContexts
         public DbSet<Plan> Plans { get; set; }
         public DbSet<LuisResponse> ManageDbs { get; set; }
         public DbSet<BotQuestionAnswers> BotQuestionAnswers { get; set; }
+        public DbSet<GoalConversion> GoalConversions { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

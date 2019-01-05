@@ -1,6 +1,6 @@
 ﻿SyraApp.config(["$stateProvider", "$urlRouterProvider", function ($stateProvider, $urlRouterProvider) {
 
-    $urlRouterProvider.otherwise("/Home");
+    $urlRouterProvider.otherwise("/Profile");
 
     var home = {
         url: '/Home',

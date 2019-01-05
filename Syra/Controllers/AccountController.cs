@@ -121,7 +121,7 @@ namespace Syra.Admin.Controllers
                     }
                     else
                     {
-                        return RedirectToLocal("/#/Profile");
+                        return RedirectToLocal("/#/Home");
                     }
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -236,17 +236,14 @@ namespace Syra.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
-            if(ModelState.IsValid)
-            {
+            
+            //if(ModelState.IsValid)
+            //{
                 if (model != null)
                 {
                     var userStore = new UserStore<ApplicationUser>(db);
                     var manager = new UserManager<ApplicationUser>(userStore);
-                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                    var user = new ApplicationUser { UserName = model.Email, Email = model.Email};
                     var customer = new Customer();
                     var existingUser = await UserManager.FindByNameAsync(model.Email);
                     if (existingUser == null)
@@ -300,7 +297,7 @@ namespace Syra.Admin.Controllers
                     }
                     return View(model);
                 }
-            }
+            //}
             return View(model);
             //return View(model);
         }
@@ -669,7 +666,6 @@ namespace Syra.Admin.Controllers
             ViewBag.ReturnUrl = returnUrl;
             return View(model);
         }
-
         //
         // POST: /Account/LogOff
         [HttpPost]
@@ -730,13 +726,12 @@ namespace Syra.Admin.Controllers
 
         private ActionResult RedirectToLocal(string returnUrl)
         {
-            //return Redirect(returnUrl);
+            return Redirect(returnUrl);
             //if (Url.IsLocalUrl(returnUrl))
             //{
             //    return Redirect(returnUrl);
             //}
-            
-            return RedirectToAction("Index", "Home");
+            //return RedirectToAction("Index", "Home");
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult

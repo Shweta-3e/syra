@@ -26,6 +26,7 @@ namespace Syra.Admin.ViewModel
 
         public ICollection<MessageView> Messages { get; set; }
         public ICollection<BotQuestionAnswersView> BotQuestionAnswers { get; set; }
+        public ICollection<BotGoalConversionsView> BotGoalConversions { get; set; }
         public string BackGroundColor { get; set; }
 
         public string BotSecret { get; set; }

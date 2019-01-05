@@ -17,6 +17,7 @@
         });
     </script>
 </head>
+
 <h2>@ViewBag.Title</h2>
 @using (Html.BeginForm("Register", "Account", FormMethod.Post, new
 {
@@ -29,13 +30,24 @@
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
     <style>
+        #planlink{
+            font-size:12px;
+        }
+        #plandropdown {
+            display: inline-block;
+            margin-left: -1%;
+            border-radius: 0px;
+        }
+        #dropdownlist {
+            width:80%;
+            display: inline-block;
+        }
         .input-container {
             display: -ms-flexbox; /* IE10 */
             display: flex;
             width: 100%;
             margin-bottom: 15px;
         }
-
         .icon {
             padding: 10px;
             background: #8d3052;
@@ -43,7 +55,6 @@
             min-width: 50px;
             text-align: center;
         }
-
         .input-field {
             width: 100%;
             padding: 10px;
@@ -53,7 +64,6 @@
             .input-field:focus {
                 border: 2px solid dodgerblue;
             }
-
         .btn {
             background-color: dodgerblue;
             color: white;
@@ -63,51 +73,52 @@
             width: 100%;
             opacity: 0.9;
         }
-
             .btn:hover {
                 opacity: 1;
             }
     </style>
     <div class="form-group">
-        <div class="input-container">
+        <div class="input-container" style="width:80%;">
             <i class="fa fa-user icon"></i>
             @Html.TextBoxFor(m => m.Email, new { placeholder = "Email", @class = "form-control", @style = "width:50%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" })
             @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
-        <div class="input-container">
+        <div class="input-container" style="width:80%;">
             <i class="fa fa-lock icon"></i>
             @Html.PasswordFor(m => m.Password, new { placeholder = "Password", @class = "form-control", @style = "width:50%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" })
             @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
-        <div class="input-container">
+        <div class="input-container" style="width:80%;">
             <i class="fa fa-lock icon"></i>
             @Html.PasswordFor(m => m.ConfirmPassword, new { placeholder = "Confirm Password", @class = "form-control", @style = "width:50%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" })
             @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
-        <div class="input-container">
+        <div class="input-container" style="width:80%;">
             <i class="fa fa-briefcase icon"></i>
             @Html.TextBoxFor(m => m.JobTitle, new { placeholder = "Job Title", @class = "form-control", @style = "width:50%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" })
             @Html.ValidationMessageFor(model => model.JobTitle, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
-        <div class="input-container">
+        <div class="input-container" style="width:80%;">
             <i class="fa fa-building icon"></i>
             @Html.TextBoxFor(m => m.Company, new { placeholder = "Company", @class = "form-control", @style = "width:50%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" })
             @Html.ValidationMessageFor(model => model.Company, "", new { @class = "text-danger" })
         </div>
     </div>
     <div class="form-group">
-        <div class="input-container">
+        <div class="input-container" id="dropdownlist">
             <i class="fa fa-money icon"></i>
-            @Html.DropDownList("PlanId",null, "Choose Plan", htmlAttributes: new {@class = "form-control", @style = "width:50%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" })
-            
+            @Html.DropDownList("PlanId",null, "Choose Plan", htmlAttributes: new {@class = "form-control",@id="plandropdown", @style = "width:50%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" })
+        </div>
+        <div style="display:inline-block;margin-left: -35%;">
+            <a id="planlink" href="https://syra.ai/pricing/">Click here to see Plans</a>
         </div>
     </div>
     <div class="form-group">

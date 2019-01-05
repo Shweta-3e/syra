@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace Syra.Admin.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : ApplicationBaseController
     {
         [Authorize]
         public ActionResult Index()

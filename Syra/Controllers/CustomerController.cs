@@ -29,7 +29,7 @@ using static Syra.Admin.Entities.SessionLog;
 
 namespace Syra.Admin.Controllers
 {
-    public class CustomerController : Controller
+    public class CustomerController : ApplicationBaseController
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
@@ -352,7 +352,6 @@ namespace Syra.Admin.Controllers
                 CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
                 CloudBlobContainer container = blobClient.GetContainerReference(containername);
 
-
                 bool blob_check = false;
                 for (DateTime date = startdt; date <= enddt; date = date.AddDays(1))
                 {
@@ -384,7 +383,7 @@ namespace Syra.Admin.Controllers
                                     log.IPAddress = splitedword[1];
                                     log.Region = splitedword[2];
                                     log.LogDate = splitedword[5];
-                                    if (log.BotAnswers.Contains("Hmmm...I didn’t quite get that"))
+                                    if (log.BotAnswers.Contains("Hmmm...I didn’t quite get that")|| log.BotAnswers.Contains("It looks like I am not able to answer many of your questions."))
                                     {
                                         log.BotResponse = "Did Not Respond Appropriately";
                                         log.IsWrongAnswer = true;
@@ -1110,6 +1109,7 @@ namespace Syra.Admin.Controllers
                         bot.LuisId = botdeployment.LuisId;
                         bot.ChatBotGoal = botdeployment.ChatBotGoal;
                         bot.BotQuestionAnswers = new List<BotQuestionAnswers>();
+                        bot.GoalConversions = new List<GoalConversion>();
                         bot.T_BotClientId = Guid.NewGuid().ToString();
                         bot.FirstMessage = botdeployment.FirstMessage;
                         bot.SecondMessage = botdeployment.SecondMessage;
@@ -1123,6 +1123,19 @@ namespace Syra.Admin.Controllers
                                     item.Question = ans.Question;
                                     item.Answer = ans.Answer;
                                     bot.BotQuestionAnswers.Add(item);
+                                }
+                            }
+                        }
+                        if (botdeployment.GoalConversions != null)
+                        {
+                            if (botdeployment.GoalConversions.Any())
+                            {
+                                foreach (var link in botdeployment.GoalConversions)
+                                {
+                                    GoalConversion item = new GoalConversion();
+                                    item.LinkName = link.LinkName;
+                                    item.LinkUrl = link.LinkUrl;
+                                    bot.GoalConversions.Add(item);
                                 }
                             }
                         }
@@ -1195,30 +1208,54 @@ namespace Syra.Admin.Controllers
         }
 
         [HttpPost]
+        public string GetGoalConversions(Int64 Id)
+        {
+            var botgoalconversions = db.GoalConversions.Where(c => c.BotDeploymentId == Id).ToList();
+            response.Data = botgoalconversions;
+            return response.GetResponse();
+        }
+
+        [HttpPost]
         public string GetChatBotEntry(Int64 Id)
         {
             var chatbot = db.BotDeployments.Find(Id);
+            var botgoalconversions = db.GoalConversions.Where(c => c.BotDeploymentId == chatbot.Id).ToList();
             var botquestionanswers = db.BotQuestionAnswers.Where(c => c.BotDeploymentId == chatbot.Id).ToList();
             chatbot.BotQuestionAnswers = botquestionanswers;
+            chatbot.GoalConversions = botgoalconversions;
+            BotDeploymentView botDeploymentView = new BotDeploymentView();
+            //otDeploymentView.BotGoalConversions = chatbot.GoalConversions;
             response.Data = Mapper.Map<BotDeploymentView>(chatbot);
             return response.GetResponse();
         }
 
         [HttpPost]
-        public string UpdateChatBot(BotDeploymentView botdeploymentview)
+        public string UpdateChatBot(BotDeploymentView botdeploymentview, List<BotGoalConversionsView> botGoalConversions)
         {
             try
             {
                 var chatbot = db.BotDeployments.Find(botdeploymentview.Id);
                 var botquestionanswer = db.BotQuestionAnswers.Where(c => c.BotDeploymentId == chatbot.Id).ToList();
+                var botgoalconversion = db.GoalConversions.Where(c => c.BotDeploymentId == chatbot.Id).ToList();
                 chatbot.BotQuestionAnswers = botquestionanswer;
-
+                chatbot.GoalConversions = botgoalconversion;
+                foreach(var item in botGoalConversions)
+                {
+                    if(item.BotDeploymentId==chatbot.Id)
+                    {
+                        botdeploymentview.BotGoalConversions.Add(item);
+                    }
+                }
                 if (chatbot.BotQuestionAnswers.Any())
                 {
                     var botquestionanswers = db.BotQuestionAnswers.Where(c => c.BotDeploymentId == chatbot.Id).ToList();
                     db.BotQuestionAnswers.RemoveRange(botquestionanswers);
                 }
-
+                if (chatbot.GoalConversions.Any())
+                {
+                    var botgoalconversions = db.GoalConversions.Where(c => c.BotDeploymentId == chatbot.Id).ToList();
+                    db.GoalConversions.RemoveRange(botgoalconversions);
+                }
                 if (chatbot != null)
                 {
                     chatbot.Name = botdeploymentview.Name;
@@ -1248,11 +1285,13 @@ namespace Syra.Admin.Controllers
                     chatbot.BotURI = botdeploymentview.BotURI;
                     chatbot.WebSiteUrl = botdeploymentview.WebSiteUrl;
                     chatbot.BotQuestionAnswers = new List<BotQuestionAnswers>();
+                    chatbot.GoalConversions = new List<GoalConversion>();
                     chatbot.Status = botdeploymentview.Status;
                     chatbot.IsPlanActive = botdeploymentview.IsPlanActive;
                     chatbot.DomainKey = botdeploymentview.DomainKey;
                     chatbot.BlobConnectionString = botdeploymentview.BlobConnectionString;
                     chatbot.ContainerName = botdeploymentview.ContainerName;
+                    //To add new questions
                     if (botdeploymentview.BotQuestionAnswers != null)
                     {
                         if (botdeploymentview.BotQuestionAnswers.Any())
@@ -1266,7 +1305,20 @@ namespace Syra.Admin.Controllers
                             }
                         }
                     }
-
+                    //To add new goal conversions
+                    if(botdeploymentview.BotGoalConversions.Count>0 && chatbot.GoalConversions.Count>0)
+                    {
+                        if(botdeploymentview.BotGoalConversions.Any())
+                        {
+                            foreach(var link in botdeploymentview.BotGoalConversions)
+                            {
+                                GoalConversion linkitem = new GoalConversion();
+                                linkitem.LinkName = link.LinkName;
+                                linkitem.LinkUrl = link.LinkUrl;
+                                chatbot.GoalConversions.Add(linkitem);
+                            }
+                        }
+                    }
                     var userStore = new UserStore<ApplicationUser>(db);
                     var manager = new UserManager<ApplicationUser>(userStore);
 
@@ -1278,6 +1330,7 @@ namespace Syra.Admin.Controllers
                     db.SaveChanges();
 
                     response.IsSuccess = true;
+                    //response.Data = chatbot;
                     response.Message = "Record updated successfully";
                     return response.GetResponse();
                 }
@@ -1805,5 +1858,7 @@ namespace Syra.Admin.Controllers
             }
             
         }
+
+
     }
 }

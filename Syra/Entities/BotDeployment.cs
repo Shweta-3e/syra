@@ -26,6 +26,7 @@ namespace Syra.Admin.Entities
 
         public ICollection<Message> Messages { get; set; }
         public ICollection<BotQuestionAnswers> BotQuestionAnswers { get; set; }
+        public ICollection<GoalConversion> GoalConversions { get; set; }
         public string BackGroundColor { get; set; }
 
         public string BotSecret { get; set; }

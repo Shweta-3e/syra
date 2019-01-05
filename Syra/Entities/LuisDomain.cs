@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace Syra.Admin.Entities
 {
@@ -12,6 +14,8 @@ namespace Syra.Admin.Entities
         public string LuisAppId { get; set; }
         public string LuisAppKey { get; set; }
         public ICollection<LuisResponse> LuisResponses { get; set; }
+        [JsonIgnore]
+        [IgnoreDataMember]
         public ICollection<BotDeployment> BotDeployments { get; set; }
     }
 }

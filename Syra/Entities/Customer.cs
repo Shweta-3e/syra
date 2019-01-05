@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Web;
 
 namespace Syra.Admin.Entities
@@ -35,7 +38,8 @@ namespace Syra.Admin.Entities
         
 
         public ICollection<CustomerPlan> CustomerPlans { get; set; }
-
+        [JsonIgnore]
+        [IgnoreDataMember]
         public ICollection<BotDeployment> BotDeployments { get; set; }
     }
 }

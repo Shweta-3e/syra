@@ -1,4 +1,9 @@
 ﻿<script type='text/javascript' src="http://jscolor.com/release/2.0/jscolor-2.0.5/jscolor.js"></script>
+<style>
+    #btn-cancel-question {
+        margin-left: 25%;
+    }
+</style>
 <div class="Container">
     <ul class="nav nav-tabs">
         <li class="active" ng-class="{'active': isActiveTab(1)}">
@@ -190,10 +195,9 @@
                     </tr>
                 </tbody>
             </table>
-
             <div class="row" style="padding-top:2%">
                 <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
+                    <div class="col-md-offset-2 col-md-10" id="btn-cancel-question">
                         <input type="button" class="btn btn-danger" value="Cancel"
                                style="border-radius:5px;height:39px;width:90px;font-weight:bold;background-color:#8e3052;color:white;"
                                ng-click="Cancel()" />
@@ -214,35 +218,59 @@
         </div>
 
         <div ng-show="isActiveTab(4)" ng-class="tab==4?'tab-pane fade in active':'tab-pane fade in'">
-            <div class="row" style="padding-top:2%">
-                <div class="form-group">
-                    <label class="control-label col-sm-3 mandatory required" for="txtChatBotGoal">Define the goal of Chatbot</label>
-                    <div class="col-sm-7">
-                        <input type="text" class="form-control" id="txtChatBotGoal" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" ng-model="BotDeployment.ChatBotGoal">
-                    </div>
-                </div>
-            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Link Name</th>
+                        <th>Link Url</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <input type="text" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" ng-model="GoalConversion.LinkName" />
+                        </td>
+                        <td>
+                            <input type="text" style="border-radius:5px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" ng-model="GoalConversion.LinkUrl" />
+                        </td>
+                        <td>
+                            <a class="btn btn-default" ng-click="AddMoreLinks(GoalConversion)" ng-show="!GoalConversion.IsEditMode" style="background-color:#b296af;font-weight:bold;color:black;">
+                                Add
+                            </a>
+                            <a class="btn" ng-click="UpdateLinks(GoalConversion)" ng-show="GoalConversion.IsEditMode" style="background-color:#b296af;font-weight:bold;color:black;">
+                                Update
+                            </a>
+                        </td>
+                    </tr>
+                    <tr ng-repeat="item in GoalConversion">
+                        <td>{{item.LinkName}}</td>
+                        <td style="width:60%;">{{item.LinkUrl}}</td>
+                        <!--<td>
+                            <a class="btn btn-default" ng-click="EditLinks(item)">
+                                <b>Edit</b>
+                            </a>
+
+                            <a class="btn btn-default" ng-click="RemoveLinks($index)" style="background-color:#8e3052;font-weight:bold;color:white;">
+                                Remove
+                            </a>
+                        </td>-->
+                    </tr>
+                </tbody>
+            </table>
 
             <div class="row" style="padding-top:2%">
                 <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10" style="padding-left:10%">
+                    <div class="col-md-offset-2 col-md-10" style="padding-left:15%">
                         <input type="button" class="btn btn-default" value="Save" ng-click="CreateChatBot()"
                                style="border-radius:5px;height:39px;width:90px;font-weight:bold;background-color:#b296af;" />
 
                         <input type="button" class="btn btn-danger" value="Cancel"
-                               style="border-radius:5px;height:39px;width:90px;font-weight:bold;background-color:#8e3052;color:white;"
+                               style="border-radius:5px;height:39px;width:90px;margin-left:1%;font-weight:bold;background-color:#8e3052;color:white;"
                                ng-click="Cancel()" />
                     </div>
                 </div>
             </div>
-
-            <nav>
-                <ul class="pager">
-                    <li class="previous">
-                        <a href="" ng-click="PreviousTab(tab)"><span aria-hidden="true">&larr;</span> Previous</a>
-                    </li>
-                </ul>
-            </nav>
         </div>
     </div>
 </div>

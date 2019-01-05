@@ -1,4 +1,6 @@
-﻿
+﻿@model Syra.Admin.Entities.Customer
+@{
+}
 <!DOCTYPE html>
 <html class="" lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# og: http://ogp.me/ns#">
 <head>
@@ -137,65 +139,102 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
             background: none !important;
             padding: 0 !important;
         }
-        .navbar {
-            overflow: hidden;
-            background-color: #333;
+
+        .dropbtn {
+            background-color: white;
+            color: black;
+            font-family: 'Rubik';
+            font-size: 15px;
+            padding: 16px;
+            border: none;
+            cursor: pointer;
         }
 
-            .navbar a {
-                float: left;
-                font-size: 16px;
-                color: white;
-                text-align: center;
-                padding: 14px 16px;
-                text-decoration: none;
+            .dropbtn:hover, .dropbtn:focus {
+                background-color: #b296af;
+                border-radius: 5px;
             }
 
-        .subnav {
-            float: left;
-            overflow: hidden;
+        .dropdown {
+            position: relative;
+            display: inline-block;
         }
 
-            .subnav .subnavbtn {
-                font-size: 16px;
-                border: none;
-                outline: none;
-                color: white;
-                padding: 14px 16px;
-                background-color: inherit;
-                font-family: inherit;
-                margin: 0;
-            }
-
-            .navbar a:hover, .subnav:hover .subnavbtn {
-                background-color: red;
-            }
-
-        .subnav-content {
+        .dropdown-content {
             display: none;
             position: absolute;
-            left: 0;
-            background-color: red;
-            width: 100%;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            overflow: auto;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
             z-index: 1;
         }
-
-            .subnav-content a {
-                display:inline-block;
-                float: left;
-                /*color: white;*/
+            .dropdown-content a {
+                color: black;
+                padding: 12px 16px;
                 text-decoration: none;
+                display: block;
             }
+        .dropdown a:hover {
+            background-color: #ddd;
+        }
 
-                .subnav-content a:hover {
-                    /*background-color: #eee;*/
-                    color: black;
-                }
-
-        .subnav:hover .subnav-content {
+        .show {
             display: block;
         }
+
+        #submenu {
+            margin-top: 4%;
+        }
+
+        #profile-hover:hover {
+            background-color: #b296af;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+
+        #subscription-hover:hover {
+            background-color: #b296af;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+
+        #chatbot-hover:hover {
+            background-color: #b296af;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+
+        #analytics-hover:hover {
+            background-color: #b296af;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+        #logs-hover:hover {
+            background-color: #b296af;
+            font-weight: bold;
+            border-radius: 5px;
+        }
     </style>
+    <script>
+        function myFunction() {
+            $("#mylist").hide();
+            document.getElementById("myDropdown").classList.toggle("show");
+        }
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function (event) {
+            if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        }
+    </script>
     <link rel='stylesheet' id='contact-form-7-css' href='~/syra_assets/contact-form-styles.css' type='text/css' media='all' />
     <link rel='stylesheet' id='tablepress-columnfilterwidgets-css-css' href='~/syra_assets/ColumnFilterWidgets.min.css' type='text/css' media='all' />
     <link rel='stylesheet' id='avada-stylesheet-css' href='~/syra_assets/avada-style.min.css' type='text/css' media='all' />
@@ -290,7 +329,7 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
                                 <ul role="menubar" id="menu-main-navigation-new" class="fusion-menu">
                                     @if (User.IsInRole("Admin"))
                                     {
-                                        <li role="menuitem" id="menu-item-1307" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a asp-controller="Manage" style="margin-left:800px;" asp-action="Index" title="Manage">Hi @User.Identity.Name</a></li>
+                                        <li role="menuitem" id="menu-item-1307" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a asp-controller="Manage" style="margin-left:800px;" asp-action="Index" title="Manage">Hi <b>@User.Identity.Name</b></a></li>
                                         <li role="menuitem" id="menu-item-1307" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a ui-sref="newplan" class="fusion-bar-highlight"><span class="menu-text">Manage Plans</span></a></li>
                                         <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a ui-sref="luisdomain" class="fusion-bar-highlight"><span class="menu-text">Manage Bot Domain</span></a></li>
                                         <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/#/managecustomer" class="fusion-bar-highlight"><span class="menu-text">Manage Customer Plan</span></a></li>
@@ -304,18 +343,24 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
                                     }
                                     else
                                     {
-                                        <li role="menuitem" id="menu-item-1307" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a asp-controller="Manage" style="" asp-action="Index" title="Manage">Hi @User.Identity.Name</a></li>
-                                        <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525">
-                                            <a href="/#/Profile" class="fusion-bar-highlight">
-                                                <span class="menu-text">My Profile</span>
-                                            </a>
-                                        </li>
-                                        @*<li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a ui-sref="chatbot" class="fusion-bar-highlight"><span class="menu-text">My Chatbots</span></a></li>
-                                            <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/#/Subscription" class="fusion-bar-highlight"><span class="menu-text">My Subsription</span></a></li>
-                                            <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a ui-sref="logs" class="fusion-bar-highlight"><span class="menu-text">Logs Viewer</span></a></li>
-                                            <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a ui-sref="analytics" class="fusion-bar-highlight"><span class="menu-text">Analytics</span></a></li>
-                                            <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a ui-sref="forgotpassword" class="fusion-bar-highlight"><span class="menu-text">Change Password</span></a></li>*@
-                                        <li><a href="javascript:document.getElementById('logoutForm').submit()">LogOut</a></li>
+                                        <div class="dropdown">
+                                            <button onclick="myFunction()" class="dropbtn">@Html.Label("Hi " + (ViewData["FullName"]))</button>
+                                            <div id="myDropdown" class="dropdown-content">
+                                                <a href="https://syra.ai/contact-us/">Support</a>
+                                                <a href="javascript:document.getElementById('logoutForm').submit()">Logout</a>
+                                            </div>
+                                        </div>
+                                        <div id="submenu">
+                                            <ul id="submenu-item">
+                                                
+                                                <li role="menuitem" style="font-size:13px;font-family:'Rubik'" id="profile-hover" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a href="/#/Profile" class="fusion-bar-highlight">My Profile</a></li>
+                                                <li style="margin-left:2%;font-size:13px;font-family:'Rubik' " role="menuitem" id="subscription-hover" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a href="/#/Subscription" class="fusion-bar-highlight">My Subscriptions</a></li>
+                                                <li style="margin-left:2%; font-size:13px;font-family:'Rubik'" role="menuitem" id="chatbot-hover" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a ui-sref="chatbot" class="fusion-bar-highlight">My Chatbots</a></li>
+                                                <li style="margin-left:2%; font-size:13px;font-family:'Rubik'" role="menuitem" id="logs-hover" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a ui-sref="logs" class="fusion-bar-highlight">Logs Viewer</a></li>
+                                                <li style="margin-left: -13px !important; font-size:13px;font-family:'Rubik'" role="menuitem" id="analytics-hover" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a ui-sref="analytics" class="fusion-bar-highlight">Analytics</a></li>
+
+                                            </ul>
+                                        </div>
                                         using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
                                         {
                                             @Html.AntiForgeryToken()
@@ -330,7 +375,6 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
                         <div class="fusion-row">
                             <div class="fusion-logo" data-margin-top="0px" data-margin-bottom="0px" data-margin-left="0px" data-margin-right="0px">
                                 <a class="fusion-logo-link" href="https://syra.ai/">
-                                    <!-- standard logo -->
                                     <img src="~/syra_assets/syra-logo.jpg" srcset="~/syra_assets/syra-logo.jpg 1x" width="" height="" alt="Syra Logo" retina_logo_url="" class="fusion-standard-logo" />
                                 </a>
                             </div>
@@ -403,7 +447,6 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
                                 <a href="#" class="fusion-icon fusion-icon-bars" aria-label="Toggle mobile menu"></a>
                             </div>
                             <nav class="fusion-mobile-nav-holder fusion-mobile-menu-text-align-left"></nav>
-
                         </div>
                     }
                 </div>
@@ -1648,7 +1691,7 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
     <script type='text/javascript'>
         /* <![CDATA[ */
         var simcal_default_calendar = { "ajax_url": "\/wp-admin\/admin-ajax.php", "nonce": "f27359c850", "locale": "en_US", "text_dir": "ltr", "months": { "full": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"], "short": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"] }, "days": { "full": ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"], "short": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] }, "meridiem": { "AM": "AM", "am": "am", "PM": "PM", "pm": "pm" } };
-                    /* ]]> */
+                        /* ]]> */
     </script>
     <script type='text/javascript' src='~/syra_assets/default-calendar.min.js'></script>
     @*<script type='text/javascript' src='~/syra_assets/d975e8eef86fa13dac350752bb833cac.js'></script>*@

@@ -229,6 +229,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ApplicationBaseController.cs" />
     <Compile Include="Controllers\BotDeploymentsController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\CustomerPlansController.cs" />
@@ -238,6 +239,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Entities\AES.cs" />
     <Compile Include="Entities\BotContent.cs" />
+    <Compile Include="Entities\GoalConversion.cs" />
     <Compile Include="Entities\LuisResponse.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Controllers\PlansController.cs" />
@@ -264,6 +266,18 @@
     <Compile Include="Migrations\201812111908315_first migration.Designer.cs">
       <DependentUpon>201812111908315_first migration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201901031220320_New Table.cs" />
+    <Compile Include="Migrations\201901031220320_New Table.Designer.cs">
+      <DependentUpon>201901031220320_New Table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201901031224370_Entity Modification.cs" />
+    <Compile Include="Migrations\201901031224370_Entity Modification.Designer.cs">
+      <DependentUpon>201901031224370_Entity Modification.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201901041537083_FullName_Added.cs" />
+    <Compile Include="Migrations\201901041537083_FullName_Added.Designer.cs">
+      <DependentUpon>201901041537083_FullName_Added.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -272,6 +286,7 @@
     <Compile Include="SignalR\SyraHub.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModel\BotDeploymentView.cs" />
+    <Compile Include="ViewModel\BotGoalConversionsView.cs" />
     <Compile Include="ViewModel\BotQuestionAnswersView.cs" />
     <Compile Include="ViewModel\CustomerPlanView.cs" />
     <Compile Include="ViewModel\CustomerView.cs" />
@@ -583,6 +598,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="SyraApp\" />
+    <Folder Include="Views\ApplicationBase\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -600,6 +616,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201812111908315_first migration.resx">
       <DependentUpon>201812111908315_first migration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901031220320_New Table.resx">
+      <DependentUpon>201901031220320_New Table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901031224370_Entity Modification.resx">
+      <DependentUpon>201901031224370_Entity Modification.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901041537083_FullName_Added.resx">
+      <DependentUpon>201901041537083_FullName_Added.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

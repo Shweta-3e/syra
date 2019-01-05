@@ -12,5 +12,4 @@ namespace Syra.Admin.Entities
         public string Question { get; set; }
         public string Answer { get; set; }
     }
-
 }

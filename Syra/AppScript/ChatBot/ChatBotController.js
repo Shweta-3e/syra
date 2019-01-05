@@ -106,7 +106,9 @@ SyraApp.controller("ChatBotAddController", ["$scope", "$http", "syraservice", "$
         $scope.IsEditMode = false;
         $scope.tab = 1;
         $scope.BotDeployment.BotQuestionAnswers = [];
+        $scope.BotGoalConversions = [];
         $scope.BotQuestionAnswer = {};
+        $scope.GoalConversion = {};
 
         $scope.id = $stateParams.id;
 
@@ -117,8 +119,19 @@ SyraApp.controller("ChatBotAddController", ["$scope", "$http", "syraservice", "$
         }
 
         if ($scope.IsEditMode) {
+            $http.post("/Customer/GetGoalConversions/", { id: $scope.id }).success(function (data) {
+                console.log(data.Data);
+                //$scope.BotDeployment = data.Data;
+                $scope.GoalConversion = data.Data;
+                console.log($scope.GoalConversion);
+            });
+        }
+
+        if ($scope.IsEditMode) {
             $http.post("/Customer/GetChatBotEntry/", { id: $scope.id }).success(function (data) {
+                console.log(data.Data);
                 $scope.BotDeployment = data.Data;
+                //$scope.GoalConversion = data.Data.goalConversions;
             });
         }
 
@@ -130,8 +143,9 @@ SyraApp.controller("ChatBotAddController", ["$scope", "$http", "syraservice", "$
         $scope.GetLuisDomain();
 
         $scope.CreateChatBot = function () {
+            console.log($scope.BotDeployment);
             if ($scope.IsEditMode) {
-                $http.post('/Customer/UpdateChatBot', { botdeploymentview: $scope.BotDeployment }).success(function (data) {
+                $http.post('/Customer/UpdateChatBot', { botdeploymentview: $scope.BotDeployment, botGoalConversions: $scope.BotGoalConversions }).success(function (data) {
                     if (data.IsSuccess) {
                         $scope.BotDeployment = {};
                         syraservice.RecordStatusMessage("success", data.Message);
@@ -177,7 +191,7 @@ SyraApp.controller("ChatBotAddController", ["$scope", "$http", "syraservice", "$
             $scope.tab = tab - 1;
             $scope.isActiveTab($scope.tab);
         };
-
+        //Actions on BotQuestions
         $scope.AddMore = function () {
             if ($scope.BotQuestionAnswer.Question != null && $scope.BotQuestionAnswer.Answer != null) {
                 $scope.BotDeployment.BotQuestionAnswers.push({
@@ -187,18 +201,40 @@ SyraApp.controller("ChatBotAddController", ["$scope", "$http", "syraservice", "$
             }
             $scope.BotQuestionAnswer = {};
         };
-
         $scope.Edit = function (item) {
             $scope.BotQuestionAnswer = item;
             $scope.BotQuestionAnswer.IsEditMode = true;
         };
-
         $scope.Remove = function (index) {
             $scope.BotDeployment.BotQuestionAnswers.splice(index, 1);
         };
-
         $scope.Update = function (data) {
             $scope.BotQuestionAnswer = {};
+        }
+
+        //Actions on GoalConversions
+        $scope.AddMoreLinks = function () {
+            console.log($scope.BotDeployment.Data);
+            if ($scope.GoalConversion.LinkName != null && $scope.GoalConversion.LinkUrl != null) {
+                console.log($scope.BotGoalConversions);
+                $scope.BotGoalConversions.push({
+                    Id:1,
+                    BotDeploymentId: $scope.BotDeployment.Id,
+                    LinkName: $scope.GoalConversion.LinkName,
+                    LinkUrl: $scope.GoalConversion.LinkUrl
+                });
+            }
+            $scope.GoalConversion = {};
+        };
+        $scope.EditLinks = function (item) {
+            $scope.GoalConversion = item;
+            $scope.GoalConversion.IsEditMode = true;
+        };
+        $scope.RemoveLinks = function (index) {
+            $scope.BotGoalConversions.splice(index, 1);
+        };
+        $scope.UpdateLinks = function (data) {
+            $scope.GoalConversion = {};
         }
     }
 ]);

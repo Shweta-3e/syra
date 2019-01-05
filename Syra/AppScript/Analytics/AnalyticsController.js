@@ -230,7 +230,6 @@
                     alert("Something went wrong");
                 }
             });
-            //$("#worldspinner").hide();
         };
 
         //functions to call api
@@ -411,7 +410,7 @@
                     zoomType: 'x'
                 },
                 title: {
-                    text: 'Time Analysis',
+                    text: 'Day Analysis',
                     style: {
                         color: '#8d3052',
                         fontWeight: 'bold',
@@ -430,12 +429,20 @@
                     enabled: false
                 },
                 xAxis: {
-                    type: 'datetime'
-                    //categories: timecategory
+                    type: 'datetime',
+                    title: {
+                        text: 'Dates to ask questions ',
+                        style: {
+                            color: '#3c1414',
+                            fontWeight: 'bold',
+                            fontSize: '12px'
+                        }
+                    }
                 },
                 yAxis: {
+                    min:0,
                     title: {
-                        text: 'No of time question asked ',
+                        text: 'Number of times question asked ',
                         style: {
                             color: '#3c1414',
                             fontWeight: 'bold',
@@ -535,9 +542,6 @@
                                         dvTable.innerHTML = modal;
                                         getUserQueryPagination('#timequery');
                                     }
-                                    //console.log(tabelrow);
-                                    
-                                    
                                 }
                             }
                         },

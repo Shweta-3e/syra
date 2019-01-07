@@ -24,7 +24,6 @@ namespace Syra.Admin.Entities
         public string name { get; set; }
         public string id { get; set; }
         public List<ArrayList> data { get; set; }
-        //public string[][] data;
     }
 
     public class TimeBasedGoalConversion

@@ -278,6 +278,10 @@
     <Compile Include="Migrations\201901041537083_FullName_Added.Designer.cs">
       <DependentUpon>201901041537083_FullName_Added.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201901070847230_LocalDb.cs" />
+    <Compile Include="Migrations\201901070847230_LocalDb.Designer.cs">
+      <DependentUpon>201901070847230_LocalDb.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -625,6 +629,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201901041537083_FullName_Added.resx">
       <DependentUpon>201901041537083_FullName_Added.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201901070847230_LocalDb.resx">
+      <DependentUpon>201901070847230_LocalDb.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

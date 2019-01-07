@@ -186,7 +186,9 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
         #submenu {
             margin-top: 4%;
         }
-
+        #submenu-item {
+            margin-bottom: -2%;
+        }
         #profile-hover:hover {
             background-color: #b296af;
             font-weight: bold;
@@ -204,14 +206,41 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
             font-weight: bold;
             border-radius: 5px;
         }
-
+        /*#analytics-default {
+            padding-top: !important 6px;
+            padding-bottom: !important 6px;
+        }
+        #profile-default {
+            padding-top: !important 6px;
+            padding-bottom: !important 6px;
+        }
+        #log-default {
+            padding-top: !important 6px;
+            padding-bottom: 6px;
+        }
+        #chatbot-default {
+            padding-top: 6px;
+            padding-bottom: 6px;
+        }
+        #subscription-default {
+            padding-top: 6px;
+            padding-bottom: 6px;
+        }
+        #chatbot-default {
+            padding-top: 6px;
+            padding-bottom: 6px;
+        }*/
+        
+        #navbar-menu{
+            width:500px;
+        }
         #analytics-hover:hover {
             background-color: #b296af;
             font-weight: bold;
             border-radius: 5px;
         }
         #logs-hover:hover {
-            background-color: #b296af;
+            /*background-color: #b296af;*/
             font-weight: bold;
             border-radius: 5px;
         }
@@ -325,7 +354,7 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
 
                             @*<a asp-controller="Manage" style="margin-left:800px;" asp-action="Index" title="Manage">Welcome @User.Identity.Name</a>*@
 
-                            <nav class="fusion-main-menu" aria-label="Main Menu" style="margin-top: -2%;margin-right: -5%;">
+                            <nav class="fusion-main-menu" aria-label="Main Menu" style="margin-top: -2%;margin-right: -5%;" id="navbar-menu">
                                 <ul role="menubar" id="menu-main-navigation-new" class="fusion-menu">
                                     @if (User.IsInRole("Admin"))
                                     {
@@ -344,7 +373,7 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
                                     else
                                     {
                                         <div class="dropdown">
-                                            <button onclick="myFunction()" class="dropbtn">@Html.Label("Hi " + (ViewData["FullName"]))</button>
+                                            <button onmouseover="myFunction()" class="dropbtn">@Html.Label("Hi ,  " + (ViewData["FullName"]))</button>
                                             <div id="myDropdown" class="dropdown-content">
                                                 <a href="https://syra.ai/contact-us/">Support</a>
                                                 <a href="javascript:document.getElementById('logoutForm').submit()">Logout</a>
@@ -353,11 +382,11 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
                                         <div id="submenu">
                                             <ul id="submenu-item">
                                                 
-                                                <li role="menuitem" style="font-size:13px;font-family:'Rubik'" id="profile-hover" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a href="/#/Profile" class="fusion-bar-highlight">My Profile</a></li>
-                                                <li style="margin-left:2%;font-size:13px;font-family:'Rubik' " role="menuitem" id="subscription-hover" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a href="/#/Subscription" class="fusion-bar-highlight">My Subscriptions</a></li>
-                                                <li style="margin-left:2%; font-size:13px;font-family:'Rubik'" role="menuitem" id="chatbot-hover" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a ui-sref="chatbot" class="fusion-bar-highlight">My Chatbots</a></li>
-                                                <li style="margin-left:2%; font-size:13px;font-family:'Rubik'" role="menuitem" id="logs-hover" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a ui-sref="logs" class="fusion-bar-highlight">Logs Viewer</a></li>
-                                                <li style="margin-left: -13px !important; font-size:13px;font-family:'Rubik'" role="menuitem" id="analytics-hover" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a ui-sref="analytics" class="fusion-bar-highlight">Analytics</a></li>
+                                                <li role="menuitem" style="font-size:13px;font-family:'Rubik'" id="profile-hover" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a class="btn-default" href="/#/Profile" style="padding-top:6px;padding-bottom:6px;" id="profile-default">My Profile</a></li>
+                                                <li style="margin-left:2%;font-size:13px;font-family:'Rubik' " role="menuitem" id="subscription-hover" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a class="btn-default" style="padding-top:6px;padding-bottom:6px;" id="subscription-default" href="/#/Subscription">My Subscriptions</a></li>
+                                                <li style="margin-left:2%; font-size:13px;font-family:'Rubik'" role="menuitem" id="chatbot-hover" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a class="btn-default" style="padding-top:6px;padding-bottom:6px;" id="chatbot-default" ui-sref="chatbot">My Chatbots</a></li>
+                                                <li style="margin-left:2%; font-size:13px;font-family:'Rubik'" role="menuitem" id="logs-hover" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a ui-sref="logs" class="btn-default" style="padding-top:6px;padding-bottom:6px;" id="log-default">Logs Viewer</a></li>
+                                                <li style="margin-left: -13px !important; font-size:13px;font-family:'Rubik'" role="menuitem" id="analytics-hover" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a ui-sref="analytics" class="btn-default" style="padding-top:6px;padding-bottom:6px;" id="analytics-default">Analytics</a></li>
 
                                             </ul>
                                         </div>
@@ -1709,60 +1738,18 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-messages.min.js"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/series-label.js"></script>
-    <script src="http://code.highcharts.com/maps/modules/map.js"></script>
+    <script src="https://code.highcharts.com/maps/modules/map.js"></script>
     <script src="https://code.highcharts.com/modules/drilldown.js"></script>
     <script src="https://code.highcharts.com/mapdata/custom/world.js"></script>
-    <script src="http://code.highcharts.com/mapdata/countries/in/custom/in-all-disputed.js"></script>
-    <script src="http://code.highcharts.com/maps/highmaps.js"></script>
-    <script src="http://code.highcharts.com/maps/modules/data.js"></script>
-    <script src="http://code.highcharts.com/mapdata/countries/us/us-all.js"></script>
+    <script src="https://code.highcharts.com/mapdata/countries/in/custom/in-all-disputed.js"></script>
+    <script src="https://code.highcharts.com/maps/highmaps.js"></script>
+    <script src="https://code.highcharts.com/maps/modules/data.js"></script>
+    <script src="https://code.highcharts.com/mapdata/countries/us/us-all.js"></script>
     <script type="text/javascript" src="~/Scripts/angular-datatables.min.js"></script>
     <script src="~/Scripts/jquery.dataTables.min.js"></script>
 
     <!-- Angular Material Library -->
     <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.1.8/angular-material.min.js"></script>
-
-    @*<script src="~/Scripts/Datatables/angular-datatables.min.js"></script>*@
-    <!--Reference the SignalR library. -->
-    <script src="~/Scripts/jquery.signalR-2.3.0.min.js"></script>
-    <!--Reference the autogenerated SignalR hub script. -->
-    <script src="~/signalr/hubs"></script>
-    <!--Add script to update the page and send messages.-->
-    @*<script type="text/javascript">
-            $(function () {
-                console.log("hi");
-
-                // Declare a proxy to reference the hub.
-                var chat = $.connection.syraHub;
-                // Create a function that the hub can call to broadcast messages.
-                chat.client.broadcastMessage = function (name, message) {
-                    console.log("Hub Message received");
-                    // Html encode display name and message.
-                    console.log(message);
-                    console.log(name);
-                    var encodedName = $('<div />').text(name).html();
-                    var encodedMsg = $('<div />').text(message).html();
-                    // Add the message to the page.
-                    $('#discussion').append('<li><strong>' + encodedName
-                        + '</strong>:&nbsp;&nbsp;' + encodedMsg + '</li>');
-                };
-                // Get the user name and store it to prepend to messages.
-                //$('#displayname').val(prompt('Enter your name:', ''));
-                // Set initial focus to message input box.
-                $('#message').focus();
-
-                // Start the connection.
-                $.connection.hub.start().done(function () {
-                    $('#sendmessage').click(function () {
-                        console.log("Button Clicked");
-                        // Call the Send method on the hub.
-                        chat.server.send($('#displayname').val(), $('#message').val(), "12345");
-                        // Clear text box and reset focus for next comment.
-                        $('#message').val('').focus();
-                    });
-                });
-            });
-        </script>*@
 
     @Scripts.Render("~/bundles/angularapp")
 </body>

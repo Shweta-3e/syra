@@ -608,8 +608,9 @@ namespace Syra.Admin.Controllers
             string[] hourarray = new string[] {"01 AM", "02 AM","03 AM","04 AM","05 AM","06 AM","07 AM","08 AM","09 AM","10 AM","11 AM","12 PM","01 PM", "02 PM", "03 PM", "04 PM", "05 PM", "06 PM", "07 PM", "08 PM", "09 PM", "10 PM", "11 PM", "12 AM" };
             List<TimeBasedGoalConversion> timeBasedGoalConversions = new List<TimeBasedGoalConversion>();
             List<TimeSpanGoalConversion> timeSpanGoalConversions = new List<TimeSpanGoalConversion>();
-            List<ArrayList> arraylist = new List<ArrayList>();
+            
             List<Longtitude> countries = new List<Longtitude>();
+
             //Longtitude responseData = new Longtitude();
             List<USARegion> region = new List<USARegion>();
             List<Location> _data = new List<Location>();
@@ -682,7 +683,7 @@ namespace Syra.Admin.Controllers
                                     {
                                         ipdetails = JsonConvert.DeserializeObject<GetIPAddress>(jsonresponse);
                                         countries.Add(new Longtitude { Countries = ipdetails.countryCode,UserId=log.SessionId,GoalDate=log.LogDate,Links=log.ClickedLink,TimeSpan=timespan });
-                                        logs.Add(new SessionLog { SessionId = log.SessionId, IPAddress = log.IPAddress, Region = log.Region, LogDate = tempdate, ClickedLink=log.ClickedLink,Country=ipdetails.country });
+                                        logs.Add(new SessionLog { SessionId = log.SessionId, IPAddress = log.IPAddress, Region = log.Region, LogDate = log.LogDate, ClickedLink=log.ClickedLink,Country=ipdetails.country });
                                     }
                                 }
                             }
@@ -704,26 +705,33 @@ namespace Syra.Admin.Controllers
 
                 var distinctTimeSpan= countries.GroupBy(x => new { x.TimeSpan, x.GoalDate,x.Links }).Select(group => new { Name = group.Key, Count = group.Count() })
                              .OrderByDescending(x => x.Count);
+                List<ArrayList> arraylist;
+                //List<ArrayList> new_arraylist = new List<ArrayList>();
                 foreach (var item in distinctTimeSpan)
                 {
+                    arraylist = new List<ArrayList>();
+
                     for (int i = 0; i < hourarray.Length; i++)
                     {
                         if (hourarray[i].Equals(item.Name.TimeSpan))
                         {
-                            arraylist.Add(new ArrayList { hourarray[i], item.Count });
+                           arraylist.Add(new ArrayList { hourarray[i], item.Count });
                         }
                         else
                         {
                             arraylist.Add(new ArrayList { hourarray[i], 0 });
                         }
                     }
+                    //new_arraylist = arraylist;
                     timeSpanGoalConversions.Add(new TimeSpanGoalConversion
                     {
                         id = item.Name.GoalDate,
                         name = item.Name.GoalDate,
                         data = arraylist
                     });
+                    timeBasedGoalConversions.Concat(timeBasedGoalConversions);
                 }
+                
                 foreach (var y in distinctGoalDate)
                 {
                     if (y.Count > 0)

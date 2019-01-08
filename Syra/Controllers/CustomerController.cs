@@ -603,15 +603,11 @@ namespace Syra.Admin.Controllers
         [HttpPost]
         public string GetGoalWorldBasis(DateTime startdt, DateTime enddt)
         {
-
             List<SessionLog> logs = new List<SessionLog>();
             string[] hourarray = new string[] {"01 AM", "02 AM","03 AM","04 AM","05 AM","06 AM","07 AM","08 AM","09 AM","10 AM","11 AM","12 PM","01 PM", "02 PM", "03 PM", "04 PM", "05 PM", "06 PM", "07 PM", "08 PM", "09 PM", "10 PM", "11 PM", "12 AM" };
             List<TimeBasedGoalConversion> timeBasedGoalConversions = new List<TimeBasedGoalConversion>();
-            List<TimeSpanGoalConversion> timeSpanGoalConversions = new List<TimeSpanGoalConversion>();
-            
             List<Longtitude> countries = new List<Longtitude>();
-
-            //Longtitude responseData = new Longtitude();
+            List<TimeSpanOnDate> timeSpanList = new List<TimeSpanOnDate>();
             List<USARegion> region = new List<USARegion>();
             List<Location> _data = new List<Location>();
             List<USALocation> _location = new List<USALocation>();
@@ -655,7 +651,7 @@ namespace Syra.Admin.Controllers
                     {
                         using (StreamReader reader = new StreamReader(blockBlob.OpenRead()))
                         {
-
+                            List<string > timeSpan = new List<string>();
                             SessionLog log = new SessionLog();
                             try
                             {
@@ -679,13 +675,32 @@ namespace Syra.Admin.Controllers
                                     string dt = Convert.ToDateTime(startdt).ToString("dd-MM-yyyy");
                                     string jsonresponse = GetIPDetails(log.IPAddress);
                                     string timespan = DateTime.ParseExact(log.LogTime, "HH:mm:ss", CultureInfo.CurrentCulture).ToString("hh tt");
-                                    if(log.ClickedLink.Contains(goalConversion.LinkUrl))
+                                    if (log.ClickedLink.Contains(goalConversion.LinkUrl))
                                     {
                                         ipdetails = JsonConvert.DeserializeObject<GetIPAddress>(jsonresponse);
-                                        countries.Add(new Longtitude { Countries = ipdetails.countryCode,UserId=log.SessionId,GoalDate=log.LogDate,Links=log.ClickedLink,TimeSpan=timespan });
-                                        logs.Add(new SessionLog { SessionId = log.SessionId, IPAddress = log.IPAddress, Region = log.Region, LogDate = log.LogDate, ClickedLink=log.ClickedLink,Country=ipdetails.country });
+                                        timeSpan.Add(timespan);
+                                        countries.Add(new Longtitude { Countries = ipdetails.countryCode, UserId = log.SessionId, GoalDate = log.LogDate, Links = log.ClickedLink});
+                                        logs.Add(new SessionLog { SessionId = log.SessionId, IPAddress = log.IPAddress, Region = log.Region, LogDate = log.LogDate, ClickedLink = log.ClickedLink, Country = ipdetails.country });
                                     }
                                 }
+                                var timeSpanDupCount = timeSpan.GroupBy(x => x).Select(group => new { group.Key, Count = group.Count() });
+
+                                List<ArrayList> countTimeSpan = new List<ArrayList>();
+                                for (int i = 0; i < hourarray.Length; i++)
+                                {
+                                    foreach (var item in timeSpanDupCount)
+                                    {
+                                        if (hourarray[i].Equals(item.Key))
+                                        {
+                                            countTimeSpan.Add(new ArrayList { hourarray[i], item.Count });
+                                        }
+                                        else
+                                        {
+                                            countTimeSpan.Add(new ArrayList { hourarray[i], 0 });
+                                        }
+                                    }
+                                }
+                                timeSpanList.Add(new TimeSpanOnDate { id = log.LogDate, data = countTimeSpan, name = log.LogDate });
                             }
                             catch (Exception e)
                             {
@@ -697,41 +712,12 @@ namespace Syra.Admin.Controllers
                     }
                 }
                 //get count of distinct countries
-                var dupcountries = countries.GroupBy(x => new { x.Countries }).Select(group => new { Name = group.Key, Count = group.Count() })
+                var dupcountries = countries.GroupBy(x => new { x.Countries }).Select(group => new { Name=group.Key, Count = group.Count() })
                              .OrderByDescending(x => x.Count);
                 //get count of distinct goalconversions based on date
                 var distinctGoalDate= countries.GroupBy(x => new { x.Links,x.GoalDate }).Select(group => new { Name = group.Key, Count = group.Count() })
                              .OrderByDescending(x => x.Count);
 
-                var distinctTimeSpan= countries.GroupBy(x => new { x.TimeSpan, x.GoalDate,x.Links }).Select(group => new { Name = group.Key, Count = group.Count() })
-                             .OrderByDescending(x => x.Count);
-                List<ArrayList> arraylist;
-                //List<ArrayList> new_arraylist = new List<ArrayList>();
-                foreach (var item in distinctTimeSpan)
-                {
-                    arraylist = new List<ArrayList>();
-
-                    for (int i = 0; i < hourarray.Length; i++)
-                    {
-                        if (hourarray[i].Equals(item.Name.TimeSpan))
-                        {
-                           arraylist.Add(new ArrayList { hourarray[i], item.Count });
-                        }
-                        else
-                        {
-                            arraylist.Add(new ArrayList { hourarray[i], 0 });
-                        }
-                    }
-                    //new_arraylist = arraylist;
-                    timeSpanGoalConversions.Add(new TimeSpanGoalConversion
-                    {
-                        id = item.Name.GoalDate,
-                        name = item.Name.GoalDate,
-                        data = arraylist
-                    });
-                    timeBasedGoalConversions.Concat(timeBasedGoalConversions);
-                }
-                
                 foreach (var y in distinctGoalDate)
                 {
                     if (y.Count > 0)
@@ -784,7 +770,8 @@ namespace Syra.Admin.Controllers
                     AllResponse = logs,
                     WorldResult = worldresult,
                     GoalConversionTime=timeBasedGoalConversions,
-                    GoalConversionTimeSpan = timeSpanGoalConversions
+                    GoalConversionTimeSpan= timeSpanList
+                    //GoalConversionTimeSpan = timeSpanGoalConversions
                     //TimeSpanArrayList=arraylist
                 };
             }
@@ -1392,32 +1379,75 @@ namespace Syra.Admin.Controllers
             return response.GetResponse();
         }
 
+        //To create GoalConversions
         [HttpPost]
-        public string UpdateChatBot(BotDeploymentView botdeploymentview, List<BotGoalConversionsView> botGoalConversions)
+        public string CreateGoalConversion(int BotDeploymentId, string LinkName, string LinkUrl)
+        {
+            try
+            {
+                var existsBotDeploy = db.BotDeployments.FirstOrDefault(c => c.Id == BotDeploymentId);
+                if (existsBotDeploy != null)
+                {
+                    GoalConversion goalConversion = new GoalConversion();
+                    goalConversion.BotDeploymentId = BotDeploymentId;
+                    goalConversion.LinkName = LinkName;
+                    goalConversion.LinkUrl = LinkUrl;
+                    db.GoalConversions.Add(goalConversion);
+                    db.SaveChanges();
+                    var allGoalConversions = db.GoalConversions.Where(c => c.BotDeploymentId == BotDeploymentId).ToList();
+                    response.Data = allGoalConversions;
+                    response.Message = "record inserted";
+                    response.IsSuccess = true;
+                }
+            }
+            catch(Exception e)
+            {
+                response.Message = e.StackTrace;
+                response.IsSuccess = false;
+            }
+            return response.GetResponse();
+        }
+
+        //To delete GoalConversion
+        public string DeleteGoalConversion(Int64 BotDeploymentId, Int64 GoalId)
+        {
+            try
+            {
+                var existsBotDeploy = db.BotDeployments.FirstOrDefault(c => c.Id == BotDeploymentId);
+                if (existsBotDeploy != null)
+                {
+                    var existsGoalConversion = db.GoalConversions.Where(c => c.Id == GoalId && c.BotDeploymentId == BotDeploymentId).FirstOrDefault();
+                    if(existsGoalConversion!=null)
+                    {
+                        db.GoalConversions.Remove(existsGoalConversion);
+                        db.SaveChanges();
+                    }
+                    var allGoalConversions = db.GoalConversions.Where(c => c.BotDeploymentId == BotDeploymentId).ToList();
+                    response.Data = allGoalConversions;
+                    response.Message = "record deleted inserted";
+                    response.IsSuccess = true;
+                }
+            }
+            catch (Exception e)
+            {
+                response.Message = e.StackTrace;
+                response.IsSuccess = false;
+            }
+            return response.GetResponse();
+        }
+
+        [HttpPost]
+        public string UpdateChatBot(BotDeploymentView botdeploymentview)
         {
             try
             {
                 var chatbot = db.BotDeployments.Find(botdeploymentview.Id);
                 var botquestionanswer = db.BotQuestionAnswers.Where(c => c.BotDeploymentId == chatbot.Id).ToList();
-                var botgoalconversion = db.GoalConversions.Where(c => c.BotDeploymentId == chatbot.Id).ToList();
                 chatbot.BotQuestionAnswers = botquestionanswer;
-                chatbot.GoalConversions = botgoalconversion;
-                foreach(var item in botGoalConversions)
-                {
-                    if(item.BotDeploymentId==chatbot.Id)
-                    {
-                        botdeploymentview.BotGoalConversions.Add(item);
-                    }
-                }
                 if (chatbot.BotQuestionAnswers.Any())
                 {
                     var botquestionanswers = db.BotQuestionAnswers.Where(c => c.BotDeploymentId == chatbot.Id).ToList();
                     db.BotQuestionAnswers.RemoveRange(botquestionanswers);
-                }
-                if (chatbot.GoalConversions.Any())
-                {
-                    var botgoalconversions = db.GoalConversions.Where(c => c.BotDeploymentId == chatbot.Id).ToList();
-                    db.GoalConversions.RemoveRange(botgoalconversions);
                 }
                 if (chatbot != null)
                 {
@@ -1448,7 +1478,6 @@ namespace Syra.Admin.Controllers
                     chatbot.BotURI = botdeploymentview.BotURI;
                     chatbot.WebSiteUrl = botdeploymentview.WebSiteUrl;
                     chatbot.BotQuestionAnswers = new List<BotQuestionAnswers>();
-                    chatbot.GoalConversions = new List<GoalConversion>();
                     chatbot.Status = botdeploymentview.Status;
                     chatbot.IsPlanActive = botdeploymentview.IsPlanActive;
                     chatbot.DomainKey = botdeploymentview.DomainKey;
@@ -1465,20 +1494,6 @@ namespace Syra.Admin.Controllers
                                 item.Question = ans.Question;
                                 item.Answer = ans.Answer;
                                 chatbot.BotQuestionAnswers.Add(item);
-                            }
-                        }
-                    }
-                    //To add new goal conversions
-                    if(botdeploymentview.BotGoalConversions.Count>0 && chatbot.GoalConversions.Count>0)
-                    {
-                        if(botdeploymentview.BotGoalConversions.Any())
-                        {
-                            foreach(var link in botdeploymentview.BotGoalConversions)
-                            {
-                                GoalConversion linkitem = new GoalConversion();
-                                linkitem.LinkName = link.LinkName;
-                                linkitem.LinkUrl = link.LinkUrl;
-                                chatbot.GoalConversions.Add(linkitem);
                             }
                         }
                     }
@@ -1905,7 +1920,6 @@ namespace Syra.Admin.Controllers
             }
             return contents;
         }
-
         [HttpPost]
         public void SendMail(string Name, string IPAddress, string UniqueId)
         {
@@ -1913,7 +1927,6 @@ namespace Syra.Admin.Controllers
             State.ip = IPAddress;
             State.uuid = UniqueId;
             Demo.response = null;
-            //keeplog(message, answer, clientid);
         }
 
         [HttpPost]

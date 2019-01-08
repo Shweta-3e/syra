@@ -14,17 +14,22 @@ namespace Syra.Admin.Entities
         public string Links { get; set; }
         public string UserId { get; set; }
         public string righans { get; set; }
-        public string TimeSpan { get; set; }
         public string wrongans { get; set; }
         public string GoalDate { get; set; }
-        
     }
-    public class TimeSpanGoalConversion
+    public class TimeSpanOnDate
     {
         public string name { get; set; }
         public string id { get; set; }
-        public List<ArrayList> data { get; set; }
+        public Object data { get; set; }
     }
+
+    //public class TimeSpanGoalConversion
+    //{
+    //    public string name { get; set; }
+    //    public string id { get; set; }
+    //    public List<ArrayList> data { get; set; }
+    //}
 
     public class TimeBasedGoalConversion
     {

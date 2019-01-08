@@ -4,17 +4,10 @@
 }
 <head>
     <script>
-        $(document).ready(function () {
-            $('#registerButton').click(function () {
-                $(this).prop("disabled", true);
-                if (!$('form').valid())
-                {
-                    $(this).prop("disabled",false);
-                    return false;
-                }
-                $('form').submit();
-            });
-        });
+        function disable_fields() {
+            alert("hello");
+            $("#password-field").prop('disabled', true);
+        }
     </script>
 </head>
 
@@ -80,8 +73,9 @@
     <div class="form-group">
         <div class="input-container" style="width:80%;">
             <i class="fa fa-user icon"></i>
-            @Html.TextBoxFor(m => m.Email, new { placeholder = "Email", @class = "form-control", @style = "width:50%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" })
+            @Html.TextBoxFor(m => m.Email, new { placeholder = "Email", @class = "form-control",  @style = "width:50%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" })
             @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            
         </div>
     </div>
     <div class="form-group">

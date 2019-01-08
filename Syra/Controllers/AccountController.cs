@@ -291,8 +291,9 @@ namespace Syra.Admin.Controllers
                     }
                     else
                     {
-                        //ViewBag.ErrorMessage("Email already exists");
-                        ModelState.AddModelError("Email", "Email already exists.");
+                       
+                    //ViewBag.ErrorMessage("Email already exists");
+                    ModelState.AddModelError("Email", "Email already exists.");
                         
                     }
                     return View(model);

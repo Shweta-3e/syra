@@ -2,13 +2,13 @@
     <h2>
         My Chatbots 
         <span class="badge">{{Customer.BotDeployments.length}}/{{CustomerPlan.AllowedBotLimit}}</span>
-        <span class="pull-right" ng-hide="Customer.BotDeployments.length == CustomerPlan.AllowedBotLimit">
+        <!--<span class="pull-right" ng-hide="Customer.BotDeployments.length == CustomerPlan.AllowedBotLimit">
             <a ui-sref="newchatbot" style="height: 33px;border: 0px;font-size:15px;background-color: transparent;">
                 Create New
             </a>
-        </span>
+        </span>-->
         <span class="pull-right" ng-show="Customer.BotDeployments.length == CustomerPlan.AllowedBotLimit">
-            <a style="height: 33px;border: 0px;font-size:15px;background-color: transparent;">
+            <a  href="/#/Subscription" style="height: 33px;border: 0px;font-size:15px;background-color: transparent;">
                 Upgrade
             </a>
         </span>

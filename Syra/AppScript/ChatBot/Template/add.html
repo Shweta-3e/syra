@@ -246,15 +246,15 @@
                     <tr ng-repeat="item in GoalConversion">
                         <td>{{item.LinkName}}</td>
                         <td style="width:60%;">{{item.LinkUrl}}</td>
-                        <!--<td>
-                            <a class="btn btn-default" ng-click="EditLinks(item)">
+                        <td>
+                            <!--<a class="btn btn-default" ng-click="EditLinks(item)">
                                 <b>Edit</b>
-                            </a>
+                            </a>-->
 
-                            <a class="btn btn-default" ng-click="RemoveLinks($index)" style="background-color:#8e3052;font-weight:bold;color:white;">
+                            <a class="btn btn-default" ng-click="RemoveLinks(item)" style="background-color:#8e3052;font-weight:bold;color:white;">
                                 Remove
                             </a>
-                        </td>-->
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -262,11 +262,11 @@
             <div class="row" style="padding-top:2%">
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10" style="padding-left:15%">
-                        <input type="button" class="btn btn-default" value="Save" ng-click="CreateChatBot()"
-                               style="border-radius:5px;height:39px;width:90px;font-weight:bold;background-color:#b296af;" />
+                        <!--<input type="button" class="btn btn-default" value="Save" ng-click="CreateChatBot()"
+                               style="border-radius:5px;height:39px;width:90px;font-weight:bold;background-color:#b296af;" />-->
 
                         <input type="button" class="btn btn-danger" value="Cancel"
-                               style="border-radius:5px;height:39px;width:90px;margin-left:1%;font-weight:bold;background-color:#8e3052;color:white;"
+                               style="border-radius:5px;height:39px;width:90px;margin-left:-1%;font-weight:bold;background-color:#8e3052;color:white;"
                                ng-click="Cancel()" />
                     </div>
                 </div>

@@ -213,15 +213,20 @@ SyraApp.controller("ChatBotAddController", ["$scope", "$http", "syraservice", "$
         }
 
         //Actions on GoalConversions
-        $scope.AddMoreLinks = function () {
+        $scope.AddMoreLinks = function (GoalConversion) {
             console.log($scope.BotDeployment.Data);
             if ($scope.GoalConversion.LinkName != null && $scope.GoalConversion.LinkUrl != null) {
-                console.log($scope.BotGoalConversions);
-                $scope.BotGoalConversions.push({
-                    Id:1,
-                    BotDeploymentId: $scope.BotDeployment.Id,
-                    LinkName: $scope.GoalConversion.LinkName,
-                    LinkUrl: $scope.GoalConversion.LinkUrl
+                var linkname = $scope.GoalConversion.LinkName;
+                var linkurl = $scope.GoalConversion.LinkUrl;
+                console.log(linkname);
+                //console.log($scope.BotGoalConversions);
+                var goalconversion_url = "/Customer/CreateGoalConversion";
+                $http.post(goalconversion_url, { BotDeploymentId: $scope.BotDeployment.Id, LinkName: linkname, LinkUrl: linkurl }).success(function (response) {
+                    if (response.IsSuccess==true) {
+                        $scope.GoalConversion = response.Data;
+                    } else {
+                        alert("Something went wrong");
+                    }
                 });
             }
             $scope.GoalConversion = {};
@@ -230,8 +235,15 @@ SyraApp.controller("ChatBotAddController", ["$scope", "$http", "syraservice", "$
             $scope.GoalConversion = item;
             $scope.GoalConversion.IsEditMode = true;
         };
-        $scope.RemoveLinks = function (index) {
-            $scope.BotGoalConversions.splice(index, 1);
+        $scope.RemoveLinks = function (item) {
+            var delgoalconversion_url = "/Customer/DeleteGoalConversion"
+            $http.post(delgoalconversion_url, { BotDeploymentId: item.BotDeploymentId, GoalId: item.Id }).success(function (response) {
+                if (response.IsSuccess == true) {
+                    $scope.GoalConversion = response.Data;
+                } else {
+                    alert("Something went wrong");
+                }
+            });
         };
         $scope.UpdateLinks = function (data) {
             $scope.GoalConversion = {};

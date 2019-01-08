@@ -8,9 +8,13 @@
         $scope.select = "Select an Option";
         $scope.IsEditMode = false;
         $scope.tab = 1;
+        $scope.Subtab = 1;
 
         $scope.isActiveTab = function (tab) {
             return $scope.tab == tab;
+        };
+        $scope.isActiveSubTab = function (Subtab) {
+            return $scope.Subtab == Subtab;
         };
 
         $scope.GetCurrentUser = function () {
@@ -352,11 +356,11 @@
 
                 },
                 title: {
-                    text: 'Goal Conversion Analysis based on Locations',
+                    text: 'Goal Conversion on Locations',
                     style: {
                         color: '#8d3052',
                         fontWeight: 'bold',
-                        fontSize: '24px'
+                        fontSize: '20px'
                     }
                 },
                 subtitle: {
@@ -406,11 +410,11 @@
                     spacingLeft: 100,
                 },
                 title: {
-                    text: 'Goal Conversion Analysis based on Date & Time',
+                    text: 'Goal Conversion on Date & Time',
                     style: {
                         color: '#8d3052',
                         fontWeight: 'bold',
-                        fontSize: '24px'
+                        fontSize: '20px'
                     }
                 },
                 subtitle: {

@@ -73,7 +73,7 @@
 .page-id-1293 .fusion-sticky-shadow { background: #fff !important; }
 
 .home .fusion-main-menu li a, 
-.page-id-1293 .fusion-main-menu li a { color: #fff !important; }
+.page-id-1293 .fusion-main-menu li a { /*color: #fff !important;*/ color:black }
 
 .home .fusion-is-sticky .fusion-main-menu li a, 
 .page-id-1293 .fusion-is-sticky .fusion-main-menu li a { color: #333333 !important; }

@@ -283,7 +283,7 @@ namespace Syra.Admin.Controllers
                     }
                     else
                     {
-                        timeArrayList.Add(new ArrayList { item.Name.epochtime, item.Count,item.Name.drilldown });
+                        timeArrayList.Add(new ArrayList { item.Name.epochtime, item.Count});
                     }
                 }
                 response.Data = new
@@ -771,12 +771,253 @@ namespace Syra.Admin.Controllers
                     WorldResult = worldresult,
                     GoalConversionTime=timeBasedGoalConversions,
                     GoalConversionTimeSpan= timeSpanList
-                    //GoalConversionTimeSpan = timeSpanGoalConversions
-                    //TimeSpanArrayList=arraylist
                 };
             }
             return response.GetResponse();
         }
+
+        [HttpPost]
+        public string GetTopIntents(DateTime startdt, DateTime enddt)
+        {
+            
+                List<ArrayList> arraylist = new List<ArrayList>();
+                List<SessionLog> logs = new List<SessionLog>();
+                List<USARegion> region = new List<USARegion>();
+                List<Location> _data = new List<Location>();
+                List<Longtitude> intentList = new List<Longtitude>();
+                SyraDbContext db = new SyraDbContext();
+                var ipdetails = new GetIPAddress();
+                //var sortedList =new;
+                var geolocation = new GeoLocation();
+                CultureInfo culture = new CultureInfo("en-US");
+                _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+                _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                var useremail = HttpContext.User.Identity.Name;
+                var aspnetuser = _userManager.FindByEmailAsync(useremail).Result;
+
+                if (aspnetuser != null)
+                {
+                    //based on aspnetuser object, get customer details
+                    var customer = db.Customer.FirstOrDefault(c => c.UserId == aspnetuser.Id);
+                    var botdata = db.BotDeployments.Where(c => c.CustomerId == customer.Id).FirstOrDefault();
+                    var connstring = botdata.BlobConnectionString;
+                    var blobstorage = botdata.BlobStorageName;
+                    var containername = botdata.ContainerName;
+                    var goalConversion = db.GoalConversions.FirstOrDefault(c => c.BotDeploymentId == botdata.Id);
+                    //read data from blob storage
+                    CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connstring);
+                    CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+                    CloudBlobContainer container = blobClient.GetContainerReference(containername);
+                    bool blob_check = false;
+
+                    //get date based on each date of range
+                    for (DateTime date = startdt; date <= enddt; date = date.AddDays(1))
+                    {
+                        var startdateonly = date.Date.ToString("dd-MM-yyyy");
+                        var blob_file_name = startdateonly + "" + ".csv";
+                        CloudBlockBlob blockBlob = container.GetBlockBlobReference(blob_file_name);
+                        blob_check = blockBlob.Exists();
+                        if (blob_check == false)
+                        {
+                            Console.WriteLine("Blob Container doesn't exist");
+                        }
+                        else
+                        {
+                            using (StreamReader reader = new StreamReader(blockBlob.OpenRead()))
+                            {
+                                List<string> timeSpan = new List<string>();
+                                SessionLog log = new SessionLog();
+                                try
+                                {
+                                    while (!reader.EndOfStream)
+                                    {
+                                        var line = reader.ReadLine();
+                                        string[] splitedword = line.Split('|');
+                                        log.SessionId = splitedword[0];
+                                        log.IPAddress = splitedword[2];
+                                        log.Region = splitedword[1].TrimStart().TrimEnd();
+                                        log.LogDate = splitedword[5].Replace("-", "/").Replace(" ", ""); ;
+                                        log.LogTime = splitedword[6].TrimStart().TrimEnd();
+                                        log.UserQuery =splitedword[3].TrimStart().TrimEnd();
+                                        string tempdate = log.LogDate + log.LogTime;
+                                        string dt = Convert.ToDateTime(startdt).ToString("dd-MM-yyyy");
+                                        string jsonresponse = GetIPDetails(log.IPAddress);
+                                        logs.Add(new SessionLog { SessionId = log.SessionId, IPAddress = log.IPAddress, Region = log.Region, LogDate = log.LogDate, Country = ipdetails.country });
+
+                                        //Get Intent
+                                            var userluis = db.LuisDomains.FirstOrDefault(c => c.Id == botdata.LuisId);
+
+                                            var Uri = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/" + userluis.LuisAppId + "?subscription-key=" + userluis.LuisAppKey + "&q=" + log.UserQuery;
+                                            HttpWebRequest request = WebRequest.Create(Uri) as System.Net.HttpWebRequest;
+                                            Encoding encoding = new UTF8Encoding();
+                                            request.Method = "GET";
+                                            HttpWebResponse webresponse = (HttpWebResponse)request.GetResponse();
+                                            var luisdatareader = new StreamReader(webresponse.GetResponseStream());
+                                            String luisjson_response = "";
+                                            String temp = null;
+                                            while (!luisdatareader.EndOfStream)
+                                            {
+                                                temp = luisdatareader.ReadLine();
+                                                luisjson_response += temp;
+                                            }
+                                            LuisReply Data = JsonConvert.DeserializeObject<LuisReply>(luisjson_response);
+                                            intentList.Add(new Longtitude { Intent = Data.topScoringIntent.intent });
+                                    }
+                                }
+                                catch (Exception e)
+                                {
+                                    string errmsg = e.Message;
+                                    response.Message = errmsg;
+                                }
+                            }
+                            response.IsSuccess = true;
+                        }
+                    }
+                    var duplicateIntent= intentList.GroupBy(x => new { x.Intent }).Select(group => new { Name = group.Key, Count = group.Count() })
+                                .OrderByDescending(x => x.Count);
+                    foreach (var y in duplicateIntent)
+                    {
+                        arraylist.Add(new ArrayList { y.Name.Intent, y.Count });
+                    }
+                    var firstTenIntent = arraylist.Take(10);
+                    response.Data = new
+                    {
+                        _data,
+                        AllResponse = logs,
+                        TopIntentList=firstTenIntent
+                    };
+                }
+            return response.GetResponse();
+        }
+
+        //[HttpPost]
+        //public string GetMessagesPerSession(DateTime startdt, DateTime enddt)
+        //{
+        //    SyraDbContext db = new SyraDbContext();
+        //    List<ArrayList> timeArrayList = new List<ArrayList>();
+        //    List<ArrayList> timeDateArrayList = new List<ArrayList>();
+        //    List<SessionLog> logs = new List<SessionLog>();
+        //    List<LowHighTime> dataline = new List<LowHighTime>();
+        //    List<LowHighTimedate> dataDateTimeLine = new List<LowHighTimedate>();
+        //    ArrayList arrayList = new ArrayList();
+        //    List<Location> _data = new List<Location>();
+        //    _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+        //    _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+        //    var useremail = HttpContext.User.Identity.Name;
+        //    var aspnetuser = _userManager.FindByEmailAsync(useremail).Result;
+        //    if (aspnetuser != null)
+        //    {
+        //        var customer = db.Customer.FirstOrDefault(c => c.UserId == aspnetuser.Id);
+        //        var botdata = db.BotDeployments.Where(c => c.CustomerId == customer.Id).FirstOrDefault();
+        //        var connstring = botdata.BlobConnectionString;
+        //        var blobstorage = botdata.BlobStorageName;
+        //        var containername = botdata.ContainerName;
+
+        //        CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connstring);
+        //        CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+        //        CloudBlobContainer container = blobClient.GetContainerReference(containername);
+        //        var count = container.ListBlobs().Count();
+        //        ArrayList array = new ArrayList();
+
+        //        bool blob_check = false;
+        //        try
+        //        {
+        //            for (DateTime date = startdt; date <= enddt; date = date.AddDays(1))
+        //            {
+        //                var startdateonly = date.Date.ToString("dd-MM-yyyy");
+        //                var blob_file_name = startdateonly + "" + ".csv";
+        //                CloudBlockBlob blockBlob = container.GetBlockBlobReference(blob_file_name);
+        //                blob_check = blockBlob.Exists();
+        //                if (blob_check == false)
+        //                {
+        //                    string timedate = startdateonly.ToString().Replace("-", "/").Replace(" ", "");
+        //                    CultureInfo culture = new CultureInfo("en-US");
+        //                    DateTime dateobj = DateTime.ParseExact(timedate, "dd/MM/yyyy", culture);
+        //                    int year = dateobj.Year;
+        //                    int month = dateobj.Month;
+        //                    int day = dateobj.Day;
+        //                    int hour = dateobj.Hour;
+        //                    int minute = dateobj.Minute;
+        //                    int second = dateobj.Second;
+        //                    var dateTime = new DateTime(year, month, day, hour, minute, second, DateTimeKind.Utc);
+        //                    var dateTimeOffset = new DateTimeOffset(dateTime);
+        //                    var unixDateTime = dateTimeOffset.ToUnixTimeSeconds();
+        //                    Int64 epochtime = Convert.ToInt64(unixDateTime) * 1000;
+        //                    dataline.Add(new LowHighTime { epochtime = epochtime, status = "no data" });
+        //                }
+        //                else
+        //                {
+        //                    using (StreamReader reader = new StreamReader(blockBlob.OpenRead()))
+        //                    {
+        //                        SessionLog log = new SessionLog();
+        //                        while (!reader.EndOfStream)
+        //                        {
+        //                            var line = reader.ReadLine();
+        //                            string[] splitedword = line.Split('|');
+        //                            log.SessionId = splitedword[0];
+        //                            log.UserQuery = splitedword[3];
+        //                            log.BotAnswers = splitedword[4];
+        //                            log.IPAddress = splitedword[1];
+        //                            log.Region = splitedword[2];
+        //                            log.LogDate = splitedword[5].Replace("-", "/").Replace(" ", "");
+        //                            log.LogTime = splitedword[6].Replace(" ", "");
+        //                            CultureInfo culture = new CultureInfo("en-US");
+
+        //                            //epoch date only
+        //                            string dateOnly = log.LogDate;
+        //                            DateTime dateobj = DateTime.ParseExact(dateOnly, "dd/MM/yyyy", culture);
+        //                            int year = dateobj.Year;
+        //                            int month = dateobj.Month;
+        //                            int day = dateobj.Day;
+        //                            int hour = dateobj.Hour;
+        //                            int minute = dateobj.Minute;
+        //                            int second = dateobj.Second;
+        //                            var dateConvert = new DateTime(year, month, day, hour, minute, second, DateTimeKind.Utc);
+        //                            var dateOffset = new DateTimeOffset(dateConvert);
+        //                            var unixDate = dateOffset.ToUnixTimeSeconds();
+        //                            Int64 epochdate = Convert.ToInt64(unixDate) * 1000;
+
+        //                            //Epoch time date
+        //                            string date_time = log.LogDate + " " + log.LogTime;
+        //                            DateTime dateTimeObj = DateTime.ParseExact(date_time, "dd/MM/yyyy HH:mm:ss", culture);
+        //                            int dateTime_hour = dateTimeObj.Hour;
+        //                            logs.Add(new SessionLog { SessionId = log.SessionId, IPAddress = log.IPAddress, Region = log.Region, UserQuery = log.UserQuery, BotAnswers = log.BotAnswers, LogDate = log.LogDate, LogTime = log.LogTime });
+        //                            //dataline.Add(new LowHighTime { epochtime = epochdate, status = "data", drilldown = log.LogDate });
+        //                            dataDateTimeLine.Add(new LowHighTimedate { hour = dateTime_hour, status = "data", EpochDate = log.LogDate });
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            string errmsg = e.Message;
+        //            response.Message = errmsg;
+        //        }
+        //        //var dupepochtime = dataline.GroupBy(x => new { x.epochtime, x.status, x.drilldown }).Select(group => new { Name = group.Key, Count = group.Count() });
+        //        var dupEpochDateTime = dataDateTimeLine.GroupBy(x => new { x.hour, x.status, x.EpochDate }).Select(group => new { Name = group.Key, Count = group.Count() });
+        //        foreach (var item in dupEpochDateTime)
+        //        {
+        //            if (item.Name.status == "no data")
+        //            {
+        //                timeDateArrayList.Add(new ArrayList { item.Name.EpochDate, item.Name.hour, 0 });
+        //            }
+        //            else
+        //            {
+        //                timeDateArrayList.Add(new ArrayList { item.Name.EpochDate, item.Name.hour, item.Count });
+        //            }
+        //        }
+        //        response.Data = new
+        //        {
+        //            Epochtime = timeArrayList,
+        //            Epochdatetime = timeDateArrayList,
+        //            AllResponse = logs
+        //        };
+        //        response.IsSuccess = true;
+        //        response.Message = "Success";
+        //    }
+        //    return response.GetResponse();
+        //}
 
         public string GetUsaCode(string ipaddr,string region)
         {
@@ -1760,7 +2001,7 @@ namespace Syra.Admin.Controllers
             try
             {
                 string entity = null;
-                var detailsUri = "http://147.75.71.162:8585/customer/getcustomerdetails?clientid=" + clientid;
+                var detailsUri = "https://chatbots.syra.ai/customer/getcustomerdetails?clientid=" + clientid;
                 HttpWebRequest detailsrequest = WebRequest.Create(detailsUri) as System.Net.HttpWebRequest;
                 detailsrequest.Method = "GET";
                 HttpWebResponse detailsresponse = (HttpWebResponse)detailsrequest.GetResponse();

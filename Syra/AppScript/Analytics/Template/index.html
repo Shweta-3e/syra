@@ -2,6 +2,9 @@
     #container-Subtab {
         margin-top: 3%;
     }
+    #userAction_container{
+        margin-top:3%;
+    }
 </style>
 <div class="container" ng-hide="LogView">
     <h2 style="margin-top:20px;font-family:'Rubik'">
@@ -36,7 +39,7 @@
 <div class="container" ng-hide="IsEditMode">
     <ul class="nav nav-tabs">
         <li ng-class="{'active': isActiveTab(1)}">
-            <a role="tab" data-toggle="tab" ng-click="tab=1" style="font-family:'Rubik'">Top 10 Questions Asked</a>
+            <a role="tab" data-toggle="tab" ng-click="tab=1" style="font-family:'Rubik'">User Behavior Analysis</a>
         </li>
         <li ng-class="{'active': isActiveTab(2)}">
             <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(2)}" ng-click="tab=2" style="font-family:'Rubik'">Chatter's Demographics</a>
@@ -48,10 +51,7 @@
             <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(4)}" ng-click="tab=4" style="font-family:'Rubik'">Chatbot’s Response Analysis</a>
         </li>
         <li ng-class="{'active': isActiveTab(5)}">
-            <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(5)}" ng-click="tab=5" style="font-family:'Rubik'">Analysis on Clicked Links</a>
-        </li>
-        <li ng-class="{'active': isActiveTab(6)}">
-            <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(6)}" ng-click="tab=6" style="font-family:'Rubik'">Goal Conversions</a>
+            <a role="tab" data-toggle="tab" ng-class="{active:isActiveTab(5)}" ng-click="tab=5" style="font-family:'Rubik'">Goal Conversions</a>
         </li>
     </ul>
 
@@ -144,175 +144,197 @@
         </div>
 
         <div ng-show="isActiveTab(1)" ng-class="tab==1?'tab-pane fade in active':'tab-pane fade in'">
-            <div>
-                <div id="container_query" style="min-width: 100px; height: 100%; margin: 0 auto;margin-top:20px;"></div>
-                <div id="dvTable">
-                    <div>
-                        <img id="spinner" ng-src="/syra_assets/circle-loading-animation.gif" style="display:none; height:100px;width:100px;margin-left:500px;margin-bottom:60px;margin-top:10%;">
+            <div class="container" ng-hide="IsEditMode" id="userAction_container">
+                <ul class="nav nav-tabs">
+                    <li ng-class="{'active': isActiveUserActionTab(1)}">
+                        <a role="tab" data-toggle="tab" ng-click="UserActionTab=1" style="font-family:'Rubik'">Top 10 Questions Asked</a>
+                    </li>
+                    <li ng-class="{'active': isActiveUserActionTab(2)}">
+                        <a role="tab" data-toggle="tab" ng-click="UserActionTab=2" style="font-family:'Rubik'">Top 10 User Clicked Links</a>
+                    </li>
+                    <li ng-class="{'active': isActiveUserActionTab(3)}">
+                        <a role="tab" data-toggle="tab" ng-click="UserActionTab=3" style="font-family:'Rubik'">Top 10 Intents</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div ng-show="isActiveUserActionTab(1)" ng-class="UserActionTab==1?'tab-pane fade in active':'tab-pane fade in'">
+                        <div>
+                            <div id="container_query" style="min-width: 100px; height: 100%; margin: 0 auto;margin-top:20px;"></div>
+                            <div id="dvTable">
+                                <div>
+                                    <img id="spinner" ng-src="/syra_assets/circle-loading-animation.gif" style="display:none; height:100px;width:100px;margin-left:500px;margin-bottom:60px;margin-top:10%;">
+                                </div>
+                                <script type="text/javascript">
+                                    function disableButton(btn) {
+                                        document.getElementById(btn.id).style.display = 'none';
+                                    }
+                                    function getUserQueryPagination(table) {
+                                        var lastPage = 1;
+                                        $('#querymaxRows').on('change', function (evt) {
+                                            lastPage = 1;
+                                            $('#pagemark').find("li").slice(1, -1).remove();
+                                            var trnum = 0;									// reset tr counter
+                                            var maxRows = parseInt($(this).val());
+                                            if (maxRows == 5000) {
+                                                $('#pagemark').hide();
+                                            } else {
+                                                $('#pagemark').show();
+                                            }
+                                            var totalRows = $(table + ' tbody tr').length;		// numbers of rows
+                                            $(table + ' tr:gt(0)').each(function () {			// each TR in  table and not the header
+                                                trnum++;									// Start Counter
+                                                if (trnum > maxRows) {
+                                                    $(this).hide();							// fade it out
+                                                } if (trnum <= maxRows) { $(this).show(); }// else fade in Important in case if it ..
+                                            });											//  was fade out to fade it in
+                                            if (totalRows > maxRows) {						// if tr total rows gt max rows option
+                                                var pagenum = Math.ceil(totalRows / maxRows);	// ceil total(rows/maxrows) to get ..
+                                                //	numbers of pages
+                                                for (var i = 1; i <= pagenum;) {			// for each page append pagination li
+                                                    $('#pagemark #prev').before('<li data-page="' + i + '">\
+                                                                                                                                                          <span>'+ i++ + '<span class="sr-only">(current)</span></span>\
+                                                                                                                                                        </li>').show();
+                                                }											// end for i
+                                            } 												// end if row count > max rows
+                                            $('#pagemark [data-page="1"]').addClass('active'); // add active class to the first li
+                                            $('#pagemark li').on('click', function (evt) {		// on click each page
+                                                evt.stopImmediatePropagation();
+                                                evt.preventDefault();
+                                                var pageNum = $(this).attr('data-page');	// get it's number
+
+                                                var maxRows = parseInt($('#querymaxRows').val());			// get Max Rows from select option
+
+                                                if (pageNum == "prev") {
+                                                    if (lastPage == 1) { return; }
+                                                    pageNum = --lastPage;
+                                                }
+                                                if (pageNum == "next") {
+                                                    if (lastPage == ($('#pagemark li').length - 2)) { return; }
+                                                    pageNum = ++lastPage;
+                                                }
+                                                lastPage = pageNum;
+                                                var trIndex = 0;							// reset tr counter
+                                                $('#pagemark li').removeClass('active');	// remove active class from all li
+                                                $('#pagemark [data-page="' + lastPage + '"]').addClass('active');// add active class to the clicked
+                                                // $(this).addClass('active');					// add active class to the clicked
+                                                $(table + ' tr:gt(0)').each(function () {		// each tr in table not the header
+                                                    trIndex++;								// tr index counter
+                                                    // if tr index gt maxRows*pageNum or lt maxRows*pageNum-maxRows fade if out
+                                                    if (trIndex > (maxRows * pageNum) || trIndex <= ((maxRows * pageNum) - maxRows)) {
+                                                        $(this).hide();
+                                                    } else { $(this).show(); } 				//else fade in
+                                                }); 										// end of for each tr in table
+                                            });										// end of on click pagination list
+
+                                        }).val(5).change();
+                                    }
+                                    $(function () {
+                                        // Just to append id number for each row
+                                        $('table tr:eq(0)').prepend('<th> ID </th>')
+
+                                        var id = 0;
+
+                                        $('table tr:gt(0)').each(function () {
+                                            id++
+                                            $(this).prepend('<td>' + id + '</td>');
+                                        });
+                                    });
+                                </script>
+                            </div>
+                        </div>
                     </div>
-                    <script type="text/javascript">
-                        function disableButton(btn) {
-                            document.getElementById(btn.id).style.display = 'none';
-                        }
-                        function getUserQueryPagination(table) {
-                            var lastPage = 1;
-                            $('#querymaxRows').on('change', function (evt) {
-                                lastPage = 1;
-                                $('#pagemark').find("li").slice(1, -1).remove();
-                                var trnum = 0;									// reset tr counter
-                                var maxRows = parseInt($(this).val());
-                                if (maxRows == 5000) {
-                                    $('#pagemark').hide();
-                                } else {
-                                    $('#pagemark').show();
+                    <div ng-show="isActiveUserActionTab(2)" ng-class="UserActionTab==2?'tab-pane fade in active':'tab-pane fade in'">
+                        <div id="goalconversion" style="min-width: 100px; height: 100%; margin: 0 auto;margin-top:30px;"></div>
+                        <div id="linkTable">
+                            <div>
+                                <img id="goalconversionspinner" ng-src="/syra_assets/circle-loading-animation.gif" style="display:none; height:100px;width:100px;margin-left:500px;margin-bottom:200px;margin-top:10%;" ">
+                            </div>
+                            <script type="text/javascript">
+                                function disableButton(btn) {
+                                    document.getElementById(btn.id).style.display = 'none';
                                 }
-                                var totalRows = $(table + ' tbody tr').length;		// numbers of rows
-                                $(table + ' tr:gt(0)').each(function () {			// each TR in  table and not the header
-                                    trnum++;									// Start Counter
-                                    if (trnum > maxRows) {
-                                        $(this).hide();							// fade it out
-                                    } if (trnum <= maxRows) { $(this).show(); }// else fade in Important in case if it ..
-                                });											//  was fade out to fade it in
-                                if (totalRows > maxRows) {						// if tr total rows gt max rows option
-                                    var pagenum = Math.ceil(totalRows / maxRows);	// ceil total(rows/maxrows) to get ..
-                                    //	numbers of pages
-                                    for (var i = 1; i <= pagenum;) {			// for each page append pagination li
-                                        $('#pagemark #prev').before('<li data-page="' + i + '">\
-                                                                                                                          <span>'+ i++ + '<span class="sr-only">(current)</span></span>\
-                                                                                                                        </li>').show();
-                                    }											// end for i
-                                } 												// end if row count > max rows
-                                $('#pagemark [data-page="1"]').addClass('active'); // add active class to the first li
-                                $('#pagemark li').on('click', function (evt) {		// on click each page
-                                    evt.stopImmediatePropagation();
-                                    evt.preventDefault();
-                                    var pageNum = $(this).attr('data-page');	// get it's number
+                                function getGoalConversionPagination(table) {
+                                    var lastPage = 1;
+                                    $('#maxRows').on('change', function (evt) {
+                                        lastPage = 1;
+                                        $('#linkpagination').find("li").slice(1, -1).remove();
+                                        var trnum = 0;									// reset tr counter
+                                        var maxRows = parseInt($(this).val());
+                                        if (maxRows == 5000) {
+                                            $('#linkpagination').hide();
+                                        } else {
+                                            $('#linkpagination').show();
+                                        }
+                                        var totalRows = $(table + ' tbody tr').length;		// numbers of rows
+                                        $(table + ' tr:gt(0)').each(function () {			// each TR in  table and not the header
+                                            trnum++;									// Start Counter
+                                            if (trnum > maxRows) {
+                                                $(this).hide();							// fade it out
+                                            } if (trnum <= maxRows) { $(this).show(); }// else fade in Important in case if it ..
+                                        });											//  was fade out to fade it in
+                                        if (totalRows > maxRows) {						// if tr total rows gt max rows option
+                                            var pagenum = Math.ceil(totalRows / maxRows);	// ceil total(rows/maxrows) to get ..
+                                            //	numbers of pages
+                                            for (var i = 1; i <= pagenum;) {			// for each page append pagination li
+                                                $('#linkpagination #prev').before('<li data-page="' + i + '">\
+                                                                                                                                          <span>'+ i++ + '<span class="sr-only">(current)</span></span>\
+                                                                                                                                        </li>').show();
+                                            }											// end for i
+                                        } 												// end if row count > max rows
+                                        $('#linkpagination [data-page="1"]').addClass('active'); // add active class to the first li
+                                        $('#linkpagination li').on('click', function (evt) {		// on click each page
+                                            evt.stopImmediatePropagation();
+                                            evt.preventDefault();
+                                            var pageNum = $(this).attr('data-page');	// get it's number
 
-                                    var maxRows = parseInt($('#querymaxRows').val());			// get Max Rows from select option
+                                            var maxRows = parseInt($('#maxRows').val());			// get Max Rows from select option
 
-                                    if (pageNum == "prev") {
-                                        if (lastPage == 1) { return; }
-                                        pageNum = --lastPage;
-                                    }
-                                    if (pageNum == "next") {
-                                        if (lastPage == ($('#pagemark li').length - 2)) { return; }
-                                        pageNum = ++lastPage;
-                                    }
-                                    lastPage = pageNum;
-                                    var trIndex = 0;							// reset tr counter
-                                    $('#pagemark li').removeClass('active');	// remove active class from all li
-                                    $('#pagemark [data-page="' + lastPage + '"]').addClass('active');// add active class to the clicked
-                                    // $(this).addClass('active');					// add active class to the clicked
-                                    $(table + ' tr:gt(0)').each(function () {		// each tr in table not the header
-                                        trIndex++;								// tr index counter
-                                        // if tr index gt maxRows*pageNum or lt maxRows*pageNum-maxRows fade if out
-                                        if (trIndex > (maxRows * pageNum) || trIndex <= ((maxRows * pageNum) - maxRows)) {
-                                            $(this).hide();
-                                        } else { $(this).show(); } 				//else fade in
-                                    }); 										// end of for each tr in table
-                                });										// end of on click pagination list
+                                            if (pageNum == "prev") {
+                                                if (lastPage == 1) { return; }
+                                                pageNum = --lastPage;
+                                            }
+                                            if (pageNum == "next") {
+                                                if (lastPage == ($('.pagination li').length - 2)) { return; }
+                                                pageNum = ++lastPage;
+                                            }
+                                            lastPage = pageNum;
+                                            var trIndex = 0;							// reset tr counter
+                                            $('#linkpagination li').removeClass('active');	// remove active class from all li
+                                            $('#linkpagination [data-page="' + lastPage + '"]').addClass('active');// add active class to the clicked
+                                            // $(this).addClass('active');					// add active class to the clicked
+                                            $(table + ' tr:gt(0)').each(function () {		// each tr in table not the header
+                                                trIndex++;								// tr index counter
+                                                // if tr index gt maxRows*pageNum or lt maxRows*pageNum-maxRows fade if out
+                                                if (trIndex > (maxRows * pageNum) || trIndex <= ((maxRows * pageNum) - maxRows)) {
+                                                    $(this).hide();
+                                                } else { $(this).show(); } 				//else fade in
+                                            }); 										// end of for each tr in table
+                                        });										// end of on click pagination list
 
-                            }).val(5).change();
-                        }
-                        $(function () {
-                            // Just to append id number for each row
-                            $('table tr:eq(0)').prepend('<th> ID </th>')
+                                    }).val(5).change();
+                                }
+                                $(function () {
+                                    // Just to append id number for each row
+                                    $('table tr:eq(0)').prepend('<th> ID </th>')
 
-                            var id = 0;
+                                    var id = 0;
 
-                            $('table tr:gt(0)').each(function () {
-                                id++
-                                $(this).prepend('<td>' + id + '</td>');
-                            });
-                        });
-                    </script>
+                                    $('table tr:gt(0)').each(function () {
+                                        id++
+                                        $(this).prepend('<td>' + id + '</td>');
+                                    });
+                                });
+                            </script>
+                        </div>
+                    </div>
+                    <div ng-show="isActiveUserActionTab(3)" ng-class="UserActionTab==3?'tab-pane fade in active':'tab-pane fade in'">
+                        <div id="intentContainer" style="min-width: 100px; height: 100%; margin: 0 auto;margin-top:30px;"></div>
+                        <div>
+                            <img id="intentSpinner" ng-src="/syra_assets/circle-loading-animation.gif" style="display:none; height:100px;width:100px;margin-left:500px;margin-bottom:200px;margin-top:10%;" ">
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-
-        <div ng-show="isActiveTab(5)" ng-class="tab==5?'tab-pane fade in active':'tab-pane fade in'">
-            <div id="goalconversion" style="min-width: 100px; height: 100%; margin: 0 auto;margin-top:30px;"></div>
-            <div id="linkTable">
-                <div>
-                    <img id="goalconversionspinner" ng-src="/syra_assets/circle-loading-animation.gif" style="display:none; height:100px;width:100px;margin-left:500px;margin-bottom:200px;margin-top:10%;" ">
-                </div>
-                <script type="text/javascript">
-                    function disableButton(btn) {
-                        document.getElementById(btn.id).style.display = 'none';
-                    }
-                    function getGoalConversionPagination(table) {
-                        var lastPage = 1;
-                        $('#maxRows').on('change', function (evt) {
-                            lastPage = 1;
-                            $('#linkpagination').find("li").slice(1, -1).remove();
-                            var trnum = 0;									// reset tr counter
-                            var maxRows = parseInt($(this).val());
-                            if (maxRows == 5000) {
-                                $('#linkpagination').hide();
-                            } else {
-                                $('#linkpagination').show();
-                            }
-                            var totalRows = $(table + ' tbody tr').length;		// numbers of rows
-                            $(table + ' tr:gt(0)').each(function () {			// each TR in  table and not the header
-                                trnum++;									// Start Counter
-                                if (trnum > maxRows) {
-                                    $(this).hide();							// fade it out
-                                } if (trnum <= maxRows) { $(this).show(); }// else fade in Important in case if it ..
-                            });											//  was fade out to fade it in
-                            if (totalRows > maxRows) {						// if tr total rows gt max rows option
-                                var pagenum = Math.ceil(totalRows / maxRows);	// ceil total(rows/maxrows) to get ..
-                                //	numbers of pages
-                                for (var i = 1; i <= pagenum;) {			// for each page append pagination li
-                                    $('#linkpagination #prev').before('<li data-page="' + i + '">\
-                                                                                                              <span>'+ i++ + '<span class="sr-only">(current)</span></span>\
-                                                                                                            </li>').show();
-                                }											// end for i
-                            } 												// end if row count > max rows
-                            $('#linkpagination [data-page="1"]').addClass('active'); // add active class to the first li
-                            $('#linkpagination li').on('click', function (evt) {		// on click each page
-                                evt.stopImmediatePropagation();
-                                evt.preventDefault();
-                                var pageNum = $(this).attr('data-page');	// get it's number
-
-                                var maxRows = parseInt($('#maxRows').val());			// get Max Rows from select option
-
-                                if (pageNum == "prev") {
-                                    if (lastPage == 1) { return; }
-                                    pageNum = --lastPage;
-                                }
-                                if (pageNum == "next") {
-                                    if (lastPage == ($('.pagination li').length - 2)) { return; }
-                                    pageNum = ++lastPage;
-                                }
-                                lastPage = pageNum;
-                                var trIndex = 0;							// reset tr counter
-                                $('#linkpagination li').removeClass('active');	// remove active class from all li
-                                $('#linkpagination [data-page="' + lastPage + '"]').addClass('active');// add active class to the clicked
-                                // $(this).addClass('active');					// add active class to the clicked
-                                $(table + ' tr:gt(0)').each(function () {		// each tr in table not the header
-                                    trIndex++;								// tr index counter
-                                    // if tr index gt maxRows*pageNum or lt maxRows*pageNum-maxRows fade if out
-                                    if (trIndex > (maxRows * pageNum) || trIndex <= ((maxRows * pageNum) - maxRows)) {
-                                        $(this).hide();
-                                    } else { $(this).show(); } 				//else fade in
-                                }); 										// end of for each tr in table
-                            });										// end of on click pagination list
-
-                        }).val(5).change();
-                    }
-                    $(function () {
-                        // Just to append id number for each row
-                        $('table tr:eq(0)').prepend('<th> ID </th>')
-
-                        var id = 0;
-
-                        $('table tr:gt(0)').each(function () {
-                            id++
-                            $(this).prepend('<td>' + id + '</td>');
-                        });
-                    });
-                </script>
-            </div>
+            </div> 
         </div>
 
         <div ng-show="isActiveTab(2)" ng-class="tab==2?'tab-pane fade in active':'tab-pane fade in'">
@@ -490,7 +512,7 @@
 
         </div>
 
-        <div ng-show="isActiveTab(6)" ng-class="tab==6?'tab-pane fade in active':'tab-pane fade in'">
+        <div ng-show="isActiveTab(5)" ng-class="tab==5?'tab-pane fade in active':'tab-pane fade in'">
             <div class="container" ng-hide="IsEditMode" id="container-Subtab">
                 <ul class="nav nav-tabs">
                     <li ng-class="{'active': isActiveSubTab(1)}">
@@ -588,6 +610,9 @@
                         </div>
                     </div>
                     <div ng-show="isActiveSubTab(2)" ng-class="Subtab==2?'tab-pane fade in active':'tab-pane fade in'">
+                        <div>
+                            <img id="timebasedgoal_spinner" ng-src="/syra_assets/circle-loading-animation.gif" style="display:none; height:80px;width:80px;margin-left:500px;margin-bottom:60px;margin-top:10%;">
+                        </div>
                         <div id="timebasedgoal-container" style="min-width: 100px; height: 100%; margin: 0 auto;margin-top:30px;"></div>
                     </div>
                 </div>

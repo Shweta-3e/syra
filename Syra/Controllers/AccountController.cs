@@ -62,7 +62,7 @@ namespace Syra.Admin.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            ViewBag.ReturnUrl = "";
+            //ViewBag.ReturnUrl = "";
             return View();
         }
 
@@ -71,7 +71,7 @@ namespace Syra.Admin.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model ,string returnUrl)
+        public async Task<ActionResult> Login(LoginViewModel model)
         {
             //AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = model.RememberMe }, identity);
             if (!ModelState.IsValid)
@@ -673,7 +673,7 @@ namespace Syra.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            AuthenticationManager.SignOut();
             return RedirectToAction("Index", "Home");
         }
 

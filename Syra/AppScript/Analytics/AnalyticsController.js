@@ -9,10 +9,14 @@
         $scope.IsEditMode = false;
         $scope.tab = 1;
         $scope.Subtab = 1;
+        $scope.UserActionTab = 1;
 
         $scope.isActiveTab = function (tab) {
             return $scope.tab == tab;
         };
+        $scope.isActiveUserActionTab = function (UserActionTab) {
+            return $scope.UserActionTab == UserActionTab;
+        }
         $scope.isActiveSubTab = function (Subtab) {
             return $scope.Subtab == Subtab;
         };
@@ -179,6 +183,7 @@
             $scope.GetLowPeakTime();
             $scope.GetWorld();
             $scope.GetBotReply();
+            $scope.GetTopIntents();
             $scope.GetLinks();
             $scope.GetGoalWorldBasis();
             var userqueryurl = "/Customer/UserQuery";
@@ -241,6 +246,7 @@
             var startdate = $scope.fromdate;
             var enddate = $scope.todate;
             $("#goalconversion_spinner").show();
+            $("#timebasedgoal_spinner").show();
             $("#goal-container").hide();
             $('#timebasedgoal-container').hide();
             var goalconversionurl = "/Customer/GetGoalWorldBasis";
@@ -250,6 +256,7 @@
                     $scope.GetWorldGoalConversion(response);
                     $scope.GetTimeGoalConversion(response);
                     $("#goalconversion_spinner").hide();
+                    $("#timebasedgoal_spinner").hide();
                     $("#goal-container").show();
                     $('#timebasedgoal-container').show();
                 } else {
@@ -258,7 +265,177 @@
             });
         };
 
+        $scope.GetTopIntents = function () {
+            var startdate = $scope.fromdate;
+            var enddate = $scope.todate;
+            $("#intentSpinner").show();
+            $("#intentContainer").hide();
+            var intentUrl = "/Customer/GetTopIntents";
+            $http.post(intentUrl, { startdt: startdate, enddt: enddate }).success(function (response) {
+                if (response != null) {
+                    $scope.GetTopAskedIntents(response);
+                    $("#intentSpinner").hide();
+                    $("#intentContainer").show();
+                } else {
+                    alert("Something went wrong");
+                }
+            });
+        };
+
         //functions to call api
+        $scope.GetTopAskedIntents = function (response) {
+            var data = response.Data.TopIntentList,
+                category = [];
+            console.log(data);
+            for (var item = 0; item < data.length; item++) {
+                for (var query = 0; query < 1; query++)
+                    category.push(data[item][query]);
+            }
+            Highcharts.chart('intentContainer', {
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: 'Most Common Intents',
+                    style: {
+                        color: '#8d3052',
+                        fontWeight: 'bold',
+                        fontSize: '20px'
+                    }
+                },
+                //subtitle: {
+                //    text: 'Click chart to see details',
+                //    style: {
+                //        color: '#333333',
+                //        fontWeight: 'normal',
+                //        fontSize: '12px'
+                //    }
+                //},
+                credits: {
+                    enabled: false
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'top',
+                    x: -40,
+                    y: 80,
+                    floating: true,
+                    borderWidth: 1,
+                    backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+                    shadow: true
+                },
+                xAxis: {
+                    type: 'category',
+                    categories: category,
+                    title: {
+                        text: 'Top 10 Questions Asked',
+                        style: {
+                            color: '#3c1414',
+                            fontWeight: 'bold',
+                            fontSize: '16px'
+                        }
+                    },
+                    labels: {
+                        style: {
+                            fontSize: '13px',
+                            fontFamily: 'Verdana, sans-serif'
+                        }
+                    }
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Count',
+                        style: {
+                            color: '#3c1414',
+                            fontWeight: 'bold',
+                            fontSize: '16px'
+                        }
+                    }
+                },
+                tooltip: {
+                    pointFormat: 'Intents Count: <b>{point.y}</b>'
+                },
+                plotOptions: {
+                    series: {
+                        pointWidth: 30,
+                        cursor: 'pointer',
+                        point: {
+                            events: {
+                                click: function () {
+                                    var tabelrow = "<tbody>";
+                                    var dataset = [];
+                                    var srno = 1;
+                                    for (var i = 0; i < userquerydata.Data.AllResponse.length; i++) {
+                                        if (userquerydata.Data.AllResponse[i].UserQuery == this.category) {
+                                            tabelrow += "<tr>" + "<td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + userquerydata.Data.AllResponse[i].LogDate + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + userquerydata.Data.AllResponse[i].SessionId + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + userquerydata.Data.AllResponse[i].IPAddress + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + userquerydata.Data.AllResponse[i].Region + "</td><td class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + userquerydata.Data.AllResponse[i].UserQuery + "</td><td class='text-align-left' style='width:650px;border-left:solid 1px #adbbd1;border-right:solid 1px #adbbd1;border-bottom:solid 1px #adbbd1'>" + userquerydata.Data.AllResponse[i].BotAnswers + "</td>" + "</tr>";
+                                            srno++;
+                                        }
+                                    }
+                                    tabelrow += "</tbody>";
+                                    var tabeldata = "<br><br><table id='userquery' class='table table-responsive table - bordered table - striped' style='width:100%'><thead>" + "<tr style='border-top: solid 1px #adbbd1;'>" +
+                                        //"<th class='text-align-center' style='width:100px;border-left:solid 1px #adbbd1'>Sr. No</th>" +
+                                        "<th class='text-align-center' style='width:150px;border-left:solid 1px #adbbd1'>Log Date</th>" +
+                                        "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>Session Id</th>" +
+                                        "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>Region</th>" +
+                                        "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>IP Address</th>" +
+                                        "<th class='text-align-center'style='width:150px;border-left:solid 1px #adbbd1'>Question Asked</th>" +
+                                        "<th class='text-align-center'style='width:400px;border-left:solid 1px #adbbd1;border-right:solid 1px #adbbd1'>Chatbot's Answer</th></tr></thead>" +
+                                        tabelrow + "</table>";
+                                    var tabel = tabeldata;
+                                    var selectlable = "<label class='control-label col - sm - 2' style='text-align:center;font - family: 'Times New Roman', Times, serif; font - size: large; fo; font - weight: normal;'>Show Entries </label>"
+                                        + "<div class='form-group'><select class='form-control' name='state' id='querymaxRows' style='width:15%'>"
+                                        + "<option value='5000'>Show All Rows</option><option value='5'>5</option><option value='10'>10</option>"
+                                        + "<option value='15'>15</option><option value='20'>20</option><option value='50'>50</option>"
+                                        + "<option value='70'>70</option><option value='100'>100</option></select></div>";
+                                    var pagination = "<div class='pagination-container' style='margin-bottom:5%;'><nav><ul class='pagination' id='pagemark'>"
+                                        + "<li data-page='prev' ><span>Previous<span class='sr-only'>(current)</span></span></li>"
+                                        + "<li data-page='next' id='prev'><span> Next <span class='sr-only'>(current)</span></span>"
+                                        + "</li></ul></nav></div>";
+                                    var dvTable = document.getElementById("dvTable");
+                                    var modal = "<button type='button' id='showdetail' onclick='disableButton(this)' class='btn btn - default' data-toggle='modal' data-target='#exampleModalLong' style='margin-left: 10%;color: black;background-color: #b296af;'>Show Details</button >"
+                                        + "<div class='modal fade' id='exampleModalLong' role='dialog' aria-labelledby='exampleModalLong' aria-hidden='true'>"
+                                        + "<div class='modal-dialog modal-dialog-centered' style='width:80%;padding-top:70px;position:unset' role='document'>"
+                                        + "<div class='modal-content' style='margin-left:-50px;'><div class='modal-header'>"
+                                        + "<h5 class='modal-title' id='exampleModalLong' style='text-align:center;font - family: Times New Roman ; font - size: large; fo; font - weight: bold;'>" + "Question" + " " + "Asked" + " " + " : " + this.category + "</h5>"
+                                        + "<button type='button' class='close' data-dismiss='modal' aria-label='Close'>"
+                                        + "<span aria-hidden='true'>&times;</span>"
+                                        + "</button></div><div class='modal-body' style='margin-bottom: 5%;'>"
+                                        + selectlable + tabel + pagination
+                                        + "</div><div class='modal-footer'>"
+                                        + "<button type='button' class='btn btn-default' style='font-weight:bold;background-color:#8e3052;color:white;' data-dismiss='modal'>Close</button>"
+                                        + "</div></div></div></div>";
+                                    dvTable.innerHTML = modal;
+                                    getUserQueryPagination('#userquery');
+                                }
+                            }
+                        }
+                    },
+                    column: {
+                        pointPadding: 0,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: 'Intents',
+                    data: data,
+                    color: '#60af7c',
+                    dataLabels: {
+                        enabled: true,
+                        rotation: -90,
+                        color: '#FFFFFF',
+                        align: 'right',
+                        y: 10, // 10 pixels down from the top
+                        style: {
+                            fontSize: '13px',
+                            fontFamily: 'Verdana, sans-serif'
+                        }
+                    }
+                }]
+            });
+        };
+
         $scope.GetWorldGoalConversion = function (worlddata) {
             var data = worlddata.Data._data;
             console.log(data);
@@ -472,7 +649,7 @@
                 },
                 tooltip: {
                     headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}</b>times <br/>'
+                    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:}</b>times <br/>'
                 },
 
                 series: [
@@ -842,13 +1019,10 @@
             }
             Highcharts.chart('container_query', {
                 chart: {
-                    type: 'column',
-                    width: 1000,
-                    height: 450,
-                    spacingLeft: 100,
+                    type: 'bar'
                 },
                 title: {
-                    text: 'Top 10 Questions Asked',
+                    text: 'Most Common Questions Asked',
                     style: {
                         color: '#8d3052',
                         fontWeight: 'bold',
@@ -866,6 +1040,17 @@
                 credits: {
                     enabled: false
                 },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'top',
+                    x: -40,
+                    y: 80,
+                    floating: true,
+                    borderWidth: 1,
+                    backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+                    shadow: true
+                },
                 xAxis: {
                     type: 'category',
                     categories: category,
@@ -878,7 +1063,6 @@
                         }
                     },
                     labels: {
-                        rotation: -45,
                         style: {
                             fontSize: '13px',
                             fontFamily: 'Verdana, sans-serif'
@@ -896,11 +1080,8 @@
                         }
                     }
                 },
-                legend: {
-                    enabled: false
-                },
                 tooltip: {
-                    pointFormat: 'Questions Asked: <b>{point.y:.1f}</b>'
+                    pointFormat: 'Questions Asked: <b>{point.y}</b> times'
                 },
                 plotOptions: {
                     series: {
@@ -963,15 +1144,15 @@
                     }
                 },
                 series: [{
-                    name: 'Population',
+                    name: 'UserQuery',
                     data: data,
-                    color: '#4195f4',
+                    color: '#75a3d8',
                     dataLabels: {
                         enabled: true,
                         rotation: -90,
                         color: '#FFFFFF',
                         align: 'right',
-                        format: '{point.y:.1f}', // one decimal
+                        //format: '{point.y:.1f}',
                         y: 10, // 10 pixels down from the top
                         style: {
                             fontSize: '13px',
@@ -991,13 +1172,10 @@
             }
             Highcharts.chart('goalconversion', {
                 chart: {
-                    type: 'column',
-                    width: 1000,
-                    height: 450,
-                    spacingLeft: 100,
+                    type: 'bar'
                 },
                 title: {
-                    text: 'Clicked Links',
+                    text: 'Most Clicked Links',
                     style: {
                         color: '#8d3052',
                         fontWeight: 'bold',
@@ -1011,6 +1189,17 @@
                         fontWeight: 'normal',
                         fontSize: '12px'
                     }
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'top',
+                    x: -40,
+                    y: 80,
+                    floating: true,
+                    borderWidth: 1,
+                    backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+                    shadow: true
                 },
                 credits: {
                     enabled: false
@@ -1027,7 +1216,6 @@
                         }
                     },
                     labels: {
-                        rotation: -45,
                         style: {
                             fontSize: '13px',
                             fontFamily: 'Verdana, sans-serif'
@@ -1045,11 +1233,8 @@
                         }
                     }
                 },
-                legend: {
-                    enabled: false
-                },
                 tooltip: {
-                    pointFormat: 'Link clicked: <b>{point.y:.1f}</b>'
+                    pointFormat: 'Link clicked: <b>{point.y:} times</b>'
                 },
                 plotOptions: {
                     series: {
@@ -1111,7 +1296,7 @@
                     }
                 },
                 series: [{
-                    name: 'Population',
+                    name: 'Links',
                     data: data,
                     color: '#f4a742',
                     dataLabels: {
@@ -1119,7 +1304,7 @@
                         rotation: -90,
                         color: '#FFFFFF',
                         align: 'right',
-                        format: '{point.y:.1f}',
+                        //format: '{point.y:.1f}',
                         y: 10,
                         style: {
                             fontSize: '13px',

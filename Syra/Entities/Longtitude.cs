@@ -16,6 +16,7 @@ namespace Syra.Admin.Entities
         public string righans { get; set; }
         public string wrongans { get; set; }
         public string GoalDate { get; set; }
+        public string Intent { get; set; }
     }
     public class TimeSpanOnDate
     {
@@ -23,14 +24,6 @@ namespace Syra.Admin.Entities
         public string id { get; set; }
         public Object data { get; set; }
     }
-
-    //public class TimeSpanGoalConversion
-    //{
-    //    public string name { get; set; }
-    //    public string id { get; set; }
-    //    public List<ArrayList> data { get; set; }
-    //}
-
     public class TimeBasedGoalConversion
     {
         public string drilldown { get; set; }
@@ -60,7 +53,7 @@ namespace Syra.Admin.Entities
         public Int64 epochtime { get; set; }
         public Int64 count { get; set; }
     }
-    
+
     public class Logtime
     {
         public DateTime time { get; set; }

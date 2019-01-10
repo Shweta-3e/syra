@@ -26,7 +26,10 @@
             <button class="btn btn-default" style="margin-left:-25%;background-color:#b296af;margin-top:-6%;font-family:'Rubik';font-weight:bold" ng-click="showDate()">Show Logs</button>
         </div>
     </div>
-    <table datatable="ng" style="margin-top:1%" dt-options="vm.dtOptions" dt-columns="vm.dtColumns" class="table table-responsive table-bordered table-striped">
+    <div>
+        <img id="logspinner" ng-src="/syra_assets/circle-loading-animation.gif" style="display:none; height:100px;width:100px;margin-left:500px;margin-bottom:60px;margin-top:5%;">
+    </div>
+    <table id="logTable" datatable="ng" style="margin-top:1%" dt-options="vm.dtOptions" dt-columns="vm.dtColumns" class="table table-responsive table-bordered table-striped">
         <thead>
             <tr>
                 <th class="text-align-center" style="width:250px;font-family:'Rubik'">Date & Time </th>

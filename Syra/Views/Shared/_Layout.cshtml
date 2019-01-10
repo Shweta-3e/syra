@@ -1,7 +1,4 @@
-﻿@model Syra.Admin.Entities.Customer
-@{
-}
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html class="" lang="en-US" prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# og: http://ogp.me/ns#">
 <head>
     @*@Scripts.Render("~/Content/css")*@
@@ -153,9 +150,20 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
                 background-color: #b296af;
                 border-radius: 5px;
             }
-
+        #adminCustomer{
+            margin-left:3% ;
+        }
+        #adminPlan {
+            margin-left: 3% ;
+        }
+        #adminBotDomain {
+            margin-left: 3%;
+        }
+        #adminResetPassword {
+            margin-left: 3%;
+        }
         .dropdown {
-            margin-left:55%;
+            margin-left: 55%;
             position: relative;
             display: inline-block;
         }
@@ -336,17 +344,19 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
                                 <ul role="menubar" id="menu-main-navigation-new" class="fusion-menu">
                                     @if (User.IsInRole("Admin"))
                                     {
-                                        <li role="menuitem" id="menu-item-1307" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a asp-controller="Manage" style="margin-left:800px;" asp-action="Index" title="Manage">Hi <b>@User.Identity.Name</b></a></li>
-                                        <li role="menuitem" id="menu-item-1307" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a ui-sref="newplan" class="fusion-bar-highlight"><span class="menu-text">Manage Plans</span></a></li>
-                                        <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a ui-sref="luisdomain" class="fusion-bar-highlight"><span class="menu-text">Manage Bot Domain</span></a></li>
-                                        <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/#/managecustomer" class="fusion-bar-highlight"><span class="menu-text">Manage Customer Plan</span></a></li>
-                                        <li role="menuitem" id="menu-item-1525" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a ui-sref="forgotpassword" class="fusion-bar-highlight"><span class="menu-text">Reset Password</span></a></li>
-
-                                        <li><a href="javascript:document.getElementById('logoutForm').submit()">LogOut</a></li>
-                                        using (Html.BeginForm("LogOff", "Account", new { id = "logoutForm", @class = "navbar-right" }))
+                                        <div id="adminMenu">
+                                            <li role="menuitem" id="menu-item-1307" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a asp-controller="Manage" style="margin-left:800px;" asp-action="Index" title="Manage">Hi <b>@User.Identity.Name</b></a></li>
+                                            <li role="menuitem" id="adminPlan" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a ui-sref="newplan" class="fusion-bar-highlight"><span class="menu-text">Plans</span></a></li>
+                                            <li role="menuitem" id="adminBotDomain" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a ui-sref="luisdomain" class="fusion-bar-highlight"><span class="menu-text">Bot Domain</span></a></li>
+                                            <li role="menuitem" id="adminCustomer" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a href="/#/managecustomer" class="fusion-bar-highlight"><span class="menu-text">Customer Plan</span></a></li>
+                                            <li role="menuitem" id="adminResetPassword" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1525"><a ui-sref="forgotpassword" class="fusion-bar-highlight"><span class="menu-text">Reset Password</span></a></li>
+                                            <li><a href="javascript:document.getElementById('adminlogoutForm').submit()">LogOut</a></li>
+                                        </div>
+                                        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "adminlogoutForm", @class = "navbar-right" }))
                                         {
                                             @Html.AntiForgeryToken()
                                         }
+
                                     }
                                     else
                                     {
@@ -359,7 +369,6 @@ Syra delivers Custom Chatbots that have specific knowledge about your business, 
                                         </div>
                                         <div id="submenu">
                                             <ul id="submenu-item">
-                                                
                                                 <li role="menuitem" style="font-size:13px;font-family:'Rubik'" id="profile-hover" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a class="btn-default" href="/#/Profile" style="padding-top:6px;padding-bottom:6px;" id="profile-default">My Profile</a></li>
                                                 <li style="margin-left:2%;font-size:13px;font-family:'Rubik' " role="menuitem" id="subscription-hover" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a class="btn-default" style="padding-top:6px;padding-bottom:6px;" id="subscription-default" href="/#/Subscription">My Subscriptions</a></li>
                                                 <li style="margin-left:2%; font-size:13px;font-family:'Rubik'" role="menuitem" id="chatbot-hover" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1307"><a class="btn-default" style="padding-top:6px;padding-bottom:6px;" id="chatbot-default" ui-sref="chatbot">My Chatbots</a></li>

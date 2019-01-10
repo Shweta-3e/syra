@@ -5,7 +5,6 @@
         $scope.TimeList = [{ type: 'Last Week' }, { type: 'Last Month' }, { type: 'Last Quarter' }, { type: 'Last Year' }];
         $scope.fromdate = new Date();
         $scope.todate = new Date();
-
         $scope.GetTimeSpan = function (timespan) {
 
             $scope.disabled = false;
@@ -116,12 +115,14 @@
             }
         };
 
-        //this.isOpen = false;
         $scope.showDate = function () {
+            $("#logspinner").show();
+            
             $http.post("/Customer/GetLogs", { startdt: $scope.fromdate, enddt: $scope.todate }).success(function (response) {
-                //console.log(response.Data);
                 if (response.IsSuccess) {
                     console.log("I am in success");
+                    $("#logTable").show();
+                    $("#logspinner").hide();
                     $scope.Logs = response.Data;
                     angular.forEach($scope.Logs, function (log) {
                         log.BotAnswers1 = $sce.trustAsHtml(log.BotAnswers);

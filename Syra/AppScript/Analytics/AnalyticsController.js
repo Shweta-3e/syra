@@ -303,14 +303,6 @@
                         fontSize: '20px'
                     }
                 },
-                //subtitle: {
-                //    text: 'Click chart to see details',
-                //    style: {
-                //        color: '#333333',
-                //        fontWeight: 'normal',
-                //        fontSize: '12px'
-                //    }
-                //},
                 credits: {
                     enabled: false
                 },

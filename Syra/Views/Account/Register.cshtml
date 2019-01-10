@@ -3,28 +3,102 @@
     ViewBag.Title = "Register User";
 }
 <head>
-    <script>
-        function disable_fields() {
-            alert("hello");
-            $("#password-field").prop('disabled', true);
-        }
-    </script>
-</head>
-
-<h2>@ViewBag.Title</h2>
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new
-{
-    @class = "form-horizontal",
-    role = "form"
-}))
-{
-
-    @Html.AntiForgeryToken()
-    <hr />
-    @Html.ValidationSummary("", new { @class = "text-danger" })
     <style>
-        #planlink{
-            font-size:12px;
+        h3 {
+            font-size: 22px;
+            font-weight: 300;
+            color: #555;
+            line-height: 30px;
+        }
+
+        .form-box {
+            /*margin-top: 30px;*/
+        }
+
+        .form-top {
+            overflow: hidden;
+            /*padding: 0 25px 15px 25px;*/
+            background: #f3f3f3;
+            -moz-border-radius: 4px 4px 0 0;
+            -webkit-border-radius: 4px 4px 0 0;
+            border-radius: 4px 4px 0 0;
+            text-align: left;
+        }
+
+        .form-top-left {
+            float: left;
+            width: 75%;
+            padding-top: 25px;
+        }
+
+            .form-top-left h3 {
+                margin-top: 0;
+            }
+
+        .form-top-right {
+            float: left;
+            width: 25%;
+            padding-top: 5px;
+            font-size: 66px;
+            color: #ddd;
+            line-height: 100px;
+            text-align: right;
+            padding-right: 30px;
+        }
+
+        .form-bottom {
+            /*padding: 25px 25px 30px 25px;*/
+            background: #eee;
+            -moz-border-radius: 0 0 4px 4px;
+            -webkit-border-radius: 0 0 4px 4px;
+            border-radius: 0 0 4px 4px;
+            text-align: left;
+            margin-top: -10px;
+            height: 450px;
+        }
+            .form-bottom form textarea {
+                height: 100px;
+            }
+
+            .form-bottom form button.btn {
+                width: 100%;
+            }
+
+        #loginForm {
+            padding-top: 2%;
+        }
+
+        .form-bottom form .input-error {
+            border-color: #19b9e7;
+        }
+
+        #password {
+            width: 120%;
+            margin-left: 10%;
+            margin-top: -15px;
+        }
+        #confirmPassword {
+            width: 120%;
+            margin-left: 10%;
+            margin-top: -15px;
+        }
+        #plan {
+            width: 120%;
+            margin-left: 10%;
+            margin-top: -15px;
+        }
+        #jobTitle {
+            width: 120%;
+            margin-left: 10%;
+            margin-top: -15px;
+        }
+        #company {
+            width: 120%;
+            margin-left: 10%;
+            margin-top: -15px;
+        }
+        #planlink {
+            font-size: 12px;
         }
         #plandropdown {
             display: inline-block;
@@ -32,7 +106,7 @@
             border-radius: 0px;
         }
         #dropdownlist {
-            width:80%;
+            width: 80%;
             display: inline-block;
         }
         .input-container {
@@ -48,6 +122,7 @@
             min-width: 50px;
             text-align: center;
         }
+
         .input-field {
             width: 100%;
             padding: 10px;
@@ -57,6 +132,7 @@
             .input-field:focus {
                 border: 2px solid dodgerblue;
             }
+
         .btn {
             background-color: dodgerblue;
             color: white;
@@ -66,61 +142,110 @@
             width: 100%;
             opacity: 0.9;
         }
+        #registration-col-sm-6-row {
+            margin-left: 25%;
+            background-color: #ffffff;
+        }
+
+        #registration-row {
+            background-color: lavender;
+        }
+
+        #emailForm {
+            width: 120%;
+            margin-left: 10%;
+            padding-top: 5%;
+        }
+
             .btn:hover {
                 opacity: 1;
             }
     </style>
-    <div class="form-group">
-        <div class="input-container" style="width:80%;">
-            <i class="fa fa-user icon"></i>
-            @Html.TextBoxFor(m => m.Email, new { placeholder = "Email", @class = "form-control",  @style = "width:50%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" })
-            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-            
+</head>
+@*<h2>@ViewBag.Title</h2>*@
+<div class="top-content">
+    <div class="inner-bg">
+        <div class="container">
+            <div class="row" id="registration-row">
+                <div class="col-sm-6" id="registration-col-sm-6-row">
+                    <div class="form-box">
+                        <div class="form-top">
+                            <div class="form-top-left">
+                                <h3 style="color:#8e3052;text-align:center">Register User</h3>
+                                <p style="text-align:center;">Fill in the form below</p>
+                            </div>
+                            <div class="form-top-right">
+                                <i class="fa fa-pencil"></i>
+                            </div>
+                        </div>
+                        <div class="form-bottom">
+                            @using (Html.BeginForm("Register", "Account", FormMethod.Post, new
+                            {
+                                @class = "form-horizontal",
+                                role = "form"
+                            }))
+                            {
+                                @Html.AntiForgeryToken()
+                                @Html.ValidationSummary("", new { @class = "text-danger" })
+
+                                <div class="form-group"id="emailForm">
+                                    <div class="input-container">
+                                        <i class="fa fa-user icon"></i>
+                                        @Html.TextBoxFor(m => m.Email, new { placeholder = "Email", @class = "form-control", @style = "width:60%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" })
+                                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+
+                                    </div>
+                                </div>
+                                <div class="form-group" id="password">
+                                    <div class="input-container">
+                                        <i class="fa fa-lock icon"></i>
+                                        @Html.PasswordFor(m => m.Password, new { placeholder = "Password", @class = "form-control", @style = "width:60%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" })
+                                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group" id="confirmPassword">
+                                    <div class="input-container">
+                                        <i class="fa fa-lock icon"></i>
+                                        @Html.PasswordFor(m => m.ConfirmPassword, new { placeholder = "Confirm Password", @class = "form-control", @style = "width:60%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" })
+                                        @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group" id="jobTitle">
+                                    <div class="input-container">
+                                        <i class="fa fa-briefcase icon"></i>
+                                        @Html.TextBoxFor(m => m.JobTitle, new { placeholder = "Job Title", @class = "form-control", @style = "width:60%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" })
+                                        @Html.ValidationMessageFor(model => model.JobTitle, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group" id="company">
+                                    <div class="input-container">
+                                        <i class="fa fa-building icon"></i>
+                                        @Html.TextBoxFor(m => m.Company, new { placeholder = "Company", @class = "form-control", @style = "width:60%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" })
+                                        @Html.ValidationMessageFor(model => model.Company, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group" id="plan">
+                                    <div class="input-container" id="dropdownlist">
+                                        <i class="fa fa-money icon"></i>
+                                        @Html.DropDownList("PlanId", null, "Choose Plan", htmlAttributes: new { @class = "form-control", @id = "plandropdown", @style = "width:60%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" })
+                                    </div>
+                                    <div style="display:inline-block;margin-left: -35%;">
+                                        <a id="planlink" href="https://syra.ai/pricing/">Click here to see Plans</a>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-offset-2 col-sm-3">
+                                        <input type="submit" id="registerButton" class="btn btn-default" value="Register" style="margin-left: -35%;border-radius:5px;font-weight:bold;color:#FFFFFF;background-color: #8d3052;box-shadow: 0 5px 10px -6px #777;" } />
+                                    </div>
+                                </div>
+                             }
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="form-group">
-        <div class="input-container" style="width:80%;">
-            <i class="fa fa-lock icon"></i>
-            @Html.PasswordFor(m => m.Password, new { placeholder = "Password", @class = "form-control", @style = "width:50%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" })
-            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="input-container" style="width:80%;">
-            <i class="fa fa-lock icon"></i>
-            @Html.PasswordFor(m => m.ConfirmPassword, new { placeholder = "Confirm Password", @class = "form-control", @style = "width:50%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" })
-            @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="input-container" style="width:80%;">
-            <i class="fa fa-briefcase icon"></i>
-            @Html.TextBoxFor(m => m.JobTitle, new { placeholder = "Job Title", @class = "form-control", @style = "width:50%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" })
-            @Html.ValidationMessageFor(model => model.JobTitle, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="input-container" style="width:80%;">
-            <i class="fa fa-building icon"></i>
-            @Html.TextBoxFor(m => m.Company, new { placeholder = "Company", @class = "form-control", @style = "width:50%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" })
-            @Html.ValidationMessageFor(model => model.Company, "", new { @class = "text-danger" })
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="input-container" id="dropdownlist">
-            <i class="fa fa-money icon"></i>
-            @Html.DropDownList("PlanId",null, "Choose Plan", htmlAttributes: new {@class = "form-control",@id="plandropdown", @style = "width:50%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" })
-        </div>
-        <div style="display:inline-block;margin-left: -35%;">
-            <a id="planlink" href="https://syra.ai/pricing/">Click here to see Plans</a>
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" id="registerButton" class="btn btn-default" value="Register" style="width: 12%;margin-left:-22%;border-radius:5px;font-weight:bold;color:#FFFFFF;background-color: #8d3052;box-shadow: 0 5px 10px -6px #777;"}/>
-        </div>
-    </div>
-}
+</div>                  
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }

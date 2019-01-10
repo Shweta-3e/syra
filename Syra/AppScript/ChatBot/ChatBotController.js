@@ -42,9 +42,6 @@
                         $scope.HasPrevious = data.HasPrevious;
                         $scope.TotalPages = data.TotalPages;
                     }
-                    //else {
-                    //    window.location.href = ("Account/Login");
-                    //}
                 });
         };
         $scope.GetChatBots();
@@ -73,7 +70,7 @@
         $scope.CopyToClipBoard = function () {
             var copyText = document.getElementById("txtEmbeddedScript");
             copyText.select();
-            document.execCommand("copy");
+            var successful = document.execCommand("copy");
         };
 
         $scope.Delete = function (id) {

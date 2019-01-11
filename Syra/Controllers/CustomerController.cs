@@ -2169,7 +2169,7 @@ namespace Syra.Admin.Controllers
             State.uuid = UniqueId;
             Demo.response = null;
         }
-
+       
         [HttpPost]
         public void SendResponse(string Name, string IPAddress, string UniqueId, string Response)
         {
@@ -2180,11 +2180,11 @@ namespace Syra.Admin.Controllers
         }
 
         [HttpPost]
-        public string SendLink(string Name, string IPAddress, string UniqueId, string Url ,string clientid)
+        public string SendLink(string Name, string IPAddress, string ClientId, string UniqueId, string Url)
         {
             try
             {
-                var userdetails = db.BotDeployments.FirstOrDefault(c => c.T_BotClientId == clientid);
+                var userdetails = db.BotDeployments.FirstOrDefault(c => c.T_BotClientId == ClientId);
                 if(userdetails!=null)
                 {
                     CloudStorageAccount storageAccount = CloudStorageAccount.Parse(userdetails.BlobConnectionString);

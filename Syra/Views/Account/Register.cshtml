@@ -55,6 +55,7 @@
             text-align: left;
             margin-top: -10px;
             height: 450px;
+            max-height:550px;
         }
             .form-bottom form textarea {
                 height: 100px;
@@ -156,7 +157,9 @@
             margin-left: 10%;
             padding-top: 5%;
         }
-
+        #passwordIcon {
+            height: 10%;
+        }
             .btn:hover {
                 opacity: 1;
             }
@@ -186,8 +189,6 @@
                             }))
                             {
                                 @Html.AntiForgeryToken()
-                                @Html.ValidationSummary("", new { @class = "text-danger" })
-
                                 <div class="form-group"id="emailForm">
                                     <div class="input-container">
                                         <i class="fa fa-user icon"></i>
@@ -198,7 +199,7 @@
                                 </div>
                                 <div class="form-group" id="password">
                                     <div class="input-container">
-                                        <i class="fa fa-lock icon"></i>
+                                        <i class="fa fa-lock icon" id="passwordIcon"></i>
                                         @Html.PasswordFor(m => m.Password, new { placeholder = "Password", @class = "form-control", @style = "width:60%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" })
                                         @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
                                     </div>
@@ -207,7 +208,7 @@
                                     <div class="input-container">
                                         <i class="fa fa-lock icon"></i>
                                         @Html.PasswordFor(m => m.ConfirmPassword, new { placeholder = "Confirm Password", @class = "form-control", @style = "width:60%;height: 35px;-webkit-box-shadow: 0 10px 6px -6px #777;-moz-box-shadow: 0 10px 6px -6px #777;box-shadow: 0 5px 6px -6px #777;" })
-                                        @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                                        @*@Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })*@
                                     </div>
                                 </div>
                                 <div class="form-group" id="jobTitle">

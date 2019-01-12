@@ -237,7 +237,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LuisDomainsController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Entities\AES.cs" />
+    <Compile Include="Entities\BaseLogin.cs" />
     <Compile Include="Entities\BotContent.cs" />
     <Compile Include="Entities\GoalConversion.cs" />
     <Compile Include="Entities\LuisResponse.cs" />
@@ -278,9 +278,9 @@
     <Compile Include="Migrations\201901041537083_FullName_Added.Designer.cs">
       <DependentUpon>201901041537083_FullName_Added.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201901070847230_LocalDb.cs" />
-    <Compile Include="Migrations\201901070847230_LocalDb.Designer.cs">
-      <DependentUpon>201901070847230_LocalDb.cs</DependentUpon>
+    <Compile Include="Migrations\201901111913561_Login Table.cs" />
+    <Compile Include="Migrations\201901111913561_Login Table.Designer.cs">
+      <DependentUpon>201901111913561_Login Table.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -630,8 +630,8 @@
     <EmbeddedResource Include="Migrations\201901041537083_FullName_Added.resx">
       <DependentUpon>201901041537083_FullName_Added.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201901070847230_LocalDb.resx">
-      <DependentUpon>201901070847230_LocalDb.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201901111913561_Login Table.resx">
+      <DependentUpon>201901111913561_Login Table.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

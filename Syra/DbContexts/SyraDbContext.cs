@@ -31,6 +31,7 @@ namespace Syra.Admin.DbContexts
         public DbSet<LuisResponse> ManageDbs { get; set; }
         public DbSet<BotQuestionAnswers> BotQuestionAnswers { get; set; }
         public DbSet<GoalConversion> GoalConversions { get; set; }
+        public DbSet<BaseLogin> BaseLogins { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -70,7 +71,7 @@ namespace Syra.Admin.DbContexts
 
     public interface ISyraDbContext
     {
-     
+      DbSet<BaseLogin> BaseLogins { get; set; }
       DbSet<Customer> Customer { get; set; }
       DbSet<CustomerPlan> CustomerPlans { get; set; }
       DbSet<BotDeployment> BotDeployments { get; set; }

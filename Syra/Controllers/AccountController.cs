@@ -73,7 +73,6 @@ namespace Syra.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model)
         {
-            //AuthenticationManager.SignIn(new AuthenticationProperties() { IsPersistent = model.RememberMe }, identity);
             if (!ModelState.IsValid)
             {
                 return View(model);
@@ -93,62 +92,129 @@ namespace Syra.Admin.Controllers
                     return View(model);
                 }
             }
-            //HttpCookie httpCookie = new HttpCookie("user",model.Email);
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
-            
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-            if(model.RememberMe==true)
+            bool userCookieValue = CheckUserCookie();
+            if(userCookieValue==true)
             {
-                Response.Cookies["userid"].Value = model.Email;
-                Response.Cookies["pwd"].Value = model.Password;
-                Response.Cookies["userid"].Expires = DateTime.Now.AddDays(15);
-                Response.Cookies["pwd"].Expires = DateTime.Now.AddDays(15);
+                var userClaim = new ClaimsPrincipal(AuthenticationManager.AuthenticationResponseGrant.Identity);
+                if (userClaim.IsInRole("Admin"))
+                {
+                    return RedirectToLocal("/home/#/managecustomer");
+                }
+                else
+                {
+                    return RedirectToLocal("/#/Home");
+                }
             }
             else
             {
-                Response.Cookies["userid"].Expires = DateTime.Now.AddDays(-1);
-                Response.Cookies["pwd"].Expires = DateTime.Now.AddDays(-1);
+                var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+                switch (result)
+                {
+                    case SignInStatus.Success:
+                        var signInUser = db.Users.FirstOrDefault(c => c.Email == model.Email);
+                        var userClaim = new ClaimsPrincipal(AuthenticationManager.AuthenticationResponseGrant.Identity);
+                        //if (model.RememberMe == true)
+                        //{
+                        //    if (userClaim != null)
+                        //    {
+                        //        BaseLogin Login = new BaseLogin
+                        //        {
+                        //            UserID = signInUser.Id,
+                        //            Token = Guid.NewGuid().ToString(),
+                        //            LoginDate = DateTime.Now
+                        //        };
+                        //        db.BaseLogins.Add(Login);
+                        //        db.SaveChanges();
+                        //        GenerateCookie(signInUser, Login.Token);
+                        //    }
+                        //}
+                        //if(model.RememberMe==false)
+                        //{
+                        //    if(userClaim!=null)
+                        //    {
+                        //        var existsCookieUser = db.BaseLogins.FirstOrDefault(c => c.UserID == signInUser.Id);
+                        //        db.BaseLogins.Remove(existsCookieUser);
+                        //        db.SaveChanges();
+                        //    }
+                        //}
+                        if (userClaim.IsInRole("Admin"))
+                        {
+                            return RedirectToLocal("/home/#/managecustomer");
+                        }
+                        else
+                        {
+                            return RedirectToLocal("/#/Home");
+                        }
 
+                    case SignInStatus.LockedOut:
+                        return View("Lockout");
+                    case SignInStatus.RequiresVerification:
+                        return RedirectToAction("SendCode", new { RememberMe = model.RememberMe });
+                    case SignInStatus.Failure:
+                    default:
+                        ModelState.AddModelError("", "Invalid login attempt.");
+                        return View(model);
+                }
             }
-            switch (result)
+            
+        }
+        public bool CheckUserCookie()
+        {
+            try
             {
-                case SignInStatus.Success:
-                    var user = new ClaimsPrincipal(AuthenticationManager.AuthenticationResponseGrant.Identity);
-                    if (user.IsInRole("Admin"))
-                    {
-                        return RedirectToLocal("/home/#/managecustomer");
-                    }
-                    else
-                    {
-                        return RedirectToLocal("/#/Home");
-                    }
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { RememberMe = model.RememberMe });
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
-                    return View(model);
+                string Token = Convert.ToString(Request.Cookies["ortund"]["token"]);
+                var Login = db.BaseLogins.FirstOrDefault(x => x.Token == Token);
+                string UserId = Request.Cookies["ortund"]["uid"];
+                if (Login == null || Login.UserID != UserId)
+                {
+                    ProcessLogout();
+                    return false;
+                }
+                return true;
+            }
+            catch
+            {
+                ProcessLogout();
+                return false;
             }
         }
-        protected void Page_Load(object sender, EventArgs e)
+        public void ProcessLogout()
         {
-            if (Request.HttpMethod == "POST")
+            try
             {
-                LoginViewModel model = new LoginViewModel();
-                if (Request.Cookies["userid"] != null)
+                if (Request.Cookies["ortund"] != null)
                 {
-                    model.Email= Request.Cookies["userid"].Value;
+                    string Token = Convert.ToString(Request.Cookies["ortund"]["token"]);
+                    var Login = db.BaseLogins.FirstOrDefault(x => x.Token == Token);
+                    if (Login != null)
+                    {
+                        db.BaseLogins.Remove(Login);
+                        db.SaveChanges();
+                    }
                 }
-                if (Request.Cookies["pwd"] != null)
-                {
-                    model.Password = Request.Cookies["pwd"].Value;
-                }  
-                if (Request.Cookies["userid"] != null && Request.Cookies["pwd"] != null)
-                    model.RememberMe= true;
             }
+            catch (Exception ex)
+            {
+                string errMessage = ex.StackTrace;
+            }
+            finally
+            {
+                Session.Clear();
+                HttpCookie UserCookie = new HttpCookie("ortund");
+                UserCookie.Expires = DateTime.Now.AddMinutes(-1);
+                Response.Cookies.Add(UserCookie);
+            }
+        }
+
+        private void GenerateCookie(ApplicationUser applicationUser,string Token)
+        {
+            HttpCookie httpCookie = new HttpCookie("ortund");
+            httpCookie.Values["uid"] = applicationUser.Id.ToString();
+            httpCookie.Values["fullName"] = applicationUser.FullName;
+            httpCookie.Values["token"] = Token;
+            httpCookie.Values["valid"] = bool.TrueString;
+            httpCookie.Expires = DateTime.Now.AddMinutes(10);
+            Response.Cookies.Add(httpCookie);
         }
         //
         // GET: /Account/VerifyCode

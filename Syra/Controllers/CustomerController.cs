@@ -355,12 +355,19 @@ namespace Syra.Admin.Controllers
                                     log.IPAddress = splitedword[1];
                                     log.Region = splitedword[2];
                                     log.LogDate = splitedword[5];
-                                    if (log.BotAnswers.Contains("Hmmm...I didn’t quite get that")|| log.BotAnswers.Contains("It looks like I am not able to answer many of your questions."))
+                                    if (log.SessionId.Equals("  ") || log.IPAddress.Equals("  ") || log.Region.Equals("  ") || log.UserQuery.Equals("  ") || log.BotAnswers.Equals("  ") || log.LogDate.Equals("  "))
                                     {
-                                        log.BotResponse = "Did Not Respond Appropriately";
-                                        log.IsWrongAnswer = true;
+                                        //skip
                                     }
-                                    logs.Add(log);
+                                    else
+                                    {
+                                        if (log.BotAnswers.Contains("Hmmm...I didn’t quite get that") || log.BotAnswers.Contains("It looks like I am not able to answer many of your questions."))
+                                        {
+                                            log.BotResponse = "Did Not Respond Appropriately";
+                                            log.IsWrongAnswer = true;
+                                        }
+                                        logs.Add(log);
+                                    }
                                 }
                             }
                             catch (Exception e)
@@ -470,12 +477,18 @@ namespace Syra.Admin.Controllers
                                     log.BotAnswers = splitedword[4];
                                     log.LogDate = splitedword[5];
                                     log.LogTime = splitedword[6];
-                                    string tempdate = log.LogDate + log.LogTime;
-                                    string dt = Convert.ToDateTime(startdt).ToString("dd-MM-yyyy");
-                                    logs.Add(new SessionLog { SessionId = splitedword[0], IPAddress = splitedword[1], Region = splitedword[2], UserQuery = splitedword[3], BotAnswers = splitedword[4], LogDate = tempdate });
-                                    alldata.Add(new ArrayList { splitedword[0], splitedword[1], splitedword[2], splitedword[3], splitedword[4], tempdate });
-
-                                    countries.Add(new Longtitude { UserQuery = log.UserQuery });
+                                    if (log.SessionId.Equals("  ") || log.IPAddress.Equals("  ") || log.Region.Equals("  ") || log.UserQuery.Equals("  ") || log.BotAnswers.Equals("  ") || log.LogDate.Equals("  ") || log.LogTime.Equals("  "))
+                                    {
+                                        //skip
+                                    }
+                                    else
+                                    {
+                                        string tempdate = log.LogDate + log.LogTime;
+                                        string dt = Convert.ToDateTime(startdt).ToString("dd-MM-yyyy");
+                                        logs.Add(new SessionLog { SessionId = splitedword[0], IPAddress = splitedword[1], Region = splitedword[2], UserQuery = splitedword[3], BotAnswers = splitedword[4], LogDate = tempdate });
+                                        alldata.Add(new ArrayList { splitedword[0], splitedword[1], splitedword[2], splitedword[3], splitedword[4], tempdate });
+                                        countries.Add(new Longtitude { UserQuery = log.UserQuery });
+                                    }
                                 }
                             }
                             catch (Exception e)
@@ -568,9 +581,16 @@ namespace Syra.Admin.Controllers
                                     log.ClickedLink = splitedword[3];
                                     log.LogDate = splitedword[4];
                                     log.LogTime = splitedword[5];
-                                    string tempdate = log.LogDate + log.LogTime;
-                                    logs.Add(new SessionLog { SessionId = log.SessionId, Region = log.Region, IPAddress = log.IPAddress, ClickedLink = log.ClickedLink, LogDate = tempdate });
-                                    countries.Add(new Longtitude { Links = log.ClickedLink, UserId = log.SessionId });
+                                    if (log.SessionId.Equals("  ") || log.IPAddress.Equals("  ") || log.Region.Equals("  ") || log.ClickedLink.Equals("  ") ||  log.LogDate.Equals("  ") || log.LogTime.Equals("  "))
+                                    {
+                                        //skip
+                                    }
+                                    else
+                                    {
+                                        string tempdate = log.LogDate + log.LogTime;
+                                        logs.Add(new SessionLog { SessionId = log.SessionId, Region = log.Region, IPAddress = log.IPAddress, ClickedLink = log.ClickedLink, LogDate = tempdate });
+                                        countries.Add(new Longtitude { Links = log.ClickedLink, UserId = log.SessionId });
+                                    }
                                 }
                             }
                             catch (Exception e)
@@ -671,16 +691,23 @@ namespace Syra.Admin.Controllers
                                     log.ClickedLink = splitedword[3].TrimStart().TrimEnd();
                                     log.LogDate = splitedword[4].Replace("-", "/").Replace(" ", ""); ;
                                     log.LogTime = splitedword[5].TrimStart().TrimEnd();
-                                    string tempdate = log.LogDate + log.LogTime;
-                                    string dt = Convert.ToDateTime(startdt).ToString("dd-MM-yyyy");
-                                    string jsonresponse = GetIPDetails(log.IPAddress);
-                                    string timespan = DateTime.ParseExact(log.LogTime, "HH:mm:ss", CultureInfo.CurrentCulture).ToString("hh tt");
-                                    if (log.ClickedLink.Contains(goalConversion.LinkUrl))
+                                    if (log.SessionId.Equals("  ") || log.IPAddress.Equals("  ") || log.Region.Equals("  ") || log.ClickedLink.Equals("  ") || log.LogDate.Equals("  ") || log.LogTime.Equals("  "))
                                     {
-                                        ipdetails = JsonConvert.DeserializeObject<GetIPAddress>(jsonresponse);
-                                        timeSpan.Add(timespan);
-                                        countries.Add(new Longtitude { Countries = ipdetails.countryCode, UserId = log.SessionId, GoalDate = log.LogDate, Links = log.ClickedLink});
-                                        logs.Add(new SessionLog { SessionId = log.SessionId, IPAddress = log.IPAddress, Region = log.Region, LogDate = log.LogDate, ClickedLink = log.ClickedLink, Country = ipdetails.country });
+                                        //skip
+                                    }
+                                    else
+                                    {
+                                        string tempdate = log.LogDate + log.LogTime;
+                                        string dt = Convert.ToDateTime(startdt).ToString("dd-MM-yyyy");
+                                        string jsonresponse = GetIPDetails(log.IPAddress);
+                                        string timespan = DateTime.ParseExact(log.LogTime, "HH:mm:ss", CultureInfo.CurrentCulture).ToString("hh tt");
+                                        if (log.ClickedLink.Contains(goalConversion.LinkUrl))
+                                        {
+                                            ipdetails = JsonConvert.DeserializeObject<GetIPAddress>(jsonresponse);
+                                            timeSpan.Add(timespan);
+                                            countries.Add(new Longtitude { Countries = ipdetails.countryCode, UserId = log.SessionId, GoalDate = log.LogDate, Links = log.ClickedLink });
+                                            logs.Add(new SessionLog { SessionId = log.SessionId, IPAddress = log.IPAddress, Region = log.Region, LogDate = log.LogDate, ClickedLink = log.ClickedLink, Country = ipdetails.country });
+                                        }
                                     }
                                 }
                                 var timeSpanDupCount = timeSpan.GroupBy(x => x).Select(group => new { group.Key, Count = group.Count() });
@@ -838,13 +865,20 @@ namespace Syra.Admin.Controllers
                                         log.Region = splitedword[1].TrimStart().TrimEnd();
                                         log.LogDate = splitedword[5].Replace("-", "/").Replace(" ", ""); ;
                                         log.LogTime = splitedword[6].TrimStart().TrimEnd();
+                                        log.BotAnswers= splitedword[4].TrimStart().TrimEnd();
                                         log.UserQuery =splitedword[3].TrimStart().TrimEnd();
-                                        string tempdate = log.LogDate + log.LogTime;
-                                        string dt = Convert.ToDateTime(startdt).ToString("dd-MM-yyyy");
-                                        string jsonresponse = GetIPDetails(log.IPAddress);
-                                        logs.Add(new SessionLog { SessionId = log.SessionId, IPAddress = log.IPAddress, Region = log.Region, LogDate = log.LogDate, Country = ipdetails.country });
+                                        if (log.SessionId.Equals("  ") || log.IPAddress.Equals("  ") || log.Region.Equals("  ") || log.UserQuery.Equals("  ") || log.BotAnswers.Equals("  ") || log.LogDate.Equals("  ") || log.LogTime.Equals("  "))
+                                        {
+                                            //skip
+                                        }
+                                        else
+                                        {
+                                            string tempdate = log.LogDate + log.LogTime;
+                                            string dt = Convert.ToDateTime(startdt).ToString("dd-MM-yyyy");
+                                            string jsonresponse = GetIPDetails(log.IPAddress);
+                                            logs.Add(new SessionLog { SessionId = log.SessionId, IPAddress = log.IPAddress, Region = log.Region, LogDate = log.LogDate, Country = ipdetails.country });
 
-                                        //Get Intent
+                                            //Get Intent
                                             var userluis = db.LuisDomains.FirstOrDefault(c => c.Id == botdata.LuisId);
 
                                             var Uri = "https://westus.api.cognitive.microsoft.com/luis/v2.0/apps/" + userluis.LuisAppId + "?subscription-key=" + userluis.LuisAppKey + "&q=" + log.UserQuery;
@@ -862,6 +896,8 @@ namespace Syra.Admin.Controllers
                                             }
                                             LuisReply Data = JsonConvert.DeserializeObject<LuisReply>(luisjson_response);
                                             intentList.Add(new Longtitude { Intent = Data.topScoringIntent.intent });
+                                        }
+                                    
                                     }
                                 }
                                 catch (Exception e)
@@ -890,134 +926,6 @@ namespace Syra.Admin.Controllers
             return response.GetResponse();
         }
 
-        //[HttpPost]
-        //public string GetMessagesPerSession(DateTime startdt, DateTime enddt)
-        //{
-        //    SyraDbContext db = new SyraDbContext();
-        //    List<ArrayList> timeArrayList = new List<ArrayList>();
-        //    List<ArrayList> timeDateArrayList = new List<ArrayList>();
-        //    List<SessionLog> logs = new List<SessionLog>();
-        //    List<LowHighTime> dataline = new List<LowHighTime>();
-        //    List<LowHighTimedate> dataDateTimeLine = new List<LowHighTimedate>();
-        //    ArrayList arrayList = new ArrayList();
-        //    List<Location> _data = new List<Location>();
-        //    _signInManager = HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-        //    _userManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-        //    var useremail = HttpContext.User.Identity.Name;
-        //    var aspnetuser = _userManager.FindByEmailAsync(useremail).Result;
-        //    if (aspnetuser != null)
-        //    {
-        //        var customer = db.Customer.FirstOrDefault(c => c.UserId == aspnetuser.Id);
-        //        var botdata = db.BotDeployments.Where(c => c.CustomerId == customer.Id).FirstOrDefault();
-        //        var connstring = botdata.BlobConnectionString;
-        //        var blobstorage = botdata.BlobStorageName;
-        //        var containername = botdata.ContainerName;
-
-        //        CloudStorageAccount storageAccount = CloudStorageAccount.Parse(connstring);
-        //        CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-        //        CloudBlobContainer container = blobClient.GetContainerReference(containername);
-        //        var count = container.ListBlobs().Count();
-        //        ArrayList array = new ArrayList();
-
-        //        bool blob_check = false;
-        //        try
-        //        {
-        //            for (DateTime date = startdt; date <= enddt; date = date.AddDays(1))
-        //            {
-        //                var startdateonly = date.Date.ToString("dd-MM-yyyy");
-        //                var blob_file_name = startdateonly + "" + ".csv";
-        //                CloudBlockBlob blockBlob = container.GetBlockBlobReference(blob_file_name);
-        //                blob_check = blockBlob.Exists();
-        //                if (blob_check == false)
-        //                {
-        //                    string timedate = startdateonly.ToString().Replace("-", "/").Replace(" ", "");
-        //                    CultureInfo culture = new CultureInfo("en-US");
-        //                    DateTime dateobj = DateTime.ParseExact(timedate, "dd/MM/yyyy", culture);
-        //                    int year = dateobj.Year;
-        //                    int month = dateobj.Month;
-        //                    int day = dateobj.Day;
-        //                    int hour = dateobj.Hour;
-        //                    int minute = dateobj.Minute;
-        //                    int second = dateobj.Second;
-        //                    var dateTime = new DateTime(year, month, day, hour, minute, second, DateTimeKind.Utc);
-        //                    var dateTimeOffset = new DateTimeOffset(dateTime);
-        //                    var unixDateTime = dateTimeOffset.ToUnixTimeSeconds();
-        //                    Int64 epochtime = Convert.ToInt64(unixDateTime) * 1000;
-        //                    dataline.Add(new LowHighTime { epochtime = epochtime, status = "no data" });
-        //                }
-        //                else
-        //                {
-        //                    using (StreamReader reader = new StreamReader(blockBlob.OpenRead()))
-        //                    {
-        //                        SessionLog log = new SessionLog();
-        //                        while (!reader.EndOfStream)
-        //                        {
-        //                            var line = reader.ReadLine();
-        //                            string[] splitedword = line.Split('|');
-        //                            log.SessionId = splitedword[0];
-        //                            log.UserQuery = splitedword[3];
-        //                            log.BotAnswers = splitedword[4];
-        //                            log.IPAddress = splitedword[1];
-        //                            log.Region = splitedword[2];
-        //                            log.LogDate = splitedword[5].Replace("-", "/").Replace(" ", "");
-        //                            log.LogTime = splitedword[6].Replace(" ", "");
-        //                            CultureInfo culture = new CultureInfo("en-US");
-
-        //                            //epoch date only
-        //                            string dateOnly = log.LogDate;
-        //                            DateTime dateobj = DateTime.ParseExact(dateOnly, "dd/MM/yyyy", culture);
-        //                            int year = dateobj.Year;
-        //                            int month = dateobj.Month;
-        //                            int day = dateobj.Day;
-        //                            int hour = dateobj.Hour;
-        //                            int minute = dateobj.Minute;
-        //                            int second = dateobj.Second;
-        //                            var dateConvert = new DateTime(year, month, day, hour, minute, second, DateTimeKind.Utc);
-        //                            var dateOffset = new DateTimeOffset(dateConvert);
-        //                            var unixDate = dateOffset.ToUnixTimeSeconds();
-        //                            Int64 epochdate = Convert.ToInt64(unixDate) * 1000;
-
-        //                            //Epoch time date
-        //                            string date_time = log.LogDate + " " + log.LogTime;
-        //                            DateTime dateTimeObj = DateTime.ParseExact(date_time, "dd/MM/yyyy HH:mm:ss", culture);
-        //                            int dateTime_hour = dateTimeObj.Hour;
-        //                            logs.Add(new SessionLog { SessionId = log.SessionId, IPAddress = log.IPAddress, Region = log.Region, UserQuery = log.UserQuery, BotAnswers = log.BotAnswers, LogDate = log.LogDate, LogTime = log.LogTime });
-        //                            //dataline.Add(new LowHighTime { epochtime = epochdate, status = "data", drilldown = log.LogDate });
-        //                            dataDateTimeLine.Add(new LowHighTimedate { hour = dateTime_hour, status = "data", EpochDate = log.LogDate });
-        //                        }
-        //                    }
-        //                }
-        //            }
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            string errmsg = e.Message;
-        //            response.Message = errmsg;
-        //        }
-        //        //var dupepochtime = dataline.GroupBy(x => new { x.epochtime, x.status, x.drilldown }).Select(group => new { Name = group.Key, Count = group.Count() });
-        //        var dupEpochDateTime = dataDateTimeLine.GroupBy(x => new { x.hour, x.status, x.EpochDate }).Select(group => new { Name = group.Key, Count = group.Count() });
-        //        foreach (var item in dupEpochDateTime)
-        //        {
-        //            if (item.Name.status == "no data")
-        //            {
-        //                timeDateArrayList.Add(new ArrayList { item.Name.EpochDate, item.Name.hour, 0 });
-        //            }
-        //            else
-        //            {
-        //                timeDateArrayList.Add(new ArrayList { item.Name.EpochDate, item.Name.hour, item.Count });
-        //            }
-        //        }
-        //        response.Data = new
-        //        {
-        //            Epochtime = timeArrayList,
-        //            Epochdatetime = timeDateArrayList,
-        //            AllResponse = logs
-        //        };
-        //        response.IsSuccess = true;
-        //        response.Message = "Success";
-        //    }
-        //    return response.GetResponse();
-        //}
 
         public string GetUsaCode(string ipaddr,string region)
         {
@@ -1171,17 +1079,22 @@ namespace Syra.Admin.Controllers
                                     log.BotAnswers = splitedword[4];
                                     log.LogDate = splitedword[5];
                                     log.LogTime = splitedword[6];
-                                    string tempdate = log.LogDate + log.LogTime;
-                                    string dt = Convert.ToDateTime(startdt).ToString("dd-MM-yyyy");
-                                    logs.Add(new SessionLog { SessionId = splitedword[0], IPAddress = splitedword[2], Region = log.Region, UserQuery = splitedword[3], BotAnswers = splitedword[4], LogDate = tempdate });
-                                    string usaregion = GetUsaCode(ipdetails.query, log.Region);
-                                    if(usaregion.Equals("")==false)
+                                    if (log.SessionId.Equals("  ") || log.IPAddress.Equals("  ") || log.Region.Equals("  ") || log.UserQuery.Equals("  ") || log.BotAnswers.Equals("  ") || log.LogDate.Equals("  ") || log.LogTime.Equals("  "))
                                     {
-                                        region.Add(new USARegion { hckey = usaregion.ToLower(), name = log.Region });
-                                        countries.Add(new Longtitude { Countries = ipdetails.countryCode, UserQuery = log.UserQuery });
-                                        response.IsSuccess = true;
+                                        //skip
                                     }
-                                    
+                                    else {
+                                        string tempdate = log.LogDate + log.LogTime;
+                                        string dt = Convert.ToDateTime(startdt).ToString("dd-MM-yyyy");
+                                        logs.Add(new SessionLog { SessionId = splitedword[0], IPAddress = splitedword[2], Region = log.Region, UserQuery = splitedword[3], BotAnswers = splitedword[4], LogDate = tempdate });
+                                        string usaregion = GetUsaCode(ipdetails.query, log.Region);
+                                        if (usaregion.Equals("") == false)
+                                        {
+                                            region.Add(new USARegion { hckey = usaregion.ToLower(), name = log.Region });
+                                            countries.Add(new Longtitude { Countries = ipdetails.countryCode, UserQuery = log.UserQuery });
+                                            response.IsSuccess = true;
+                                        }
+                                    }
                                 }
                             }
                             catch (Exception e)
@@ -1280,18 +1193,14 @@ namespace Syra.Admin.Controllers
                                     log.BotAnswers = splitedword[4];
                                     log.LogDate = splitedword[5];
                                     log.LogTime = splitedword[6];
-                                    string tempdate = log.LogDate + log.LogTime;
-                                    string dt = Convert.ToDateTime(startdt).ToString("dd-MM-yyyy");
-
-                                    if (log.Region == " Virginia ")
+                                    if (log.SessionId.Equals("  ") || log.IPAddress.Equals("  ") || log.Region.Equals("  ") || log.UserQuery.Equals("  ") || log.BotAnswers.Equals("  ") || log.LogDate.Equals("  ") || log.LogTime.Equals("  "))
                                     {
-                                        string jsondeatil = GetUsaCode(log.IPAddress,log.Region);
-                                        geolocation = JsonConvert.DeserializeObject<GeoLocation>(jsondeatil);
-                                        countries.Add(new Longtitude { Countries = geolocation.Countrycode });
-                                        logs.Add(new SessionLog { SessionId = splitedword[0], IPAddress = splitedword[2], Region = splitedword[1], UserQuery = splitedword[3], BotAnswers = splitedword[4], LogDate = tempdate, Country = geolocation.Country });
+                                        //skip
                                     }
                                     else
                                     {
+                                        string tempdate = log.LogDate + log.LogTime;
+                                        string dt = Convert.ToDateTime(startdt).ToString("dd-MM-yyyy");
                                         string jsonresponse = GetIPDetails(log.IPAddress);
                                         ipdetails = JsonConvert.DeserializeObject<GetIPAddress>(jsonresponse);
                                         countries.Add(new Longtitude { Countries = ipdetails.countryCode });
@@ -1415,9 +1324,16 @@ namespace Syra.Admin.Controllers
                                     log.BotAnswers = splitedword[4];
                                     log.LogDate = splitedword[5];
                                     log.LogTime = splitedword[6];
-                                    string tempdate = log.LogDate + log.LogTime;
-                                    string dt = Convert.ToDateTime(startdt).ToString("dd-MM-yyyy");
-                                    logs.Add(new SessionLog { SessionId = splitedword[0], IPAddress = splitedword[1], Region = splitedword[2], UserQuery = splitedword[3], BotAnswers = splitedword[4], LogDate = tempdate });
+                                    if(log.SessionId.Equals("  ") || log.IPAddress.Equals("  ") || log.Region.Equals("  ") || log.UserQuery.Equals("  ") || log.BotAnswers.Equals("  ") || log.LogDate.Equals("  ") || log.LogTime.Equals("  "))
+                                    {
+                                        //skip
+                                    }
+                                    else
+                                    {
+                                        string tempdate = log.LogDate + log.LogTime;
+                                        string dt = Convert.ToDateTime(startdt).ToString("dd-MM-yyyy");
+                                        logs.Add(new SessionLog { SessionId = splitedword[0], IPAddress = splitedword[1], Region = splitedword[2], UserQuery = splitedword[3], BotAnswers = splitedword[4], LogDate = tempdate });
+                                    }
                                 }
                             }
                             catch (Exception e)
